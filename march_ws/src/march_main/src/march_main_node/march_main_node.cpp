@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv) {
     std::cout << "test";
-    ros::init(argc,argv,"adele");
+    ros::init(argc, argv, "adele");
     ros::NodeHandle n;
 
     ros::Publisher hello_pub = n.advertise<std_msgs::String>("talking", 1000);
