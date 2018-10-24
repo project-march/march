@@ -29,6 +29,10 @@ devel_isolated/
 .project
 .cproject
 
+# clion stuff
+/cmake-build-debug/*
+.idea/*
+
 # qcreator stuff
 CMakeLists.txt.user
 
@@ -37,8 +41,6 @@ srv/_*.py
 *.pyc
 qtcreator-*
 *.user
-
-.idea/*
 
 /planning/cfg
 /planning/docs
