@@ -14,7 +14,7 @@ class cube_test : public ::testing::Test {
 };
 
 TEST_F(cube_test, TestNothing){
-    ASSERT_EQ(2,2);
+    ASSERT_EQ(2, 3);
 }
 
 TEST_F(cube_test, TestVolume){
