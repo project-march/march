@@ -27,7 +27,7 @@ TEST_F(cube_test, TestVolume){
  * The main method which runs all the tests
  */
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "test-node");
+    ros::init(argc, argv, "testnode");
     testing::InitGoogleTest(&argc, argv);
 
 
