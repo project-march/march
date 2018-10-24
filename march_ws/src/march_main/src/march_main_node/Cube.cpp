@@ -2,7 +2,7 @@
 // Created by tim on 23-10-18.
 //
 
-#include "TestCube.h"
+#include "Cube.h"
 
 TestCube::TestCube(float volume) : volume(volume) {}
 

@@ -3,7 +3,7 @@
 //
 
 #include "gtest/gtest.h"
-#include "../src/march_main_node/TestCube.h"
+#include "../src/march_main_node/Cube.h"
 #include <gmock/gmock.h>
 #include "ros/ros.h"
 
@@ -13,18 +13,28 @@ class cube_test : public ::testing::Test {
 
 };
 
+TEST_F(cube_test, TestNothing){
+    ASSERT_EQ(2,2);
+}
+
 TEST_F(cube_test, TestVolume){
   ASSERT_EQ(10, test_cube.getVolume());
 }
+
+
 
 /**
  * The main method which runs all the tests
  */
 int main(int argc, char **argv) {
-  ::testing::InitGoogleMock(&argc, argv);
-  ros::init(argc, argv, "tester");
-  ros::NodeHandle nh;
-  return RUN_ALL_TESTS();
+    ros::init(argc, argv, "test-node");
+    testing::InitGoogleTest(&argc, argv);
+
+
+    auto res = RUN_ALL_TESTS();
+
+    ros::shutdown();
+    return res;
 }
 
 
