@@ -1,6 +1,4 @@
-//
-// Created by tim on 23-10-18.
-//
+// Copyright 2018 Project March.
 
 #include "Cube.h"
 
