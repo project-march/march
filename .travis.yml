@@ -102,7 +102,7 @@ install:
   # Add the package under integration to the workspace using a symlink.
   - cd ~/catkin_ws/src
   - ln -s $CI_SOURCE_PATH .
-  #
+  # install code cov
   - sudo pip install codecov
 
 # Install all dependencies, using wstool first and rosdep second.
@@ -122,7 +122,7 @@ before_script:
 # to blacklist certain packages.
 #
 # NOTE on testing: `catkin_make run_tests` will show the output of the tests
-# (gtest, nosetest, etc..) but always returns 0 (success) even if a test
+# (gtest, nosetest, etc..) but always returns 0 (success) even if a testSelfTest
 # fails. Running `catkin_test_results` aggregates all the results and returns
 # non-zero when a test fails (which notifies Travis the build failed).
 script:
@@ -134,23 +134,6 @@ script:
   - catkin_make run_tests && catkin_test_results
 
 after_success:
-  - if [ "$CC" = "gcc-4.8" ];
-    then
-      cd ${TRAVIS_BUILD_DIR};
-      wget http://downloads.sourceforge.net/ltp/lcov-1.11.tar.gz;
-      tar xvfz lcov-1.11.tar.gz;
-      make -C lcov-1.11;
-      mkdir $BUILD_COVERAGE;
-      cd $BUILD_COVERAGE;
-      cmake ${TRAVIS_BUILD_DIR} -DBUILD_COVERAGE=ON;
-      make check;
-      ${TRAVIS_BUILD_DIR}/lcov-1.11/bin/lcov --gcov-tool /usr/bin/gcov-4.8  --capture --directory …;
-    fi
-    # Creating report
-  - cd ${TRAVIS_BUILD_DIR}
-  - lcov --directory . --capture --output-file coverage.info # capture coverage info
-  - lcov --remove coverage.info '/usr/*' --output-file coverage.info # filter out system
-  - lcov --list coverage.info #debug info
   # Uploading report to CodeCov
-  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
   - codecov -t 14941eb5-212f-45d2-8f93-b00e31f7ea8f -X gcov
+  - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
