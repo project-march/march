@@ -8,8 +8,21 @@ find_package(catkin REQUIRED COMPONENTS
         std_msgs
         nav_msgs
         roscpp
+        message_generation
         )
 
+add_message_files(
+        FILES
+        CurrentGait.msg
+)
+add_service_files(
+        FILES
+        GaitInstruction.srv
+)
+generate_messages(
+        DEPENDENCIES
+        std_msgs
+)
 
 add_definitions(-std=c++11 -Wall -g)
 
@@ -17,7 +30,7 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         #  INCLUDE_DIRS include
         #LIBRARIES aseia
-        CATKIN_DEPENDS roscpp std_msgs nav_msgs
+        CATKIN_DEPENDS roscpp std_msgs nav_msgs message_runtime
         #  DEPENDS aseia
 )
 
@@ -34,13 +47,14 @@ add_library(march_main src/march_main_node/main.cpp src/march_main_node/Cube.cpp
 
 ## Declare a cpp executable
 add_executable(Exoskeleton src/march_main_node/main.cpp)
-
+add_executable(MastNode src/master_node/master_node.cpp)
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 #add_dependencies(car march_main march_main_generate_messages_cpp)
 
 
 target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
+target_link_libraries(MastNode ${catkin_LIBRARIES} march_main)
 
 #############
 ## Testing ##
