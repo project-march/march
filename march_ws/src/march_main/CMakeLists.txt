@@ -43,9 +43,10 @@ add_executable(GaitControllerNode src/gait_controller_node.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
-#add_dependencies(car march_main march_main_generate_messages_cpp)
-
-#add_dependencies(march_custom_msgs ${catkin_EXPORTED_TARGETS})
+add_dependencies(MastNode ${catkin_EXPORTED_TARGETS})
+add_dependencies(DeveloperInputNode ${catkin_EXPORTED_TARGETS})
+add_dependencies(DataLoggerNode ${catkin_EXPORTED_TARGETS})
+add_dependencies(GaitControllerNode ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
 target_link_libraries(MastNode ${catkin_LIBRARIES} march_main)
