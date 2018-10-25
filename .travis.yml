@@ -116,9 +116,9 @@ script:
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
 
   # cpplinter
-  - cpplint --counting=detailed --extension=cpp,h --recursive src/*/src
+  - cpplint --counting=detailed --extension=cpp,h --recursive *
+  - cpplint --counting=detailed --extension=cpp,h --recursive src/*/test
 
-#  - cpplint --linelength=120 --counting=detailed $( find . -name *.h -or -name *.cpp | grep -vE "^./build/" )
 
   # Run the tests, ensuring the path is set correctly.
   - source devel/setup.bash
