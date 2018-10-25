@@ -17,6 +17,7 @@ int main(int argc, char **argv) {
     march_custom_msgs::Gait msg;
     msg.gait = GaitType::Sit;
     chatter_pub.publish(msg);
+    sleep(3);
   }
 
   return 0;

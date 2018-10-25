@@ -1,3 +1,3 @@
 int64 gait
 ---
-bool result
+string result

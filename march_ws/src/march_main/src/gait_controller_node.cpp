@@ -8,21 +8,22 @@
 #include "enum/gait_enum.h"
 
 
-GaitType currentGait;
+GaitType currentGait = Sit;
 
 bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
                       march_custom_msgs::GaitInstruction::Response &response) {
+  ROS_INFO("gait_instruction service called");
   if(currentGait == Sit){
     GaitType gait = GaitType(request.gait);
     switch(gait){
       case Walk:
-        response.result = false;
+        response.result = "Impossible Gait";
         break;
       case Sit:
-        response.result = true;
+        response.result = "Already Sitting";
         break;
       case Stand:
-        response.result = true;
+        response.result = "Standing";
         break;
     }
   }
@@ -32,16 +33,8 @@ bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
 int main(int argc, char **argv) {
   ros::init(argc, argv, "gait_controller_node");
   ros::NodeHandle n;
-
   ros::ServiceServer service = n.advertiseService("gait_instructions", gait_instruction);
-
-//  ros::Publisher chatter_pub = n.advertise<march_custom_msgs::Gait>("developer_input", 1000);
-//
-//  while (ros::ok()) {
-//    march_custom_msgs::Gait msg;
-//    msg.gait = GaitType::Sit;
-//    chatter_pub.publish(msg);
-//  }
-//
+  ROS_INFO("gait_controller started! :)");
+  ros::spin();
   return 0;
 }
