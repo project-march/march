@@ -117,7 +117,7 @@ script:
 
 
   # cpplinter
-  - cpplint --counting=detailed --output=junit --extension=cpp,h --recursive src/*/src/
+  - cpplint --counting=detailed --output=junit --extension=cpp,h --recursive src/*/src
 
 #  - cpplint --counting=detailed --output=junit --extension=cpp,h --recursive src/*/test/
 
