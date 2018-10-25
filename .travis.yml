@@ -117,10 +117,7 @@ script:
 
 
   # cpplinter
-  - cpplint --counting=detailed --output=eclipse --extension=cpp,h --recursive src/*/src/
-  - cpplint --counting=detailed --output=emacs--extension=cpp,h --recursive src/*/src/
-  - cpplint --counting=detailed --output=junit --extension=cpp,h --recursive src/*/src/
-  - cpplint --counting=detailed --output=vs7 --extension=cpp,h --recursive src/*/src/
+  - cpplint --counting=detailed --verbose --output=junit --extension=cpp,h --recursive src/*/src/
 
 #  - cpplint --counting=detailed --output=junit --extension=cpp,h --recursive src/*/test/
 
