@@ -118,8 +118,8 @@ script:
   - ls
 
   # cpplinter
-  - cpplint --counting=detailed --extension=cpp,h --recursive /
-  - cpplint --counting=detailed --extension=cpp,h --recursive src/*/test
+  - cpplint --counting=detailed --extension=cpp,h --recursive src/*/srs/
+  - cpplint --counting=detailed --extension=cpp,h --recursive src/*/test/
 
 
   # Run the tests, ensuring the path is set correctly.
