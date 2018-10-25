@@ -5,15 +5,14 @@
 #include "master_node.h"
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
-
-//#include "march_main/GaitInstruction"
+#include <march_custom_msgs/GaitInstruction.h>
 
 enum GaitTypes { Walk, Sit, Stand };
 
-//bool gait_instruction(march_main::A) {
-//
-//  return true;
-//}
+bool gait_instruction(march_custom_msgs::GaitInstruction) {
+
+  return true;
+}
 
 int main(int argc, char **argv) {
   ros::init(argc, argv, "master_node");

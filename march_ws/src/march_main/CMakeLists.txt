@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
         nav_msgs
         roscpp
         message_generation
+        march_custom_msgs
         )
 
 add_message_files(
@@ -30,7 +31,7 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         #  INCLUDE_DIRS include
         #LIBRARIES aseia
-        CATKIN_DEPENDS roscpp std_msgs nav_msgs message_runtime
+        CATKIN_DEPENDS roscpp std_msgs nav_msgs message_runtime march_custom_msgs
         #  DEPENDS aseia
 )
 
@@ -52,6 +53,7 @@ add_executable(MastNode src/master_node/master_node.cpp)
 ## as an example, message headers may need to be generated before nodes
 #add_dependencies(car march_main march_main_generate_messages_cpp)
 
+#add_dependencies(march_custom_msgs ${catkin_EXPORTED_TARGETS})
 
 target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
 target_link_libraries(MastNode ${catkin_LIBRARIES} march_main)
