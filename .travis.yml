@@ -43,7 +43,7 @@
 dist: xenial
 sudo: required
 language:
-  - generic
+  - cpp
 cache:
   - apt
 
