@@ -1,17 +1,15 @@
-//
-// Created by tim on 23-10-18.
-//
+// Copyright 2018 Project March.
 
-#ifndef MARCH_MAIN_CUBE_H
-#define MARCH_MAIN_CUBE_H
+#ifndef MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_CUBE_H_
+#define MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_CUBE_H_
 
 class TestCube {
   float volume;
 
  public:
-  TestCube(float volume);
+  explicit TestCube(float volume);
 
   float getVolume() const;
 };
 
-#endif //MARCH_MAIN_CUBE_H
+#endif  // MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_CUBE_H_
