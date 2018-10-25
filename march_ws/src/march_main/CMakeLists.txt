@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
 add_definitions(-std=c++11 -Wall -g)
 
 
-
 catkin_package(
         #  INCLUDE_DIRS include
         #LIBRARIES aseia
@@ -34,7 +33,7 @@ add_library(march_main src/march_main_node/main.cpp src/march_main_node/Cube.cpp
 # )
 
 ## Declare a cpp executable
-add_executable(Exoskeleton        src/march_main_node/main.cpp)
+add_executable(Exoskeleton src/march_main_node/main.cpp)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -48,11 +47,11 @@ target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
 #############
 
 ## Add gtest based cpp test target and link libraries
-if(CATKIN_ENABLE_TESTING)
+if (CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
     add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/cube_test.cpp)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
-endif()
+endif ()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
