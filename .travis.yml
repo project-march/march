@@ -116,6 +116,7 @@ script:
 
   # cpplinter
   ./cpplint.py --linelength=120 --counting=detailed $( find src/march_main/src/ -name *.h -or -name *.cpp | grep -vE "^./build/" )
+
   ./cpplint.py --linelength=120 --counting=detailed $( find src/march_main/test/ -name *.h -or -name *.cpp | grep -vE "^./build/" )
 
   # Run the tests, ensuring the path is set correctly.
