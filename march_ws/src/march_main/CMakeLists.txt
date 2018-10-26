@@ -18,7 +18,7 @@ add_definitions(-std=c++11 -Wall -g)
 
 
 catkin_package(
-        INCLUDE_DIRS include
+#        INCLUDE_DIRS include
         #LIBRARIES aseia
         CATKIN_DEPENDS nav_msgs roscpp std_msgs
         #  DEPENDS aseia
