@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
         std_msgs
         nav_msgs
         roscpp
+        roslint
         )
 
 
@@ -26,14 +27,18 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(include ${catkin_INCLUDE_DIRS})
 
+set(sourcefiles src/march_main_node/main.cpp src/march_main_node/Cube.cpp)
+
 ## Declare a cpp library
-add_library(march_main src/march_main_node/main.cpp src/march_main_node/Cube.cpp)
+add_library(march_main ${sourcefiles})
 
 #   src/${PROJECT_NAME}/aseia_base.cpp
 # )
 
 ## Declare a cpp executable
 add_executable(Exoskeleton src/march_main_node/main.cpp)
+
+roslint_cpp(${sourcefiles})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes

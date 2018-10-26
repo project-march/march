@@ -4,6 +4,7 @@
 
 TestCube::TestCube(float volume) : volume(volume) {}
 
-float TestCube::getVolume() const {
+float TestCube::getVolume() const
+{
   return volume;
 }
