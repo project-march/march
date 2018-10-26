@@ -5,10 +5,12 @@ project(march_main)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-        std_msgs
+        message_generation
         nav_msgs
         roscpp
         roslint
+        rostest
+        std_msgs
         )
 
 
@@ -18,7 +20,7 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         #  INCLUDE_DIRS include
         #LIBRARIES aseia
-        CATKIN_DEPENDS roscpp std_msgs nav_msgs
+        CATKIN_DEPENDS nav_msgs roscpp std_msgs
         #  DEPENDS aseia
 )
 
@@ -27,7 +29,10 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-set(sourcefiles src/march_main_node/main.cpp src/march_main_node/Cube.cpp)
+set(sourcefiles
+        src/march_main_node/Cube.cpp
+        src/march_main_node/main.cpp
+        )
 
 ## Declare a cpp library
 add_library(march_main ${sourcefiles})
@@ -55,7 +60,8 @@ target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    find_package(rostest REQUIRED)
+    #    rostest is already imported earlier
+    #    find_package(rostest REQUIRED)
     add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/cube_test.cpp)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
 endif ()
