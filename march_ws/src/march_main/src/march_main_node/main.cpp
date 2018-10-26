@@ -12,7 +12,6 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
   ros::Publisher hello_pub = n.advertise<std_msgs::String>("talking", 1000);
-
   ros::Rate loop_rate(10);
   while (ros::ok())
   {

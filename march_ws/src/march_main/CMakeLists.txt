@@ -38,6 +38,8 @@ add_library(march_main ${sourcefiles})
 ## Declare a cpp executable
 add_executable(Exoskeleton src/march_main_node/main.cpp)
 
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
 roslint_cpp(${sourcefiles})
 
 ## Add cmake target dependencies of the executable/library
