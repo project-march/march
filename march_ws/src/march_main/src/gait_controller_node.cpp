@@ -1,29 +1,23 @@
-//
-// Created by tim on 25-10-18.
-//
+// Copyright 2018 Project March.
 
 #include <march_custom_msgs/GaitInstruction.h>
 #include "gait_controller_node.h"
 #include "ros/ros.h"
 #include "enum/gait_enum.h"
 
-
 GaitType currentGait = Sit;
 
 bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
                       march_custom_msgs::GaitInstruction::Response &response) {
   ROS_INFO("gait_instruction service called");
-  if(currentGait == Sit){
+  if (currentGait == Sit) {
     GaitType gait = GaitType(request.gait);
-    switch(gait){
-      case Walk:
-        response.result = "Impossible Gait";
+    switch (gait) {
+      case Walk:response.result = "Impossible Gait";
         break;
-      case Sit:
-        response.result = "Already Sitting";
+      case Sit:response.result = "Already Sitting";
         break;
-      case Stand:
-        response.result = "Standing";
+      case Stand:response.result = "Standing";
         break;
     }
   }

@@ -6,7 +6,6 @@
 #include "std_msgs/String.h"
 
 int main(int argc, char **argv) {
-
   std::cout << "test";
   ros::init(argc, argv, "adele");
   ros::NodeHandle n;

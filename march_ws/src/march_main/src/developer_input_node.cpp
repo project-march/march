@@ -1,6 +1,4 @@
-//
-// Created by tim on 25-10-18.
-//
+// Copyright 2018 Project March.
 
 #include "developer_input_node.h"
 #include "std_msgs/Bool.h"
