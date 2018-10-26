@@ -29,14 +29,18 @@ catkin_package(
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
-add_library(march_main src/march_main_node/main.cpp src/march_main_node/Cube.cpp src/enum/gait_enum.h)
+add_library(march_main
+        src/march_main_node/main.cpp
+        src/march_main_node/Cube.cpp
+        src/public/enum/gait_enum.h
+        src/master_node/logic.cpp)
 
 #   src/${PROJECT_NAME}/aseia_base.cpp
 # )
 
 ## Declare a cpp executable
 add_executable(Exoskeleton src/march_main_node/main.cpp)
-add_executable(MastNode src/master_node.cpp)
+add_executable(MastNode src/master_node/master_node.cpp)
 add_executable(DeveloperInputNode src/developer_input_node.cpp)
 add_executable(DataLoggerNode src/data_logger.cpp)
 add_executable(GaitControllerNode src/gait_controller_node.cpp)

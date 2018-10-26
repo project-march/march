@@ -5,7 +5,7 @@
 #include "developer_input_node.h"
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
-#include "enum/gait_enum.h"
+#include "public/enum/gait_enum.h"
 #include <march_custom_msgs/Gait.h>
 
 int main(int argc, char **argv) {
