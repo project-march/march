@@ -18,7 +18,7 @@ add_definitions(-std=c++11 -Wall -g)
 
 
 catkin_package(
-        #  INCLUDE_DIRS include
+        INCLUDE_DIRS include
         #LIBRARIES aseia
         CATKIN_DEPENDS nav_msgs roscpp std_msgs
         #  DEPENDS aseia
@@ -27,7 +27,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include ${catkin_INCLUDE_DIRS} include)
+include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
         src/march_main_node/Cube.cpp
