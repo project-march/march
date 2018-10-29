@@ -5,23 +5,27 @@
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 
-class cube_test : public ::testing::Test {
- protected:
+class cube_test : public ::testing::Test
+{
+protected:
   TestCube test_cube = TestCube(10);
 };
 
-TEST_F(cube_test, TestNothing) {
+TEST_F(cube_test, TestNothing)
+{
   ASSERT_EQ(3, 3);
 }
 
-TEST_F(cube_test, TestVolume) {
+TEST_F(cube_test, TestVolume)
+{
   ASSERT_EQ(10, test_cube.getVolume());
 }
 
 /**
  * The main method which runs all the tests
  */
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "testnode");
   testing::InitGoogleTest(&argc, argv);
 
