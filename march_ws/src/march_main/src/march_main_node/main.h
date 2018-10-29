@@ -1,17 +1,9 @@
-//
-// Created by tim on 23-10-18.
-//
+// Copyright 2018 Project March.
 
-#ifndef MARCH_MAIN_MARCH_MAIN_NODE_H
-#define MARCH_MAIN_MARCH_MAIN_NODE_H
-
-#include <sstream>
+#ifndef MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_MAIN_H_
+#define MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_MAIN_H_
 
 class march_main_node {
-public:
-
-
+ public:
 };
-
-
-#endif //MARCH_MAIN_MARCH_MAIN_NODE_H
+#endif  // MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_MAIN_H_

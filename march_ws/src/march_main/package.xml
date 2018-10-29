@@ -2,7 +2,7 @@
 <package format="2">
     <name>march_main</name>
     <version>0.0.0</version>
-    <description>The march_main package</description>
+    <description>The main package for Project March IV</description>
 
     <maintainer email="tech@projectmarch.nl">Project March</maintainer>
 
@@ -10,7 +10,8 @@
 
     <buildtool_depend>catkin</buildtool_depend>
     <build_depend>message_generation</build_depend>
-    <build_depend>march_custom_msgs</build_depend>
+    <build_depend>rostest</build_depend>
+    <build_depend>roslint</build_depend>
     <depend>roscpp</depend>
     <depend>std_msgs</depend>
     <depend>nav_msgs</depend>

@@ -5,35 +5,37 @@ project(march_main)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-        std_msgs
+        march_custom_msgs
+        message_generation
         nav_msgs
         roscpp
-        message_generation
-        march_custom_msgs
+        roslint
+        rostest
+        std_msgs
         )
 
-
 add_definitions(-std=c++11 -Wall -g)
-
 
 catkin_package(
         #  INCLUDE_DIRS include
         #LIBRARIES aseia
-        CATKIN_DEPENDS roscpp std_msgs nav_msgs message_runtime march_custom_msgs
+        CATKIN_DEPENDS nav_msgs march_custom_msgs message_runtime roscpp std_msgs
         #  DEPENDS aseia
 )
-
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-## Declare a cpp library
-add_library(march_main
+set(sourcefiles
         src/march_main_node/main.cpp
         src/march_main_node/Cube.cpp
         src/public/enum/gait_enum.h
-        src/master_node/logic.cpp)
+        src/master_node/logic.cpp
+        )
+
+## Declare a cpp library
+add_library(march_main ${sourcefiles})
 
 #   src/${PROJECT_NAME}/aseia_base.cpp
 # )
@@ -45,8 +47,13 @@ add_executable(DeveloperInputNode src/developer_input_node.cpp)
 add_executable(DataLoggerNode src/data_logger.cpp)
 add_executable(GaitControllerNode src/gait_controller_node.cpp)
 
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
+roslint_cpp(${sourcefiles})
+
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
+
 add_dependencies(MastNode ${catkin_EXPORTED_TARGETS})
 add_dependencies(DeveloperInputNode ${catkin_EXPORTED_TARGETS})
 add_dependencies(DataLoggerNode ${catkin_EXPORTED_TARGETS})
@@ -64,7 +71,8 @@ target_link_libraries(GaitControllerNode ${catkin_LIBRARIES} march_main)
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    find_package(rostest REQUIRED)
+    #    rostest is already imported earlier
+    #    find_package(rostest REQUIRED)
     add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/cube_test.cpp)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
 endif ()
