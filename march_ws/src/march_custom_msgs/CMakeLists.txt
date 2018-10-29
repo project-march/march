@@ -9,6 +9,7 @@ project(march_custom_msgs)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
         roscpp
+        rospy
         message_generation
         message_runtime
         std_msgs
@@ -59,7 +60,7 @@ generate_messages(
 catkin_package(
         #INCLUDE_DIRS include
         #LIBRARIES march_custom_msgs
-        CATKIN_DEPENDS message_generation message_runtime roscpp std_msgs
+        CATKIN_DEPENDS message_generation message_runtime roscpp rospy std_msgs
         #DEPENDS system_lib
 )
 
