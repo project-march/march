@@ -2,7 +2,9 @@
 
 #include "Cube.h"
 
-TestCube::TestCube(float volume) : volume(volume) {}
+TestCube::TestCube(float volume) : volume(volume)
+{
+}
 
 float TestCube::getVolume() const
 {
