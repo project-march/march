@@ -31,7 +31,6 @@ set(sourcefiles
         src/march_main_node/main.cpp
         src/march_main_node/Cube.cpp
         src/public/enum/gait_enum.h
-        src/master_node/logic.cpp
         )
 
 ## Declare a cpp library

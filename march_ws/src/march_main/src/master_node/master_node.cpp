@@ -10,13 +10,6 @@ void developerInputCallBack(const march_custom_msgs::Gait::ConstPtr& msg)
 {
   ROS_INFO("I heard: [gait: %ld]", msg->gait);
   march_custom_msgs::GaitInstruction srv;
-  //    srv.request.gait = msg->gait;
-  //  if (client.call(srv)) {
-  //    const char *output = srv.response.result.c_str();
-  //    ROS_INFO("MasterNode %s", output);
-  //  } else {
-  //    ROS_ERROR("Failed to call service gait_instructions");
-  //  }
 }
 
 int main(int argc, char** argv)
