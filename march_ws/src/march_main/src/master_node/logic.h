@@ -6,12 +6,14 @@
 #include <ros/ros.h>
 #include "../public/enum/gait_enum.h"
 
-class logic {
+class logic
+{
   ros::Publisher execute_gait;
- public:
-  explicit logic(const ros::Publisher &execute_gait);
+
+public:
+  explicit logic(const ros::Publisher& execute_gait);
 
   void handel_gait_input(GaitType gaitType);
 };
 
-#endif //MARCH_MAIN_LOGIC_H
+#endif  // MARCH_MAIN_LOGIC_H

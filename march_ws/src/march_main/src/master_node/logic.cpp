@@ -4,7 +4,9 @@
 #include "logic.h"
 #include "ros/ros.h"
 
-logic::logic(const ros::Publisher &execute_gait) : execute_gait(execute_gait) {}
+logic::logic(const ros::Publisher& execute_gait) : execute_gait(execute_gait)
+{
+}
 
 void logic::handel_gait_input(GaitType gaitType)
 {

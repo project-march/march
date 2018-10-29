@@ -6,12 +6,14 @@
 #include "public/enum/gait_enum.h"
 #include <march_custom_msgs/Gait.h>
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "developer_input_node");
   ros::NodeHandle n;
   ros::Publisher chatter_pub = n.advertise<march_custom_msgs::Gait>("developer_input", 1000);
 
-  while (ros::ok()) {
+  while (ros::ok())
+  {
     march_custom_msgs::Gait msg;
     msg.gait = GaitType::Sit;
     chatter_pub.publish(msg);

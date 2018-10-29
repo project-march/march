@@ -7,24 +7,31 @@
 
 GaitType currentGait = Sit;
 
-bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
-                      march_custom_msgs::GaitInstruction::Response &response) {
+bool gait_instruction(march_custom_msgs::GaitInstruction::Request& request,
+                      march_custom_msgs::GaitInstruction::Response& response)
+{
   ROS_INFO("gait_instruction service called");
-  if (currentGait == Sit) {
+  if (currentGait == Sit)
+  {
     auto gait = GaitType(request.gait);
-    switch (gait) {
-      case Walk:response.result = "Impossible Gait";
+    switch (gait)
+    {
+      case Walk:
+        response.result = "Impossible Gait";
         break;
-      case Sit:response.result = "Already Sitting";
+      case Sit:
+        response.result = "Already Sitting";
         break;
-      case Stand:response.result = "Standing";
+      case Stand:
+        response.result = "Standing";
         break;
     }
   }
   return true;
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "gait_controller_node");
   ros::NodeHandle n;
   ros::ServiceServer service = n.advertiseService("gait_instructions", gait_instruction);
