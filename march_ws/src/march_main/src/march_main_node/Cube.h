@@ -3,10 +3,11 @@
 #ifndef MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_CUBE_H_
 #define MARCH_WS_SRC_MARCH_MAIN_SRC_MARCH_MAIN_NODE_CUBE_H_
 
-class TestCube {
+class TestCube
+{
   float volume;
 
- public:
+public:
   explicit TestCube(float volume);
 
   float getVolume() const;
