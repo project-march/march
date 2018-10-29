@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
         message_generation
         message_runtime
         std_msgs
-        )
+)        
 
 add_message_files(
         FILES
