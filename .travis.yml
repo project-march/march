@@ -74,6 +74,7 @@ before_install:
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
+  - pip install --user catkin_lint
 
 # Create a catkin workspace with the package under integration.
 install:
@@ -114,10 +115,14 @@ script:
   - cd ~/catkin_ws
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
 
-# Run the tests, ensuring the path is set correctly.
+  # Run the tests, ensuring the path is set correctly.
   - source devel/setup.bash
   - catkin_make run_tests && catkin_test_results
 
-  # cpplinter
+  # Catkin lint, fail on errors only. TODO remove missing_directory.
+  - catkin_lint src/*/ --ignore literal_project_name --ignore missing_directory --explain -W0
+
+
+# cpplinter.
   - catkin_make roslint_march_main
 
