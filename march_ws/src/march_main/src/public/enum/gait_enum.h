@@ -5,4 +5,4 @@
 
 enum GaitType { Walk, Sit, Stand };
 
-#endif // SRC_PUBLIC_ENUM_GAIT_ENUM_H
+#endif  // SRC_PUBLIC_ENUM_GAIT_ENUM_H

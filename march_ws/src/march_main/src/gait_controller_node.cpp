@@ -11,7 +11,7 @@ bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
                       march_custom_msgs::GaitInstruction::Response &response) {
   ROS_INFO("gait_instruction service called");
   if (currentGait == Sit) {
-    GaitType gait = GaitType(request.gait);
+    auto gait = GaitType(request.gait);
     switch (gait) {
       case Walk:response.result = "Impossible Gait";
         break;
