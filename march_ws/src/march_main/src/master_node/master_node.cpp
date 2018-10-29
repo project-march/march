@@ -1,13 +1,10 @@
-//ovement possible
-// Created by tim on 25-10-18.
-//
+// Copyright 2018 Project March.
 
 #include "master_node.h"
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
 #include <march_custom_msgs/Gait.h>
 #include <march_custom_msgs/GaitInstruction.h>
-
 
 void developerInputCallBack(const march_custom_msgs::Gait::ConstPtr &msg) {
   ROS_INFO("I heard: [gait: %ld]", msg->gait);

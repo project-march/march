@@ -12,12 +12,11 @@
     <build_depend>message_generation</build_depend>
     <build_depend>rostest</build_depend>
     <build_depend>roslint</build_depend>
-    <build_depend>march_custom_msgs</build_depend>
     <depend>roscpp</depend>
     <depend>std_msgs</depend>
     <depend>nav_msgs</depend>
     <exec_depend>rviz</exec_depend>
     <exec_depend>message_runtime</exec_depend>
-    <exec_depend>march_custom_msgs</exec_depend>
+    <depend>march_custom_msgs</depend>
 
 </package>
