@@ -18,8 +18,8 @@ add_definitions(-std=c++11 -Wall -g)
 
 
 catkin_package(
-#        INCLUDE_DIRS include
-        #LIBRARIES aseia
+        # INCLUDE_DIRS include
+        # LIBRARIES aseia
         CATKIN_DEPENDS nav_msgs roscpp std_msgs
         #  DEPENDS aseia
 )
@@ -51,8 +51,8 @@ roslint_cpp(${sourcefiles})
 ## as an example, message headers may need to be generated before nodes
 #add_dependencies(car march_main march_main_generate_messages_cpp)
 
-
 target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
+
 
 #############
 ## Testing ##
