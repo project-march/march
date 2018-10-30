@@ -125,6 +125,10 @@ script:
   # Validate all launchfiles
   - ls
   - rosrun roslaunch roslaunch-check src/*/launch
+  - rosrun roslaunch roslaunch-check launch
+  - rosrun roslaunch roslaunch-check src/*/launch/
+  - rosrun roslaunch roslaunch-check src/*/
+  - rosrun roslaunch roslaunch-check launch/
 
 # cpplinter.
   - catkin_make roslint_march_main
