@@ -133,7 +133,7 @@ script:
   - rosrun roslaunch roslaunch-check /src/
   - rosrun roslaunch roslaunch-check src/
   - rosrun roslaunch roslaunch-check src/*
-  - ls
+  - find ~/catkin_ws
   - cd src
   - ls
   - cd march_main
