@@ -123,7 +123,8 @@ script:
   - catkin_lint src/*/ --ignore literal_project_name --ignore missing_directory --ignore missing_install_target --explain -W1
 
   # Validate all launchfiles
-  - rosrun roslaunch roslaunch-check src/*/launch/
+  - ls
+  - rosrun roslaunch roslaunch-check src/*/launch
 
 # cpplinter.
   - catkin_make roslint_march_main
