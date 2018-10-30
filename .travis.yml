@@ -127,17 +127,8 @@ script:
   - ls
   - rosrun roslaunch roslaunch-check --help
 
-  - cd src
-  - ls
-  - cd march-iv
-  - ls
-  - cd march_ws
-  - rosrun roslaunch roslaunch-check src/*/launch
-  - ls
-  - cd src
-  - ls
+  - rosrun roslaunch roslaunch-check src/march-iv/march_wssrc/*/launch
   - cd ~/catkin_ws
-  - rosrun roslaunch roslaunch-check launch
 
 
 # cpplinter.
