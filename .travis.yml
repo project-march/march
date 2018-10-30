@@ -75,6 +75,7 @@ before_install:
   - sudo rosdep init
   - rosdep update
   - sudo apt-get install ros-kinetic-rosbash
+  - sudo apt-get install ros-kinetic-roslaunch
   - pip install --user catkin_lint
 
 # Create a catkin workspace with the package under integration.
