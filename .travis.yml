@@ -127,7 +127,7 @@ script:
   - ls
   - rosrun roslaunch roslaunch-check --help
 
-  - rosrun roslaunch roslaunch-check src/march-iv/march_wssrc/*/launch
+  - rosrun roslaunch roslaunch-check src/march-iv/march_ws/src/*/launch
   - cd ~/catkin_ws
 
 
