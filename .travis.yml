@@ -121,7 +121,8 @@ script:
   # Catkin lint, fail on errors only. TODO remove missing_directory.
   - catkin_lint src/*/ --ignore literal_project_name --ignore missing_directory --ignore missing_install_target --explain -W1
 
-  - roslaunch march_main main.launch
+  # Run roslaunch for 5 seconds.
+  - roslaunch march_main main.launch & sleep 5; kill -INT %+
 
 # cpplinter.
   - catkin_make roslint_march_main
