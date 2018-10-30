@@ -6,29 +6,30 @@
 #include <march_custom_msgs/Gait.h>
 #include <march_custom_msgs/GaitInstruction.h>
 
-void developerInputCallBack(const march_custom_msgs::Gait::ConstPtr& msg)
-{
-  ROS_INFO("I heard: [gait: %ld]", msg->gait);
-  march_custom_msgs::GaitInstruction srv;
+bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
+                      march_custom_msgs::GaitInstruction::Response &response) {
+  ROS_INFO("gait_instruction service called");
+  response.result = "Impossible Gait";
+  return true;
 }
 
-int main(int argc, char** argv)
+void gaitStatusCallback(const march_custom_msgs::Gait::ConstPtr& msg)
 {
+  ROS_INFO("I heard: [gait: %ld]", msg->gait);
+}
+
+int main(int argc, char **argv) {
   ros::init(argc, argv, "master_node");
   ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("developer_input", 1000, developerInputCallBack);
-  ros::ServiceClient client = n.serviceClient<march_custom_msgs::GaitInstruction>("gait_instructions");
-  march_custom_msgs::GaitInstruction srv;
-  srv.request.gait = 1;
-  if (client.call(srv))
-  {
-    const char* output = srv.response.result.c_str();
-    ROS_INFO("MasterNode %s", output);
-  }
-  else
-  {
-    ROS_ERROR("Failed to call service gait_instructions");
-  }
+
+  ros::Publisher input_pub = n.advertise<march_custom_msgs::Gait>("input/gait_input", 1000);
+  ros::Publisher play_pub = n.advertise<march_custom_msgs::Gait>("input/play_input", 1000);
+
+  ros::Subscriber sub_gait_status = n.subscribe("gait_status", 1000, gaitStatusCallback);
+
+  ros::ServiceServer gait_input_service = n.advertiseService("input/gait_input", gait_instruction);
+  ros::ServiceServer play_input_service = n.advertiseService("input/play_input", gait_instruction);
+
   ros::spin();
   return 0;
 }
