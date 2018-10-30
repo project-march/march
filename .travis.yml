@@ -127,16 +127,12 @@ script:
   - ls
   - rosrun roslaunch roslaunch-check --help
   - rosrun roslaunch roslaunch-check /src/*/launch
-  - rosrun roslaunch roslaunch-check /launch
-  - rosrun roslaunch roslaunch-check src/march_main/launch/
-  - rosrun roslaunch roslaunch-check src
-  - rosrun roslaunch roslaunch-check /src/
-  - rosrun roslaunch roslaunch-check src/
-  - rosrun roslaunch roslaunch-check src/*
-  - find ~/catkin_ws
+
+  - find ~
   - cd src
   - ls
-  - cd march_main
+  - cd march-iv
+  - ls
   - rosrun roslaunch roslaunch-check launch
 
 
