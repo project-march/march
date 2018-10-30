@@ -126,9 +126,8 @@ script:
   # Validate all launchfiles
   - ls
   - rosrun roslaunch roslaunch-check --help
-  - rosrun roslaunch roslaunch-check /src/*/launch
+  - rosrun roslaunch roslaunch-check build/project-march/march-iv/march_ws/src/*/launch
 
-  - find ~
   - cd src
   - ls
   - cd march-iv
