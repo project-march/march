@@ -7,12 +7,10 @@
 #include <march_custom_msgs/Gait.h>
 #include <march_custom_msgs/GaitInstruction.h>
 
-
 void gaitStatusCallback(const march_custom_msgs::Gait::ConstPtr& msg)
 {
   ROS_INFO("I heard: [gait: %ld]", msg->gait);
 }
-
 
 int main(int argc, char** argv)
 {

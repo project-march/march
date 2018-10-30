@@ -6,8 +6,9 @@
 #include <march_custom_msgs/Gait.h>
 #include <march_custom_msgs/GaitInstruction.h>
 
-bool gait_instruction(march_custom_msgs::GaitInstruction::Request &request,
-                      march_custom_msgs::GaitInstruction::Response &response) {
+bool gait_instruction(march_custom_msgs::GaitInstruction::Request& request,
+                      march_custom_msgs::GaitInstruction::Response& response)
+{
   ROS_INFO("gait_instruction service called");
   response.result = "Impossible Gait";
   return true;
@@ -18,7 +19,8 @@ void gaitStatusCallback(const march_custom_msgs::Gait::ConstPtr& msg)
   ROS_INFO("I heard: [gait: %ld]", msg->gait);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "master_node");
   ros::NodeHandle n;
 

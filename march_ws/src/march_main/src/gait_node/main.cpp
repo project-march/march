@@ -6,16 +6,18 @@
 #include "ros/ros.h"
 #include "../public/enum/gait_enum.h"
 
-
-void gaitInputCallback(const march_custom_msgs::Gait::ConstPtr &msg) {
+void gaitInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
+{
   ROS_INFO("I heard: [gait: %ld]", msg->gait);
 }
 
-void playInputCallback(const march_custom_msgs::Gait::ConstPtr &msg) {
+void playInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
+{
   ROS_INFO("I heard: [gait: %ld]", msg->gait);
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char** argv)
+{
   ros::init(argc, argv, "gait_controller_node");
   ros::NodeHandle n;
   ros::Publisher chatter_pub = n.advertise<march_custom_msgs::Gait>("gait/status", 1000);
