@@ -7,8 +7,8 @@
 
 GaitType currentGait = Sit;
 
-bool gait_instruction(march_custom_msgs::GaitInstruction::Request& request,
-                      march_custom_msgs::GaitInstruction::Response& response)
+bool gait_instruction(const march_custom_msgs::GaitInstruction::Request& request,
+                      const march_custom_msgs::GaitInstruction::Response& response)
 {
   ROS_INFO("gait_instruction service called");
   if (currentGait == Sit)

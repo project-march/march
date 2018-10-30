@@ -47,8 +47,14 @@ add_executable(DataLoggerNode src/data_logger.cpp)
 add_executable(GaitControllerNode src/gait_controller_node.cpp)
 
 # Roslinter
-set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
-roslint_cpp(${sourcefiles})
+set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard" "--linelength=120")
+
+file(GLOB_RECURSE lintfiles
+        "src/*.cpp"
+        "src/*.h"
+        )
+
+roslint_cpp(${lintfiles})
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
