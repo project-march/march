@@ -1,6 +1,6 @@
 <launch>
 
     <!-- a basic listener node -->
-    <node name="adele" pkg="march_main" type="ExoskeletonFails"/>
+    <node name="adele" pkg="march_main" type="Exoskeleton"/>
 
 </launch>
