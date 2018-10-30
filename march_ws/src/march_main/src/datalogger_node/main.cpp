@@ -1,6 +1,6 @@
 // Copyright 2018 Project March.
 
-#include "data_logger.h"
+#include "main.h"
 #include "ros/ros.h"
 
 int main(int argc, char** argv)

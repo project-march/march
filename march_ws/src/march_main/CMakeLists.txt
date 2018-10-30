@@ -28,9 +28,8 @@ catkin_package(
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
-        src/march_main_node/main.cpp
-        src/march_main_node/Cube.cpp
         src/public/enum/gait_enum.h
+        src/master_node/main.cpp
         )
 
 ## Declare a cpp library
@@ -40,29 +39,40 @@ add_library(march_main ${sourcefiles})
 # )
 
 ## Declare a cpp executable
-add_executable(Exoskeleton src/march_main_node/main.cpp)
-add_executable(MastNode src/master_node/master_node.cpp)
-add_executable(DeveloperInputNode src/developer_input_node.cpp)
-add_executable(DataLoggerNode src/data_logger.cpp)
-add_executable(GaitControllerNode src/gait_controller_node.cpp)
-
-# Roslinter
-set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
-roslint_cpp(${sourcefiles})
-
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 
-add_dependencies(MastNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(DeveloperInputNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(DataLoggerNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(GaitControllerNode ${catkin_EXPORTED_TARGETS})
+add_executable(MasterNode src/master_node/main.cpp)
+add_dependencies(MasterNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(MasterNode ${catkin_LIBRARIES} march_main)
 
-target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
-target_link_libraries(MastNode ${catkin_LIBRARIES} march_main)
+add_executable(DeveloperInputNode src/developer_input_node/main.cpp)
+add_dependencies(DeveloperInputNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(DeveloperInputNode ${catkin_LIBRARIES} march_main)
+
+add_executable(DataLoggerNode src/datalogger_node/main.cpp)
+add_dependencies(DataLoggerNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(DataLoggerNode ${catkin_LIBRARIES} march_main)
+
+add_executable(GaitControllerNode src/gait_node/main.cpp)
+add_dependencies(GaitControllerNode ${catkin_EXPORTED_TARGETS})
 target_link_libraries(GaitControllerNode ${catkin_LIBRARIES} march_main)
+
+add_executable(ControlNode src/control_node/main.cpp)
+add_dependencies(ControlNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(ControlNode ${catkin_LIBRARIES} march_main)
+
+add_executable(SensorNode src/sensor_node/main.cpp src/sensor_node/main.h)
+add_dependencies(SensorNode ${catkin_EXPORTED_TARGETS})
+target_link_libraries(SensorNode ${catkin_LIBRARIES} march_main)
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
+file(GLOB_RECURSE LINT_FILES
+        "src/*/src/*.h" "src/*/src/*.cpp")
+roslint_cpp(${LINT_FILES})
+
+
+
 
 #############
 ## Testing ##

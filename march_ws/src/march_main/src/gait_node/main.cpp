@@ -1,9 +1,9 @@
 // Copyright 2018 Project March.
 
 #include <march_custom_msgs/GaitInstruction.h>
-#include "gait_controller_node.h"
+#include "main.h"
 #include "ros/ros.h"
-#include "public/enum/gait_enum.h"
+#include "../public/enum/gait_enum.h"
 
 GaitType currentGait = Sit;
 

@@ -1,6 +1,6 @@
 // Copyright 2018 Project March.
 
-#include "master_node.h"
+#include "main.h"
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
 #include <march_custom_msgs/Gait.h>
