@@ -1,6 +1,10 @@
 <launch>
 
     <!-- a basic listener node -->
-    <node name="adele" pkg="march_main" type="Exoskeleton"/>
+    <node name="Adele" pkg="march_main" type="Exoskeleton"/>
+    <node name="Beyonce" pkg="march_main" type="DeveloperInputNode" output="screen"/>
+    <node name="Charlie" pkg="march_main" type="DataLoggerNode" output="screen"/>
+    <node name="Drake" pkg="march_main" type="GaitControllerNode" output="screen"/>
+    <node name="Eminem" pkg="march_main" type="MastNode" output="screen"/>
 
 </launch>
