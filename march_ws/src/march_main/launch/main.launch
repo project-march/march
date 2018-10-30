@@ -1,10 +1,12 @@
 <launch>
 
     <!-- a basic listener node -->
-    <!-- Adele -->
-    <node name="Beyonce" pkg="march_main" type="DeveloperInputNode" output="screen"/>
-    <node name="Charlie" pkg="march_main" type="DataLoggerNode" output="screen"/>
-    <node name="Drake" pkg="march_main" type="GaitControllerNode" output="screen"/>
-    <node name="Eminem" pkg="march_main" type="MasterNode" output="screen"/>
+    <node name="Adele" pkg="march_main" type="master_node" output="screen"/>
+    <node name="Beyonce" pkg="march_main" type="developer_inputNode" output="screen"/>
+    <node name="Charlie" pkg="march_main" type="datalogger_node" output="screen"/>
+    <node name="Drake" pkg="march_main" type="gait_controller_node" output="screen"/>
+    <node name="Eminem" pkg="march_main" type="control_node" output="screen"/>
+    <node name="Famke" pkg="march_main" type="sensor_node" output="screen"/>
+    <!--<node name="Guus" pkg="march_main" type="MasterNode" output="screen"/>-->
 
 </launch>
