@@ -112,6 +112,18 @@ before_script:
 # fails. Running `catkin_test_results` aggregates all the results and returns
 # non-zero when a test fails (which notifies Travis the build failed).
 script:
+
+  # Validate all launchfiles
+  - ls
+  - rosrun roslaunch roslaunch-check --help
+  - rosrun roslaunch roslaunch-check /src/*/launch
+  - rosrun roslaunch roslaunch-check /launch
+  - rosrun roslaunch roslaunch-check src/march_main/launch/
+  - rosrun roslaunch roslaunch-check src
+  - rosrun roslaunch roslaunch-check /src/
+  - rosrun roslaunch roslaunch-check src/
+  - rosrun roslaunch roslaunch-check src/*
+
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - cd ~/catkin_ws
   - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
@@ -122,14 +134,6 @@ script:
   # Catkin lint, fail on errors only. TODO remove missing_directory.
   - catkin_lint src/*/ --ignore literal_project_name --ignore missing_directory --ignore missing_install_target --explain -W1
 
-  # Validate all launchfiles
-  - ls
-  - rosrun roslaunch roslaunch-check --help
-  - rosrun roslaunch roslaunch-check -t src/*/launch
-  - rosrun roslaunch roslaunch-check launch
-  - rosrun roslaunch roslaunch-check src/*/launch/
-  - rosrun roslaunch roslaunch-check src/*/
-  - rosrun roslaunch roslaunch-check launch/
 
 # cpplinter.
   - catkin_make roslint_march_main
