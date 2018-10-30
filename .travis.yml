@@ -133,7 +133,9 @@ script:
   - rosrun roslaunch roslaunch-check /src/
   - rosrun roslaunch roslaunch-check src/
   - rosrun roslaunch roslaunch-check src/*
-  - cd src/march_main
+  - ls
+  - cd src
+  - cd march_main
   - rosrun roslaunch roslaunch-check launch
 
 
