@@ -74,7 +74,7 @@ before_install:
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
-#  - sudo apt-get install ros-kinetic-rosbash
+  - sudo apt-get install ros-kinetic-rosbash
   - pip install --user catkin_lint
 
 # Create a catkin workspace with the package under integration.
@@ -124,7 +124,8 @@ script:
 
   # Validate all launchfiles
   - ls
-  - rosrun roslaunch roslaunch-check src/*/launch
+  - rosrun roslaunch roslaunch-check --help
+  - rosrun roslaunch roslaunch-check -t src/*/launch
   - rosrun roslaunch roslaunch-check launch
   - rosrun roslaunch roslaunch-check src/*/launch/
   - rosrun roslaunch roslaunch-check src/*/
