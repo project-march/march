@@ -47,7 +47,7 @@ add_executable(DataLoggerNode src/data_logger.cpp)
 add_executable(GaitControllerNode src/gait_controller_node.cpp)
 
 # Roslinter
-set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard" "--linelength=120")
+set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
 
 file(GLOB_RECURSE lintfiles
         "src/*.cpp"
