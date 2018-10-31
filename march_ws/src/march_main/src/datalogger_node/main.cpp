@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "gait_controller_node");
+  ros::init(argc, argv, "datalogger_node");
   ros::NodeHandle n;
   ros::spin();
   return 0;

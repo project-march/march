@@ -60,17 +60,17 @@ add_executable(master_node src/master_node/main.cpp)
 add_dependencies(master_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(master_node ${catkin_LIBRARIES})
 
-add_executable(developer_inputNode src/developer_input_node/main.cpp)
-add_dependencies(developer_inputNode ${catkin_EXPORTED_TARGETS})
-target_link_libraries(developer_inputNode ${catkin_LIBRARIES})
+add_executable(developer_input_node src/developer_input_node/main.cpp)
+add_dependencies(developer_input_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(developer_input_node ${catkin_LIBRARIES})
 
 add_executable(datalogger_node src/datalogger_node/main.cpp)
 add_dependencies(datalogger_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(datalogger_node ${catkin_LIBRARIES})
 
-add_executable(gait_controller_node src/gait_node/main.cpp)
-add_dependencies(gait_controller_node ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gait_controller_node ${catkin_LIBRARIES})
+add_executable(gait_node src/gait_node/main.cpp)
+add_dependencies(gait_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gait_node ${catkin_LIBRARIES})
 
 add_executable(control_node src/control_node/main.cpp)
 add_dependencies(control_node ${catkin_EXPORTED_TARGETS})

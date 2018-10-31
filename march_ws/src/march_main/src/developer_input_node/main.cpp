@@ -12,6 +12,7 @@
 
 void gaitStatusCallback(const march_custom_msgs::GaitStatus::ConstPtr& msg)
 {
+  std::string gait_name = msg->gait_name;
 }
 
 int main(int argc, char** argv)
@@ -20,8 +21,8 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
-  ros::ServiceClient gait_input_client = n.serviceClient<march_custom_msgs::GaitInput>("");
-  ros::ServiceClient play_input_client = n.serviceClient<march_custom_msgs::PlayInput>("");
+  ros::ServiceClient gait_input_client = n.serviceClient<march_custom_msgs::GaitInput>(ServiceNames::gait_input);
+  ros::ServiceClient play_input_client = n.serviceClient<march_custom_msgs::PlayInput>(ServiceNames::play_input);
 
   march_custom_msgs::GaitInput srv;
   srv.request.gait_name = "TODO";
@@ -33,9 +34,10 @@ int main(int argc, char** argv)
   }
   else
   {
-    ROS_ERROR("Failed to call service gait_instructions");
+    ROS_ERROR("Failed to call service gait_input_client");
   }
 
   ROS_INFO("developer_input_node has started");
+  ros::spin();
   return 0;
 }

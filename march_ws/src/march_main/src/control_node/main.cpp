@@ -12,10 +12,9 @@ void gaitInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
 
 int main(int argc, char** argv)
 {
-  ros::init(argc, argv, "sensor_node");
+  ros::init(argc, argv, "control_node");
   ros::NodeHandle n;
 
-  // @TODO make this an action
   ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
   return 0;
 }

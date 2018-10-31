@@ -6,5 +6,6 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "sensor_node");
   ros::NodeHandle n;
+  ros::spin();
   return 0;
 }
