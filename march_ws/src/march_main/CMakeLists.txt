@@ -34,6 +34,17 @@ set(sourcefiles
 #   src/${PROJECT_NAME}/aseia_base.cpp
 # )
 
+
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
+
+file(GLOB_RECURSE lintfiles
+        "src/*.cpp"
+        "src/*.h"
+        )
+
+roslint_cpp(${lintfiles})
+
 ## Declare a cpp executable
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
