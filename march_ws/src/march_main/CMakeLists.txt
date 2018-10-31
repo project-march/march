@@ -29,6 +29,8 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
         src/public/enum/gait_enum.h
+        src/public/communication/Topic.h
+        src/public/communication/MarchCommunication.h
         src/master_node/main.cpp
         )
 #   src/${PROJECT_NAME}/aseia_base.cpp
