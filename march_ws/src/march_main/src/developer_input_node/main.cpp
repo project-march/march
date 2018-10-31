@@ -4,7 +4,6 @@
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
 #include "../public/enum/gait_enum.h"
-#include "../public/communication/MarchCommunication.h"
 #include "../public/communication/TopicNames.h"
 #include <march_custom_msgs/GaitInput.h>
 #include <march_custom_msgs/PlayInput.h>
