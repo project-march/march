@@ -5,6 +5,7 @@
 #include "main.h"
 #include "ros/ros.h"
 #include "../public/enum/gait_enum.h"
+#include "../public/communication/TopicNames.h"
 
 void gaitInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
 {
@@ -20,13 +21,13 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "gait_controller_node");
   ros::NodeHandle n;
-  ros::Publisher chatter_pub = n.advertise<march_custom_msgs::Gait>("gait/status", 1000);
+  ros::Publisher chatter_pub = n.advertise<march_custom_msgs::Gait>(TopicNames::gait_status, 1000);
 
-  ros::Subscriber sub_gait_input = n.subscribe("master/gait_input", 1000, gaitInputCallback);
-  ros::Subscriber sub_play_input = n.subscribe("master/play_input", 1000, playInputCallback);
+  ros::Subscriber sub_gait_input = n.subscribe(ServiceNames::gait_input, 1000, gaitInputCallback);
+  ros::Subscriber sub_play_input = n.subscribe(ServiceNames::play_input, 1000, playInputCallback);
 
   // @TODO make this an action
-  ros::Publisher input_pub = n.advertise<march_custom_msgs::Gait>("gait/movement", 1000);
+  ros::Publisher input_pub = n.advertise<march_custom_msgs::Gait>(TopicNames::gait_movement, 1000);
 
   return 0;
 }

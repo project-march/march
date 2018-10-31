@@ -29,8 +29,6 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
         src/public/enum/gait_enum.h
-        src/public/communication/Topic.h
-        src/public/communication/MarchCommunication.h
         src/master_node/main.cpp
         )
 #   src/${PROJECT_NAME}/aseia_base.cpp
@@ -50,6 +48,13 @@ roslint_cpp(${lintfiles})
 ## Declare a cpp executable
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
+
+add_executable(public src/master_node/main.cpp
+        src/public/enum/gait_enum.h
+        src/public/communication/TopicNames.cpp
+        )
+add_dependencies(public ${catkin_EXPORTED_TARGETS})
+target_link_libraries(public ${catkin_LIBRARIES})
 
 add_executable(master_node src/master_node/main.cpp)
 add_dependencies(master_node ${catkin_EXPORTED_TARGETS})

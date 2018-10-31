@@ -4,6 +4,8 @@
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
 #include "../public/enum/gait_enum.h"
+#include "../public/communication/MarchCommunication.h"
+#include "../public/communication/TopicNames.h"
 #include <march_custom_msgs/GaitInput.h>
 #include <march_custom_msgs/PlayInput.h>
 #include <march_custom_msgs/GaitInstruction.h>
@@ -11,17 +13,16 @@
 
 void gaitStatusCallback(const march_custom_msgs::GaitStatus::ConstPtr& msg)
 {
-
 }
 
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "developer_input_node");
   ros::NodeHandle n;
-  ros::Subscriber sub_gait_status = n.subscribe("gait_status", 1000, gaitStatusCallback);
+  ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
-  ros::ServiceClient gait_input_client = n.serviceClient<march_custom_msgs::GaitInput>("input/gait_input");
-  ros::ServiceClient play_input_client = n.serviceClient<march_custom_msgs::PlayInput>("input/play_input");
+  ros::ServiceClient gait_input_client = n.serviceClient<march_custom_msgs::GaitInput>("");
+  ros::ServiceClient play_input_client = n.serviceClient<march_custom_msgs::PlayInput>("");
 
   march_custom_msgs::GaitInput srv;
   srv.request.gait_name = "TODO";
