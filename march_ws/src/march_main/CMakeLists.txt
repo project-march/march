@@ -35,6 +35,8 @@ set(sourcefiles
 # )
 
 
+add_library(march_main ${sourcefiles})
+
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
 
