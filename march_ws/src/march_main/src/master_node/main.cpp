@@ -40,8 +40,8 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
-  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, gait_input_callback);
-  ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, play_input_callback);
+  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, play_input_callback);
+  ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, gait_input_callback);
 
   ros::Rate rate(1);
 
