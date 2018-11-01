@@ -18,10 +18,15 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
         FILES
         Gait.msg
+        GaitStatus.msg
+        GaitInputMaster.msg
+        PlayInputMaster.msg
 )
 add_service_files(
         FILES
         GaitInstruction.srv
+        GaitInput.srv
+        PlayInput.srv
 )
 generate_messages(
         DEPENDENCIES

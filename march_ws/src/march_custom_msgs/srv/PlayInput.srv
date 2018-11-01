@@ -1,0 +1,4 @@
+int64 play_input
+---
+bool is_successful
+string message

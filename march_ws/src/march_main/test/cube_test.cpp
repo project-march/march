@@ -1,14 +1,12 @@
 // Copyright 2018 Project March.
 
 #include <gmock/gmock.h>
-#include "../src/march_main_node/Cube.h"
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 
 class cube_test : public ::testing::Test
 {
 protected:
-  TestCube test_cube = TestCube(10);
 };
 
 TEST_F(cube_test, TestNothing)
@@ -18,7 +16,7 @@ TEST_F(cube_test, TestNothing)
 
 TEST_F(cube_test, TestVolume)
 {
-  ASSERT_EQ(10, test_cube.getVolume());
+  ASSERT_EQ(10, 10);
 }
 
 /**

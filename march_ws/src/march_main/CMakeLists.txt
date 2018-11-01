@@ -28,23 +28,14 @@ catkin_package(
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
-        src/march_main_node/main.cpp
-        src/march_main_node/Cube.cpp
         src/public/enum/gait_enum.h
+        src/master_node/main.cpp
         )
-
-## Declare a cpp library
-add_library(march_main ${sourcefiles})
-
 #   src/${PROJECT_NAME}/aseia_base.cpp
 # )
 
-## Declare a cpp executable
-add_executable(Exoskeleton src/march_main_node/main.cpp)
-add_executable(MastNode src/master_node/master_node.cpp)
-add_executable(DeveloperInputNode src/developer_input_node.cpp)
-add_executable(DataLoggerNode src/data_logger.cpp)
-add_executable(GaitControllerNode src/gait_controller_node.cpp)
+
+add_library(march_main ${sourcefiles})
 
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
@@ -56,19 +47,40 @@ file(GLOB_RECURSE lintfiles
 
 roslint_cpp(${lintfiles})
 
+## Declare a cpp executable
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 
-add_dependencies(MastNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(DeveloperInputNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(DataLoggerNode ${catkin_EXPORTED_TARGETS})
-add_dependencies(GaitControllerNode ${catkin_EXPORTED_TARGETS})
+add_executable(public src/master_node/main.cpp
+        src/public/enum/gait_enum.h
+        src/public/communication/TopicNames.cpp
+        )
+add_dependencies(public ${catkin_EXPORTED_TARGETS})
+target_link_libraries(public ${catkin_LIBRARIES})
 
-target_link_libraries(Exoskeleton ${catkin_LIBRARIES} march_main)
-target_link_libraries(MastNode ${catkin_LIBRARIES} march_main)
-target_link_libraries(DeveloperInputNode ${catkin_LIBRARIES} march_main)
-target_link_libraries(DataLoggerNode ${catkin_LIBRARIES} march_main)
-target_link_libraries(GaitControllerNode ${catkin_LIBRARIES} march_main)
+add_executable(master_node src/master_node/main.cpp)
+add_dependencies(master_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(master_node ${catkin_LIBRARIES})
+
+add_executable(developer_input_node src/developer_input_node/main.cpp)
+add_dependencies(developer_input_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(developer_input_node ${catkin_LIBRARIES})
+
+add_executable(datalogger_node src/datalogger_node/main.cpp)
+add_dependencies(datalogger_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(datalogger_node ${catkin_LIBRARIES})
+
+add_executable(gait_node src/gait_node/main.cpp)
+add_dependencies(gait_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(gait_node ${catkin_LIBRARIES})
+
+add_executable(control_node src/control_node/main.cpp)
+add_dependencies(control_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(control_node ${catkin_LIBRARIES})
+
+add_executable(sensor_node src/sensor_node/main.cpp src/sensor_node/main.h)
+add_dependencies(sensor_node ${catkin_EXPORTED_TARGETS})
+target_link_libraries(sensor_node ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
