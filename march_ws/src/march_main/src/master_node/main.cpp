@@ -13,7 +13,7 @@
 #include <march_custom_msgs/PlayInputMaster.h>
 
 bool gait_input_callback(march_custom_msgs::GaitInput::Request& request,
-                        march_custom_msgs::GaitInput::Response& response)
+                         march_custom_msgs::GaitInput::Response& response)
 {
   ROS_INFO("gait input service call received");
   response.is_successful = static_cast<unsigned char>(true);
@@ -21,7 +21,7 @@ bool gait_input_callback(march_custom_msgs::GaitInput::Request& request,
 }
 
 bool play_input_callback(march_custom_msgs::PlayInput::Request& request,
-                        march_custom_msgs::PlayInput::Response& response)
+                         march_custom_msgs::PlayInput::Response& response)
 {
   ROS_INFO("gait_instruction service called");
   response.is_successful = static_cast<unsigned char>(true);
@@ -51,8 +51,8 @@ int main(int argc, char** argv)
   {
     rate.sleep();
     ros::spin();
-    march_custom_msgs::Gait msg;
-    msg.gait = 2;
+    march_custom_msgs::GaitInputMaster msg;
+    msg.gait_name = "Walking";
     gait_input_pub.publish(msg);
   }
 

@@ -84,7 +84,7 @@ target_link_libraries(sensor_node ${catkin_LIBRARIES})
 
 #############
 ## Testing ##
-###########
+#############
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)

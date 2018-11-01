@@ -7,6 +7,5 @@
     <node name="gait_node" pkg="march_main" type="gait_node" output="screen"/>
     <node name="control_node" pkg="march_main" type="control_node" output="screen"/>
     <node name="sensor_node" pkg="march_main" type="sensor_node" output="screen"/>
-    <!--<node name="Guus" pkg="march_main" type="MasterNode" output="screen"/>-->
 
 </launch>
