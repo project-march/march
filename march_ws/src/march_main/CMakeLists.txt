@@ -79,12 +79,6 @@ target_link_libraries(control_node ${catkin_LIBRARIES})
 add_executable(sensor_node src/sensor_node/main.cpp src/sensor_node/main.h)
 add_dependencies(sensor_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(sensor_node ${catkin_LIBRARIES})
-# Roslinter
-set(ROSLINT_CPP_OPTS "--filter=-build/include" "--linelength=120")
-file(GLOB_RECURSE LINT_FILES
-        "src/*/src/*.h" "src/*/src/*.cpp")
-roslint_cpp(${LINT_FILES})
-
 
 #############
 ## Testing ##
