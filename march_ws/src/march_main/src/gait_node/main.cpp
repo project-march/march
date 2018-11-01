@@ -1,19 +1,19 @@
 // Copyright 2018 Project March.
 
 #include <march_custom_msgs/GaitInstruction.h>
-#include <march_custom_msgs/Gait.h>
 #include <march_custom_msgs/GaitStatus.h>
+#include <march_custom_msgs/GaitInputMaster.h>
+#include <march_custom_msgs/PlayInputMaster.h>
 #include "main.h"
 #include "ros/ros.h"
 #include "../public/enum/gait_enum.h"
 #include "../public/communication/TopicNames.h"
 
-void gaitInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
+void gaitInputCallback(const march_custom_msgs::GaitInputMaster::ConstPtr& msg)
 {
-  ROS_INFO("I heard: [gait: %ld]", msg->gait);
 }
 
-void playInputCallback(const march_custom_msgs::Gait::ConstPtr& msg)
+void playInputCallback(const march_custom_msgs::PlayInputMaster::ConstPtr& msg)
 {
 }
 

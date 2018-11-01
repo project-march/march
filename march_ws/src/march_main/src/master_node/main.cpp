@@ -9,6 +9,8 @@
 #include <march_custom_msgs/GaitInput.h>
 #include <march_custom_msgs/PlayInput.h>
 #include <march_custom_msgs/GaitStatus.h>
+#include <march_custom_msgs/GaitInputMaster.h>
+#include <march_custom_msgs/PlayInputMaster.h>
 
 bool gait_input_callback(march_custom_msgs::GaitInput::Request& request,
                         march_custom_msgs::GaitInput::Response& response)
@@ -35,8 +37,8 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "master_node");
   ros::NodeHandle n;
 
-  ros::Publisher gait_input_pub = n.advertise<march_custom_msgs::Gait>(TopicNames::gait_input, 1000);
-  ros::Publisher play_input_pub = n.advertise<march_custom_msgs::Gait>(TopicNames::play_input, 1000);
+  ros::Publisher gait_input_pub = n.advertise<march_custom_msgs::GaitInputMaster>(TopicNames::gait_input, 1000);
+  ros::Publisher play_input_pub = n.advertise<march_custom_msgs::PlayInputMaster>(TopicNames::play_input, 1000);
 
   ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
