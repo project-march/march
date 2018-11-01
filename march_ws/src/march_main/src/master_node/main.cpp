@@ -10,7 +10,7 @@
 #include <march_custom_msgs/PlayInput.h>
 #include <march_custom_msgs/GaitStatus.h>
 
-bool gait_input_service(march_custom_msgs::GaitInput::Request& request,
+bool gait_input_callback(march_custom_msgs::GaitInput::Request& request,
                         march_custom_msgs::GaitInput::Response& response)
 {
   ROS_INFO("gait input service call received");
@@ -18,7 +18,7 @@ bool gait_input_service(march_custom_msgs::GaitInput::Request& request,
   return true;
 }
 
-bool play_input_service(march_custom_msgs::PlayInput::Request& request,
+bool play_input_callback(march_custom_msgs::PlayInput::Request& request,
                         march_custom_msgs::PlayInput::Response& response)
 {
   ROS_INFO("gait_instruction service called");
@@ -40,8 +40,8 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
-  //  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, play_input_service);
-  ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, gait_input_service);
+  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, gait_input_callback);
+  ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, play_input_callback);
 
   ros::Rate rate(1);
 
