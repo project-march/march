@@ -88,14 +88,14 @@ roslint_cpp(${LINT_FILES})
 
 #############
 ## Testing ##
-#############
+###########
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
     #    rostest is already imported earlier
     #    find_package(rostest REQUIRED)
     add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/cube_test.cpp)
-#    add_rostest(test/my_first_test.test test/MasterNodeTest.cpp)
+#    add_rostest(launch/my_first_test.test)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
 endif ()
 
