@@ -11,16 +11,7 @@
     <test name="publishtest"
           test-name="master_node_publish_test"
           pkg="march_main"
-          type="publishtest"
+          type="MasterNodeTest"
           time-limit="10.0">
-        <rosparam>
-            topics:
-              - name: talker_0/output
-                timeout: 3
-                negative: False
-              - name: talker_1/output
-                timeout: 3
-                negative: True  # means it is not published until the timeout
-        </rosparam>
     </test>
 </launch>

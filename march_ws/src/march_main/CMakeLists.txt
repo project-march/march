@@ -95,7 +95,7 @@ if (CATKIN_ENABLE_TESTING)
     #    rostest is already imported earlier
     #    find_package(rostest REQUIRED)
     add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/cube_test.cpp)
-    add_rostest(test/my_first_test.test ARGS myarg1:=true myarg2:=false)
+#    add_rostest(test/my_first_test.test test/MasterNodeTest.cpp)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
 endif ()
 
