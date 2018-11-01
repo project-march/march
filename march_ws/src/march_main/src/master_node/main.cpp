@@ -28,7 +28,6 @@ bool play_input_service(march_custom_msgs::PlayInput::Request& request,
 
 void gaitStatusCallback(const march_custom_msgs::GaitStatus::ConstPtr& msg)
 {
-
 }
 
 int main(int argc, char** argv)
@@ -41,9 +40,19 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
 
-//  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, play_input_service);
+  //  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, play_input_service);
   ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, gait_input_service);
 
-  ros::spin();
+  ros::Rate rate(1);
+
+  while (ros::ok())
+  {
+    rate.sleep();
+    ros::spin();
+    march_custom_msgs::Gait msg;
+    msg.gait = 2;
+    gait_input_pub.publish(msg);
+  }
+
   return 0;
 }
