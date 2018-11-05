@@ -50,7 +50,7 @@ int main(int argc, char** argv)
   while (ros::ok())
   {
     rate.sleep();
-    ros::spin();
+    ros::spinOnce();
     march_custom_msgs::GaitInputMaster msg;
     msg.gait_name = "Walking";
     gait_input_pub.publish(msg);
