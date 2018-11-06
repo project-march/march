@@ -8,10 +8,12 @@ project(march_gazebo)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  gazebo_msgs
   gazebo_plugins
   gazebo_ros
   gazebo_ros_control
+  march_control
+  march_description
+  xacro
 )
 
 ## System dependencies are found with CMake's conventions
@@ -71,7 +73,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   gazebo_msgs
+#   std_msgs  # Or other packages containing msgs
 # )
 
 ################################################
@@ -106,7 +108,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES march_gazebo
-#  CATKIN_DEPENDS gazebo_msgs gazebo_plugins gazebo_ros gazebo_ros_control
+#  CATKIN_DEPENDS gazebo_plugins gazebo_ros gazebo_ros_control march_control march_description xacro
 #  DEPENDS system_lib
 )
 
