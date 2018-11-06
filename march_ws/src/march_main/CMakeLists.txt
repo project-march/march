@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
         roscpp
         roslint
         rostest
+        rqt_gui
         std_msgs
         )
 
@@ -19,7 +20,7 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         # INCLUDE_DIRS include
         # LIBRARIES aseia
-        CATKIN_DEPENDS nav_msgs march_custom_msgs message_runtime roscpp std_msgs
+        CATKIN_DEPENDS nav_msgs march_custom_msgs message_runtime roscpp std_msgs rqt_gui
         # DEPENDS aseia
 )
 
