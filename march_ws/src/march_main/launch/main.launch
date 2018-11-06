@@ -1,6 +1,7 @@
 <launch>
 
-    <!-- a basic listener node -->
+    <include file="$(find march_main)/launch/rqt.launch"/>
+
     <node name="master_node" pkg="march_main" type="master_node" output="screen"/>
     <node name="developer_input_node" pkg="march_main" type="developer_input_node" output="screen"/>
     <node name="datalogger_node" pkg="march_main" type="datalogger_node" output="screen"/>
