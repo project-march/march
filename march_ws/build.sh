@@ -16,3 +16,5 @@ catkin_make run_tests && catkin_test_results || exit 1
 
 rosrun roslaunch roslaunch-check src/*/launch || exit 1
 
+
+notify-send -i $PWD/walking.png "Your local build has passed!"
