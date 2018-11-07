@@ -4,7 +4,7 @@
     <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
 
-  <material name="blue">
+  <material name="march_blue">
     <color rgba="${18/255} ${98/255} ${135/255} 1.0"/>
   </material>
 
