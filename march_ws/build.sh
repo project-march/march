@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-find . -name '*.h' -or -name '*.hpp' -or -name '*.cpp' | xargs clang-format-3.8 -i -style=file $1
-
 catkin_make || exit 1
 
 # cpplinter.
@@ -14,5 +12,7 @@ catkin_lint src/*/ --ignore missing_directory --ignore literal_project_name --ig
 source devel/setup.bash || exit 1
 catkin_make run_tests && catkin_test_results || exit 1
 
-rosrun roslaunch roslaunch-check src/*/launch || exit 1
-
+for directory in src/*/launch
+do
+    rosrun roslaunch roslaunch-check $directory || exit 1
+done
