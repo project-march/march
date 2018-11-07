@@ -34,6 +34,3 @@ do
 done
 
 build_passed
-
-
-notify-send -i $PWD/walking.png "Your local build has passed!"
