@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
 <robot>
-
   <material name="black">
     <color rgba="0.0 0.0 0.0 1.0"/>
   </material>
 
   <material name="blue">
-    <color rgba="0.0 0.0 0.8 1.0"/>
+    <color rgba="${18/255} ${98/255} ${135/255} 1.0"/>
   </material>
 
   <material name="green">

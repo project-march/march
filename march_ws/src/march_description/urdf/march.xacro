@@ -39,7 +39,7 @@
       <geometry>
 	<box size="${width} ${width} ${height1}"/>
       </geometry>
-      <material name="orange"/>
+      <material name="blue"/>
     </visual>
 
     <inertial>
@@ -74,7 +74,7 @@
       <geometry>
 	<box size="${width} ${width} ${height2}"/>
       </geometry>
-      <material name="black"/>
+      <material name="orange"/>
     </visual>
 
     <inertial>
@@ -93,17 +93,6 @@
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
     </joint>
     <actuator name="motor1">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-      <mechanicalReduction>1</mechanicalReduction>
-    </actuator>
-  </transmission>
-
-  <transmission name="tran2">
-    <type>transmission_interface/SimpleTransmission</type>
-    <joint name="joint2">
-      <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-    </joint>
-    <actuator name="motor2">
       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
