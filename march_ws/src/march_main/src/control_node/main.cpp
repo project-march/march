@@ -17,9 +17,9 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
 
   ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
-  ros::Publisher joint_position_pub = n.advertise<std_msgs::Float64>(TopicNames::joint_position, 1000);
+  ros::Publisher joint_position_pub = n.advertise<std_msgs::Float64>(TopicNames::joint1_position, 1000);
 
-  ros::Rate rate(1);
+  ros::Rate rate(50);
 
   double count = 0;
   while (ros::ok())
