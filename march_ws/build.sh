@@ -2,7 +2,6 @@
 
 build_passed () {
     notify "Your local build has passed!"
-
 }
 
 
