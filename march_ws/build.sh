@@ -17,4 +17,6 @@ do
     rosrun roslaunch roslaunch-check $directory || exit 1
 done
 
-notify-send -i $PWD/walking.png "Your local build has passed!"
+if [ -x "$(command -v notify-send)" ]; then
+    notify-send -i $PWD/walking.png "Your local build has passed!"
+fi
