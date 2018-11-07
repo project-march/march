@@ -25,6 +25,7 @@
 # Travis environment variables in general.
 #
 # Author: Felix Duvallet <felixd@gmail.com>
+# Author: Project MARCH
 
 # NOTE: The build lifecycle on Travis.ci is something like this:
 #    before_install
@@ -124,5 +125,4 @@ before_script:
 # non-zero when a test fails (which notifies Travis the build failed).
 script:
 - source /opt/ros/$ROS_DISTRO/setup.bash
-- cd ~/catkin_ws/src/march-iv/march_ws
-- bash build.sh
+- bash ~/catkin_ws/src/march-iv/march_ws/build.sh
