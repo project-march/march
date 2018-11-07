@@ -10,6 +10,8 @@ static const std::string play_input = "master/play_input";
 
 static const std::string gait_status = "gait/status";
 static const std::string gait_movement = "gait/movement";
+
+static const std::string joint_position = "control/joint_position";
 };
 
 namespace ServiceNames
