@@ -14,8 +14,6 @@
 
     <!-- Import all Gazebo-customization elements, including Gazebo colors -->
     <xacro:include filename="$(find march_description)/urdf/march.gazebo"/>
-    <!-- Import Rviz colors -->
-    <xacro:include filename="$(find march_description)/urdf/materials.xacro"/>
 
     <!-- Used for fixing robot to Gazebo 'base_link' -->
     <link name="world"/>
@@ -50,11 +48,6 @@
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
     </link>
-
-
-    <gazebo reference="link1">
-        <material>march_blue</material>
-    </gazebo>
 
     <joint name="joint1" type="continuous">
         <parent link="link1"/>

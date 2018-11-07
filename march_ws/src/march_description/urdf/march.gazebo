@@ -7,4 +7,11 @@
     </plugin>
   </gazebo>
 
+  <gazebo reference="link1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="link2">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
 </robot>
