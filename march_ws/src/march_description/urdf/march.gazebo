@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<robot>
+<gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+      <robotNamespace>/march</robotNamespace>
+      <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+    </plugin>
+  </gazebo>
+
+  <gazebo reference="link1">
+    <material>Gazebo/Blue</material>
+  </gazebo>
+  <gazebo reference="link2">
+    <material>Gazebo/Orange</material>
+  </gazebo>
+
+</robot>
