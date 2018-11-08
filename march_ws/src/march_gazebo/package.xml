@@ -3,7 +3,7 @@
     <name>march_gazebo</name>
     <version>0.0.0</version>
     <description>The march_gazebo package</description>
-    <maintainer email="tech@projectmarch.nl">Project March</maintainer>
+    <maintainer email="software@projectmarch.nl">Project March</maintainer>
     <license>TODO</license>
     <buildtool_depend>catkin</buildtool_depend>
     <build_depend>gazebo_plugins</build_depend>
