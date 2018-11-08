@@ -6,8 +6,7 @@ find_package(catkin REQUIRED COMPONENTS
   robot_state_publisher
   rviz
 )
-
-
+catkin_package()
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}

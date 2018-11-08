@@ -9,7 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   march_description
   xacro
 )
-
+catkin_package()
 include_directories(
 # include
   ${catkin_INCLUDE_DIRS}
