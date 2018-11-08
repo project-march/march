@@ -21,6 +21,7 @@ add_message_files(
         GaitStatus.msg
         GaitInputMaster.msg
         PlayInputMaster.msg
+        PlotDemo.msg
 )
 add_service_files(
         FILES
