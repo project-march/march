@@ -26,6 +26,6 @@
     args="-urdf -model march -param robot_description"/>
 
   <!-- ros_control march launch file -->
-  <!--include file="$(find march_control)/launch/march_control.launch" /-->
+  <include file="$(find march_control)/launch/march_control.launch"/>
 
 </launch>
