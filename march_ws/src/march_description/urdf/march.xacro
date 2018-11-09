@@ -42,14 +42,6 @@
         <origin xyz="0 0 ${lower_leg_height+upper_leg_height}" rpy="0 0 0"/>
     </joint>
 
-    <!--<joint name="right_hip" type="revolute">-->
-        <!--<parent link="hip"/>-->
-        <!--<child link="upper_leg_right"/>-->
-        <!--<origin xyz="0 0 ${lower_leg_height+upper_leg_height}" rpy="0 0 0"/>-->
-        <!--<axis xyz="0 1 0"/>-->
-        <!--<limit velocity="${hip_velocity_limit}" effort="${hip_effort_limit}" lower="${hip_rotation_lower_limit}" upper="${hip_rotation_upper_limit}"/>-->
-    <!--</joint>-->
-
     <joint name="left_hip" type="revolute">
         <parent link="hip_bone"/>
         <child link="upper_leg_left"/>
@@ -281,15 +273,15 @@
         </inertial>
     </link>
 
-    <transmission name="left_hip">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_hip">
-            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_hip_motor">
-            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
-        </actuator>
-    </transmission>
+    <!--<transmission name="left_hip">-->
+        <!--<type>transmission_interface/SimpleTransmission</type>-->
+        <!--<joint name="left_hip">-->
+            <!--<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>-->
+        <!--</joint>-->
+        <!--<actuator name="left_hip_motor">-->
+            <!--<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>-->
+            <!--<mechanicalReduction>1</mechanicalReduction>-->
+        <!--</actuator>-->
+    <!--</transmission>-->
 
 </robot>

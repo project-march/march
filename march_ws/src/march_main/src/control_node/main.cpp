@@ -5,6 +5,7 @@
 #include "main.h"
 #include "../public/communication/TopicNames.h"
 #include <std_msgs/Float64.h>
+#include <sensor_msgs/JointState.h>
 #include <march_custom_msgs/GaitStatus.h>
 
 void gaitInputCallback(const march_custom_msgs::GaitStatus msg)
@@ -18,6 +19,7 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
   ros::Publisher left_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_hip_position, 1000);
+  ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("/joint_states", 1000);
 
   ros::Rate rate(50);
 
@@ -31,6 +33,11 @@ int main(int argc, char** argv)
     msg.data = count;
     ROS_INFO_ONCE("Publishing");
     left_hip_position_pub.publish(msg);
+
+    sensors_msgs::JointState j;
+    j.position = {1,1,1,1,1,1};
+    joint_state_pub.publish(j);
+
   }
 
   return 0;
