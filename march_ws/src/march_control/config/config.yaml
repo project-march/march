@@ -7,7 +7,7 @@ march:
 
   # Position Controllers ---------------------------------------
   # pid stands for proportional integral derivative controller
-  joint1_position_controller:
+  left_hip_position_controller:
     type: position_controllers/JointPositionController
-    joint: joint1
+    joint: left_hip
     pid: {p: 100.0, i: 0.01, d: 10.0}

@@ -17,7 +17,7 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
 
   ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
-  ros::Publisher joint_position_pub = n.advertise<std_msgs::Float64>(TopicNames::joint1_position, 1000);
+  ros::Publisher left_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_hip_position, 1000);
 
   ros::Rate rate(50);
 
@@ -27,9 +27,10 @@ int main(int argc, char** argv)
     rate.sleep();
     ros::spinOnce();
     std_msgs::Float64 msg;
-    count += 0.1;
-    msg.data = std::sin(count);
-    joint_position_pub.publish(msg);
+    count += std::sin(0.1);
+    msg.data = count;
+    ROS_INFO_ONCE("Publishing");
+    left_hip_position_pub.publish(msg);
   }
 
   return 0;

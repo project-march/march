@@ -28,4 +28,7 @@
   <!-- ros_control march launch file -->
   <include file="$(find march_control)/launch/march_control.launch"/>
 
+  <node name="control_node" pkg="march_main" type="control_node" output="screen"/>
+
+
 </launch>
