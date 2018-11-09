@@ -36,7 +36,7 @@
     <!-- Used for fixing robot to Gazebo 'base_link' -->
     <link name="world"/>
 
-    <joint name="hip" type="fixed">
+    <joint name="hip" type="floating">
         <parent link="world"/>
         <child link="hip_bone"/>
         <origin xyz="0 0 ${lower_leg_height+upper_leg_height}" rpy="0 0 0"/>
