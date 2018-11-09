@@ -4,7 +4,7 @@
 
     <!-- Constants for robot dimensions -->
     <xacro:property name="PI" value="3.1415926535897931"/>
-    <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
+    <xacro:property name="mass" value="100"/> <!-- arbitrary value for mass -->
     <xacro:property name="width" value="0.1"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="upper_leg_height" value="${0.37*3}"/>
@@ -12,20 +12,20 @@
     <xacro:property name="foot_height" value="${0.14*3}"/>
     <xacro:property name="hip_height" value="1"/>
 
-    <xacro:property name="hip_rotation_lower_limit" value="${0*pi/180}"/>
-    <xacro:property name="hip_rotation_upper_limit" value="${30*pi/180}"/>
-    <xacro:property name="hip_effort_limit" value="100.0"/>
-    <xacro:property name="hip_velocity_limit" value="10.0"/>
+    <xacro:property name="hip_rotation_lower_limit" value="${-100*pi/180}"/>
+    <xacro:property name="hip_rotation_upper_limit" value="${90*pi/180}"/>
+    <xacro:property name="hip_effort_limit" value="1000.0"/>
+    <xacro:property name="hip_velocity_limit" value="1000.0"/>
 
-    <xacro:property name="knee_rotation_lower_limit" value="${-50*pi/180}"/>
-    <xacro:property name="knee_rotation_upper_limit" value="${0*pi/180}"/>
-    <xacro:property name="knee_effort_limit" value="100.0"/>
-    <xacro:property name="knee_velocity_limit" value="10.0"/>
+    <xacro:property name="knee_rotation_lower_limit" value="${-90*pi/180}"/>
+    <xacro:property name="knee_rotation_upper_limit" value="${90*pi/180}"/>
+    <xacro:property name="knee_effort_limit" value="1000.0"/>
+    <xacro:property name="knee_velocity_limit" value="1000.0"/>
 
-    <xacro:property name="ankle_rotation_lower_limit" value="${0*pi/180}"/>
-    <xacro:property name="ankle_rotation_upper_limit" value="${30*pi/180}"/>
-    <xacro:property name="ankle_effort_limit" value="100.0"/>
-    <xacro:property name="ankle_velocity_limit" value="10.0"/>
+    <xacro:property name="ankle_rotation_lower_limit" value="${-50*pi/180}"/>
+    <xacro:property name="ankle_rotation_upper_limit" value="${90*pi/180}"/>
+    <xacro:property name="ankle_effort_limit" value="1000.0"/>
+    <xacro:property name="ankle_velocity_limit" value="1000.0"/>
 
     <xacro:property name="camera_link" value="0.05"/> <!-- Size of square 'camera' box -->
     <xacro:property name="axel_offset" value="0.05"/> <!-- Space btw top of beam and the each joint -->
@@ -54,7 +54,7 @@
         <parent link="upper_leg_left"/>
         <child link="lower_leg_left"/>
         <origin xyz="0 0 ${-upper_leg_height}" rpy="0 0 0"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 -1 0"/>
         <limit velocity="${knee_velocity_limit}" effort="${knee_effort_limit}" lower="${knee_rotation_lower_limit}" upper="${knee_rotation_upper_limit}"/>
     </joint>
 
@@ -78,7 +78,7 @@
         <parent link="upper_leg_right"/>
         <child link="lower_leg_right"/>
         <origin xyz="0 0 ${-upper_leg_height}" rpy="0 0 0"/>
-        <axis xyz="0 1 0"/>
+        <axis xyz="0 -1 0"/>
         <limit velocity="${knee_velocity_limit}" effort="${knee_effort_limit}" lower="${knee_rotation_lower_limit}" upper="${knee_rotation_upper_limit}"/>
     </joint>
 
@@ -273,15 +273,70 @@
         </inertial>
     </link>
 
-    <!--<transmission name="left_hip">-->
-        <!--<type>transmission_interface/SimpleTransmission</type>-->
-        <!--<joint name="left_hip">-->
-            <!--<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>-->
-        <!--</joint>-->
-        <!--<actuator name="left_hip_motor">-->
-            <!--<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>-->
-            <!--<mechanicalReduction>1</mechanicalReduction>-->
-        <!--</actuator>-->
-    <!--</transmission>-->
+    <transmission name="left_hip">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_hip">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_hip_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="left_knee">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_knee">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_knee_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="left_ankle">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_ankle">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_ankle_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_hip">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_hip">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_hip_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_knee">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_knee">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_knee_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_ankle">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_ankle">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_ankle_motor">
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
 
 </robot>

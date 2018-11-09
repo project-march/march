@@ -11,3 +11,28 @@ march:
     type: position_controllers/JointPositionController
     joint: left_hip
     pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  left_knee_position_controller:
+    type: position_controllers/JointPositionController
+    joint: left_knee
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  left_ankle_position_controller:
+    type: position_controllers/JointPositionController
+    joint: left_ankle
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  right_hip_position_controller:
+    type: position_controllers/JointPositionController
+    joint: right_hip
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  right_knee_position_controller:
+    type: position_controllers/JointPositionController
+    joint: right_knee
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+
+  right_ankle_position_controller:
+    type: position_controllers/JointPositionController
+    joint: right_ankle
+    pid: {p: 100.0, i: 0.01, d: 10.0}
