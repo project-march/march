@@ -14,6 +14,14 @@
 
 void gaitInputCallback(const march_custom_msgs::GaitStatus msg)
 {
+  ROS_INFO("received gait movement message of gait %s", msg.gait_name.c_str());
+}
+
+std_msgs::Float64 createMsg(float data)
+{
+  std_msgs::Float64 msg;
+  msg.data = data;
+  return msg;
 }
 
 int main(int argc, char** argv)
@@ -23,6 +31,11 @@ int main(int argc, char** argv)
 
   ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
   ros::Publisher left_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_hip_position, 1000);
+  ros::Publisher left_knee_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_knee_position, 1000);
+  ros::Publisher left_ankle_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_ankle_position, 1000);
+  ros::Publisher right_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::right_hip_position, 1000);
+  ros::Publisher right_knee_position_pub = n.advertise<std_msgs::Float64>(TopicNames::right_knee_position, 1000);
+  ros::Publisher right_ankle_position_pub = n.advertise<std_msgs::Float64>(TopicNames::right_ankle_position, 1000);
   ros::Publisher joint_state_pub = n.advertise<sensor_msgs::JointState>("/march/joint_states", 1000);
 
   ros::Rate rate(100);
@@ -46,27 +59,31 @@ int main(int argc, char** argv)
     rate.sleep();
     ros::spinOnce();
 
-
-    if (std::getline(file, line)) {
+    if (std::getline(file, line))
+    {
       std::vector<std::string> strs;
       boost::split(strs, line, boost::is_any_of("~"));
 
       sensor_msgs::JointState jointState;
-      jointState.position = {stof(strs.at(0)),
-                             stof(strs.at(1)),
-                             stof(strs.at(2)),
-                             stof(strs.at(3)),
-                             stof(strs.at(4)),
-                             stof(strs.at(5))
-      };
+      jointState.position =
+          {
+          stof(strs.at(0)), stof(strs.at(1)), stof(strs.at(2)),
+                              stof(strs.at(3)), stof(strs.at(4)), stof(strs.at(5))
+          };
 
+      left_hip_position_pub.publish(createMsg(stof(strs.at(0))));
+      left_knee_position_pub.publish(createMsg(stof(strs.at(1))));
+      left_ankle_position_pub.publish(createMsg(stof(strs.at(2))));
+      right_hip_position_pub.publish(createMsg(stof(strs.at(3))));
+      right_knee_position_pub.publish(createMsg(stof(strs.at(4))));
+      right_ankle_position_pub.publish(createMsg(stof(strs.at(5))));
 
       counter += 0.01;
       std_msgs::Header header;
       header.stamp = ros::Time::now();
       jointState.header = header;
-//      jointState.name = {"left_hip", "left_knee", "left_ankle", "right_hip", "right_knee", "right_ankle"};
-      jointState.name = {"right_hip", "left_hip", "right_knee", "left_knee", "right_ankle", "left_ankle"};
+      //      jointState.name = {"left_hip", "left_knee", "left_ankle", "right_hip", "right_knee", "right_ankle"};
+      jointState.name = { "right_hip", "left_hip", "right_knee", "left_knee", "right_ankle", "left_ankle" };
       joint_state_pub.publish(jointState);
     }
   }

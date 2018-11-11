@@ -12,7 +12,12 @@ static const std::string gait_status = "gait/status";
 static const std::string gait_movement = "gait/movement";
 
 static const std::string left_hip_position = "march/left_hip_position_controller/command";
-};
+static const std::string left_knee_position = "march/left_knee_position_controller/command";
+static const std::string left_ankle_position = "march/left_ankle_position_controller/command";
+static const std::string right_hip_position = "march/right_hip_position_controller/command";
+static const std::string right_knee_position = "march/right_knee_position_controller/command";
+static const std::string right_ankle_position = "march/right_ankle_position_controller/command";
+};  // namespace TopicNames
 
 namespace ServiceNames
 {
