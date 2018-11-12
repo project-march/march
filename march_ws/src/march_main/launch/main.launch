@@ -6,7 +6,6 @@
     <node name="developer_input_node" pkg="march_main" type="developer_input_node" output="screen"/>
     <node name="datalogger_node" pkg="march_main" type="datalogger_node" output="screen"/>
     <node name="gait_node" pkg="march_main" type="gait_node" output="screen"/>
-    <node name="control_node" pkg="march_control" type="control_node" output="screen"/>
     <node name="sensor_node" pkg="march_main" type="sensor_node" output="screen"/>
 
 </launch>

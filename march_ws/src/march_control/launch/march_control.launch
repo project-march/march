@@ -20,4 +20,7 @@
     <remap from="/joint_states" to="/march/joint_states" />
   </node>
 
+  <node name="control_node" pkg="march_control" type="control_node" output="screen"/>
+
+
 </launch>
