@@ -10,6 +10,8 @@
 #include <fstream>
 #include <iostream>
 
+#include <ros/package.h>
+
 #include <boost/algorithm/string.hpp>
 
 void gaitInputCallback(const march_custom_msgs::GaitStatus msg)
@@ -39,7 +41,10 @@ int main(int argc, char** argv)
 
   ros::Rate rate(100);
 
-  std::string path = "/home/projectmarch/march-iv/march_ws/src/march_control/src/control_node/left_leg.txt";
+  std::string package_path = ros::package::getPath("march_control");
+  ROS_INFO_STREAM(package_path);
+
+  std::string path = package_path + "/src/control_node/left_leg.txt";
   ROS_INFO_STREAM(path);
 
   std::ifstream file(path);
