@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 
   ros::Rate rate(100);
 
-  std::string path = "~/home/projectmarch/march-iv/march_ws/src/march_control/src/control_node/walking.txt";
+  std::string path = "/home/projectmarch/march-iv/march_ws/src/march_control/src/control_node/left_leg.txt";
   ROS_INFO_STREAM(path);
 
   std::ifstream file(path);
