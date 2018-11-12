@@ -7,10 +7,10 @@
     </plugin>
   </gazebo>
 
-  <gazebo reference="link1">
+  <gazebo reference="right_knee">
     <material>Gazebo/Blue</material>
   </gazebo>
-  <gazebo reference="link2">
+  <gazebo reference="left_knee">
     <material>Gazebo/Orange</material>
   </gazebo>
 

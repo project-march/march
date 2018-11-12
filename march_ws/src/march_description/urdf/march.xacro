@@ -27,6 +27,8 @@
     <xacro:property name="ankle_effort_limit" value="1000.0"/>
     <xacro:property name="ankle_velocity_limit" value="1000.0"/>
 
+    <xacro:property name="hover_height" value="0.3"/>
+
     <xacro:property name="camera_link" value="0.05"/> <!-- Size of square 'camera' box -->
     <xacro:property name="axel_offset" value="0.05"/> <!-- Space btw top of beam and the each joint -->
 
@@ -36,10 +38,10 @@
     <!-- Used for fixing robot to Gazebo 'base_link' -->
     <link name="world"/>
 
-    <joint name="hip" type="floating">
+    <joint name="hip" type="fixed">
         <parent link="world"/>
         <child link="hip_bone"/>
-        <origin xyz="0 0 ${lower_leg_height+upper_leg_height}" rpy="0 0 0"/>
+        <origin xyz="0 0 ${lower_leg_height+upper_leg_height+hover_height}" rpy="0 0 0"/>
     </joint>
 
     <joint name="left_hip" type="revolute">
@@ -272,6 +274,10 @@
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
     </link>
+
+
+    <!-- ROS Control plugin for Gazebo -->
+
 
     <transmission name="left_hip">
         <type>transmission_interface/SimpleTransmission</type>

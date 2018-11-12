@@ -18,6 +18,7 @@
     <depend>nav_msgs</depend>
     <depend>rqt_gui</depend>
     <depend>march_custom_msgs</depend>
+    <depend>march_control</depend>
     <exec_depend>rviz</exec_depend>
     <exec_depend>message_runtime</exec_depend>
 
