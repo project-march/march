@@ -14,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
         CATKIN_DEPENDS march_custom_msgs effort_controllers
-
 )
 include_directories(
         # include
