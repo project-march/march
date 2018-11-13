@@ -17,21 +17,14 @@
     <arg name="headless" value="$(arg headless)"/>
   </include>
 
-  <!-- Load the URDF into the ROS Parameter Server -->
-  <param name="robot_description"
-    command="$(find xacro)/xacro --inorder '$(find march_description)/urdf/march.xacro'" />
 
   <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
     args="-urdf -model march -param robot_description"/>
 
-  <!-- ros_control march launch file -->
-  <include file="$(find march_control)/launch/march_control.launch"/>
-
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <rosparam param="source_list">["/march/joint_states"]</rosparam>
     <rosparam param="publish_default_positions">False</rosparam>
   </node>
-  <node name="rviz" pkg="rviz" type="rviz"/>
 
 </launch>

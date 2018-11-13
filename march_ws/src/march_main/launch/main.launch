@@ -1,6 +1,16 @@
 <launch>
 
-    <include file="$(find march_main)/launch/rqt.launch"/>
+
+    <!-- Load the URDF of the exoskeleton in the ROS parameter server.-->
+    <include file="$(find march_description)/launch/load_description.launch"/>
+
+    <!-- OPTIONAL: Launch the rqt plugins that allow for easy debugging.-->
+    <!--<include file="$(find march_main)/launch/rqt.launch"/>-->
+
+    <!-- Load the rviz plugin which visualizes the actual position of the exoskeleton.-->
+    <node name="rviz" pkg="rviz" type="rviz"/>
+    <!-- Launch the control node.-->
+    <include file="$(find march_control)/launch/march_control.launch"/>
 
     <node name="master_node" pkg="march_main" type="master_node" output="screen"/>
     <node name="developer_input_node" pkg="march_main" type="developer_input_node" output="screen"/>

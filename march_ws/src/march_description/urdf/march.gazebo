@@ -6,12 +6,4 @@
       <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
     </plugin>
   </gazebo>
-
-  <gazebo reference="right_knee">
-    <material>Gazebo/Blue</material>
-  </gazebo>
-  <gazebo reference="left_knee">
-    <material>Gazebo/Orange</material>
-  </gazebo>
-
 </robot>
