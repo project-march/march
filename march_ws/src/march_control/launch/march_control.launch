@@ -3,7 +3,7 @@
   <!-- Load joint controller configurations from YAML file to parameter server -->
   <rosparam file="$(find march_control)/config/config.yaml" command="load"/>
 
-  <!-- load the controllers -->
+  <!-- Load the joint controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
 	output="screen" ns="/march" args="
 	left_hip_position_controller

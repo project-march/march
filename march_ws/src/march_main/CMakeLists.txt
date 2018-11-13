@@ -7,12 +7,15 @@ project(march_main)
 find_package(catkin REQUIRED COMPONENTS
         march_custom_msgs
         march_control
+        march_description
+        march_gazebo
         message_generation
         nav_msgs
         roscpp
         roslint
         rostest
         rqt_gui
+        rviz
         std_msgs
         sensor_msgs
         )
@@ -22,7 +25,16 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         # INCLUDE_DIRS include
         # LIBRARIES aseia
-        CATKIN_DEPENDS nav_msgs march_custom_msgs message_runtime roscpp std_msgs rqt_gui sensor_msgs march_control
+        CATKIN_DEPENDS
+        nav_msgs
+        march_custom_msgs
+        message_runtime
+        roscpp
+        std_msgs
+        rqt_gui
+        sensor_msgs
+        march_control
+
         # DEPENDS aseia
 )
 

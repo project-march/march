@@ -68,7 +68,7 @@ int main(int argc, char** argv)
       std::vector<std::string> strs;
       boost::split(strs, line, boost::is_any_of("~"));
 
-      ROS_INFO_STREAM(stof(strs.at(0)));
+//      ROS_INFO_STREAM(stof(strs.at(0)));
 
       left_hip_position_pub.publish(createMsg(stof(strs.at(0))));
       left_knee_position_pub.publish(createMsg(stof(strs.at(1))));

@@ -24,9 +24,6 @@
     <exec_depend>march_control</exec_depend>
     <exec_depend>march_description</exec_depend>
     <exec_depend>xacro</exec_depend>
-    <depend>march_main</depend>
-    <depend>rviz</depend>
-    <depend>joint_state_publisher</depend>
     <export>
     </export>
 </package>

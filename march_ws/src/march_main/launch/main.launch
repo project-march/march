@@ -7,8 +7,12 @@
     <!-- OPTIONAL: Launch the rqt plugins that allow for easy debugging.-->
     <!--<include file="$(find march_main)/launch/rqt.launch"/>-->
 
-    <!-- Load the rviz plugin which visualizes the actual position of the exoskeleton.-->
+    <!-- OPTIONAL: Load the rviz plugin which visualizes the actual position of the exoskeleton.-->
     <node name="rviz" pkg="rviz" type="rviz"/>
+
+    <!-- Launch the gazebo simulation.-->
+    <include file="$(find march_gazebo)/launch/march_world.launch"/>
+
     <!-- Launch the control node.-->
     <include file="$(find march_control)/launch/march_control.launch"/>
 

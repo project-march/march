@@ -19,7 +19,9 @@
     <depend>rqt_gui</depend>
     <depend>march_custom_msgs</depend>
     <depend>march_control</depend>
-    <exec_depend>rviz</exec_depend>
+    <depend>march_description</depend>
+    <depend>march_gazebo</depend>
+    <depend>rviz</depend>
     <exec_depend>message_runtime</exec_depend>
 
 </package>
