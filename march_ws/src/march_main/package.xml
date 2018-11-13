@@ -14,10 +14,14 @@
     <build_depend>roslint</build_depend>
     <depend>roscpp</depend>
     <depend>std_msgs</depend>
+    <depend>sensor_msgs</depend>
     <depend>nav_msgs</depend>
     <depend>rqt_gui</depend>
     <depend>march_custom_msgs</depend>
-    <exec_depend>rviz</exec_depend>
+    <depend>march_control</depend>
+    <depend>march_description</depend>
+    <depend>march_gazebo</depend>
+    <depend>rviz</depend>
     <exec_depend>message_runtime</exec_depend>
 
 </package>

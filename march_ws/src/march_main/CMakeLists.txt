@@ -6,13 +6,18 @@ project(march_main)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
         march_custom_msgs
+        march_control
+        march_description
+        march_gazebo
         message_generation
         nav_msgs
         roscpp
         roslint
         rostest
         rqt_gui
+        rviz
         std_msgs
+        sensor_msgs
         )
 
 add_definitions(-std=c++11 -Wall -g)
@@ -20,7 +25,16 @@ add_definitions(-std=c++11 -Wall -g)
 catkin_package(
         # INCLUDE_DIRS include
         # LIBRARIES aseia
-        CATKIN_DEPENDS nav_msgs march_custom_msgs message_runtime roscpp std_msgs rqt_gui
+        CATKIN_DEPENDS
+        nav_msgs
+        march_custom_msgs
+        message_runtime
+        roscpp
+        std_msgs
+        rqt_gui
+        sensor_msgs
+        march_control
+
         # DEPENDS aseia
 )
 
@@ -74,10 +88,6 @@ target_link_libraries(datalogger_node ${catkin_LIBRARIES})
 add_executable(gait_node src/gait_node/main.cpp)
 add_dependencies(gait_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gait_node ${catkin_LIBRARIES})
-
-add_executable(control_node src/control_node/main.cpp)
-add_dependencies(control_node ${catkin_EXPORTED_TARGETS})
-target_link_libraries(control_node ${catkin_LIBRARIES})
 
 add_executable(sensor_node src/sensor_node/main.cpp src/sensor_node/main.h)
 add_dependencies(sensor_node ${catkin_EXPORTED_TARGETS})
