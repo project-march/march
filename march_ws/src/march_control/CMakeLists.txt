@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_control)
 
-
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -15,7 +14,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_package(
         CATKIN_DEPENDS march_custom_msgs effort_controllers
-
 )
 include_directories(
         # include
