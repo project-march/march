@@ -22,7 +22,7 @@ void gaitInputCallback(const march_custom_msgs::GaitStatus msg)
 std_msgs::Float64 createMsg(float data)
 {
   std_msgs::Float64 msg;
-  msg.data = data*1;
+  msg.data = data * 1;
   return msg;
 }
 
@@ -68,7 +68,7 @@ int main(int argc, char** argv)
       std::vector<std::string> strs;
       boost::split(strs, line, boost::is_any_of("~"));
 
-//      ROS_INFO_STREAM(stof(strs.at(0)));
+      //      ROS_INFO_STREAM(stof(strs.at(0)));
 
       left_hip_position_pub.publish(createMsg(stof(strs.at(0))));
       left_knee_position_pub.publish(createMsg(stof(strs.at(1))));
@@ -76,8 +76,17 @@ int main(int argc, char** argv)
       right_hip_position_pub.publish(createMsg(stof(strs.at(3))));
       right_knee_position_pub.publish(createMsg(stof(strs.at(4))));
       right_ankle_position_pub.publish(createMsg(stof(strs.at(5))));
-
+    }
+    else
+    {
       counter += 0.01;
+
+      left_hip_position_pub.publish(createMsg(std::sin(counter)));
+      left_knee_position_pub.publish(createMsg(std::sin(counter)));
+      left_ankle_position_pub.publish(createMsg(std::sin(counter)));
+      right_hip_position_pub.publish(createMsg(std::cos(counter)));
+      right_knee_position_pub.publish(createMsg(std::cos(counter)));
+      right_ankle_position_pub.publish(createMsg(std::cos(counter)));
     }
   }
 
