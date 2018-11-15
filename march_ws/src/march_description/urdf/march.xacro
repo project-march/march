@@ -5,12 +5,12 @@
     <!-- Constants for robot dimensions -->
     <xacro:property name="PI" value="3.1415926535897931"/>
     <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
-    <xacro:property name="width" value="0.1"/> <!-- Square dimensions (widthxwidth) of beams -->
+    <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
-    <xacro:property name="upper_leg_height" value="${0.37*3}"/>
-    <xacro:property name="lower_leg_height" value="${0.41*3}"/>
-    <xacro:property name="foot_height" value="${0.14*3}"/>
-    <xacro:property name="hip_height" value="1"/>
+    <xacro:property name="upper_leg_height" value="${0.37*1}"/>
+    <xacro:property name="lower_leg_height" value="${0.41*1}"/>
+    <xacro:property name="foot_height" value="${0.14*1}"/>
+    <xacro:property name="hip_height" value="0.3"/>
 
     <xacro:property name="hip_rotation_lower_limit" value="${-100*pi/180}"/>
     <xacro:property name="hip_rotation_upper_limit" value="${90*pi/180}"/>
