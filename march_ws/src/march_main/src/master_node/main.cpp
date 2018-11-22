@@ -52,9 +52,7 @@ int main(int argc, char** argv)
   float counter = 0;
   while (ros::ok())
   {
-    march_custom_msgs::GaitInputMaster msg;
-    msg.gait_name = "Walking";
-    gait_input_pub.publish(msg);
+
 
     march_custom_msgs::PlotDemo demo;
     demo.sin = 100 * sin(counter);

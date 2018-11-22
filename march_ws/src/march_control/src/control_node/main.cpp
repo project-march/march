@@ -13,10 +13,7 @@
 #include <ros/package.h>
 
 #include <boost/algorithm/string.hpp>
-
-void gaitInputCallback(const march_custom_msgs::GaitStatus msg) {
-    ROS_INFO("received gait movement message of gait %s", msg.gait_name.c_str());
-}
+#include <march_custom_msgs/GaitInputMaster.h>
 
 std_msgs::Float64 createMsg(float data) {
     std_msgs::Float64 msg;
@@ -43,10 +40,8 @@ void publishPositions(std::vector<std::string> pos) {
 
 
 void playGaitFile(const std::string &fileName, ros::Rate rate) {
-    ROS_WARN_STREAM(fileName);
 
     std::string package_path = ros::package::getPath("march_control");
-    ROS_WARN_STREAM(package_path);
 
     std::string path = package_path + "/src/control_node/gaits/" + fileName;
 
@@ -74,21 +69,29 @@ void playGaitFile(const std::string &fileName, ros::Rate rate) {
     }
 }
 
-void playWalkingAnimation(ros::Rate rate) {
-    playGaitFile("left_leg.txt", rate);
-    playGaitFile("left_leg.txt", rate);
-    playGaitFile("right_swing.txt", rate);
-    playGaitFile("left_swing.txt", rate);
-    playGaitFile("right_swing.txt", rate);
+void playWalkingAnimation(ros::Rate rate, int repeat) {
+    playGaitFile("right_step_open.txt", rate);
+
+    for(int i = 0; i<repeat; i++){
+        playGaitFile("left_swing.txt", rate);
+        playGaitFile("right_swing.txt", rate);
+    }
     playGaitFile("left_step_close.txt", rate);
 
+}
+
+void gaitInputCallback(const march_custom_msgs::GaitInputMaster msg) {
+    std::string name = msg.gait_name.c_str();
+    int repeat = msg.repeat;
+    ROS_INFO_STREAM("received gait movement message of gait" + name);
+    playWalkingAnimation(ros::Rate(200), repeat);
 }
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "control_node");
     ros::NodeHandle n;
 
-    ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_movement, 1000, gaitInputCallback);
+    ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_input, 1000, gaitInputCallback);
     left_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_hip_position, 1000);
     left_knee_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_knee_position, 1000);
     left_ankle_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_ankle_position, 1000);
@@ -100,7 +103,12 @@ int main(int argc, char **argv) {
     std::string package_path = ros::package::getPath("march_control");
     ROS_INFO_STREAM(package_path);
 
-    playWalkingAnimation(rate);
+    playWalkingAnimation(rate, 1);
+
+    while (ros::ok()) {
+        rate.sleep();
+        ros::spinOnce();
+    }
 
     return 0;
 }
