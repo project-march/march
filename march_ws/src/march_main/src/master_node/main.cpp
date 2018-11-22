@@ -52,8 +52,6 @@ int main(int argc, char** argv)
   float counter = 0;
   while (ros::ok())
   {
-
-
     march_custom_msgs::PlotDemo demo;
     demo.sin = 100 * sin(counter);
     demo.cos = 80 * cos(0.2 * counter);
