@@ -39,31 +39,5 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "master_node");
   ros::NodeHandle n;
 
-  ros::Publisher gait_input_pub = n.advertise<march_custom_msgs::GaitInputMaster>(TopicNames::gait_input, 1000);
-  ros::Publisher play_input_pub = n.advertise<march_custom_msgs::PlayInputMaster>(TopicNames::play_input, 1000);
-  ros::Publisher plot_demo_pub = n.advertise<march_custom_msgs::PlotDemo>("PlotDemo", 1000);
-
-  ros::Subscriber sub_gait_status = n.subscribe(TopicNames::gait_status, 1000, gaitStatusCallback);
-
-  ros::ServiceServer gait_input_service = n.advertiseService(ServiceNames::play_input, play_input_callback);
-  ros::ServiceServer play_input_service = n.advertiseService(ServiceNames::gait_input, gait_input_callback);
-
-  ros::Rate rate(100);
-  float counter = 0;
-  while (ros::ok())
-  {
-    march_custom_msgs::GaitInputMaster msg;
-    msg.gait_name = "Walking";
-    gait_input_pub.publish(msg);
-
-    march_custom_msgs::PlotDemo demo;
-    demo.sin = 100 * sin(counter);
-    demo.cos = 80 * cos(0.2 * counter);
-    plot_demo_pub.publish(demo);
-    counter += 0.01;
-    rate.sleep();
-    ros::spinOnce();
-  }
-
   return 0;
 }

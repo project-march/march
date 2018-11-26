@@ -5,24 +5,22 @@
 #include <string>
 namespace TopicNames
 {
-static const std::string gait_input = "master/gait_input";
-static const std::string play_input = "master/play_input";
-
-static const std::string gait_status = "gait/status";
-static const std::string gait_movement = "gait/movement";
-
-static const std::string left_hip_position = "march/left_hip_position_controller/command";
-static const std::string left_knee_position = "march/left_knee_position_controller/command";
-static const std::string left_ankle_position = "march/left_ankle_position_controller/command";
-static const std::string right_hip_position = "march/right_hip_position_controller/command";
-static const std::string right_knee_position = "march/right_knee_position_controller/command";
-static const std::string right_ankle_position = "march/right_ankle_position_controller/command";
+const char * const gait_input = "master/gait_input";
+const char * const play_input = "master/play_input";
+const char * const gait_status = "gait/status";
+const char * const gait_movement = "gait/movement";
+const char * const left_hip_position = "march/left_hip_position_controller/command";
+const char * const left_knee_position = "march/left_knee_position_controller/command";
+const char * const left_ankle_position = "march/left_ankle_position_controller/command";
+const char * const right_hip_position = "march/right_hip_position_controller/command";
+const char * const right_knee_position = "march/right_knee_position_controller/command";
+const char * const right_ankle_position = "march/right_ankle_position_controller/command";
 };  // namespace TopicNames
 
 namespace ServiceNames
 {
-static const std::string gait_input = "input/gait_input";
-static const std::string play_input = "input/play_input";
+const char * const service_prefix = "march/";
+const char * const validation = "march/launch_validation";
 };
 
 #endif  // MARCH_MAIN_TOPICNAMES_H
