@@ -4,7 +4,6 @@ import smach
 import smach_ros
 from march_api.srv import Trigger
 
-
 class Config(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['succeeded', 'failed'])

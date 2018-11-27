@@ -20,10 +20,21 @@ find_package(catkin REQUIRED COMPONENTS
 add_definitions(-std=c++11 -Wall -g)
 
 
+add_message_files(
+        FILES
+        Gait.msg
+        GaitStatus.msg
+        GaitInputMaster.msg
+        PlayInputMaster.msg
+)
 
-add_service_files(FILES
+add_service_files(
+        FILES
+        GaitInstruction.srv
+        GaitInput.srv
+        PlayInput.srv
         Trigger.srv
-        )
+)
 
 generate_messages(
         DEPENDENCIES
@@ -83,7 +94,6 @@ add_dependencies(api_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(api_node ${catkin_LIBRARIES})
 
 
-
 #############
 ## Testing ##
 #############
@@ -92,10 +102,10 @@ target_link_libraries(api_node ${catkin_LIBRARIES})
 if (CATKIN_ENABLE_TESTING)
     #    rostest is already imported earlier
     #    find_package(rostest REQUIRED)
-#    add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test
-#            test/cube_test.cpp
-#            )
-#    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_api)
+    #    add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test
+    #            test/cube_test.cpp
+    #            )
+    #    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_api)
 endif ()
 
 ## Add folders to be run by python nosetests
