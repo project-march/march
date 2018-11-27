@@ -2,42 +2,9 @@
 
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
-#include "../Validator.h"
 #include "march_api/Trigger.h"
-
-
-bool validator(march_api::Trigger::Request &request,
-                       march_api::Trigger::Response &response)
-{
-    ROS_INFO("URDF validator called");
-
-    /**
-     * TODO lookup folder with all URDF files.
-     * Loop through all files and perfows the check for each file
-     */
-
-    Result urdf = Validator::checkURDF("dummy_file");
-    if (!urdf.success) {
-        ROS_WARN("Invalid URDF");
-        response.success = false;
-        response.message = urdf.message;
-        return true;
-    }
-    ROS_INFO("Hardware validator called");
-
-    Result hardware = Validator::checkHardware();
-    if (!hardware.success) {
-        ROS_WARN("Invalid Hardware");
-        response.success = false;
-        response.message = hardware.message;
-        return true;
-    }
-
-    response.success = true;
-    response.message = "All validations passed!";
-    return true;
-}
-
+#include "../common/communication/TopicNames.h"
+#include "LaunchAPI.cpp"
 
 int main(int argc, char** argv)
 {
@@ -46,7 +13,9 @@ int main(int argc, char** argv)
     ros::init(argc, argv, "api_node");
     ros::NodeHandle n;
 
-    ros::ServiceServer xml_validator = n.advertiseService("march/launch_validation", validator);
+    ros::ServiceServer config_validator = n.advertiseService(ServiceNames::config_validation, LaunchAPI::config_validator);
+    ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
+    ros::ServiceServer urdf_validator = n.advertiseService(ServiceNames::urdf_validation, LaunchAPI::urdf_validator);
 
     ROS_INFO("Success!");
     ros::Rate rate(100);

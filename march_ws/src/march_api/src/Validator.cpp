@@ -9,7 +9,12 @@ Result Validator::checkURDF(std::string fileName) {
     return Result(true, "The URDF is valid.");
 }
 
-Result Validator::checkHardware() {
+Result Validator::checkXml() {
 //    TODO implement
-    return Result(true, "The Hardware is valid.");
+    return Result(true, "The xml is valid.");
+}
+
+Result Validator::checkConfig() {
+//    TODO implement
+    return Result(true, "The config is valid.");
 }

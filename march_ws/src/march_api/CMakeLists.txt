@@ -69,7 +69,7 @@ set(sourcefiles
 # )
 
 
-#add_library(march_api ${sourcefiles})
+add_library(march_api ${sourcefiles})
 
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")

@@ -17,7 +17,9 @@ public:
      * @return True if the URDF files are configured correctly, False if they are not.
      */
     static Result checkURDF(std::string fileName);
-    static Result checkHardware();
+    static Result checkConfig();
+    static Result checkXml();
+    
 
 };
 
