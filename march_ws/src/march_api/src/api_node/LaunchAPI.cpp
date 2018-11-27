@@ -1,6 +1,4 @@
-//
-// Created by ishadijcks on 27-11-18.
-//
+// Copyright 2018 Project March.
 
 #include "LaunchAPI.h"
 #include "../Validator.h"

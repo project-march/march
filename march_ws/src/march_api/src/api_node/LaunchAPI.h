@@ -1,6 +1,4 @@
-//
-// Created by ishadijcks on 27-11-18.
-//
+// Copyright 2018 Project March.
 
 #ifndef PROJECT_LAUNCH_API_H
 #define PROJECT_LAUNCH_API_H

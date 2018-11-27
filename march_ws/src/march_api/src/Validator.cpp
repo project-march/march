@@ -1,23 +1,21 @@
-//
-// Created by ishadijcks on 26-11-18.
-//
-#include <random>
+// Copyright 2018 Project March.
+
 #include "Validator.h"
 
 Result Validator::checkURDF(std::string fileName)
 {
-  //    TODO implement
+// TODO(software) implement
   return Result(true, "The URDF is valid.");
 }
 
 Result Validator::checkXml()
 {
-  //    TODO implement
+// TODO(software) implement
   return Result(true, "The xml is valid.");
 }
 
 Result Validator::checkConfig()
 {
-  //    TODO implement
+// TODO(software) implement
   return Result(true, "The config is valid.");
 }

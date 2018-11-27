@@ -5,12 +5,12 @@ project(march_api)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-        march_custom_msgs
         march_control
         message_generation
+        message_runtime
         roscpp
-        rospy
         roslint
+        rospy
         rostest
         rqt_gui
         rviz
@@ -23,15 +23,15 @@ add_definitions(-std=c++11 -Wall -g)
 add_message_files(
         FILES
         Gait.msg
-        GaitStatus.msg
         GaitInputMaster.msg
+        GaitStatus.msg
         PlayInputMaster.msg
 )
 
 add_service_files(
         FILES
-        GaitInstruction.srv
         GaitInput.srv
+        GaitInstruction.srv
         PlayInput.srv
         Trigger.srv
 )
@@ -45,15 +45,10 @@ generate_messages(
 catkin_package(
         # INCLUDE_DIRS include
         # LIBRARIES aseia
-        CATKIN_DEPENDS
-        march_custom_msgs
-        march_control
+         CATKIN_DEPENDS
+        message_runtime
         roscpp
-        rospy
-        rqt_gui
         std_msgs
-
-        # DEPENDS aseia
 )
 
 ## Specify additional locations of header files
@@ -61,13 +56,11 @@ catkin_package(
 include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
-        src/api_node/main.cpp
         src/Validator.cpp
         src/Validator.h
+        src/api_node/main.cpp
 
         )
-# )
-
 
 add_library(march_api ${sourcefiles})
 
@@ -86,8 +79,8 @@ roslint_cpp(${lintfiles})
 ## as an example, message headers may need to be generated before nodes
 
 add_executable(api_node
-        src/api_node/main.cpp
         src/Validator.cpp
+        src/api_node/main.cpp
         )
 
 add_dependencies(api_node ${catkin_EXPORTED_TARGETS})

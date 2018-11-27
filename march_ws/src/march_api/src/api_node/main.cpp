@@ -17,12 +17,6 @@ int main(int argc, char** argv)
 
   ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
 
-  /**
-   * Returns true if the config is valid.
-   * @srv march_api/Trigger.srv
-   * srv.success is true iff the config is valid.
-   */
-  ros::ServiceServer urdf_validator = n.advertiseService("march/config_validation", LaunchAPI::urdf_validator);
 
   ROS_INFO("Success!");
   ros::Rate rate(100);

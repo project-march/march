@@ -7,10 +7,21 @@ find_package(catkin REQUIRED COMPONENTS
         controller_manager
         joint_state_controller
         robot_state_publisher
+        roslint
         rqt_gui
         march_custom_msgs
         effort_controllers
         )
+
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
+
+file(GLOB_RECURSE lintfiles
+        "src/*.cpp"
+        "src/*.h"
+        )
+
+roslint_cpp(${lintfiles})
 
 catkin_package(
         CATKIN_DEPENDS march_custom_msgs effort_controllers
