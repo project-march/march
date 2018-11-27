@@ -2,8 +2,6 @@
 import rospy
 import smach
 import smach_ros
-from march_api.srv import Trigger
-
 import launch_sm.launch_sm as launch_sm
 
 
