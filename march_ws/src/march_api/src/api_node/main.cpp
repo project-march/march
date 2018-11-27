@@ -8,7 +8,7 @@
 
 int main(int argc, char** argv)
 {
-  ROS_INFO("Starting the api node...");
+  ROS_INFO("Starting the api_node...");
   ros::init(argc, argv, "api_node");
   ros::NodeHandle n;
 
@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 
   ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
 
-  ROS_INFO("Success!");
+  ROS_INFO("api_node started successfully!");
   ros::Rate rate(100);
   while (ros::ok())
   {
