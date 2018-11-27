@@ -102,7 +102,7 @@ target_link_libraries(api_node ${catkin_LIBRARIES})
 if (CATKIN_ENABLE_TESTING)
     #    rostest is already imported earlier
     #    find_package(rostest REQUIRED)
-    #    add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test
+    #    add_rostest_gtest(${PROJECT_NAME}-test launch_sm/gtest.test
     #            test/cube_test.cpp
     #            )
     #    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_api)

@@ -8,22 +8,29 @@
 
 int main(int argc, char** argv)
 {
+  ROS_INFO("Starting the api node...");
+  ros::init(argc, argv, "api_node");
+  ros::NodeHandle n;
 
-    ROS_INFO("Starting the api node...");
-    ros::init(argc, argv, "api_node");
-    ros::NodeHandle n;
+  ros::ServiceServer config_validator =
+      n.advertiseService(ServiceNames::config_validation, LaunchAPI::config_validator);
 
-    ros::ServiceServer config_validator = n.advertiseService(ServiceNames::config_validation, LaunchAPI::config_validator);
-    ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
-    ros::ServiceServer urdf_validator = n.advertiseService(ServiceNames::urdf_validation, LaunchAPI::urdf_validator);
+  ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
 
-    ROS_INFO("Success!");
-    ros::Rate rate(100);
-    while (ros::ok())
-    {
-        rate.sleep();
-        ros::spinOnce();
-    }
+  /**
+   * Returns true if the config is valid.
+   * @srv march_api/Trigger.srv
+   * srv.success is true iff the config is valid.
+   */
+  ros::ServiceServer urdf_validator = n.advertiseService("march/config_validation", LaunchAPI::urdf_validator);
 
-    return 0;
+  ROS_INFO("Success!");
+  ros::Rate rate(100);
+  while (ros::ok())
+  {
+    rate.sleep();
+    ros::spinOnce();
+  }
+
+  return 0;
 }

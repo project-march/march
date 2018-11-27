@@ -4,15 +4,26 @@ import smach
 import smach_ros
 from march_api.srv import Trigger
 
-from march_ws.src.march_state_machine.src.launch.ConfigState import ConfigState
+import launch_sm.launch_sm as launch_sm
+
+
+class Start(smach.State):
+    def __init__(self):
+        smach.State.__init__(self, outcomes=['succeeded'])
+
+    def execute(self, userdata):
+        return 'succeeded'
 
 
 def main():
     rospy.init_node("state_machine")
 
-    sm = smach.StateMachine(outcomes=['DONE', 'ERROR'])
+    sm = smach.StateMachine(outcomes=['READY', 'SHUTDOWN'])
     with sm:
-        smach.StateMachine.add('CONFIG', ConfigState(), transitions={'succeeded': 'DONE', 'failed': 'ERROR'})
+        smach.StateMachine.add('START', Start(), transitions={'succeeded': 'LAUNCH'})
+
+        smach.StateMachine.add('LAUNCH', launch_sm.create(),
+                               transitions={'succeeded': 'READY', 'failed': 'SHUTDOWN'})
 
     sis = smach_ros.IntrospectionServer('smach_server', sm, '/SM_ROOT')
     sis.start()

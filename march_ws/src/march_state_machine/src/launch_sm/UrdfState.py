@@ -3,14 +3,14 @@ import smach
 from march_api.srv import Trigger
 
 
-class ConfigState(smach.State):
+class UrdfState(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['succeeded', 'failed'])
 
     def execute(self, userdata):
         rospy.loginfo('Checking config')
-        checkURDF = rospy.ServiceProxy('march/launch_validation', Trigger)
-        result = checkURDF()
+        checkUrdf = rospy.ServiceProxy('march/urdf_validation', Trigger)
+        result = checkUrdf()
         rospy.loginfo(result)
         if result.success:
             return 'succeeded'
