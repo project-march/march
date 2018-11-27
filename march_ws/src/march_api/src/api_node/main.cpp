@@ -14,9 +14,9 @@ int main(int argc, char** argv)
 
   ros::ServiceServer config_validator =
       n.advertiseService(ServiceNames::config_validation, LaunchAPI::config_validator);
+  ros::ServiceServer urdf_validator = n.advertiseService(ServiceNames::urdf_validation, LaunchAPI::urdf_validator);
 
   ros::ServiceServer xml_validator = n.advertiseService(ServiceNames::xml_validation, LaunchAPI::xml_validator);
-
 
   ROS_INFO("Success!");
   ros::Rate rate(100);

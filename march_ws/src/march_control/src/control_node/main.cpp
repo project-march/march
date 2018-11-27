@@ -1,24 +1,16 @@
 // Copyright 2018 Project March.
 
-#include <march_api/Gait.h>
-#include <march_api/GaitInstruction.h>
 #include "ros/ros.h"
 #include "main.h"
 #include "../../../march_api/src/common/communication/TopicNames.h"
 #include <std_msgs/Float64.h>
 #include <sensor_msgs/JointState.h>
-#include <march_api/GaitStatus.h>
 #include <fstream>
 #include <iostream>
 
 #include <ros/package.h>
 
 #include <boost/algorithm/string.hpp>
-
-void gaitInputCallback(const march_api::GaitStatus msg)
-{
-  ROS_INFO("received gait movement message of gait %s", msg.gait_name.c_str());
-}
 
 std_msgs::Float64 createMsg(float data)
 {

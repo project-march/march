@@ -2,7 +2,7 @@
 <package format="2">
   <name>march_state_machine</name>
   <version>0.0.0</version>
-  <description>The march_state_machine package</description>
+  <description>The state machine of the March IV exoskeleton</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -51,14 +51,18 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_depend>smach</build_depend>
+  <build_depend>march_api</build_depend>
   <depend>smach_ros</depend>
   <build_depend>std_msgs</build_depend>
   <build_export_depend>rospy</build_export_depend>
   <build_export_depend>smach</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>smach_viewer</build_export_depend>
+  <build_export_depend>executive_smach</build_export_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>smach</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+
 
 
   <!-- The export tag contains other, unspecified, tags -->
