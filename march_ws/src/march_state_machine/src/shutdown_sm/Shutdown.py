@@ -1,6 +1,6 @@
 import rospy
 import smach
-from march_main.srv import Trigger
+from march_custom_msgs.srv import Trigger
 
 import time
 

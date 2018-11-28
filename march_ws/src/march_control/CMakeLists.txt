@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
         controller_manager
         effort_controllers
         joint_state_controller
+        march_custom_msgs
         robot_state_publisher
         roslint
         )

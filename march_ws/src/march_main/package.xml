@@ -21,20 +21,19 @@
     <build_depend>roscpp</build_depend>
     <build_depend>roslint</build_depend>
     <build_depend>rostest</build_depend>
-    <build_depend>std_msgs</build_depend>
-    <build_depend>message_generation</build_depend>
-    <build_depend>message_runtime</build_depend>
+
     <build_depend>rospy</build_depend>
     <build_depend>march_control</build_depend>
+    <build_depend>march_custom_msgs</build_depend>
     <build_depend>rqt_gui</build_depend>
     <build_depend>rviz</build_depend>
 
     <exec_depend>roscpp</exec_depend>
-    <exec_depend>std_msgs</exec_depend>
-    <exec_depend>message_runtime</exec_depend>
+    <exec_depend>march_custom_msgs</exec_depend>
+
 
     <build_export_depend>roscpp</build_export_depend>
-    <build_export_depend>std_msgs</build_export_depend>
+
 
     <!-- The export tag contains other, unspecified, tags -->
     <export>

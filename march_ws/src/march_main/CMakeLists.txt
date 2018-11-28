@@ -6,50 +6,22 @@ project(march_main)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
         march_control
-        message_generation
-        message_runtime
+        march_custom_msgs
         roscpp
         roslint
         rospy
         rostest
         rqt_gui
         rviz
-        std_msgs
         )
 
 add_definitions(-std=c++11 -Wall -g)
-
-
-add_message_files(
-        FILES
-        Gait.msg
-        GaitInputMaster.msg
-        GaitStatus.msg
-        PlayInputMaster.msg
-)
-
-add_service_files(
-        FILES
-        GaitInput.srv
-        GaitInstruction.srv
-        GaitRequest.srv
-        PlayInput.srv
-        Trigger.srv
-)
-
-generate_messages(
-        DEPENDENCIES
-        std_msgs
-)
 
 
 catkin_package(
         # INCLUDE_DIRS include
         # LIBRARIES aseia
          CATKIN_DEPENDS
-        message_runtime
-        roscpp
-        std_msgs
 )
 
 ## Specify additional locations of header files
@@ -60,7 +32,6 @@ set(sourcefiles
         src/Validator.cpp
         src/Validator.h
         api/main.cpp
-
         )
 
 add_library(march_main ${sourcefiles})
