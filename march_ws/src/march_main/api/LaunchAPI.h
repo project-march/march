@@ -3,7 +3,7 @@
 #ifndef PROJECT_LAUNCH_API_H
 #define PROJECT_LAUNCH_API_H
 
-#include "march_main/Trigger.h"
+#include <march_main/Trigger.h>
 
 class LaunchAPI
 {

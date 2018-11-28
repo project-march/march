@@ -32,6 +32,7 @@ add_service_files(
         FILES
         GaitInput.srv
         GaitInstruction.srv
+        GaitRequest.srv
         PlayInput.srv
         Trigger.srv
 )
@@ -81,6 +82,8 @@ roslint_cpp(${lintfiles})
 add_executable(api_node
         src/Validator.cpp
         api/main.cpp
+        api/LaunchAPI.cpp
+        api/MovementAPI.cpp
         )
 
 add_dependencies(api_node ${catkin_EXPORTED_TARGETS})
