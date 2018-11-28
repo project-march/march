@@ -27,10 +27,7 @@
     <!-- Launch the control node.-->
     <include file="$(find march_control)/launch/march_control.launch"/>
 
-    <node name="master_node" pkg="march_main" type="master_node" output="screen"/>
-    <node name="developer_input_node" pkg="march_main" type="developer_input_node" output="screen"/>
-    <node name="datalogger_node" pkg="march_main" type="datalogger_node" output="screen"/>
-    <node name="gait_node" pkg="march_main" type="gait_node" output="screen"/>
-    <node name="sensor_node" pkg="march_main" type="sensor_node" output="screen"/>
+    <node name="api_node" pkg="march_main" type="api_node" output="screen"/>
+    <include file="$(find march_state_machine)/launch/state_machine.launch"/>
 
 </launch>
