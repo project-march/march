@@ -2,7 +2,6 @@
 
 #include "LaunchAPI.h"
 #include "../src/Validator.h"
-#include "march_main/Trigger.h"
 #include "ros/ros.h"
 
 bool LaunchAPI::urdf_validator(march_main::Trigger::Request& request, march_main::Trigger::Response& response)

@@ -2,7 +2,6 @@
 
 #include "std_msgs/Bool.h"
 #include "ros/ros.h"
-#include "march_main/Trigger.h"
 #include "../src/common/communication/TopicNames.h"
 #include "LaunchAPI.cpp"
 
