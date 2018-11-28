@@ -58,7 +58,6 @@
   <build_export_depend>smach</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>smach_viewer</build_export_depend>
-  <build_export_depend>executive_smach</build_export_depend>
   <exec_depend>rospy</exec_depend>
   <exec_depend>smach</exec_depend>
   <exec_depend>std_msgs</exec_depend>

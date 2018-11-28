@@ -108,7 +108,6 @@ catkin_package(
         #  INCLUDE_DIRS include
         #  LIBRARIES march_state_machine
           CATKIN_DEPENDS
-        executive_smach
         rospy
         smach_viewer
         std_msgs
