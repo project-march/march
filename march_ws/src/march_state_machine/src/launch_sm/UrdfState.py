@@ -10,7 +10,6 @@ class UrdfState(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo('Checking config')
-        time.sleep(5)
         checkUrdf = rospy.ServiceProxy('march/urdf_validation', Trigger)
 
         result = checkUrdf()

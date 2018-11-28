@@ -10,11 +10,15 @@ class ConfigState(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo('Checking config')
-        time.sleep(5)
         checkConfig = rospy.ServiceProxy('march/config_validation', Trigger)
         result = checkConfig()
+        self.request_preempt()
         rospy.loginfo(result)
         if result.success:
             return 'succeeded'
         else:
             return 'failed'
+
+    def service_preempt(self):
+        rospy.logwarn("SERVICE PREEMPT")
+        return 'failed'
