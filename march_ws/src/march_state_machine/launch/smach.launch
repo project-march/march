@@ -4,6 +4,4 @@
     <node name="State_Machine" pkg="march_state_machine" type="StateMachine.py" output="screen"/>
     <node name="State_Machine_viewer" pkg="smach_viewer" type="smach_viewer.py" output="screen"/>
 
-
-
 </launch>
