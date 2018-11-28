@@ -4,7 +4,7 @@
 
     <arg name="rqt" default="false" doc="Launch the rqt nodes"/>
     <arg name="rviz" default="true" doc="Launch rviz"/>
-    <arg name="gazebo_ui" default="true" doc="Launch Gazebo with a ui"/>
+    <arg name="gazebo_ui" default="false" doc="Launch Gazebo with a ui"/>
 
     <!-- Launch the description package-->
     <!-- Load the URDF of the exoskeleton in the ROS parameter server.-->
