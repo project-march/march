@@ -1,0 +1,11 @@
+<launch>
+    <arg name="api" default="false" doc="Launch the api which is required to run the state machine stand alone"/>
+
+    <!-- OPTIONAL: Launch the api that handles the api calls of the state machine.-->
+    <group if="$(arg api)">
+        <include file="$(find march_main)/launch/api.launch"/>
+    </group>
+
+    <node name="State_Machine" pkg="march_state_machine" type="StateMachine.py" output="screen"/>
+    <node name="State_Machine_viewer" pkg="smach_viewer" type="smach_viewer.py" output="screen"/>
+</launch>
