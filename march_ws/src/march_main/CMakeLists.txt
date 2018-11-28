@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(march_api)
+project(march_main)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -58,11 +58,11 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 set(sourcefiles
         src/Validator.cpp
         src/Validator.h
-        src/api_node/main.cpp
+        api/main.cpp
 
         )
 
-add_library(march_api ${sourcefiles})
+add_library(march_main ${sourcefiles})
 
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
@@ -80,7 +80,7 @@ roslint_cpp(${lintfiles})
 
 add_executable(api_node
         src/Validator.cpp
-        src/api_node/main.cpp
+        api/main.cpp
         )
 
 add_dependencies(api_node ${catkin_EXPORTED_TARGETS})
@@ -98,7 +98,7 @@ if (CATKIN_ENABLE_TESTING)
     #    add_rostest_gtest(${PROJECT_NAME}-test launch_sm/gtest.test
     #            test/cube_test.cpp
     #            )
-    #    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_api)
+    #    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_main)
 endif ()
 
 ## Add folders to be run by python nosetests

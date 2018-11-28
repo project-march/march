@@ -2,16 +2,18 @@
 import rospy
 import smach
 import smach_ros
-from march_api.srv import Trigger
+from march_main.srv import Trigger
 
 import launch_sm.launch_sm as launch_sm
 
+import time
 
 class Start(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['succeeded'])
 
     def execute(self, userdata):
+        time.sleep(5)
         return 'succeeded'
 
 

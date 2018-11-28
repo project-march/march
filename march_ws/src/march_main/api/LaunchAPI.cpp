@@ -1,11 +1,11 @@
 // Copyright 2018 Project March.
 
 #include "LaunchAPI.h"
-#include "../Validator.h"
-#include "march_api/Trigger.h"
+#include "../src/Validator.h"
+#include "march_main/Trigger.h"
 #include "ros/ros.h"
 
-bool LaunchAPI::urdf_validator(march_api::Trigger::Request& request, march_api::Trigger::Response& response)
+bool LaunchAPI::urdf_validator(march_main::Trigger::Request& request, march_main::Trigger::Response& response)
 {
   ROS_INFO("URDF validator called");
 
@@ -20,7 +20,7 @@ bool LaunchAPI::urdf_validator(march_api::Trigger::Request& request, march_api::
   return true;
 }
 
-bool LaunchAPI::config_validator(march_api::Trigger::Request& request, march_api::Trigger::Response& response)
+bool LaunchAPI::config_validator(march_main::Trigger::Request& request, march_main::Trigger::Response& response)
 {
   ROS_INFO("config validator called");
 
@@ -30,7 +30,7 @@ bool LaunchAPI::config_validator(march_api::Trigger::Request& request, march_api
   return true;
 }
 
-bool LaunchAPI::xml_validator(march_api::Trigger::Request& request, march_api::Trigger::Response& response)
+bool LaunchAPI::xml_validator(march_main::Trigger::Request& request, march_main::Trigger::Response& response)
 {
   ROS_INFO("xml validator called");
 

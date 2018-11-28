@@ -1,7 +1,8 @@
 import rospy
 import smach
-from march_api.srv import Trigger
+from march_main.srv import Trigger
 
+import time
 
 class ConfigState(smach.State):
     def __init__(self):
@@ -9,6 +10,7 @@ class ConfigState(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo('Checking config')
+        time.sleep(5)
         checkConfig = rospy.ServiceProxy('march/config_validation', Trigger)
         result = checkConfig()
         rospy.loginfo(result)

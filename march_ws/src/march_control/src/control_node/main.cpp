@@ -2,7 +2,7 @@
 
 #include "ros/ros.h"
 #include "main.h"
-#include "../../../march_api/src/common/communication/TopicNames.h"
+#include "../../../march_main/src/common/communication/TopicNames.h"
 #include <std_msgs/Float64.h>
 #include <sensor_msgs/JointState.h>
 #include <fstream>

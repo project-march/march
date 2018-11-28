@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-    <name>march_api</name>
+    <name>march_main</name>
     <version>0.0.0</version>
     <description>The main logic for the march IV</description>
 
