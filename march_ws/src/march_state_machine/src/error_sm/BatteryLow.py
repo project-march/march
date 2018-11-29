@@ -2,7 +2,6 @@ import rospy
 import smach
 from march_custom_msgs.srv import Trigger
 
-import time
 
 class BatteryLow(smach.State):
     def __init__(self):
