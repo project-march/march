@@ -7,7 +7,6 @@ import healthy_sm.healthy_sm as healthy_sm
 import error_sm.error_sm as error_sm
 import shutdown_sm.shutdown_sm as shutdown_sm
 
-import time
 
 class Start(smach.State):
     def __init__(self):
