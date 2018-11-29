@@ -1,0 +1,3 @@
+<launch>
+    <node name="api_node" pkg="march_main" type="api_node" output="screen"/>
+</launch>

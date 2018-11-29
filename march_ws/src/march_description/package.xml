@@ -2,7 +2,7 @@
 <package format="2">
     <name>march_description</name>
     <version>0.0.0</version>
-    <description>This package describes the exoskeleton 3D model</description>
+    <description>The exoskeleton 3D model</description>
     <maintainer email="software@projectmarch.nl">Project March</maintainer>
     <license>TODO</license>
     <buildtool_depend>catkin</buildtool_depend>

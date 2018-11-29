@@ -1,12 +1,10 @@
 // Copyright 2018 Project March.
-#include <march_custom_msgs/Gait.h>
-#include <march_custom_msgs/GaitInstruction.h>
+
 #include "ros/ros.h"
 #include "main.h"
-#include "../../../march_main/src/public/communication/TopicNames.h"
+#include "../../../march_main/src/common/communication/TopicNames.h"
 #include <std_msgs/Float64.h>
 #include <sensor_msgs/JointState.h>
-#include <march_custom_msgs/GaitStatus.h>
 #include <fstream>
 #include <iostream>
 
