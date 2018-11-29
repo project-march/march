@@ -12,6 +12,9 @@ const char* const left_knee_position = "march/left_knee_position_controller/comm
 const char* const left_ankle_position = "march/left_ankle_position_controller/command";
 const char* const right_hip_position = "march/right_hip_position_controller/command";
 const char* const right_knee_position = "march/right_knee_position_controller/command";
+
+const char* const perform_gait  = "march/perform_gait";
+
 };  // namespace TopicNames
 
 namespace ServiceNames
