@@ -3,7 +3,7 @@ import smach
 from march_custom_msgs.srv import Trigger
 
 
-class ConfigState(smach.State):
+class XmlState(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['succeeded', 'failed'])
 
