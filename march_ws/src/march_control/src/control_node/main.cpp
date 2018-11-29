@@ -11,7 +11,7 @@
 #include <ros/package.h>
 
 #include <boost/algorithm/string.hpp>
-#include <march_custom_msgs/GaitInputMaster.h>
+#include <march_custom_msgs/PerformGait.h>
 
 std_msgs::Float64 createMsg(float data) {
     std_msgs::Float64 msg;
@@ -78,7 +78,7 @@ void playWalkingAnimation(ros::Rate rate, int repeat) {
 
 }
 
-void gaitInputCallback(const march_custom_msgs::GaitInputMaster msg) {
+void perform_gait_cb(const march_custom_msgs::PerformGait msg) {
     std::string name = msg.gait_name.c_str();
     int repeat = msg.repeat;
     ROS_INFO_STREAM("received gait movement message of gait" + name);
@@ -89,7 +89,7 @@ int main(int argc, char **argv) {
     ros::init(argc, argv, "control_node");
     ros::NodeHandle n;
 
-    ros::Subscriber sub_gait_input = n.subscribe(TopicNames::gait_input, 1000, gaitInputCallback);
+    ros::Subscriber sub_gait_input = n.subscribe(TopicNames::perform_gait, 1000, perform_gait_cb);
     left_hip_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_hip_position, 1000);
     left_knee_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_knee_position, 1000);
     left_ankle_position_pub = n.advertise<std_msgs::Float64>(TopicNames::left_ankle_position, 1000);
