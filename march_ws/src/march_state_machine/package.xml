@@ -51,7 +51,7 @@
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>rospy</build_depend>
   <build_depend>smach</build_depend>
-  <build_depend>march_main</build_depend>
+  <build_depend>march_custom_msgs</build_depend>
   <depend>smach_ros</depend>
   <build_depend>std_msgs</build_depend>
   <build_export_depend>rospy</build_export_depend>
