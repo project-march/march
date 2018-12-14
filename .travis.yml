@@ -50,6 +50,9 @@ cache:
 notifications:
   slack: projectmarch:VQJiTUJ2UeXcTvKc7MKezeN0
 
+git:
+  submodules: true
+
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 matrix:
   include:
