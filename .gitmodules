@@ -1,4 +1,4 @@
 [submodule "march_ws/src/joint-control"]
 	path = march_ws/src/joint-control
 	url = https://github.com/project-march/joint-control.git
-    branch = develop
+	branch = develop
