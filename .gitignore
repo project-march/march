@@ -53,3 +53,5 @@ qtcreator-*
 CATKIN_IGNORE
 
 install/*
+
+venv/
