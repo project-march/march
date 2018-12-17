@@ -2,3 +2,8 @@
 	path = march_ws/src/joint-control
 	url = https://github.com/project-march/joint-control.git
 	branch = develop
+	
+[submodule "march_ws/src/state-machine"]
+	path = march_ws/src/state-machine
+	url = https://github.com/project-march/state-machine.git
+	branch = develop
