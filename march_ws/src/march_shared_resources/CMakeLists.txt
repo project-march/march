@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(march_custom_msgs)
+project(march_shared_resources)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 #add_compile_options(-std = c++ 11)
@@ -36,8 +36,8 @@ generate_messages(
 )
 
 catkin_package(
-        #INCLUDE_DIRS include
-        #LIBRARIES march_custom_msgs
+        INCLUDE_DIRS include
+        #LIBRARIES march_shared_resources
         CATKIN_DEPENDS
         message_generation
         message_runtime
@@ -45,7 +45,15 @@ catkin_package(
         #DEPENDS system_lib
 )
 
+## Install project namespaced headers
+install(DIRECTORY include/${PROJECT_NAME}/
+        DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
+        FILES_MATCHING PATTERN "*.h"
+        PATTERN ".svn" EXCLUDE)
+
+
 include_directories(
         #include
         ${catkin_INCLUDE_DIRS}
 )
+
