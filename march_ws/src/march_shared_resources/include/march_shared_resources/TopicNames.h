@@ -15,6 +15,15 @@ const char* const right_knee_position = "march/right_knee_position_controller/co
 
 const char* const perform_gait = "march/perform_gait";
 
+const char* const input_device_gait = "input_device/instruction/gait";
+const char* const input_device_stop = "input_device/instruction/stop";
+const char* const input_device_trigger = "input_device/instruction/trigger";
+const char* const input_device_step_size = "input_device/instruction/step_size";
+
+const char* const input_device_gait_done = "input_device/done/gait";
+const char* const input_device_gait_performing = "input_device/performing/gait";
+const char* const input_device_gait_denied = "input_device/denied/gait";
+
 };  // namespace TopicNames
 
 namespace ServiceNames
