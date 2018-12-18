@@ -19,6 +19,7 @@ add_message_files(
         PerformGait.msg
         GaitStatus.msg
         PlayInputMaster.msg
+        StepSize.msg
 )
 
 add_service_files(
