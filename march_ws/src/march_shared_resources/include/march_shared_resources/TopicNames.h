@@ -15,13 +15,32 @@ const char* const right_knee_position = "march/right_knee_position_controller/co
 
 const char* const perform_gait = "march/perform_gait";
 
+// Gait instruction
+// message_type: march_shared_resources::Gait
 const char* const input_device_gait = "input_device/instruction/gait";
+
+// Stop instruction
+// message_type: std_msgs::Empty
 const char* const input_device_stop = "input_device/instruction/stop";
+
+// Trigger instruction
+// message_type: std_msgs::Empty
 const char* const input_device_trigger = "input_device/instruction/trigger";
+
+// Step size instruction
+// message_type: march_shared_resources::StepSize
 const char* const input_device_step_size = "input_device/instruction/step_size";
 
+// Gait is done
+// message_type: march_shared_resources::Gait
 const char* const input_device_gait_done = "input_device/done/gait";
+
+// Gait is currently performing
+// message_type: march_shared_resources::Gait
 const char* const input_device_gait_performing = "input_device/performing/gait";
+
+// Gait request is denied
+// message_type: march_shared_resources::Gait
 const char* const input_device_gait_denied = "input_device/denied/gait";
 
 };  // namespace TopicNames
