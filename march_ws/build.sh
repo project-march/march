@@ -19,7 +19,7 @@ notify () {
 catkin_make || build_failed "Catkin_make failed"
 
 # cpplinter.
-catkin_make roslint_march_main || build_failed "ros_lint failed in march_main"
+catkin_make roslint_march_state_machine_service || build_failed "ros_lint failed in march_state_machine_service"
 catkin_make roslint_march_control || build_failed "ros_lint failed in march_control"
 
 # Catkin lint, fail on errors only. TODO remove missing_directory.
