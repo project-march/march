@@ -26,7 +26,7 @@
 
     <!-- OPTIONAL: Launch the rqt plugins that allow for easy debugging.-->
     <group if="$(arg rqt)">
-        <include file="$(find march_state_machine_service)/launch/rqt.launch"/>
+        <include file="$(find march_launch)/launch/rqt.launch"/>
     </group>
 
     <node name="rqt_gui_ros_input" pkg="rqt_gui" type="rqt_gui" args = "--perspective-file $(find march_state_machine_service)/rqt_config/ros_input.perspective"/>
