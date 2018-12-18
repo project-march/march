@@ -6,4 +6,4 @@
 [submodule "march_ws/src/state-machine"]
 	path = march_ws/src/state-machine
 	url = https://github.com/project-march/state-machine.git
-	branch = develop
+	branch = improvement/better-naming
