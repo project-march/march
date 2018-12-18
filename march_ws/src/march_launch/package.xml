@@ -15,18 +15,8 @@
   <build_depend>march_control</build_depend>
   <build_depend>march_description</build_depend>
   <build_depend>march_gazebo</build_depend>
-  <build_depend>march_main</build_depend>
   <build_depend>march_state_machine</build_depend>
-  <build_export_depend>march_control</build_export_depend>
-  <build_export_depend>march_description</build_export_depend>
-  <build_export_depend>march_gazebo</build_export_depend>
-  <build_export_depend>march_main</build_export_depend>
-  <build_export_depend>march_state_machine</build_export_depend>
-  <exec_depend>march_control</exec_depend>
-  <exec_depend>march_description</exec_depend>
-  <exec_depend>march_gazebo</exec_depend>
-  <exec_depend>march_main</exec_depend>
-  <exec_depend>march_state_machine</exec_depend>
+  <build_depend>march_state_machine_service</build_depend>
 
 
 </package>

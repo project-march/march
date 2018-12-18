@@ -5,8 +5,8 @@ find_package(catkin REQUIRED COMPONENTS
         march_control
         march_description
         march_gazebo
-        march_main
         march_state_machine
+        march_state_machine_service
         )
 
 
