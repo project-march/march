@@ -1,6 +1,6 @@
 // Copyright 2018 Project March.
-#ifndef MARCH_MAIN_TOPICNAMES_H
-#define MARCH_MAIN_TOPICNAMES_H
+#ifndef MARCH_SHARED_RESOURCES_TOPICNAMES_H
+#define MARCH_SHARED_RESOURCES_TOPICNAMES_H
 
 #include <string>
 namespace TopicNames
@@ -54,4 +54,4 @@ const char* const xml_validation = "march/xml_validation";
 const char* const request_gait_file = "march/request_gait_file";
 };
 
-#endif  // MARCH_MAIN_TOPICNAMES_H
+#endif  // MARCH_SHARED_RESOURCES_TOPICNAMES_H
