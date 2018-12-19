@@ -16,8 +16,8 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
         FILES
         Gait.msg
-        PerformGait.msg
         GaitStatus.msg
+        PerformGait.msg
         PlayInputMaster.msg
 )
 

@@ -19,18 +19,17 @@
     <include file="$(find march_control)/launch/march_control.launch"/>
 
     <!-- Launch the main package, including api.-->
-    <include file="$(find march_main)/launch/march_main.launch"/>
+    <include file="$(find march_state_machine_service)/launch/march_state_machine_service.launch"/>
 
     <!-- Launch the state machine package.-->
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
 
     <!-- OPTIONAL: Launch the rqt plugins that allow for easy debugging.-->
     <group if="$(arg rqt)">
-        <include file="$(find march_main)/launch/rqt.launch"/>
+        <include file="$(find march_launch)/launch/rqt.launch"/>
     </group>
 
-    <node name="rqt_gui_ros_input" pkg="rqt_gui" type="rqt_gui" args = "--perspective-file $(find march_main)/rqt_config/ros_input.perspective"/>
-
+    <node name="rqt_gui_ros_input" pkg="rqt_gui" type="rqt_gui" args = "--perspective-file $(find march_launch)/rqt_config/ros_input.perspective"/>
 
     <!-- OPTIONAL: Load the rviz plugin which visualizes the actual position of the exoskeleton.-->
     <group if="$(arg rviz)">
