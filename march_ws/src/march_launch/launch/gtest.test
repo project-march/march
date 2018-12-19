@@ -1,3 +1,0 @@
-<launch>
-    <test test-name="Unit-Tests" pkg="march_launch" type="march_launch-test" name="UnitTests"/>
-</launch>

@@ -1,6 +1,5 @@
 // Copyright 2018 Project March.
 
-#include <gmock/gmock.h>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 

@@ -24,6 +24,6 @@ include_directories(
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    add_rostest_gtest(${PROJECT_NAME}-test launch/gtest.test test/SimpleTest.cpp)
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_launch)
+#    add_rostest_gtest(${PROJECT_NAME}-test launch/simple-test.test test/SimpleTest.cpp)
+#    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_launch)
 endif ()
