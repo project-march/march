@@ -7,3 +7,8 @@
 	path = march_ws/src/state-machine
 	url = https://github.com/project-march/state-machine.git
 	branch = develop
+
+[submodule "march_ws/src/ethercat-master"]
+	path = march_ws/src/ethercat-master
+	url = https://github.com/project-march/ethercat-master.git
+	branch = develop
