@@ -27,9 +27,9 @@ const char* const input_device_stop = "input_device/instruction/stop";
 // message_type: std_msgs::Empty
 const char* const input_device_trigger = "input_device/instruction/trigger";
 
-// Step size instruction
+// Step size instruction for the continuously walking gait. This can be adjusted real-time during the gait.
 // message_type: march_shared_resources::StepSize
-const char* const input_device_step_size = "input_device/instruction/step_size";
+const char* const input_device_step_size = "input_device/instruction/continuously_walking/step_size";
 
 // Gait is done
 // message_type: march_shared_resources::Gait
@@ -37,11 +37,11 @@ const char* const input_device_gait_done = "input_device/done/gait";
 
 // Gait is currently performing
 // message_type: march_shared_resources::Gait
-const char* const input_device_gait_performing = "input_device/performing/gait";
+const char* const gait_performing = "gait/performing";
 
 // Gait request is denied
 // message_type: march_shared_resources::Gait
-const char* const input_device_gait_denied = "input_device/denied/gait";
+const char* const gait_denied = "gait/denied";
 
 };  // namespace TopicNames
 
