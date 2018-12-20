@@ -1,4 +1,4 @@
 <launch>
-    <include file="$(find march_description)/launch/load_description.launch"/>
+    <!-- Launch the required nodes here -->
     <test test-name="unit_tests" pkg="march_launch" type="march_launch-test"/>
 </launch>
