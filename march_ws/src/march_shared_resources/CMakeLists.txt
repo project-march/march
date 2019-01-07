@@ -17,7 +17,6 @@ add_message_files(
         FILES
         Gait.msg
         GaitStatus.msg
-        JointPose.msg
         PerformGait.msg
         PlayInputMaster.msg
         StepSize.msg

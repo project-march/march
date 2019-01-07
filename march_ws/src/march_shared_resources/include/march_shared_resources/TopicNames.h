@@ -15,11 +15,11 @@ const char* const right_knee_position = "march/right_knee_position_controller/co
 const char* const perform_gait = "march/perform_gait";
 
 // The instruction for the joints to which position they should move
-// message_type: march_shared_resources::JointPose
+// message_type:  moveit_msgs::JointConstraint[]
 const char* const go_to_pose = "march/joint-control/go_to_pose";
 
 // The actual current position of the joints
-// message_type: march_shared_resources::JointPose
+// message_type:  sensor_msgs::JointState
 const char* const actual_pose = "march/joint-control/actual_pose";
 
 // Gait instruction
