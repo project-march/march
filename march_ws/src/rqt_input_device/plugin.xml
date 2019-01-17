@@ -12,8 +12,8 @@
               <label>Subgroup</label>
             </group>
             -->
-            <label>My first Python Plugin</label>
-            <icon type="theme">system-help</icon>
+            <label>March Input Device</label>
+            <!--<icon type="theme">system-help</icon>-->
             <statustip>Great user interface to provide real value.</statustip>
         </qtgui>
     </class>

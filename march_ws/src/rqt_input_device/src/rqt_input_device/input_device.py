@@ -6,6 +6,7 @@ from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from march_shared_resources.msg import Gait
+from std_msgs.msg import String
 
 class InputDevicePlugin(Plugin):
 
@@ -44,9 +45,22 @@ class InputDevicePlugin(Plugin):
         # Add widget to the user interface
         context.add_widget(self._widget)
 
-        self.instruction_gait = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
+        # ROS publishers
+        self.instruction_gait_pub = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
+        self.error_pub = rospy.Publisher('march/error', String, queue_size=10)
+        self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
 
-        self._widget.home_to_sit_button.clicked.connect(self.home_to_sit_cb)
+        # Homing buttons
+        self._widget.home_sit_button.clicked.connect(lambda: self.publish_gait("home_sit"))
+        self._widget.home_stand_button.clicked.connect(lambda: self.publish_gait("home_stand"))
+
+        # Gait buttons
+        self._widget.gait_sit_button.clicked.connect(lambda: self.publish_gait("gait_sit"))
+        self._widget.gait_stand_button.clicked.connect(lambda: self.publish_gait("gait_stand"))
+
+        # Other buttons
+        self._widget.error_button.clicked.connect(lambda: self.error())
+        self._widget.off_button.clicked.connect(lambda: self.shutdown())
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
@@ -62,8 +76,17 @@ class InputDevicePlugin(Plugin):
         # v = instance_settings.value(k)
         pass
 
-    def home_to_sit_cb(self):
-        self.instruction_gait.publish(Gait("home_to_sit", 1000))
+    def publish_gait(self, string):
+        rospy.loginfo(string)
+        self.instruction_gait_pub.publish(Gait(string, 1000))
+
+    def shutdown(self):
+        rospy.loginfo("Shutting down...")
+        self.shutdown_pub.publish("shut down")
+
+    def error(self):
+        rospy.loginfo("Error...")
+        self.error_pub.publish("Error")
     #def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure
     # This will enable a setting button (gear icon) in each dock widget title bar
