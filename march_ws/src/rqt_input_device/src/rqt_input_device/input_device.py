@@ -8,6 +8,10 @@ from python_qt_binding.QtWidgets import QWidget
 from march_shared_resources.msg import Gait
 from std_msgs.msg import String
 
+from rqt_input_device.MarchButton import MarchButton
+from rqt_input_device.LayoutBuilder import LayoutBuilder
+
+
 class InputDevicePlugin(Plugin):
 
     def __init__(self, context):
@@ -31,6 +35,7 @@ class InputDevicePlugin(Plugin):
         self._widget = QWidget()
         # Get path to UI file which should be in the "resource" folder of this package
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_input_device'), 'resource', 'input_device.ui')
+
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
         # Give QObjects reasonable names
@@ -45,25 +50,38 @@ class InputDevicePlugin(Plugin):
         # Add widget to the user interface
         context.add_widget(self._widget)
 
-        # ROS publishers
+        # Create buttons here
+        home_sit_button = MarchButton(name="home_sit", image="/home_sit.png", callback=lambda: self.publish_gait("home_sit"))
+        home_stand_button = MarchButton(name="home_stand", image="/home_stand.png", callback=lambda: self.publish_gait("home_stand"))
+        gait_sit_button = MarchButton(name="gait_sit", image="/gait_sit.png", callback=lambda: self.publish_gait("gait_sit"))
+        gait_stand_button = MarchButton(name="gait_stand", image="/gait_stand.png", callback=lambda: self.publish_gait("gait_stand"))
+        error_button = MarchButton(name="error", image="/error.png")
+        off_button = MarchButton(name="off", image="/off.png")
+
+
+        march_button_layout = [
+            [home_sit_button, home_stand_button, home_stand_button],
+            [gait_sit_button, gait_stand_button],
+            [error_button, off_button],
+        ]
+
+        layout_builder = LayoutBuilder(march_button_layout)
+        qt_layout = layout_builder.build()
+
+        self._widget.frame.setLayout(qt_layout)
+
+        # ROS publishers. It is important that you unregister them in the self.shutdown method
         self.instruction_gait_pub = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
         self.error_pub = rospy.Publisher('march/error', String, queue_size=10)
         self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
 
-        # Homing buttons
-        self._widget.home_sit_button.clicked.connect(lambda: self.publish_gait("home_sit"))
-        self._widget.home_stand_button.clicked.connect(lambda: self.publish_gait("home_stand"))
-
-        # Gait buttons
-        self._widget.gait_sit_button.clicked.connect(lambda: self.publish_gait("gait_sit"))
-        self._widget.gait_stand_button.clicked.connect(lambda: self.publish_gait("gait_stand"))
-
-        # Other buttons
-        self._widget.error_button.clicked.connect(lambda: self.error())
-        self._widget.off_button.clicked.connect(lambda: self.shutdown())
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
+        self.instruction_gait_pub.unregister()
+        self.error_pub.unregister()
+        self.shutdown_pub.unregister()
+
         pass
 
     def save_settings(self, plugin_settings, instance_settings):
@@ -87,30 +105,9 @@ class InputDevicePlugin(Plugin):
     def error(self):
         rospy.loginfo("Error...")
         self.error_pub.publish("Error")
+
     #def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure
     # This will enable a setting button (gear icon) in each dock widget title bar
     # Usually used to open a modal configuration dialog
 
-
-
-class TopicPublisher(object):
-
-    def __init__(self, topic_name, message_class):
-        self._name = topic_name
-        try:
-            self._publisher = rospy.Publisher(
-                topic_name, message_class, queue_size=100)
-            self._message = message_class()
-        except ValueError as e:
-            rospy.logfatal('msg file for %s not found' % topic_name)
-            raise e
-
-    def get_topic_name(self):
-        return self._name
-
-    def publish(self):
-        self._publisher.publish(self._message)
-
-    def get_message(self):
-        return self._message

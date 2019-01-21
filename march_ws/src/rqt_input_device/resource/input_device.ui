@@ -1,186 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>March Input Device</class>
- <widget class="QWidget" name="March Input Device">
+ <class>main_widget</class>
+ <widget class="QWidget" name="main_widget">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>650</height>
+    <width>963</width>
+    <height>654</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>March Input Device</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
+  <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
-     <x>-10</x>
-     <y>0</y>
-     <width>451</width>
-     <height>551</height>
+     <x>30</x>
+     <y>30</y>
+     <width>871</width>
+     <height>561</height>
     </rect>
    </property>
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="1">
-     <widget class="QPushButton" name="gait_stand_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/gait_stand.png) no-repeat center center fixed;
-background-color:#1F1E24;</string>
-      </property>
-      <property name="text">
-       <string>Gait Stand</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="QPushButton" name="gait_sit_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/gait_sit.png) no-repeat center center fixed;
-background-color:#1F1E24;</string>
-      </property>
-      <property name="text">
-       <string>Gait Sit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QPushButton" name="home_stand_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/home_stand.png) no-repeat center center fixed;
-background-color:#1F1E24;</string>
-      </property>
-      <property name="text">
-       <string>Home Stand</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0">
-     <widget class="QPushButton" name="home_sit_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/home_sit.png) no-repeat center center fixed;
-background-color:#1F1E24;
-color: white</string>
-      </property>
-      <property name="text">
-       <string>Home Sit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="error_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/error.png) no-repeat center center fixed;
-background-color:#1F1E24;</string>
-      </property>
-      <property name="text">
-       <string>Error</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="off_button">
-      <property name="minimumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>150</width>
-        <height>150</height>
-       </size>
-      </property>
-      <property name="autoFillBackground">
-       <bool>false</bool>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: url(:/buttons/img/off.png) no-repeat center center fixed;
-background-color:#1F1E24;</string>
-      </property>
-      <property name="text">
-       <string>Shutdown</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
   </widget>
  </widget>
  <resources>
