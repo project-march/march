@@ -1,6 +1,6 @@
 import os
-import rospy
 import rospkg
+
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
@@ -9,22 +9,23 @@ from python_qt_binding.QtWidgets import QPushButton
 from rqt_input_device.MarchButton import MarchButton
 
 
-
 class LayoutBuilder:
+    """Build a layout from a 2d array of MarchButtons."""
 
-
-
+    """Store the 2d array of MarchButtons"""
     def __init__(self, button_layout):
         self.button_layout = button_layout
 
+    """Loop through the 2d array and create a qt_button if the entry is not None."""
     def build(self):
         qt_button_layout = QGridLayout()
         for i in range(len(self.button_layout)):
             qt_button_layout.setRowStretch(i, 1)
+
             for j in range(len(self.button_layout[i])):
                 qt_button_layout.setRowStretch(i, 1)
+
                 march_button = self.button_layout[i][j]
-                print march_button
                 if march_button is not None:
                     qt_button = self.create_qt_button(march_button)
                 else:
@@ -33,6 +34,8 @@ class LayoutBuilder:
 
         return qt_button_layout
 
+    """Create a qt_button from a MarchButton.
+    Set all the specified callback, text and other properties on the qt_button."""
     def create_qt_button(self, march_button):
         qt_button = QPushButton(march_button.text)
         if march_button.callback is not None:
@@ -42,6 +45,7 @@ class LayoutBuilder:
 
         return qt_button
 
+    """Create an invisible qt_default button."""
     def create_qt_default_button(self):
         qt_button = QPushButton()
         qt_button.setStyleSheet(self.get_empty_css())
@@ -49,17 +53,23 @@ class LayoutBuilder:
         qt_button.setVisible(False)
         return qt_button
 
-    def get_empty_css(self):
+    """CSS of a hidden button."""
+    @staticmethod
+    def get_empty_css():
         return """
         display: hidden;
         """
 
-    def create_button_css(self, img_path):
+    """CSS of a button with a background-image."""
+    @staticmethod
+    def create_button_css(img_path):
         css_base = """
         background: url(<img_path>) no-repeat center center;
         background-color:#1F1E24;
         """
         return css_base.replace("<img_path>", img_path)
 
-    def get_image_path(self, img_name):
+    """Create an absolute image path to an image."""
+    @staticmethod
+    def get_image_path(img_name):
         return os.path.join(rospkg.RosPack().get_path('rqt_input_device'), 'resource', 'img') + img_name

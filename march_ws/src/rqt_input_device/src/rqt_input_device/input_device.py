@@ -51,30 +51,35 @@ class InputDevicePlugin(Plugin):
         context.add_widget(self._widget)
 
         # Create buttons here
-        home_sit_button = MarchButton(name="home_sit", image="/home_sit.png", callback=lambda: self.publish_gait("home_sit"))
-        home_stand_button = MarchButton(name="home_stand", image="/home_stand.png", callback=lambda: self.publish_gait("home_stand"))
-        gait_sit_button = MarchButton(name="gait_sit", image="/gait_sit.png", callback=lambda: self.publish_gait("gait_sit"))
-        gait_stand_button = MarchButton(name="gait_stand", image="/gait_stand.png", callback=lambda: self.publish_gait("gait_stand"))
+        home_sit_button = MarchButton(name="home_sit", image="/home_sit.png",
+                                      callback=lambda: self.publish_gait("home_sit"))
+        home_stand_button = MarchButton(name="home_stand", image="/home_stand.png",
+                                        callback=lambda: self.publish_gait("home_stand"))
+        gait_sit_button = MarchButton(name="gait_sit", image="/gait_sit.png",
+                                      callback=lambda: self.publish_gait("gait_sit"))
+        gait_stand_button = MarchButton(name="gait_stand", image="/gait_stand.png",
+                                        callback=lambda: self.publish_gait("gait_stand"))
         error_button = MarchButton(name="error", image="/error.png")
         off_button = MarchButton(name="off", image="/off.png")
 
-
+        # The button layout. Position in the array determines position on screen.
         march_button_layout = [
             [home_sit_button, home_stand_button, home_stand_button],
             [gait_sit_button, gait_stand_button],
             [error_button, off_button],
         ]
 
+        # Create the qt_layout from the button layout.
         layout_builder = LayoutBuilder(march_button_layout)
         qt_layout = layout_builder.build()
 
+        # Apply the qt_layout to the top level widget.
         self._widget.frame.setLayout(qt_layout)
 
-        # ROS publishers. It is important that you unregister them in the self.shutdown method
+        # ROS publishers. It is important that you unregister them in the self.shutdown method.
         self.instruction_gait_pub = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
         self.error_pub = rospy.Publisher('march/error', String, queue_size=10)
         self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
-
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here

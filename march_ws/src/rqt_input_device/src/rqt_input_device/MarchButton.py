@@ -2,7 +2,9 @@ from python_qt_binding.QtCore import QSize
 
 
 class MarchButton:
+    """Button that can have a custom callback and other configurable properties."""
 
+    """Default size of a button, is used if no other size is given."""
     default_size = QSize(150, 150)
 
     def __init__(self, name, text=None, image=None, callback=None, size=None):
@@ -15,7 +17,3 @@ class MarchButton:
 
         self.image = image
         self.callback = callback
-
-    def execute_callback(self):
-        if self.callback is not None:
-            self.callback()
