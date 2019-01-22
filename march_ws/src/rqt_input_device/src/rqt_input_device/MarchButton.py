@@ -12,6 +12,7 @@ class MarchButton:
         self.text = text
         self.image = image
         self.callback = callback
+
         if size is not None:
             self.size = size
         else:
