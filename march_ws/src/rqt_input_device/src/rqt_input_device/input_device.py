@@ -64,7 +64,7 @@ class InputDevicePlugin(Plugin):
 
         # The button layout. Position in the array determines position on screen.
         march_button_layout = [
-            [home_sit_button, home_stand_button, home_stand_button],
+            [home_sit_button, home_stand_button],
             [gait_sit_button, gait_stand_button],
             [error_button, off_button],
         ]
@@ -72,9 +72,12 @@ class InputDevicePlugin(Plugin):
         # Create the qt_layout from the button layout.
         layout_builder = LayoutBuilder(march_button_layout)
         qt_layout = layout_builder.build()
-
         # Apply the qt_layout to the top level widget.
         self._widget.frame.setLayout(qt_layout)
+
+        # Make the frame as tight as possible with some spacing between the buttons.
+        qt_layout.setSpacing(15)
+        self._widget.frame.adjustSize()
 
         # ROS publishers. It is important that you unregister them in the self.shutdown method.
         self.instruction_gait_pub = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
