@@ -10,10 +10,10 @@ class MarchButton:
     def __init__(self, name, text=None, image=None, callback=None, size=None):
         self.name = name
         self.text = text
+        self.image = image
+        self.callback = callback
+
         if size is not None:
             self.size = size
         else:
             self.size = MarchButton.default_size
-
-        self.image = image
-        self.callback = callback
