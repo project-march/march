@@ -18,9 +18,6 @@
     <!-- Launch the control package.-->
     <include file="$(find march_control)/launch/march_control.launch"/>
 
-    <!-- Launch the main package, including api.-->
-    <include file="$(find march_state_machine_service)/launch/march_state_machine_service.launch"/>
-
     <!-- Launch the state machine package.-->
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
 
