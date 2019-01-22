@@ -85,7 +85,7 @@ class InputDevicePlugin(Plugin):
         self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
+        # unregister all publishers here
         self.instruction_gait_pub.unregister()
         self.error_pub.unregister()
         self.shutdown_pub.unregister()
