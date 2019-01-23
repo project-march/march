@@ -21,7 +21,7 @@ catkin_make --pkg march_shared_resources || build_failed "march shared resources
 catkin_make || build_failed "Catkin_make failed"
 
 # cpplinter.
-#catkin_make roslint_march_state_machine || build_failed "ros_lint failed in march_state_machine"
+catkin_make roslint_march_input_device || build_failed "ros_lint failed in march_input_device"
 catkin_make roslint_march_state_machine_service || build_failed "ros_lint failed in march_state_machine_service"
 catkin_make roslint_march_control || build_failed "ros_lint failed in march_control"
 
