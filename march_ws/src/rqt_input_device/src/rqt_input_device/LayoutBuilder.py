@@ -6,6 +6,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtWidgets import QGridLayout
 from python_qt_binding.QtWidgets import QPushButton
+
 from rqt_input_device.MarchButton import MarchButton
 
 
@@ -20,10 +21,7 @@ class LayoutBuilder:
     def build(self):
         qt_button_layout = QGridLayout()
         for i in range(len(self.button_layout)):
-            qt_button_layout.setRowStretch(i, 1)
-
             for j in range(len(self.button_layout[i])):
-                qt_button_layout.setRowStretch(i, 1)
 
                 march_button = self.button_layout[i][j]
                 if march_button is not None:
@@ -45,7 +43,7 @@ class LayoutBuilder:
 
         return qt_button
 
-    """Create an invisible qt_default button."""
+    """Create an invisible qt_default button to act as placeholder in the grid."""
     def create_qt_default_button(self):
         qt_button = QPushButton()
         qt_button.setStyleSheet(self.get_empty_css())

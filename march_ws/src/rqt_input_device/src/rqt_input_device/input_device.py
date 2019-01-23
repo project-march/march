@@ -5,8 +5,8 @@ import rospkg
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from march_shared_resources.msg import Gait
 from std_msgs.msg import String
+from march_shared_resources.msg import Gait
 
 from rqt_input_device.MarchButton import MarchButton
 from rqt_input_device.LayoutBuilder import LayoutBuilder
@@ -85,7 +85,7 @@ class InputDevicePlugin(Plugin):
         self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
 
     def shutdown_plugin(self):
-        # TODO unregister all publishers here
+        # unregister all publishers here
         self.instruction_gait_pub.unregister()
         self.error_pub.unregister()
         self.shutdown_pub.unregister()
