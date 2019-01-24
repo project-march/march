@@ -57,15 +57,18 @@ class InputDevicePlugin(Plugin):
                                         callback=lambda: self.publish_gait("home_stand"))
         gait_sit_button = MarchButton(name="gait_sit", image="/gait_sit.png",
                                       callback=lambda: self.publish_gait("gait_sit"))
+        gait_walk_button = MarchButton(name="gait_walk", image="/gait_walk.png",
+                                       callback=lambda: self.publish_gait("gait_walk"))
         gait_stand_button = MarchButton(name="gait_stand", image="/gait_stand.png",
                                         callback=lambda: self.publish_gait("gait_stand"))
-        error_button = MarchButton(name="error", image="/error.png")
+        error_button = MarchButton(name="error", image="/error.png", callback=lambda: self.error())
         off_button = MarchButton(name="off", image="/off.png")
 
         # The button layout. Position in the array determines position on screen.
         march_button_layout = [
             [home_sit_button, home_stand_button],
             [gait_sit_button, gait_stand_button],
+            [gait_walk_button, None],
             [error_button, off_button],
         ]
 
