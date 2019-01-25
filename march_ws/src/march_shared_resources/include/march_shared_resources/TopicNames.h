@@ -46,6 +46,7 @@ const char* const gait_denied = "march/gait/denied";
 
 // Trajectory instruction for ROS Control
 const char* const follow_joint_trajectory_execution = "/march/trajectory_controller/follow_joint_trajectory/goal";
+const char* const follow_joint_trajectory_execution_states = "/march/trajectory_controller/follow_joint_trajectory/feedback";
 
 // TODO(Tim): remove the old controller command topics
 const char* const right_ankle_position = "march/right_ankle_position_controller/command";
@@ -70,6 +71,7 @@ namespace ActionNames
 {
 // Trajectory Server which receives the created trajectory from moveit.
 const char* const follow_joint_trajectory = "exo_controller/follow_joint_trajectory";
+const char* const target_pose = "march/target_pose";
 };
 
 #endif  // MARCH_SHARED_RESOURCES_TOPICNAMES_H
