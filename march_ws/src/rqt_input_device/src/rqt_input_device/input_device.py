@@ -5,7 +5,7 @@ import rospkg
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from std_msgs.msg import String
+from std_msgs.msg import String, Empty
 from march_shared_resources.msg import Gait
 
 from rqt_input_device.MarchButton import MarchButton
@@ -61,14 +61,18 @@ class InputDevicePlugin(Plugin):
                                        callback=lambda: self.publish_gait("gait_walk"))
         gait_stand_button = MarchButton(name="gait_stand", image="/gait_stand.png",
                                         callback=lambda: self.publish_gait("gait_stand"))
-        error_button = MarchButton(name="error", image="/error.png", callback=lambda: self.error())
-        off_button = MarchButton(name="off", image="/off.png")
+
+        stop_button = MarchButton(name="gait_stop", image="/stop.png",
+                                       callback=lambda: self.publish_stop())
+
+        error_button = MarchButton(name="error", image="/error.png", callback=lambda: self.publish_error())
+        off_button = MarchButton(name="off", image="/off.png", callback=lambda: self.publish_shutdown())
 
         # The button layout. Position in the array determines position on screen.
         march_button_layout = [
             [home_sit_button, home_stand_button],
             [gait_sit_button, gait_stand_button],
-            [gait_walk_button, None],
+            [gait_walk_button, stop_button],
             [error_button, off_button],
         ]
 
@@ -84,12 +88,16 @@ class InputDevicePlugin(Plugin):
 
         # ROS publishers. It is important that you unregister them in the self.shutdown method.
         self.instruction_gait_pub = rospy.Publisher('march/input_device/instruction/gait', Gait, queue_size=10)
+        self.stop_pub = rospy.Publisher('march/input_device/instruction/stop', Empty, queue_size=10)
+
         self.error_pub = rospy.Publisher('march/error', String, queue_size=10)
         self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
 
     def shutdown_plugin(self):
         # unregister all publishers here
         self.instruction_gait_pub.unregister()
+        self.stop_pub.unregister()
+
         self.error_pub.unregister()
         self.shutdown_pub.unregister()
 
@@ -106,15 +114,19 @@ class InputDevicePlugin(Plugin):
         pass
 
     def publish_gait(self, string):
-        rospy.loginfo(string)
+        rospy.logdebug("Mock Input Device published gait: " + string)
         self.instruction_gait_pub.publish(Gait(string, 1000))
 
-    def shutdown(self):
-        rospy.loginfo("Shutting down...")
+    def publish_stop(self):
+        rospy.logdebug("Mock Input Device published stop")
+        self.stop_pub.publish(Empty())
+
+    def publish_shutdown(self):
+        rospy.logdebug("Mock Input Device published shutdown")
         self.shutdown_pub.publish("shut down")
 
-    def error(self):
-        rospy.loginfo("Error...")
+    def publish_error(self):
+        rospy.logdebug("Mock Input Device published error")
         self.error_pub.publish("Error")
 
     #def trigger_configuration(self):
