@@ -46,7 +46,8 @@ const char* const gait_denied = "march/gait/denied";
 
 // Trajectory instruction for ROS Control
 const char* const follow_joint_trajectory_execution = "/march/trajectory_controller/follow_joint_trajectory/goal";
-const char* const follow_joint_trajectory_execution_states = "/march/trajectory_controller/follow_joint_trajectory/feedback";
+const char* const follow_joint_trajectory_execution_states = "/march/trajectory_controller/follow_joint_trajectory/"
+                                                             "feedback";
 
 // TODO(Tim): remove the old controller command topics
 const char* const right_ankle_position = "march/right_ankle_position_controller/command";
@@ -55,6 +56,11 @@ const char* const left_knee_position = "march/left_knee_position_controller/comm
 const char* const left_ankle_position = "march/left_ankle_position_controller/command";
 const char* const right_hip_position = "march/right_hip_position_controller/command";
 const char* const right_knee_position = "march/right_knee_position_controller/command";
+
+// Sensor topics
+// Temperature @todo(Tim) use a message with the ability to indicate which sensor belongs to the temperature
+const char* const temperature = "march/temperature";
+
 
 };  // namespace TopicNames
 
