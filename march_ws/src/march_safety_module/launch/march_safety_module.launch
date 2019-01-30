@@ -1,0 +1,8 @@
+<launch>
+  <node name="march_safety_node" pkg="march_safety_module" type="march_safety_node" output="screen">
+    <rosparam>
+      high_temperature: 60
+      max_temperature: 100
+    </rosparam>
+  </node>
+</launch>
