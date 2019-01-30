@@ -10,6 +10,9 @@
     <!-- Load the URDF of the exoskeleton in the ROS parameter server.-->
     <include file="$(find march_description)/launch/load_description.launch"/>
 
+    <!-- Launch the state machine package.-->
+    <include file="$(find march_safety_module)/launch/march_safety_module.launch"/>
+
     <!-- Launch the gazebo package.-->
     <include file="$(find march_gazebo)/launch/march_world.launch">
         <arg name="gui" value="$(arg gazebo_ui)"/>
