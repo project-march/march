@@ -91,7 +91,7 @@ class InputDevicePlugin(Plugin):
         self.stop_pub = rospy.Publisher('march/input_device/instruction/stop', Empty, queue_size=10)
 
         self.error_pub = rospy.Publisher('march/error', String, queue_size=10)
-        self.shutdown_pub = rospy.Publisher('march/shutdown', String, queue_size=10)
+        self.shutdown_pub = rospy.Publisher('march/input_device/instruction/shutdown', String, queue_size=10)
 
     def shutdown_plugin(self):
         # unregister all publishers here
