@@ -29,9 +29,20 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "input_device_node");
   ros::NodeHandle n;
   ros::Rate rate(200);
-  //TopicNames::temperature +
-  ros::Subscriber subscriber_temperature = n.subscribe("march/temperature/fake_ankle_joint", 1000, temperatureCallback);
-  ros::Publisher input_device_gait = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
+
+  std::vector<std::string> sensor_names;
+  n.getParam("/sensors", sensor_names);
+
+  // Create a subscriber for each sensor
+  std::vector<ros::Subscriber> temperature_subscribers;
+
+  for (std::string sensor_name : sensor_names)
+  {
+    ros::Subscriber subscriber_temperature = n.subscribe(std::string(TopicNames::temperature) + "/" + sensor_name, 1000, temperatureCallback);
+    temperature_subscribers.push_back(subscriber_temperature);
+  }
+
+  error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
 
   while (ros::ok())
   {
