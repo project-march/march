@@ -5,20 +5,34 @@
 
 TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::NodeHandle n)
 {
-  n.getParam(ros::this_node::getName() + std::string("/temperature_threshold"), temperature_threshold);
+  n.getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
+  n.getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
   this->error_publisher = error_publisher;
   this->createSubscribers();
 }
 
 void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
 {
-  if (msg->temperature > temperature_threshold)
+  double threshold;
+  // Find the specific defined threshold for this sensor
+  if (temperature_thresholds_map.find(sensor_name) != temperature_thresholds_map.end())
+  {
+    threshold = temperature_thresholds_map[sensor_name]; // Set specific defined threshold for this sensor
+  }
+  else
+  {
+    threshold = default_temperature_threshold; // Fall back to default if there is no defined threshold
+  }
+  // If the threshold is exceeded raise an error
+  if (msg->temperature > threshold)
   {
     auto error_msg = createErrorMessage(msg->temperature, sensor_name);
     ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
     error_publisher->publish(error_msg);
   }
 }
+
+void TemperatureSafety::()
 
 march_shared_resources::Error TemperatureSafety::createErrorMessage(double temperature, const std::string& sensor_name)
 {

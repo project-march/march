@@ -2,8 +2,11 @@
 
     <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">
         <rosparam>
-            <!--All safety thresholds -->
-            temperature_threshold: 80
+            default_temperature_threshold: 80
+        </rosparam>
+        <rosparam param="temperature_thresholds">
+            ankle_joint: 60
+            knee_joint: 90
         </rosparam>
     </node>
 </launch>

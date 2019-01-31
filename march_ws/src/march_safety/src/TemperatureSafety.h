@@ -12,7 +12,8 @@ class TemperatureSafety
 {
   ros::NodeHandle n;
   ros::Publisher* error_publisher;
-  double temperature_threshold;
+  double default_temperature_threshold;
+  std::map<std::string, double> temperature_thresholds_map;
   std::vector<ros::Subscriber> temperature_subscribers = {};
 
   /**
