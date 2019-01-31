@@ -1,13 +1,13 @@
 <launch>
 
-  <rosparam>
-    sensors: [fake_ankle_joint, fake_hip_joint]
-  </rosparam>
-
-  <node name="march_safety_node" pkg="march_safety_module" type="march_safety_node" output="screen">
     <rosparam>
-      high_temperature: 60
-      max_temperature: 100
+        sensors: [fake_ankle_joint, fake_hip_joint]
     </rosparam>
-  </node>
+
+    <node name="march_safety_node" pkg="march_safety_module" type="march_safety_node" output="screen">
+        <rosparam>
+            <!--All safety thresholds -->
+            temperature_threshold: 60
+        </rosparam>
+    </node>
 </launch>
