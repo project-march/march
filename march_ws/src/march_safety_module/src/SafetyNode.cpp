@@ -12,18 +12,18 @@
 ros::Publisher error_publisher;
 double temperature_threshold;
 
-void temperatureCallback(const ros::MessageEvent<sensor_msgs::Temperature const>& event)
+void temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
 {
-  boost::shared_ptr<const sensor_msgs::Temperature> msg = event.getMessage();
   if (msg->temperature > temperature_threshold)
   {
     march_shared_resources::Error error_msg;
     error_msg.error_code = 1;
-    std::string sender_topic = event.getConnectionHeader().at("topic");
-    std::ostringstream message;
-    message << "Temperature of " << sender_topic << " with temperature " << msg->temperature << " degrees is to high!";
-    ROS_ERROR(message.str().c_str());
-    error_msg.error_message = message.str();
+    std::ostringstream message_stream;
+    message_stream << "Temperature of " << sensor_name << " with temperature " << msg->temperature << " degrees is to "
+                                                                                                      "high!";
+    std::string error_message = message_stream.str();
+    ROS_ERROR("%s", error_message.c_str());
+    error_msg.error_message = error_message;
     error_publisher.publish(error_msg);
   }
 }
@@ -43,8 +43,10 @@ int main(int argc, char** argv)
 
   for (std::string sensor_name : sensor_names)
   {
+    // use boost::bind to pass on the sensor_name as extra parameter to the callback method
     ros::Subscriber subscriber_temperature =
-        n.subscribe(std::string(TopicNames::temperature) + "/" + sensor_name, 1000, temperatureCallback);
+        n.subscribe<sensor_msgs::Temperature>(std::string(TopicNames::temperature) + "/" + sensor_name, 1000,
+                                              boost::bind(temperatureCallback, _1, sensor_name));
     temperature_subscribers.push_back(subscriber_temperature);
   }
 
