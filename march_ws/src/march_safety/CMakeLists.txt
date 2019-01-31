@@ -27,6 +27,6 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(march_safety_node src/SafetyNode.cpp)
+add_executable(march_safety_node src/SafetyNode.cpp src/TemperatureSafety.cpp src/TemperatureSafety.h)
 add_dependencies(march_safety_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(march_safety_node ${catkin_LIBRARIES})

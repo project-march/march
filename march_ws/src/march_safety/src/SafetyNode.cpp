@@ -4,51 +4,11 @@
 #include "std_msgs/Float64.h"
 #include "std_msgs/Empty.h"
 #include "sensor_msgs/Temperature.h"
+#include "TemperatureSafety.h"
 #include <sstream>
 
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/Error.h>
-
-ros::Publisher error_publisher;
-double temperature_threshold;
-
-/**
- * This callback checks if the temperature values do not exceed the defined threshold
- * @param msg the temperature message
- * @param sensor_name the name of the sender
- */
-void temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
-{
-  if (msg->temperature > temperature_threshold)
-  {
-    march_shared_resources::Error error_msg;
-
-    // For now a randomly chosen error code
-    error_msg.error_code = 1;
-
-    // Create the error message
-    std::ostringstream message_stream;
-    message_stream << sensor_name << " temperature too high: " << msg->temperature;
-    std::string error_message = message_stream.str();
-
-    ROS_ERROR("%s", error_message.c_str());
-    error_msg.error_message = error_message;
-    error_publisher.publish(error_msg);
-  }
-}
-
-void createTemperatureSubscribers(std::vector<ros::Subscriber>* temperature_subscribers,
-                                  std::vector<std::string>* sensor_names, ros::NodeHandle* n)
-{
-  for (std::string sensor_name : *sensor_names)
-  {
-    // use boost::bind to pass on the sensor_name as extra parameter to the callback method
-    ros::Subscriber subscriber_temperature =
-        n->subscribe<sensor_msgs::Temperature>(std::string(TopicNames::temperature) + "/" + sensor_name, 1000,
-                                               boost::bind(temperatureCallback, _1, sensor_name));
-    temperature_subscribers->push_back(subscriber_temperature);
-  }
-}
 
 int main(int argc, char** argv)
 {
@@ -56,17 +16,11 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(200);
 
-  // Load all parameters and threshold from the launch file
-  std::vector<std::string> sensor_names;
-  n.getParam("/sensors", sensor_names);
-  n.getParam(ros::this_node::getName() + std::string("/temperature_threshold"), temperature_threshold);
+  // Create a error publisher to notify the system (state machine) if something is wrong
+  ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
 
   // Create a subscriber for each sensor
-  std::vector<ros::Subscriber> temperature_subscribers;
-  createTemperatureSubscribers(&temperature_subscribers, &sensor_names, &n);
-
-  // Create a error publisher to notify the system (state machine) if something is wrong
-  error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
+  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, n);
 
   while (ros::ok())
   {

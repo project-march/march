@@ -1,13 +1,9 @@
 <launch>
 
-    <rosparam>
-        sensors: [fake_ankle_joint, fake_hip_joint]
-    </rosparam>
-
     <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">
         <rosparam>
             <!--All safety thresholds -->
-            temperature_threshold: 60
+            temperature_threshold: 80
         </rosparam>
     </node>
 </launch>

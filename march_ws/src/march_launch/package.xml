@@ -24,7 +24,7 @@
     <build_export_depend>march_control</build_export_depend>
     <build_export_depend>march_description</build_export_depend>
     <build_export_depend>march_gazebo</build_export_depend>
-    <build_export_depend>march_safety_module</build_export_depend>
+    <build_export_depend>march_safety</build_export_depend>
     <build_export_depend>march_state_machine</build_export_depend>
     <build_export_depend>march_state_machine_service</build_export_depend>
 </package>
