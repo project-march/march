@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(march_safety_module)
+project(march_safety)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS

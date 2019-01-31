@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>march_safety_module</name>
+  <name>march_safety</name>
   <version>0.0.0</version>
   <description>This package is responsible for observing and checking (sensor) data during run-time. If there is something wrong a warning/error message should be published</description>
   <maintainer email="software@projectmarch.nl">Project March</maintainer>
