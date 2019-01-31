@@ -15,7 +15,7 @@ void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstP
   if (msg->temperature > temperature_threshold)
   {
     auto error_msg = createErrorMessage(msg->temperature, sensor_name);
-    ROS_ERROR("%lu, %s", error_msg.error_code, error_msg.error_message.c_str());
+    ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
     error_publisher->publish(error_msg);
   }
 }
@@ -23,11 +23,13 @@ void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstP
 march_shared_resources::Error TemperatureSafety::createErrorMessage(double temperature, const std::string& sensor_name)
 {
   march_shared_resources::Error error_msg;
-  error_msg.error_code = 1; // For now a randomly chosen error code
   std::ostringstream message_stream;
   message_stream << sensor_name << " temperature too high: " << temperature;
   std::string error_message = message_stream.str();
+  //@TODO(Tim) Come up with real error codes
+  error_msg.error_code = 1;  // For now a randomly chosen error code
   error_msg.error_message = error_message;
+  error_msg.type = march_shared_resources::Error::FATAL;
   return error_msg;
 }
 
