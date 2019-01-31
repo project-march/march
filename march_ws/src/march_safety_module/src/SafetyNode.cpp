@@ -17,11 +17,15 @@ void temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std:
   if (msg->temperature > temperature_threshold)
   {
     march_shared_resources::Error error_msg;
+
+    // For now a randomly chosen error code
     error_msg.error_code = 1;
+
+    // Create the error message
     std::ostringstream message_stream;
-    message_stream << "Temperature of " << sensor_name << " with temperature " << msg->temperature << " degrees is to "
-                                                                                                      "high!";
+    message_stream << sensor_name << " temperature too high: " << msg->temperature;
     std::string error_message = message_stream.str();
+
     ROS_ERROR("%s", error_message.c_str());
     error_msg.error_message = error_message;
     error_publisher.publish(error_msg);
