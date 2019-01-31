@@ -12,14 +12,16 @@
 ros::Publisher error_publisher;
 double temperature_threshold;
 
-void temperatureCallback(const sensor_msgs::Temperature msg)
+void temperatureCallback(const ros::MessageEvent<sensor_msgs::Temperature const>& event)
 {
-  if (msg.temperature > temperature_threshold)
+  boost::shared_ptr<const sensor_msgs::Temperature> msg = event.getMessage();
+  if (msg->temperature > temperature_threshold)
   {
     march_shared_resources::Error error_msg;
     error_msg.error_code = 1;
+    std::string sender_topic = event.getConnectionHeader().at("topic");
     std::ostringstream message;
-    message << "Temperature of " << msg.temperature << " degrees is to high!";
+    message << "Temperature of " << sender_topic << " with temperature " << msg->temperature << " degrees is to high!";
     ROS_ERROR(message.str().c_str());
     error_msg.error_message = message.str();
     error_publisher.publish(error_msg);
