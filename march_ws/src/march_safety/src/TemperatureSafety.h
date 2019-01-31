@@ -35,6 +35,14 @@ class TemperatureSafety
    */
   void createSubscribers();
 
+  /**
+   * Find the specific defined threshold for this sensor
+   * If there is none, fall back to the default
+   * @param sensor_name
+   * @return the threshold
+   */
+  double getThreshold(const std::string& sensor_name);
+
 public:
   TemperatureSafety(ros::Publisher* error_publisher, ros::NodeHandle n);
 };
