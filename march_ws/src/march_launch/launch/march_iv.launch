@@ -13,11 +13,6 @@
     <!-- Launch the safety package.-->
     <include file="$(find march_safety)/launch/march_safety.launch"/>
 
-    <!-- Launch the gazebo package.-->
-    <!--<include file="$(find march_gazebo)/launch/march_world.launch">-->
-        <!--<arg name="gui" value="$(arg gazebo_ui)"/>-->
-    <!--</include>-->
-
     <!-- Launch the control package.-->
     <include file="$(find march_control)/launch/march_control.launch">
         <arg name="rviz" value="$(arg rviz)" />
