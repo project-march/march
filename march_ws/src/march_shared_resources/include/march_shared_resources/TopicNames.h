@@ -57,6 +57,8 @@ const char* const left_ankle_position = "march/left_ankle_position_controller/co
 const char* const right_hip_position = "march/right_hip_position_controller/command";
 const char* const right_knee_position = "march/right_knee_position_controller/command";
 
+const char* const error = "march/error";
+
 // The temperature base topic. All temperature sensors will publish on march/temperature/{sensor_name}
 const char* const temperature = "march/temperature";
 

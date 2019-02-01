@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>march_safety</name>
+  <version>0.0.0</version>
+  <description>This package is responsible for observing and checking (sensor) data during run-time. If there is something wrong a warning/error message should be published</description>
+  <maintainer email="software@projectmarch.nl">Project March</maintainer>
+  <license>TODO</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <build_depend>march_shared_resources</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>roslint</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>std_msgs</build_depend>
+
+  <build_export_depend>roscpp</build_export_depend>
+
+  <exec_depend>roscpp</exec_depend>
+
+  <export>
+  </export>
+</package>
