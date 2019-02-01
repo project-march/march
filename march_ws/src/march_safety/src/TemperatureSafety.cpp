@@ -32,6 +32,7 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name)
   else
   {
     // Fall back to default if there is no defined threshold
+    ROS_WARN_ONCE("There is no specific temperature threshold for %s sensor", sensor_name.c_str());
     return default_temperature_threshold;
   }
 }
