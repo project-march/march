@@ -18,14 +18,8 @@
 
 
 # -- Project information -----------------------------------------------------
-from recommonmark.parser import CommonMarkParser
-
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
-source_suffix = ['.rst', '.md']
-
+import subprocess
+subprocess.call('cd .. ; doxygen', shell=True)
 
 project = u'March IV'
 copyright = u'2019, Project March'
@@ -84,7 +78,7 @@ pygments_style = None
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-
+html_extra_path = ['../build/html']
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
