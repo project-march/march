@@ -18,15 +18,6 @@
 
 
 # -- Project information -----------------------------------------------------
-from recommonmark.parser import CommonMarkParser
-
-source_parsers = {
-    '.md': CommonMarkParser,
-}
-
-source_suffix = ['.rst', '.md']
-
-
 project = u'March IV'
 copyright = u'2019, Project March'
 author = u'Isha Dijcks, Tim Buckers'
@@ -84,7 +75,7 @@ pygments_style = None
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-
+html_extra_path = ['../_build/html']
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -150,6 +141,13 @@ man_pages = [
     (master_doc, 'marchiv', u'March IV Documentation',
      [author], 1)
 ]
+# -- Options for Doxygen
+import subprocess, os
+
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+
+if read_the_docs_build:
+    subprocess.call('cd ../doxygen; doxygen', shell=True)
 
 
 # -- Options for Texinfo output ----------------------------------------------
