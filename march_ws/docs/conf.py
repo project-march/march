@@ -34,12 +34,6 @@ release = u''
 #
 # needs_sphinx = '1.0'
 
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-extensions = [
-    'sphinx.ext.viewcode',
-]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -75,7 +69,6 @@ pygments_style = None
 # a list of builtin themes.
 #
 html_theme = "sphinx_rtd_theme"
-html_extra_path = ['../_build/html']
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -141,14 +134,6 @@ man_pages = [
     (master_doc, 'marchiv', u'March IV Documentation',
      [author], 1)
 ]
-# -- Options for Doxygen
-import subprocess, os
-
-read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-
-if read_the_docs_build:
-    subprocess.call('cd ../doxygen; doxygen', shell=True)
-
 
 # -- Options for Texinfo output ----------------------------------------------
 
@@ -181,3 +166,42 @@ epub_exclude_files = ['search.html']
 
 
 # -- Extension configuration -------------------------------------------------
+
+
+# Generate doxygen
+import subprocess
+subprocess.call('doxygen', shell=True)
+
+
+extensions = [
+    'sphinx.ext.viewcode',
+    'breathe',
+    'exhale'
+]
+
+# Setup the breathe extension
+breathe_projects = {
+    "March IV": "./doxyoutput/xml"
+}
+breathe_default_project = "March IV"
+
+# Setup the exhale extension
+exhale_args = {
+    # These arguments are required
+    "containmentFolder":     "./api",
+    "rootFileName":          "library_root.rst",
+    "rootFileTitle":         "Library API",
+    "doxygenStripFromPath":  "..",
+    # Suggested optional arguments
+    "createTreeView":        True,
+    # TIP: if using the sphinx-bootstrap-theme, you need
+    # "treeViewIsBootstrap": True,
+    "exhaleExecutesDoxygen": False,
+    # "exhaleDoxygenStdin":    "INPUT = ../src/"
+}
+
+# Tell sphinx what the primary language being documented is.
+primary_domain = 'cpp'
+
+# Tell sphinx what the pygments highlight language should be.
+highlight_language = 'cpp'

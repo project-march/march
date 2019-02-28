@@ -7,8 +7,8 @@ DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = "Project March"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
-PROJECT_LOGO           = /home/projectmarch/Documents/march-iv/march_ws/walking.png
-OUTPUT_DIRECTORY       = /home/projectmarch/Documents/march-iv/march_ws/docs/_build/
+PROJECT_LOGO           = ../walking.png
+OUTPUT_DIRECTORY       = doxyoutput/
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -111,7 +111,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = /home/projectmarch/Documents/march-iv/march_ws/src
+INPUT                  = ../src
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
@@ -193,7 +193,7 @@ IGNORE_PREFIX          =
 #---------------------------------------------------------------------------
 # Configuration options related to the HTML output
 #---------------------------------------------------------------------------
-GENERATE_HTML          = YES
+GENERATE_HTML          = NO
 HTML_OUTPUT            = html
 HTML_FILE_EXTENSION    = .html
 HTML_HEADER            =
@@ -290,7 +290,7 @@ MAN_LINKS              = NO
 #---------------------------------------------------------------------------
 # Configuration options related to the XML output
 #---------------------------------------------------------------------------
-GENERATE_XML           = NO
+GENERATE_XML           = YES
 XML_OUTPUT             = xml
 XML_PROGRAMLISTING     = YES
 #---------------------------------------------------------------------------
