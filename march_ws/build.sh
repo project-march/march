@@ -26,42 +26,46 @@ skip_package() {
     done
     echo 0
 }
-#
+
 #catkin_make --pkg march_shared_resources || build_failed "march shared resources catkin_make failed"
 #
 #catkin_make || build_failed "Catkin_make failed"
 #
-## cpplinter.
-#catkin_make roslint_march_input_device || build_failed "ros_lint failed in march_input_device"
-#catkin_make roslint_march_state_machine_service || build_failed "ros_lint failed in march_state_machine_service"
-#catkin_make roslint_march_control || build_failed "ros_lint failed in march_control"
+#for directory in $(find -O3 -L src/ -name "CMakeLists.txt")
+#do
+#
+#    if [[ "$directory" == *"march_"* ]]
+#    then
+#            package_name=$(basename $(dirname "${directory}"))
+#            package_roslint="roslint_$package_name"
+#            should_skip="$(skip_package ${package_name})"
+#            echo ${should_skip}
+#            if [[ ${should_skip} == "0" ]]
+#            then
+#                catkin_make ${package_roslint} || build_failed "ros_lint failed in $package_name"
+#            fi
+#    fi
+#done
+#
+#
+#
+## Catkin lint, fail on errors only. TODO remove missing_directory.
+#catkin_lint src/*/ --ignore missing_directory --ignore literal_project_name --ignore missing_install_target --explain -W2 || build_failed "catkin_lint failed"
 
-for directory in $(find -O3 -L src/ -name "CMakeLists.txt")
+# Pycodestyle runs on the state_machine python package
+
+for directory in $(find -O3 -L src/ -name "setup.py")
 do
-
     if [[ "$directory" == *"march_"* ]]
     then
-            package_name=$(basename $(dirname "${directory}"))
-            package_roslint="roslint_$package_name"
-            should_skip="$(skip_package ${package_name})"
-            echo ${should_skip}
-            if [[ ${should_skip} == "0" ]]
-            then
-#                echo "check this package ${package_name}"
-                catkin_make ${package_roslint} || build_failed "ros_lint failed in $package_name"
-            fi
+            package_path=$(dirname "${directory}")
+            echo ${package_path}
+            pycodestyle ${package_name} || build_failed "pycodestyle failed in ${package_path}"
     fi
 done
 
 
-#
-## Catkin lint, fail on errors only. TODO remove missing_directory.
-#catkin_lint src/*/ --ignore missing_directory --ignore literal_project_name --ignore missing_install_target --explain -W2 || build_failed "catkin_lint failed"
-#
-## Pycodestyle runs on the state_machine python package
-#pycodestyle src/state-machine/march_state_machine || build_failed "pycodestyle failed in march_state_machine"
-#
-## Run the tests, ensuring the path is set correctly.
+# Run the tests, ensuring the path is set correctly.
 #source devel/setup.bash || exit 1
 #catkin_make run_tests && catkin_test_results || build_failed "Tests failed"
 
