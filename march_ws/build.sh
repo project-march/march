@@ -60,7 +60,7 @@ do
     then
             package_path=$(dirname "${directory}")
             echo ${package_path}
-            pycodestyle $package_path || build_failed "pycodestyle failed in ${package_path}"
+            pycodestyle ${package_path} || build_failed "pycodestyle failed in ${package_path}"
     fi
 done
 
