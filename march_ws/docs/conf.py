@@ -34,6 +34,9 @@ release = u''
 #
 # needs_sphinx = '1.0'
 
+extensions = [
+    'sphinx.ext.viewcode',
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -142,7 +145,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     (master_doc, 'MarchIV', u'March IV Documentation',
-     author, 'MarchIV', 'One line description of project.',
+     author, 'MarchIV', 'Documentation to work with the March IV exoskeleton.',
      'Miscellaneous'),
 ]
 
@@ -171,37 +174,3 @@ epub_exclude_files = ['search.html']
 # Generate doxygen
 import subprocess
 subprocess.call('doxygen', shell=True)
-
-
-extensions = [
-    'sphinx.ext.viewcode',
-    'breathe',
-    'exhale'
-]
-
-# Setup the breathe extension
-breathe_projects = {
-    "March IV": "./doxyoutput/xml"
-}
-breathe_default_project = "March IV"
-
-# Setup the exhale extension
-exhale_args = {
-    # These arguments are required
-    "containmentFolder":     "./api",
-    "rootFileName":          "library_root.rst",
-    "rootFileTitle":         "Library API",
-    "doxygenStripFromPath":  "..",
-    # Suggested optional arguments
-    "createTreeView":        True,
-    # TIP: if using the sphinx-bootstrap-theme, you need
-    # "treeViewIsBootstrap": True,
-    "exhaleExecutesDoxygen": False,
-    # "exhaleDoxygenStdin":    "INPUT = ../src/"
-}
-
-# Tell sphinx what the primary language being documented is.
-primary_domain = 'cpp'
-
-# Tell sphinx what the pygments highlight language should be.
-highlight_language = 'cpp'
