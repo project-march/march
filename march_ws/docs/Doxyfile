@@ -1,5 +1,7 @@
 # Doxyfile 1.8.11
 
+# Explanation for each settings here http://www.doxygen.nl/manual/config.html.
+
 #---------------------------------------------------------------------------
 # Project related configuration options
 #---------------------------------------------------------------------------
