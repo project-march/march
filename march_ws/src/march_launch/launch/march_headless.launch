@@ -1,0 +1,18 @@
+<launch>
+    <rosparam>
+        march:
+            launch_settings:
+                rqt_launch_menu: false
+                run_configuration: exoskeleton
+    </rosparam>
+
+    <!-- Launch the description package-->
+    <!-- Load the URDF of the exoskeleton in the ROS parameter server.-->
+    <include file="$(find march_description)/launch/load_description.launch"/>
+
+    <!-- Launch the safety package.-->
+    <include file="$(find march_safety)/launch/march_safety.launch"/>
+
+    <!-- Launch the state machine package.-->
+    <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
+</launch>
