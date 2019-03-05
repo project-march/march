@@ -174,5 +174,4 @@ epub_exclude_files = ['search.html']
 
 # Generate doxygen
 import subprocess
-subprocess.call('make clean', shell=True)
-subprocess.call('rosdoc_lite ../../src/march_shared_resources/ -o ./build/march_shared_resources', shell=True)
+subprocess.call('./doc.sh', shell=True)
