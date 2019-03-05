@@ -10,7 +10,6 @@ Welcome to March IV's documentation!
 
 Indices and tables
 ==================
-r
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
