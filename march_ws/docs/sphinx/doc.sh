@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cwd=$(pwd)
-base_output_dir="$cwd/build/"
+base_output_dir="$cwd/_build/"
 
 for directory in $(find -O3 -L ../../src/ -name "CMakeLists.txt")
 do
@@ -21,10 +21,10 @@ do
 
                 ( cat Doxyfile ; echo "OUTPUT_DIRECTORY=$output_dir" ) | doxygen -
                 cd "$cwd"
-                mkdir build/html/$package_name
-                mv  build/$package_name/html/*  build/html/$package_name
-                rmdir build/$package_name/html
-                rmdir build/$package_name/
+                mkdir _build/html/$package_name
+                mv  _build/$package_name/html/*  _build/html/$package_name
+                rmdir _build/$package_name/html
+                rmdir _build/$package_name/
             fi
             echo ""
 
