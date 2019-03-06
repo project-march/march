@@ -2,6 +2,7 @@
 
 cwd=$(pwd)
 base_output_dir="$cwd/_build/"
+git checkout develop && git pull && git submodule foreach git checkout develop && git submodule foreach git pull
 
 for directory in $(find -O3 -L ../../src/ -name "CMakeLists.txt")
 do
