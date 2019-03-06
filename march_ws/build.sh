@@ -51,8 +51,6 @@ do
     fi
 done
 
-
-
 # Catkin lint, fail on errors only. TODO remove missing_directory.
 catkin_lint src/*/ --ignore missing_directory --ignore literal_project_name --ignore missing_install_target --explain -W2 || build_failed "catkin_lint failed"
 
@@ -72,9 +70,13 @@ source devel/setup.bash || exit 1
 catkin_make run_tests && catkin_test_results || build_failed "Tests failed"
 
 # Run roslaunch check on all directories with a launch folder.
+# Except the excluded packages
+declare -a excluded_packages=("march_moveit")
 for directory in $(find -O3 -L src/ -type d -name "launch")
 do
-    if [[ "$directory" != *"march_moveit"* ]]
+    package_name=$(basename $(dirname "${directory}"))
+    should_skip="$(skip_package ${package_name} ${excluded_packages})"
+    if [[ ${should_skip} == "0" ]]
     then
         rosrun roslaunch roslaunch-check $directory || build_failed "roslaunch-check failed in directory $directory"
     fi
