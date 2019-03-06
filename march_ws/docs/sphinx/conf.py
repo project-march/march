@@ -174,4 +174,4 @@ epub_exclude_files = ['search.html']
 
 # Generate doxygen
 import subprocess
-subprocess.call('./doc.sh', shell=True)
+subprocess.call('cd ..; doxygen', shell=True)
