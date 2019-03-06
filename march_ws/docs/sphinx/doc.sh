@@ -30,3 +30,6 @@ do
 
     fi
 done
+
+ls
+echo $PWD
