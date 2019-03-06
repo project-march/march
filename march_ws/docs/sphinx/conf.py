@@ -61,7 +61,7 @@ language = None
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
 exclude_patterns = [u'_build', 'Thumbs.db', '.DS_Store']
-html_extra_path = ['_build/html/march_fake_sensor_data/']
+html_extra_path = ['../_build/html/march_fake_sensor_data/']
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = None
