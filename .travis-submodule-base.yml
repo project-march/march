@@ -2,7 +2,7 @@ language: cpp
 
 install:
   - pip install --user catkin_lint
-  - pip install --user pycodestyle
+  - pip install --user pycodestyle --max-line-length 120
 
 script:
   - catkin_lint */ --ignore missing_directory --ignore literal_project_name --ignore missing_install_target --explain -W2

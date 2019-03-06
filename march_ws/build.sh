@@ -63,7 +63,7 @@ do
     then
             package_path=$(dirname "${directory}")
             echo ${package_path}
-            pycodestyle ${package_path} || build_failed "pycodestyle failed in ${package_path}"
+            pycodestyle ${package_path} --max-line-length 120 || build_failed "pycodestyle failed in ${package_path}"
     fi
 done
 
