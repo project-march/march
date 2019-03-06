@@ -1,7 +1,3 @@
 <launch>
-    <include file="$(find march_description)/launch/load_description.launch"/>
-
-    <include file="$(find march_safety)/launch/march_safety.launch"/>
-
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
 </launch>
