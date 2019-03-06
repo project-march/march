@@ -5,7 +5,7 @@ Welcome to March IV's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-`<../march_shared_resources/html/index.html>`_
+`<./march_fake_sensor_data>`_
 
 
 Indices and tables

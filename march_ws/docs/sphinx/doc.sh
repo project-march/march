@@ -9,18 +9,14 @@ do
     if [[ "$directory" == *"march_"* ]]
     then
             package_name=$(basename $(dirname "${directory}"))
-            echo "$package_name"
             dir_name=$(dirname "${directory}")
-            echo "$dir_name"
             output_dir="$base_output_dir$package_name"
-            echo "$output_dir"
             doxyfile="$dir_name/docs/Doxyfile"
-            echo $doxyfile
 
             if [ ! -f $doxyfile ]; then
-                echo "File not found!"
+                echo "Skipping package $package_name, no Doxyfile found at $doxyfile."
             else
-                echo "File found!!!!!!!!!!"
+                echo "Building documentation for package $package_name, Doxyfile found at $doxyfile."
                 cd "$dir_name/docs"
 
                 ( cat Doxyfile ; echo "OUTPUT_DIRECTORY=$output_dir" ) | doxygen -
