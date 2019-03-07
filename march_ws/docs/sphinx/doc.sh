@@ -2,7 +2,7 @@
 
 cwd=$(pwd)
 base_output_dir="$cwd/_build/"
-#git checkout develop && git pull && git submodule foreach git checkout develop && git submodule foreach git pull
+git checkout develop && git pull && git submodule foreach git checkout develop && git submodule foreach git pull
 
 for directory in $(find -O3 -L ../../src/ -name "CMakeLists.txt")
 do
@@ -22,15 +22,12 @@ do
 
                 ( cat Doxyfile ; echo "OUTPUT_DIRECTORY=$output_dir" ) | doxygen -
                 cd "$cwd"
-                mkdir _build/html/$package_name
-                mv  _build/$package_name/html/*  _build/html/$package_name
-                rmdir _build/$package_name/html
+                mkdir -p _build/xml/$package_name
+                mv  _build/$package_name/xml/*  _build/xml/$package_name
+                rmdir _build/$package_name/xml
                 rmdir _build/$package_name/
             fi
-            echo ""
-
     fi
 done
 
-ls
 echo $PWD

@@ -15,6 +15,12 @@
 import sys
 import os
 
+# Generate doxygen
+
+import subprocess
+# subprocess.call('cd ..; doxygen Doxyfile; cd sphinx', shell=True)
+subprocess.call('./doc.sh', shell=True)
+
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
@@ -31,7 +37,13 @@ import os
 extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'breathe'
 ]
+
+breathe_projects = {'fake_sensor_data': '_build/xml/march_fake_sensor_data/'}
+breathe_default_project = "fake_sensor_data"
+
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -110,7 +122,7 @@ todo_include_todos = False
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'alabaster'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -144,7 +156,7 @@ html_static_path = ['_static']
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
-html_extra_path = ["build/html"]
+# html_extra_path = ["_build/html"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -284,10 +296,3 @@ texinfo_documents = [
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
 #texinfo_no_detailmenu = False
-
-# Generate doxygen
-
-import subprocess
-read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-if read_the_docs_build:
-    subprocess.call('./doc.sh', shell=True)
