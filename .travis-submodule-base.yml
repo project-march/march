@@ -6,5 +6,5 @@ install:
 
 script:
   - catkin_lint */ --ignore missing_directory --ignore literal_project_name --ignore missing_install_target --explain -W2
-  - pycodestyle
+  - pycodestyle . --max-line-length 120
   - if [ ! "${TRAVIS_PULL_REQUEST}" == "false" ]; then ./trigger-dependent-build.sh ; fi
