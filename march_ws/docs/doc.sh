@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-cwd=$(pwd)
-base_output_dir="$cwd/_build/"
+rm -rf build/
 
-for directory in $(find -O3 -L ../../src/ -name "CMakeLists.txt")
+cwd=$(pwd)
+base_output_dir="$cwd/build/"
+
+for directory in $(find -O3 -L ../src/ -name "CMakeLists.txt")
 do
 
     if [[ "$directory" == *"march_"* ]]
@@ -17,14 +19,16 @@ do
                 echo "Skipping package $package_name, no Doxyfile found at $doxyfile."
             else
                 echo "Building documentation for package $package_name, Doxyfile found at $doxyfile."
+                mkdir -p build/$package_name
                 cd "$dir_name/docs"
 
                 ( cat Doxyfile ; echo "OUTPUT_DIRECTORY=$output_dir" ) | doxygen -
                 cd "$cwd"
-                mkdir -p _build/xml/$package_name
-                mv  _build/$package_name/xml/*  _build/xml/$package_name
-                rmdir _build/$package_name/xml
-                rmdir _build/$package_name/
+
+                mkdir -p build/html/$package_name
+                mv  build/$package_name/html/*  build/html/$package_name
+                rmdir build/$package_name/html
+                rmdir build/$package_name/
             fi
     fi
 done
