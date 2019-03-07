@@ -22,7 +22,6 @@ devel_isolated/
 /cfg/*.py
 
 # Ignore generated docs
-*.dox
 *.wikidoc
 docs/build/*
 

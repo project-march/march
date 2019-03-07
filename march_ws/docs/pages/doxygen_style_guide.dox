@@ -1,0 +1,177 @@
+/**
+* @page page Doxygen style guide
+* @section introduction Introduction
+*
+* @note Doxygen style guide taken from <a href="http://micro-os-plus.github.io/develop/doxygen-style-guide/"> this page</a>.
+*
+* Doxygen has many, many features, and accepts various syntaxes for its commands.
+*
+* This styleguide exists to keep the doxygen commands consistent across all packages in the project, as well as
+*    functioning as a quick cheet-sheet in case you forget how to write certain commands.
+*
+* If you have any questions about this styleguide or think something is missing/wrong,
+*     feel free to open an issue <a href="https://github.com/project-march/march-iv/issues"> here</a>.
+*
+* @section commands How to use the Doxygen commands
+*
+* @subsection comment_style /** Comments instead of ///
+*
+* @verbatim
+/**
+* ...
+*/
+@endverbatim
+* Note: Uninterrupted sequences of lines refer to the same object. To be sure the commands are not grouped together when this is not required, use separate comment blocks.
+*
+* @subsection command_style @@ Commands instead of @\
+*
+* Use @ to prefix commands, instead of \, which is considered too visually hurtful.
+*
+* @subsection explicit_brief Explicit @brief
+*
+* Explicitly use the @@brief command before the brief description. End the text with a dot. For visibility reasons, add an empty line inside the same comment block.
+*@verbatim
+/**
+ * @brief Base for all architecture implementation classes.
+*/
+@endverbatim
+*
+* @subsection explicit_detail Explicit @details
+*
+* Explicitly use the @@details command, on a separate line, before the main documentation text.
+*
+* For class member functions, the details should be placed before the implementation; although allowed by Doxygen, avoid placing details both at the declaration and definitions, since it is difficult to keep them consistent (see below).
+*@verbatim
+/**
+* @details
+* The @ref trace_streambuf_base class implements an @ref ostream class
+* to be used by the @ref trace class.
+*/
+@endverbatim
+*
+* @subsection declaration_definitions Use @brief with declarations and @details with definitions
+*
+* Contrary to Java, the C++ sources are usually split between a .h file with declarations and a .cpp file with the method/functions definitions.
+*
+* Always add the @@brief, @@param and @@return/@@retval commands in the header file before the member declaration, and the detailed part of the documentation before the member definition (be it in .h for inline definitions or in .cpp for regular definitions).
+* @subsection back_ticks Back apostrophes for references to code
+*
+* Always use \`something\` instead of \@c something, or \@p something, or \<code>something\</code>.
+* @subsection italics Underscores for italics
+*
+* Use underscores to mark italics texts.
+* @subsection bold Double asterisks for bold
+*
+* Use asterisks to mark bold texts.
+* @subsection code Use @code for sequences of source lines
+*
+* When including lines of code, surround them by \@code, \@endcode and add the language. For visibility reasons, add empty lines inside the comment block.
+*@verbatim
+/**
+* @code{.cpp}
+* set_class_name("os::infra::test_suite");
+* @endcode
+*/
+@endverbatim
+*
+* @subsection verbatim Use \@verbatim for other pre-formatted lines
+When including other lines, like shell commands, surround them by \@verbatim, \@endverbatim:
+*@verbatim
+/**
+* verbatim
+* /bin/bash micro-os-plus-se.git/scripts/runTests.sh
+* endverbatim
+*/
+@endverbatim
+* @note `@` ommited in the previous example to avoid triggering the actual command.
+*
+* @subsection lists Lists
+*
+* Use `*` to enter bulleted lists, and `#` to enter numbered lists.
+*
+* For multiple levels use additional indentations.
+@verbatim
+/**
+* * first level 1
+*   * first level 2
+*   * second level 2
+* * second level 1
+*/
+@endverbatim
+*
+* * first level 1
+*   * first level 2
+*   * second level 2
+* * second level 1
+*
+* @subsection tables Tables
+*
+* Use the below syntax to enter tables. Columns can be left/right aligned.
+*
+*@verbatim
+/**
+* | Right | Center | Left  |
+* | ----: | :----: | :---- |
+* | 10    | 10     | 10    |
+* | 1000  | 1000   | 1000  |
+*/
+@endverbatim
+*
+* | Right | Center | Left  |
+* | ----: | :----: | :---- |
+* | 10    | 10     | 10    |
+* | 1000  | 1000   | 1000  |
+*
+* @subsection external_links External links
+*
+* Links to other pages can be expressed with the following markup:
+*
+@verbatim
+/**
+* [The link text](http://example.net/)
+*/
+@endverbatim
+*
+* @subsection param Use @param for function parameters
+*
+* Use `@param [in]` for usual input parameters, and occasionally `[out]` for output parameters. Start the explanation with upper case and end the line with a dot.
+*
+* To make the explanation more readable, use tabs to right align the content.
+* @verbatim
+/**
+* @param [in]  c  An additional character to consume.
+*/
+@endverbatim
+*
+* If the function has no parameters, use a custom paragraph containing *None.*, indented with a tab and terminated with a dot.
+*@verbatim
+/**
+* @par Parameters
+*    None.
+*/
+@endverbatim
+* @subsection return_values Use @return or @retval for the returned result
+*
+* If the function returns discrete values, enumerate them with `@retval` and terminate the list with an empty line.
+@verbatim
+/**
+* @retval -1 Error
+* @retval 0 OK
+*/
+@endverbatim
+*
+* If the function returns a scalar value, use a `@return` and explain what the value represents.
+*@verbatim
+/**
+* @return The number of bytes actually written.
+*/
+@endverbatim
+*
+* If the function has no return value, use a custom paragraph containing Nothing., indented with a tab and terminated with a dot.
+*@verbatim
+/**
+* @par Returns
+*    Nothing.
+*/
+@endverbatim
+*/
