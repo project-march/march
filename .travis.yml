@@ -47,13 +47,14 @@ language:
 - cpp
 cache:
 - apt
+
 notifications:
   slack: projectmarch:VQJiTUJ2UeXcTvKc7MKezeN0
 
 addons:
   apt:
     packages:
-  - doxygen
+    - doxygen
 
 git:
   submodules: true
