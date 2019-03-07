@@ -10,7 +10,7 @@ PROJECT_NAME           = "Project March"
 PROJECT_NUMBER         =
 PROJECT_BRIEF          =
 PROJECT_LOGO           = ../walking.png
-OUTPUT_DIRECTORY       = _build
+OUTPUT_DIRECTORY       = sphinx-test/_build
 CREATE_SUBDIRS         = NO
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
@@ -113,7 +113,7 @@ WARN_LOGFILE           =
 #---------------------------------------------------------------------------
 # Configuration options related to the input files
 #---------------------------------------------------------------------------
-INPUT                  = ../src pages/doxygen_style_guide.dox
+INPUT                  = pages
 INPUT_ENCODING         = UTF-8
 FILE_PATTERNS          = *.c \
                          *.cc \
