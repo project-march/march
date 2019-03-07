@@ -289,3 +289,5 @@ texinfo_documents = [
 import subprocess
 subprocess.call('cd ..; doxygen', shell=True)
 subprocess.call('./doc.sh', shell=True)
+
+exit(0)
