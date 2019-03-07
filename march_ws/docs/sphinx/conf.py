@@ -144,7 +144,7 @@ html_static_path = ['_static']
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
 # directly to the root of the documentation.
-#html_extra_path = []
+html_extra_path = ["build/html"]
 
 # If not '', a 'Last updated on:' timestamp is inserted at every page bottom,
 # using the given strftime format.
@@ -286,8 +286,8 @@ texinfo_documents = [
 #texinfo_no_detailmenu = False
 
 # Generate doxygen
-import subprocess
-subprocess.call('cd ..; doxygen', shell=True)
-subprocess.call('./doc.sh', shell=True)
 
-exit(0)
+import subprocess
+read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
+if read_the_docs_build:
+    subprocess.call('./doc.sh', shell=True)
