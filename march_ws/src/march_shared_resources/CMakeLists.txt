@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
         message_generation
         message_runtime
         std_msgs
+        roslint
         )
 
 add_message_files(
@@ -54,6 +55,16 @@ catkin_package(
         std_msgs
         #DEPENDS system_lib
 )
+
+# Roslinter
+set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
+
+file(GLOB_RECURSE lintfiles
+        "src/*.cpp"
+        "src/*.h"
+        )
+
+roslint_cpp(${lintfiles})
 
 ## Install project namespaced headers
 install(DIRECTORY include/${PROJECT_NAME}/

@@ -43,7 +43,7 @@ march_shared_resources::Error TemperatureSafety::createErrorMessage(double tempe
   std::ostringstream message_stream;
   message_stream << sensor_name << " temperature too high: " << temperature;
   std::string error_message = message_stream.str();
-  //@TODO(Tim) Come up with real error codes
+  // @TODO(Tim) Come up with real error codes
   error_msg.error_code = 1;  // For now a randomly chosen error code
   error_msg.error_message = error_message;
   error_msg.type = march_shared_resources::Error::FATAL;
