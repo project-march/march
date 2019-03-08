@@ -160,3 +160,4 @@ deploy:
   github_token: $GH_REPO_TOKEN
   on:
     branch: develop
+    condition: $DEPENDENT_BUILD = false
