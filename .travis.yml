@@ -156,7 +156,7 @@ script:
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: build/html
+  local_dir: march_ws/docs/build/html
   github_token: $GH_REPO_TOKEN
   on:
     branch: develop
