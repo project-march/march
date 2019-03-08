@@ -2,6 +2,7 @@
 
 rm -rf build/
 
+
 cwd=$(pwd)
 base_output_dir="$cwd/build/"
 
@@ -33,4 +34,4 @@ do
     fi
 done
 
-echo $PWD
+doxygen Doxyfile
