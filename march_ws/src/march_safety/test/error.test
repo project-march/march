@@ -1,0 +1,15 @@
+<launch>
+    <rosparam>
+        sensors: [test_joint, test_joint2]
+    </rosparam>
+
+    <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">
+        <rosparam>
+            default_temperature_threshold: 40
+        </rosparam>
+        <rosparam param="temperature_thresholds">
+            test_joint: 60
+        </rosparam>
+    </node>
+    <test test-name="unit_tests" pkg="march_safety" type="march_safety-test"/>
+</launch>

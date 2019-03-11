@@ -56,6 +56,8 @@ void TemperatureSafety::createSubscribers()
   n.getParam("/sensors", sensor_names);
   for (const std::string& sensor_name : sensor_names)
   {
+    auto topic = (std::string(TopicNames::temperature) + "/" + sensor_name);
+    ROS_INFO("%s", topic.c_str());
     // Use boost::bind to pass on the sensor_name as extra parameter to the callback method
     ros::Subscriber subscriber_temperature = n.subscribe<sensor_msgs::Temperature>(
         std::string(TopicNames::temperature) + "/" + sensor_name, 1000,
