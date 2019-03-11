@@ -1,29 +1,3 @@
 <launch>
-
-    <arg name="simulation" default="true" doc="Launch the simulation or the actual exoskeleton"/>
-
-    <arg name="rqt" default="false" doc="Launch the rqt nodes"/>
-    <arg name="rviz" default="true" doc="Launch rviz"/>
-    <arg name="gazebo_ui" default="false" doc="Launch Gazebo with a ui"/>
-
-    <!-- Launch the description package-->
-    <!-- Load the URDF of the exoskeleton in the ROS parameter server.-->
-    <include file="$(find march_description)/launch/load_description.launch"/>
-
-    <!-- Launch the safety package.-->
-    <include file="$(find march_safety)/launch/march_safety.launch"/>
-
-    <!-- Launch the control package.-->
-    <include file="$(find march_control)/launch/march_control.launch">
-        <arg name="rviz" value="$(arg rviz)" />
-    </include>
-
-    <!-- Launch the state machine package.-->
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
-
-    <!-- OPTIONAL: Launch the rqt plugins that allow for easy debugging.-->
-    <group if="$(arg rqt)">
-        <include file="$(find march_launch)/launch/rqt.launch"/>
-    </group>
-
 </launch>

@@ -47,8 +47,14 @@ language:
 - cpp
 cache:
 - apt
+
 notifications:
   slack: projectmarch:VQJiTUJ2UeXcTvKc7MKezeN0
+
+addons:
+  apt:
+    packages:
+    - doxygen
 
 git:
   submodules: true
@@ -143,3 +149,15 @@ script:
 - source /opt/ros/$ROS_DISTRO/setup.bash
 - cd ~/catkin_ws/src/march-iv/march_ws
 - bash build.sh
+- cd docs
+- bash doc.sh
+- cd ..
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  local_dir: march_ws/docs/build/html
+  github_token: $GH_REPO_TOKEN
+  on:
+    branch: develop
+    condition: !$DEPENDENT_BUILD
