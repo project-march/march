@@ -78,6 +78,7 @@ namespace ActionNames
 {
 // Trajectory Server which receives the created trajectory from moveit.
 const char* const follow_joint_trajectory = "exo_controller/follow_joint_trajectory";
+const char* const follow_test_joint_trajectory = "test_joint_controller/follow_joint_trajectory";
 const char* const target_pose = "march/target_pose";
 };
 
