@@ -52,6 +52,7 @@ if (CATKIN_ENABLE_TESTING)
             test/march_safety.test
             test/TestError.cpp
             test/TestNoError.cpp
+            test/TestParameterized.cpp
             )
     target_link_libraries(march_safety_test ${catkin_LIBRARIES} march_safety gtest gmock)
 
