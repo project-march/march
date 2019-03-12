@@ -41,15 +41,18 @@ add_dependencies(march_safety_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 
 
+
 #############
 ## Testing ##
 #############
 
-## Add gtest based cpp test target and link libraries
+# Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    add_rostest_gtest(${PROJECT_NAME}-test
+    add_rostest_gtest(march_safety_test
             test/error.test
-            test/ErrorTest.cpp
+            test/TestError.cpp
             )
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
+    target_link_libraries(march_safety_test ${catkin_LIBRARIES} march_safety gtest gmock)
+
 endif ()
+
