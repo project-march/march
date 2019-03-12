@@ -40,7 +40,7 @@ TEST_F(TestNoError, belowSpecificThreshold)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, 0);
+  EXPECT_EQ(0, errorCounter.count);
 }
 
 TEST_F(TestNoError, belowSpecificThreshold2)
@@ -58,7 +58,7 @@ TEST_F(TestNoError, belowSpecificThreshold2)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, 0);
+  EXPECT_EQ(0, errorCounter.count);
 }
 
 
@@ -77,5 +77,5 @@ TEST_F(TestNoError, belowDefaultThreshold)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, 0);
+  EXPECT_EQ(0, errorCounter.count);
 }

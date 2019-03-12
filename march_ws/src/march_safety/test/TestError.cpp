@@ -23,15 +23,7 @@ struct ErrorCounter
   uint32_t count;
 };
 
-/**
- * The input for the testcases we want to run.
- */
-static const std::vector<std::tuple<float, float, float>> testCases = {
-  //      (size, expectedArea, expectedHeight)
-  std::make_tuple(1, 1, 1), std::make_tuple(2, 4, 2), std::make_tuple(3, 9, 3)
-};
-
-class TestError : public ::testing::Test, public ::testing::WithParamInterface<std::tuple<float, float>>
+class TestError : public ::testing::Test
 {
 protected:
 };
@@ -51,7 +43,7 @@ TEST_F(TestError, exceedSpecificThreshold)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, 1);
+  EXPECT_EQ(1, errorCounter.count);
 }
 
 TEST_F(TestError, exceedDefaultThreshold)
@@ -69,7 +61,7 @@ TEST_F(TestError, exceedDefaultThreshold)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, 1);
+  EXPECT_EQ(1, errorCounter.count);
 }
 
 TEST_F(TestError, exceedDefaultThresholdMultipleTimes)
@@ -92,7 +84,7 @@ TEST_F(TestError, exceedDefaultThresholdMultipleTimes)
   // Wait to receive message
   sleep(1);
   ros::spinOnce();
-  EXPECT_EQ(errorCounter.count, times);
+  EXPECT_EQ(times, errorCounter.count);
 }
 
 /**
