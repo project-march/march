@@ -16,7 +16,6 @@ struct ErrorCounter
 
   void cb(const march_shared_resources::Error& msg)
   {
-    ROS_INFO("CALLBACK");
     ++count;
   }
 
@@ -54,15 +53,21 @@ TEST_P(TestParameterized, exceedSpecificThreshold)
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-  sleep(1);  // wait short period for ros to create the publishers
+
+  while (0 == pub_joint1.getNumSubscribers())
+  {
+    ros::Duration(0.1).sleep();
+  }
 
   sensor_msgs::Temperature msg;
   msg.temperature = temperature;
   pub_joint1.publish(msg);
 
   // Wait to receive message
-  sleep(1);
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
   ros::spinOnce();
+
   EXPECT_EQ(error_count, errorCounter.count);
 }
 

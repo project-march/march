@@ -13,7 +13,6 @@ struct ErrorCounter
 
   void cb(const march_shared_resources::Error& msg)
   {
-    ROS_INFO("CALLBACK");
     ++count;
   }
 
@@ -31,15 +30,21 @@ TEST_F(TestNoError, belowSpecificThreshold)
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-  sleep(1);  // wait short period for ros to create the publishers
+
+  while (0 == pub_joint1.getNumSubscribers())
+  {
+    ros::Duration(0.1).sleep();
+  }
 
   sensor_msgs::Temperature msg;
   msg.temperature = 59;
   pub_joint1.publish(msg);
 
   // Wait to receive message
-  sleep(1);
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint1", duration);
   ros::spinOnce();
+
   EXPECT_EQ(0, errorCounter.count);
 }
 
@@ -49,15 +54,21 @@ TEST_F(TestNoError, belowSpecificThreshold2)
   ros::Publisher pub_joint2 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint2", 0);
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-  sleep(1);  // wait short period for ros to create the publishers
+
+  while (0 == pub_joint2.getNumSubscribers())
+  {
+    ros::Duration(0.1).sleep();
+  }
 
   sensor_msgs::Temperature msg;
   msg.temperature = 69;
   pub_joint2.publish(msg);
 
   // Wait to receive message
-  sleep(1);
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint2", duration);
   ros::spinOnce();
+
   EXPECT_EQ(0, errorCounter.count);
 }
 
@@ -65,17 +76,23 @@ TEST_F(TestNoError, belowSpecificThreshold2)
 TEST_F(TestNoError, belowDefaultThreshold)
 {
   ros::NodeHandle nh;
-  ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
+  ros::Publisher pub_joint3 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-  sleep(1);  // wait short period for ros to create the publishers
+
+  while (0 == pub_joint3.getNumSubscribers())
+  {
+    ros::Duration(0.1).sleep();
+  }
 
   sensor_msgs::Temperature msg;
   msg.temperature = 39;
-  pub_joint1.publish(msg);
+  pub_joint3.publish(msg);
 
   // Wait to receive message
-  sleep(1);
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
   ros::spinOnce();
+
   EXPECT_EQ(0, errorCounter.count);
 }
