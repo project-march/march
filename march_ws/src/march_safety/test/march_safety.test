@@ -8,7 +8,7 @@
             default_temperature_threshold: 40
         </rosparam>
         <rosparam param="temperature_thresholds">
-            test_joint: 60
+            test_joint1: 60
             test_joint2: 70
         </rosparam>
     </node>

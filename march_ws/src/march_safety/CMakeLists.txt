@@ -49,8 +49,9 @@ target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 # Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
     add_rostest_gtest(march_safety_test
-            test/error.test
+            test/march_safety.test
             test/TestError.cpp
+            test/TestNoError.cpp
             )
     target_link_libraries(march_safety_test ${catkin_LIBRARIES} march_safety gtest gmock)
 
