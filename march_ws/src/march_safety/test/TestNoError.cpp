@@ -20,12 +20,12 @@ struct ErrorCounter
   uint32_t count;
 };
 
-class TestError : public ::testing::Test
+class TestNoError : public ::testing::Test
 {
 protected:
 };
 
-TEST_F(TestError, belowSpecificThreshold)
+TEST_F(TestNoError, belowSpecificThreshold)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
@@ -43,7 +43,7 @@ TEST_F(TestError, belowSpecificThreshold)
   EXPECT_EQ(errorCounter.count, 0);
 }
 
-TEST_F(TestError, belowSpecificThreshold2)
+TEST_F(TestNoError, belowSpecificThreshold2)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint2 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint2", 0);
@@ -62,7 +62,7 @@ TEST_F(TestError, belowSpecificThreshold2)
 }
 
 
-TEST_F(TestError, belowDefaultThreshold)
+TEST_F(TestNoError, belowDefaultThreshold)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
