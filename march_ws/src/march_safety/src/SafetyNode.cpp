@@ -17,7 +17,6 @@ int main(int argc, char** argv)
   ros::Rate rate(200);
 
   // Create an error publisher to notify the system (state machine) if something is wrong
-  ROS_INFO("create topic pub: %s", TopicNames::error);
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
 
   // Create a subscriber for each sensor
