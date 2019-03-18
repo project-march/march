@@ -31,10 +31,12 @@ TEST_F(TestNoError, belowSpecificThreshold)
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
 
-  while (0 == pub_joint1.getNumSubscribers())
+  while (0 == pub_joint1.getNumSubscribers() || 0 == sub.getNumPublishers())
   {
     ros::Duration(0.1).sleep();
   }
+  EXPECT_EQ(1, pub_joint1.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
   msg.temperature = 59;
@@ -55,10 +57,12 @@ TEST_F(TestNoError, belowSpecificThreshold2)
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
 
-  while (0 == pub_joint2.getNumSubscribers())
+  while (0 == pub_joint2.getNumSubscribers() || 0 == sub.getNumPublishers())
   {
     ros::Duration(0.1).sleep();
   }
+  EXPECT_EQ(1, pub_joint2.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
   msg.temperature = 69;
@@ -72,7 +76,6 @@ TEST_F(TestNoError, belowSpecificThreshold2)
   EXPECT_EQ(0, errorCounter.count);
 }
 
-
 TEST_F(TestNoError, belowDefaultThreshold)
 {
   ros::NodeHandle nh;
@@ -80,10 +83,12 @@ TEST_F(TestNoError, belowDefaultThreshold)
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
 
-  while (0 == pub_joint3.getNumSubscribers())
+  while (0 == pub_joint3.getNumSubscribers() || 0 == sub.getNumPublishers())
   {
     ros::Duration(0.1).sleep();
   }
+  EXPECT_EQ(1, pub_joint3.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
   msg.temperature = 39;

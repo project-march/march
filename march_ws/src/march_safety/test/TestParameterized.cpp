@@ -54,10 +54,12 @@ TEST_P(TestParameterized, exceedSpecificThreshold)
   ErrorCounter errorCounter;
   ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
 
-  while (0 == pub_joint1.getNumSubscribers())
+  while (0 == pub_joint1.getNumSubscribers() || 0 == sub.getNumPublishers())
   {
     ros::Duration(0.1).sleep();
   }
+  EXPECT_EQ(1, pub_joint1.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
   msg.temperature = temperature;
