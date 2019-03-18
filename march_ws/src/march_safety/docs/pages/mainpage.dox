@@ -1,0 +1,15 @@
+/** @mainpage March Safety
+ *
+ * March safety is responsible for monitoring the system, during run-time.
+ * When un expected behavior is perceived, this will be logged. Depending on the severity this can be a warning, error or fatal.
+ * In the case of an error or a fatal an error message is published on `/march/error` topic, to notify other packages.
+ * Which behavior is not normal is described on this [page](https://confluence.projectmarch.nl:8443/display/41TECH/Safety+Decisions).
+ *
+ * <b>An example of a event that is fatal:</b> Temperature of left hip joint is above the maximum threshold. This package should monitor all joint temperatures
+ * and if a threshold is exceeded a Error message will be published. On which packages such as the state machine will shutdown or pause.
+ *
+ * @section launch_configurations Launch Configurations
+ * Threshold parameters can be set in the `march_safety.launch` file.
+ * For example the `default_temperature_threshold` can be set to `40`. This means that when a temperature sensor exceeds 40 degrees an error will be thrown.
+ * The package can be run by: @verbatim roslaunch march_safety march_safety.launch @endverbatim
+ */
