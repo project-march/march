@@ -49,5 +49,7 @@ march-iv
  * <a target="_blank" href=./march_fake_sensor_data>Documentation</a>
  * @subsection march_state_machine State Machine
  * <a target="_blank" href=./march_state_machine>Documentation</a>
+ * @subsection march_safety Safety
+ * <a target="_blank" href=./march_state_machine>Documentation</a>
  *
  */
