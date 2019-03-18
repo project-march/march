@@ -13,5 +13,5 @@
         </rosparam>
     </node>
 
-    <test test-name="march_safety_test" pkg="march_safety" type="march_safety_test"/>
+    <test test-name="march_safety_test" pkg="march_safety" type="march_safety-test"/>
 </launch>
