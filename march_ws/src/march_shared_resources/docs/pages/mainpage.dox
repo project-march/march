@@ -6,4 +6,6 @@
  * * <b>Custom ROS Messages</b>
  * * <b>Custom ROS Services</b>
  * * <b>Topic Names</b> A header file with all topic names. This way there is a consensus between all packages.
+ *
+ * This package cannot be run or executed. The content is only for other packages to include and use.
  */
