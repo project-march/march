@@ -50,6 +50,6 @@ march-iv
  * @subsection march_state_machine State Machine
  * <a target="_blank" href=./march_state_machine>Documentation</a>
  * @subsection march_safety Safety
- * <a target="_blank" href=./march_state_machine>Documentation</a>
+ * <a target="_blank" href=./march_safety>Documentation</a>
  *
  */
