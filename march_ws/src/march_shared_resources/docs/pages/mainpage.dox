@@ -1,0 +1,13 @@
+/** @mainpage March Shared Resources
+ *
+ * The shared resources package consists of all resources that are used in multiple packages.
+ *
+ * The content of this package can be divided in a few categories:
+ * * <b>Custom ROS Messages</b>
+ * * <b>Custom ROS Services</b>
+ * * <b>Topics</b> A header file with all topic names. This way there is a consensus between all packages.
+ *
+ * @section launch Launch
+ * When launching the packages an state machine visualization is automatically launched. This visualization is rqt plugin from Smach.
+ * The package can be run by: @verbatim roslaunch march_state_machine march_state_machine.launch @endverbatim
+ */
