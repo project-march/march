@@ -4,23 +4,8 @@
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 #include "../src/TemperatureSafety.h"
+#include "ErrorCounter.cpp"
 
-/**
- * Counter
- */
-struct ErrorCounter
-{
-  ErrorCounter() : count(0)
-  {
-  }
-
-  void cb(const march_shared_resources::Error& msg)
-  {
-    ++count;
-  }
-
-  uint32_t count;
-};
 
 /**
  * The input for the test cases we want to run.

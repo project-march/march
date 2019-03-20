@@ -4,20 +4,7 @@
 #include "gtest/gtest.h"
 #include "ros/ros.h"
 #include "../src/TemperatureSafety.h"
-
-struct ErrorCounter
-{
-  ErrorCounter() : count(0)
-  {
-  }
-
-  void cb(const march_shared_resources::Error& msg)
-  {
-    ++count;
-  }
-
-  uint32_t count;
-};
+#include "ErrorCounter.cpp"
 
 class TestNoTemperatureError : public ::testing::Test
 {
