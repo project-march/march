@@ -3,7 +3,7 @@
 #include <march_shared_resources/TopicNames.h>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
-#include "../src/TemperatureSafety.h"
+#include <march_safety/TemperatureSafety.h>
 #include "ErrorCounter.cpp"
 
 class TestTemperatureError : public ::testing::Test
@@ -100,12 +100,8 @@ TEST_F(TestTemperatureError, exceedDefaultThresholdMultipleTimes)
  */
 int main(int argc, char** argv)
 {
-  ROS_INFO("run main method of test");
   ros::init(argc, argv, "march_safety_test");
   testing::InitGoogleTest(&argc, argv);
-  // WHEN RUNNING ALL TESTS WAITING TIME IS NOT WORKING
-  // PUBLISHERS ARE NOT REMOVED??
-  //  ::testing::GTEST_FLAG(filter) = "TestError.exceedDefaultThresholdMultipleTimes";
   auto res = RUN_ALL_TESTS();
 
   ros::shutdown();

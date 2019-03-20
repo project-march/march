@@ -3,7 +3,7 @@
 #include <march_shared_resources/TopicNames.h>
 #include "gtest/gtest.h"
 #include "ros/ros.h"
-#include "../src/TemperatureSafety.h"
+#include <march_safety/TemperatureSafety.h>
 #include "ErrorCounter.cpp"
 
 

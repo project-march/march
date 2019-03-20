@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 catkin_package(
+        INCLUDE_DIRS include
         CATKIN_DEPENDS
 )
 
@@ -25,18 +26,19 @@ file(GLOB_RECURSE lintfiles
 
 roslint_cpp(${lintfiles})
 include_directories(
+        include
         ${catkin_INCLUDE_DIRS}
 )
 
 set(sourcefiles
         src/SafetyNode.cpp
-        src/TemperatureSafety.h
+        include/march_safety/TemperatureSafety.h
         src/TemperatureSafety.cpp
         )
 
 add_library(march_safety ${sourcefiles})
 
-add_executable(march_safety_node src/SafetyNode.cpp src/TemperatureSafety.cpp src/TemperatureSafety.h)
+add_executable(march_safety_node src/SafetyNode.cpp src/TemperatureSafety.cpp include/march_safety/TemperatureSafety.h)
 add_dependencies(march_safety_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 
