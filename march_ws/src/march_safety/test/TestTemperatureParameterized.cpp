@@ -57,7 +57,7 @@ TEST_P(TestTemperatureParameterized, valuesAroundThreshold)
 
   // Wait to receive message
   ros::Duration duration = ros::Duration(1);
-  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint1", duration);
   ros::spinOnce();
 
   EXPECT_EQ(error_count, errorCounter.count);

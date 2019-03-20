@@ -26,7 +26,9 @@ TEST_F(TestTemperatureError, exceedSpecificThreshold)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 61;
+  int temperature;
+  nh.getParam("/march_safety_node/temperature_thresholds/test_joint1", temperature);
+  msg.temperature = temperature + 1;
   pub_joint1.publish(msg);
 
   // Wait to receive message
@@ -52,7 +54,9 @@ TEST_F(TestTemperatureError, exceedDefaultThreshold)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 41;
+  int temperature;
+  nh.getParam("/march_safety_node/default_temperature_threshold", temperature);
+  msg.temperature = temperature + 1;
   pub_joint3.publish(msg);
 
   // Wait to receive message
@@ -79,7 +83,9 @@ TEST_F(TestTemperatureError, exceedDefaultThresholdMultipleTimes)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 41;
+  int temperature;
+  nh.getParam("/march_safety_node/default_temperature_threshold", temperature);
+  msg.temperature = temperature + 1;
 
   int times = 5;
   for (int i = 0; i < times; i++)

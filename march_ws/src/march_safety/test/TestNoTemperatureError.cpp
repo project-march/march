@@ -26,7 +26,9 @@ TEST_F(TestNoTemperatureError, belowSpecificThreshold)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 59;
+  int temperature;
+  nh.getParam("/march_safety_node/temperature_thresholds/test_joint1", temperature);
+  msg.temperature = temperature - 1;
   pub_joint1.publish(msg);
 
   // Wait to receive message
@@ -56,7 +58,9 @@ TEST_F(TestNoTemperatureError, belowSpecificThreshold2)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 69;
+  int temperature;
+  nh.getParam("/march_safety_node/temperature_thresholds/test_joint2", temperature);
+  msg.temperature = temperature - 1;
   pub_joint2.publish(msg);
 
   // Wait to receive message
@@ -82,7 +86,9 @@ TEST_F(TestNoTemperatureError, belowDefaultThreshold)
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 39;
+  int temperature;
+  nh.getParam("/march_safety_node/default_temperature_threshold", temperature);
+  msg.temperature = temperature - 1;
   pub_joint3.publish(msg);
 
   // Wait to receive message
