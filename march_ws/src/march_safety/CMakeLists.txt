@@ -50,9 +50,9 @@ target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 if (CATKIN_ENABLE_TESTING)
     add_rostest_gtest(${PROJECT_NAME}-test
             test/march_safety.test
-            test/TestError.cpp
-            test/TestNoError.cpp
-            test/TestParameterized.cpp
+            test/TestTemperatureError.cpp
+            test/TestNoTemperatureError.cpp
+            test/TestTemperatureParameterized.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
 

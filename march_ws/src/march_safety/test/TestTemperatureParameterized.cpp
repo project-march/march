@@ -31,7 +31,7 @@ static const std::vector<std::tuple<float, float>> testCases = {
   std::make_tuple(61, 1),  std::make_tuple(62, 1), std::make_tuple(120, 1)
 };
 
-class TestParameterized : public ::testing::Test, public ::testing::WithParamInterface<std::tuple<float, float>>
+class TestTemperatureParameterized : public ::testing::Test, public ::testing::WithParamInterface<std::tuple<float, float>>
 {
 protected:
   float temperature;
@@ -52,7 +52,7 @@ protected:
  * Testing all kind of values is more robust, then just testing 1 value.
  * This should also prevent off by one errors.
  */
-TEST_P(TestParameterized, valuesAroundThreshold)
+TEST_P(TestTemperatureParameterized, valuesAroundThreshold)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
@@ -78,4 +78,4 @@ TEST_P(TestParameterized, valuesAroundThreshold)
   EXPECT_EQ(error_count, errorCounter.count);
 }
 
-INSTANTIATE_TEST_CASE_P(MyGroup, TestParameterized, ::testing::ValuesIn(testCases));
+INSTANTIATE_TEST_CASE_P(MyGroup, TestTemperatureParameterized, ::testing::ValuesIn(testCases));

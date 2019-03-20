@@ -5,9 +5,6 @@
 #include "ros/ros.h"
 #include "../src/TemperatureSafety.h"
 
-/**
- * Counter
- */
 struct ErrorCounter
 {
   ErrorCounter() : count(0)
@@ -22,12 +19,12 @@ struct ErrorCounter
   uint32_t count;
 };
 
-class TestError : public ::testing::Test
+class TestNoTemperatureError : public ::testing::Test
 {
 protected:
 };
 
-TEST_F(TestError, exceedSpecificThreshold)
+TEST_F(TestNoTemperatureError, belowSpecificThreshold)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
@@ -36,94 +33,75 @@ TEST_F(TestError, exceedSpecificThreshold)
 
   while (0 == pub_joint1.getNumSubscribers() || 0 == sub.getNumPublishers())
   {
-    ros::Duration(0.01).sleep();
+    ros::Duration(0.1).sleep();
   }
   EXPECT_EQ(1, pub_joint1.getNumSubscribers());
   EXPECT_EQ(1, sub.getNumPublishers());
 
   sensor_msgs::Temperature msg;
-  msg.temperature = 61;
+  msg.temperature = 59;
   pub_joint1.publish(msg);
 
   // Wait to receive message
-  ros::Duration duration = ros::Duration(0.1);
+  ros::Duration duration = ros::Duration(1);
   ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint1", duration);
   ros::spinOnce();
 
-  EXPECT_EQ(1, errorCounter.count);
-}
-
-TEST_F(TestError, exceedDefaultThreshold)
-{
-  ros::NodeHandle nh;
-  ErrorCounter errorCounter;
-  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-  ros::Publisher pub_joint3 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
-
-  while (0 == pub_joint3.getNumSubscribers() || 0 == sub.getNumPublishers())
-  {
-    ros::Duration(0.1).sleep();
-  }
-  EXPECT_EQ(1, pub_joint3.getNumSubscribers());
-  EXPECT_EQ(1, sub.getNumPublishers());
-
-  sensor_msgs::Temperature msg;
-  msg.temperature = 41;
-  pub_joint3.publish(msg);
-
-  // Wait to receive message
-  ros::Duration duration = ros::Duration(0.1);
-  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
-  ros::spinOnce();
-
-  EXPECT_EQ(1, errorCounter.count);
-}
-
-TEST_F(TestError, exceedDefaultThresholdMultipleTimes)
-{
-  ros::NodeHandle nh;
-  ros::Publisher pub_joint3 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
-  ErrorCounter errorCounter;
-  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
-
-  printf("\n number of pub: %d \n", pub_joint3.getNumSubscribers());
-  while (0 == pub_joint3.getNumSubscribers() || 0 == sub.getNumPublishers())
-  {
-    ros::Duration(0.1).sleep();
-  }
-  EXPECT_EQ(1, pub_joint3.getNumSubscribers());
-  EXPECT_EQ(1, sub.getNumPublishers());
-
-  sensor_msgs::Temperature msg;
-  msg.temperature = 41;
-
-  int times = 5;
-  for (int i = 0; i < times; i++)
-  {
-    pub_joint3.publish(msg);
-  }
-
-  // Wait to receive message
-  ros::Duration duration = ros::Duration(0.1);
-  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
-  ros::spinOnce();
-
-  EXPECT_EQ(times, errorCounter.count);
+  EXPECT_EQ(0, errorCounter.count);
 }
 
 /**
- * The main method which runs all the tests
+ * Below specific threshold, but above the default threshold.
+ * This tests if the specific threshold overrides the default threshold.
  */
-int main(int argc, char** argv)
+TEST_F(TestNoTemperatureError, belowSpecificThreshold2)
 {
-  ROS_INFO("run main method of test");
-  ros::init(argc, argv, "march_safety_test");
-  testing::InitGoogleTest(&argc, argv);
-  // WHEN RUNNING ALL TESTS WAITING TIME IS NOT WORKING
-  // PUBLISHERS ARE NOT REMOVED??
-  //  ::testing::GTEST_FLAG(filter) = "TestError.exceedDefaultThresholdMultipleTimes";
-  auto res = RUN_ALL_TESTS();
+  ros::NodeHandle nh;
+  ros::Publisher pub_joint2 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint2", 0);
+  ErrorCounter errorCounter;
+  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
 
-  ros::shutdown();
-  return res;
+  while (0 == pub_joint2.getNumSubscribers() || 0 == sub.getNumPublishers())
+  {
+    ros::Duration(0.1).sleep();
+  }
+  EXPECT_EQ(1, pub_joint2.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
+
+  sensor_msgs::Temperature msg;
+  msg.temperature = 69;
+  pub_joint2.publish(msg);
+
+  // Wait to receive message
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint2", duration);
+  ros::spinOnce();
+
+  EXPECT_EQ(0, errorCounter.count);
+}
+
+TEST_F(TestNoTemperatureError, belowDefaultThreshold)
+{
+  ros::NodeHandle nh;
+  ros::Publisher pub_joint3 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint3", 0);
+  ErrorCounter errorCounter;
+  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
+
+  while (0 == pub_joint3.getNumSubscribers() || 0 == sub.getNumPublishers())
+  {
+    ros::Duration(0.1).sleep();
+  }
+  EXPECT_EQ(1, pub_joint3.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
+
+  sensor_msgs::Temperature msg;
+  msg.temperature = 39;
+  pub_joint3.publish(msg);
+
+  // Wait to receive message
+  ros::Duration duration = ros::Duration(1);
+  ros::topic::waitForMessage<sensor_msgs::Temperature>("march/temperature/test_joint3", duration);
+  ros::spinOnce();
+
+  EXPECT_EQ(0, errorCounter.count);
 }
