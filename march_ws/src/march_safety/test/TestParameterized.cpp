@@ -23,7 +23,7 @@ struct ErrorCounter
 };
 
 /**
- * The input for the testcases we want to run.
+ * The input for the test cases we want to run.
  */
 static const std::vector<std::tuple<float, float>> testCases = {
   // tuple(temperature, error_count)
@@ -47,7 +47,12 @@ protected:
   }
 };
 
-TEST_P(TestParameterized, exceedSpecificThreshold)
+/**
+ * This is testing values below, on and above the threshold.
+ * Testing all kind of values is more robust, then just testing 1 value.
+ * This should also prevent off by one errors.
+ */
+TEST_P(TestParameterized, valuesAroundThreshold)
 {
   ros::NodeHandle nh;
   ros::Publisher pub_joint1 = nh.advertise<sensor_msgs::Temperature>("march/temperature/test_joint1", 0);
@@ -73,7 +78,4 @@ TEST_P(TestParameterized, exceedSpecificThreshold)
   EXPECT_EQ(error_count, errorCounter.count);
 }
 
-/**
- * Name of the test, what fixture it uses and the input values.
- */
 INSTANTIATE_TEST_CASE_P(MyGroup, TestParameterized, ::testing::ValuesIn(testCases));

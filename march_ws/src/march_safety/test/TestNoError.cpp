@@ -50,6 +50,10 @@ TEST_F(TestNoError, belowSpecificThreshold)
   EXPECT_EQ(0, errorCounter.count);
 }
 
+/**
+ * Below specific threshold, but above the default threshold.
+ * This tests if the specific threshold overrides the default threshold.
+ */
 TEST_F(TestNoError, belowSpecificThreshold2)
 {
   ros::NodeHandle nh;
