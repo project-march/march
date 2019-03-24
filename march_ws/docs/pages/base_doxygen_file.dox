@@ -24,6 +24,8 @@ EXCLUDE                =
 GENERATE_TREEVIEW      = YES
 GENERATE_LATEX         = NO
 GENERATE_XML = NO
+
+# Add custom settings below
 @endverbatim
 *
 */
