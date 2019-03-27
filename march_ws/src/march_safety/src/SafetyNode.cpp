@@ -4,7 +4,7 @@
 #include "std_msgs/Float64.h"
 #include "std_msgs/Empty.h"
 #include "sensor_msgs/Temperature.h"
-#include "TemperatureSafety.h"
+#include <march_safety/TemperatureSafety.h>
 #include <sstream>
 
 #include <march_shared_resources/TopicNames.h>
