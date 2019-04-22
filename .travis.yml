@@ -49,7 +49,7 @@ cache:
 - apt
 
 notifications:
-  slack: projectmarch:VQJiTUJ2UeXcTvKc7MKezeN0
+  slack: projectmarch:$SLACK_NOTIFICATION_TOKEN
 
 addons:
   apt:
