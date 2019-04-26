@@ -1,0 +1,4 @@
+<launch>
+    <!-- Launch the required nodes here -->
+    <test test-name="gait_selection_tests" pkg="march_gait_selection" type="TestGaitSelection.py"/>
+</launch>
