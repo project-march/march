@@ -21,7 +21,7 @@ class PoseToTrajectoryAction(object):
         self._trajectory_execution_client.wait_for_server()
 
     def target_pose_callback(self, goal):
-        rospy.loginfo(rospy.get_caller_id() + " %s pose requested", goal.pose)
+        rospy.loginfo(" %s pose requested", goal.pose)
         trajectory_result = self.execute_trajectory(goal.pose)
         if trajectory_result.error_code == FollowJointTrajectoryResult.SUCCESSFUL:
             rospy.loginfo("set_succeeded")
