@@ -35,6 +35,7 @@ class PoseToTrajectoryAction(object):
         trajectory_message.goal.trajectory.joint_names = ["left_hip", "left_knee", "left_ankle", "right_hip",
                                                           "right_knee", "right_ankle"]
         # For now we handle everything with 2 gaits sit and stand.
+        # @TODO(Isha) implement proper gait selection
         if gait_name == "sit":
             point = JointTrajectoryPoint()
             point.positions = [1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399]
