@@ -34,6 +34,7 @@ class PoseToTrajectoryAction(object):
         trajectory_message = FollowJointTrajectoryActionGoal()
         trajectory_message.goal.trajectory.joint_names = ["left_hip", "left_knee", "left_ankle", "right_hip",
                                                           "right_knee", "right_ankle"]
+        # For now we handle everything with 2 gaits sit and stand.
         if pose_name == "sit":
             point = JointTrajectoryPoint()
             point.positions = [1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399]
@@ -45,7 +46,6 @@ class PoseToTrajectoryAction(object):
             point.velocities = [0, 0, 0, 0, 0, 0]
             point.time_from_start = rospy.Duration.from_sec(3)
         trajectory_message.goal.trajectory.points.append(point)
-        rospy.logdebug("send_goal:")
         self._trajectory_execution_client.send_goal(trajectory_message.goal)
         rospy.logdebug("wait_for_result:")
         self._trajectory_execution_client.wait_for_result()
