@@ -36,7 +36,7 @@ add_service_files(
 
 add_action_files(
         DIRECTORY action
-        FILES MoveToPose.action
+        FILES MoveToGait.action
 )
 
 generate_messages(

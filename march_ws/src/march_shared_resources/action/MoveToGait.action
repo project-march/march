@@ -1,4 +1,4 @@
 #goal definition
-string pose
+string gait_name
 ---
 ---

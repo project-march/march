@@ -3,39 +3,39 @@ import rospy
 import actionlib
 
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryActionGoal, FollowJointTrajectoryResult
-from march_shared_resources.msg import MoveToPoseAction
+from march_shared_resources.msg import MoveToGaitAction
 from trajectory_msgs.msg import JointTrajectoryPoint
 
 
 class PoseToTrajectoryAction(object):
-    _target_pose_action_server = None
+    _target_gait_action_server = None
     _trajectory_execution_client = None
 
     def __init__(self):
-        self._target_pose_action_server = actionlib.SimpleActionServer("march/target_pose", MoveToPoseAction,
-                                                                       execute_cb=self.target_pose_callback,
+        self._target_gait_action_server = actionlib.SimpleActionServer("march/target_gait", MoveToGaitAction,
+                                                                       execute_cb=self.target_gait_callback,
                                                                        auto_start=False)
-        self._target_pose_action_server.start()
+        self._target_gait_action_server.start()
         self._trajectory_execution_client = actionlib.SimpleActionClient("exo_controller/follow_joint_trajectory",
                                                                          FollowJointTrajectoryAction)
         self._trajectory_execution_client.wait_for_server()
 
-    def target_pose_callback(self, goal):
-        rospy.loginfo(" %s pose requested", goal.pose)
-        trajectory_result = self.execute_trajectory(goal.pose)
+    def target_gait_callback(self, goal):
+        rospy.loginfo(" %s pose requested", goal.gait_name)
+        trajectory_result = self.execute_trajectory(goal.gait_name)
         if trajectory_result.error_code == FollowJointTrajectoryResult.SUCCESSFUL:
             rospy.loginfo("set_succeeded")
-            self._target_pose_action_server.set_succeeded()
+            self._target_gait_action_server.set_succeeded()
         else:
             rospy.loginfo("set_aborted")
-            self._target_pose_action_server.set_aborted()
+            self._target_gait_action_server.set_aborted()
 
-    def execute_trajectory(self, pose_name):
+    def execute_trajectory(self, gait_name):
         trajectory_message = FollowJointTrajectoryActionGoal()
         trajectory_message.goal.trajectory.joint_names = ["left_hip", "left_knee", "left_ankle", "right_hip",
                                                           "right_knee", "right_ankle"]
         # For now we handle everything with 2 gaits sit and stand.
-        if pose_name == "sit":
+        if gait_name == "sit":
             point = JointTrajectoryPoint()
             point.positions = [1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399]
             point.velocities = [0, 0, 0, 0, 0, 0]
