@@ -3,7 +3,6 @@ project(march_launch)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
-        march_control
         march_description
         march_gazebo
         march_state_machine

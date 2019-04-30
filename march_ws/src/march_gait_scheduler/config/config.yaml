@@ -1,0 +1,29 @@
+#this file represents the controller being used
+march:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  trajectory_controller:
+    type: "effort_controllers/JointTrajectoryController"
+    joints:
+      - left_hip
+      - left_knee
+      - left_ankle
+      - right_hip
+      - right_knee
+      - right_ankle
+
+    gains: # Required because we're controlling an effort interface
+      # The pid values are working for now, but are randomly guessed.
+      left_hip: {p: 400,  d: 1, i: 1, i_clamp: 1}
+      left_knee: {p: 400,  d: 1, i: 1, i_clamp: 1}
+      left_ankle: {p: 400,  d: 1, i: 1, i_clamp: 1}
+      right_hip: {p: 400,  d: 1, i: 1, i_clamp: 1}
+      right_knee: {p: 400,  d: 1, i: 1, i_clamp: 1}
+      right_ankle: {p: 400,  d: 1, i: 1, i_clamp: 1}
+
+    state_publish_rate:  25            # Override default
+    action_monitor_rate: 30            # Override default
+    stop_trajectory_duration: 0        # Override default
