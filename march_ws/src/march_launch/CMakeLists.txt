@@ -4,7 +4,7 @@ add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
         march_description
-        march_gazebo
+        march_simulation
         march_state_machine
         march_state_machine_service
         rostest
