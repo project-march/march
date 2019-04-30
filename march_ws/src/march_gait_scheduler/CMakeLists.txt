@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 catkin_package(
-        #        INCLUDE march_shared_resources
         CATKIN_DEPENDS
 )
 
