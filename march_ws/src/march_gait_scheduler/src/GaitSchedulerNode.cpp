@@ -15,6 +15,7 @@
 
 #include <march_shared_resources/MoveToGaitAction.h>
 #include <march_shared_resources/TopicNames.h>
+#include <march_rqt_gait_generator/MarchGait.h>
 #include <march_gait_scheduler/Scheduler.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::MoveToGaitAction> ServerMoveToGait;
@@ -55,7 +56,7 @@ void executeFollowJointTrajectory(const control_msgs::FollowJointTrajectoryGoalC
                                   ServerFollowJoint* server)
 {
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
-  Scheduler::delayTrajectory(goal->trajectory);
+//  Scheduler::delayTrajectory(goal->trajectory);
   trajectoryMsg.goal = *goal;
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();

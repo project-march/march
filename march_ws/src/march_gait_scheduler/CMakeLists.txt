@@ -54,9 +54,10 @@ target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 #############
 
 if (CATKIN_ENABLE_TESTING)
-    add_rostest_gtest(${PROJECT_NAME}-test test/simple-test.test
-            test/TestScheduler.cpp
+    add_rostest_gtest(${PROJECT_NAME}-test
+            test/simple-test.test
+            test/TestRunner.cpp
+            test/DelayGaitTest.cpp
             )
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
+    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler gtest)
 endif ()
-

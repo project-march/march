@@ -3,12 +3,15 @@
 #define MARCH_GAIT_SCHEDULER_SCHEDULER_H
 
 #include <trajectory_msgs/JointTrajectory.h>
+
+#include <march_rqt_gait_generator/MarchGait.h>
+
 class Scheduler
 {
 
  public:
 
-  static void delayTrajectory(trajectory_msgs::JointTrajectory& trajectory, ros::Duration duration);
+  static void delayGait(march_rqt_gait_generator::MarchGait& marchGait, ros::Duration delay);
 
 };
 
