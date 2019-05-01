@@ -1,0 +1,31 @@
+/**
+* @page base_doxygen_file Base Doxyfile
+*
+* A Doxyfile is needed in each package to have its documentation build by the doc.sh script.
+* Below is a base Doxyfile with all of the default values removed.
+*
+* @verbatim
+# Doxyfile 1.8.11
+
+# Explanation for each setting here http://www.doxygen.nl/manual/config.html.
+
+DOXYFILE_ENCODING      = UTF-8
+PROJECT_NAME           = "Project Name"
+PROJECT_BRIEF          =
+OUTPUT_DIRECTORY       = NOTE: Will be overwritten by doc.sh
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_PACKAGE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_METHODS  = YES
+INPUT                  = ../src pages
+RECURSIVE              = YES
+EXCLUDE                =
+GENERATE_TREEVIEW      = YES
+GENERATE_LATEX         = NO
+GENERATE_XML = NO
+
+# Add custom settings below
+@endverbatim
+*
+*/

@@ -36,6 +36,7 @@ add_service_files(
 
 add_action_files(
         DIRECTORY action
+        FILES MoveToGait.action
         FILES MoveToPose.action
 )
 
