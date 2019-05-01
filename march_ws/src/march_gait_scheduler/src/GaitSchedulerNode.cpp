@@ -15,6 +15,7 @@
 
 #include <march_shared_resources/MoveToGaitAction.h>
 #include <march_shared_resources/TopicNames.h>
+#include <march_gait_scheduler/Scheduler.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::MoveToGaitAction> ServerMoveToGait;
 typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
@@ -44,6 +45,7 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
   return false;
 }
 
+
 /**
  * Make ros control execute the joint trajectory by setting the trajectory goal
  * @param goal the trajectory goal for ros control
@@ -53,6 +55,7 @@ void executeFollowJointTrajectory(const control_msgs::FollowJointTrajectoryGoalC
                                   ServerFollowJoint* server)
 {
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
+  Scheduler::delayTrajectory(goal->trajectory);
   trajectoryMsg.goal = *goal;
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();

@@ -24,6 +24,8 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
         src/GaitSchedulerNode.cpp
+        src/Scheduler.cpp
+        include/march_gait_scheduler/Scheduler.h
         )
 
 add_library(march_gait_scheduler ${sourcefiles})
@@ -53,7 +55,7 @@ target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 
 if (CATKIN_ENABLE_TESTING)
     add_rostest_gtest(${PROJECT_NAME}-test test/simple-test.test
-            test/ExampleTest.cpp
+            test/TestScheduler.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
 endif ()
