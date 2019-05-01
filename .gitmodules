@@ -13,6 +13,11 @@
 	url = https://github.com/project-march/hardware-interface.git
 	branch = develop
 
+[submodule "march_ws/src/gait-generation"]
+	path = march_ws/src/gait-generation
+	url = https://github.com/project-march/gait-generation.git
+	branch = develop
+
 [submodule "march_ws/src/march-simulation"]
 	path = march_ws/src/march-simulation
 	url = https://github.com/project-march/march-simulation.git
