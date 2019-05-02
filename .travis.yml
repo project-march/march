@@ -123,15 +123,12 @@ before_script:
 - wstool up
 # package depdencies: install using rosdep.
 - cd ~/catkin_ws
-- rosdep update
-- rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-- echo $DEPENDENT_BUILD
-- echo $TRIGGER_REPO
-- echo $TRIGGER_BRANCH
 - cd src/march-iv/march_ws
 - git submodule init
 - git submodule sync
 - git submodule foreach "(git checkout develop; git pull)"
+- rosdep update
+- rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 - cd src
 - if [[ -n $DEPENDENT_BUILD ]] ; then cd `echo $TRIGGER_REPO | sed 's|[^/]*/||'` ; git fetch ; git checkout $TRIGGER_BRANCH ; git status; git pull ; fi
 - cd ~/catkin_ws

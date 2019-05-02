@@ -1,6 +1,5 @@
-# DEPRECATED
+#goal definition
 string name
 string subgait_name
-string gait_name
 ---
 ---

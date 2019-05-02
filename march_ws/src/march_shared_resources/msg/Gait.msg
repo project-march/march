@@ -1,3 +1,5 @@
+# DEPRECATED
+
 # The name of the gait
 # walking: walking gait
 # sitting: Sitting gait
