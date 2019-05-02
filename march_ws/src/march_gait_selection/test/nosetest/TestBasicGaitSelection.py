@@ -19,7 +19,7 @@ class TestBasicGaitSelection(unittest.TestCase):
         actual_map = [{
             "walking": [{
                 "right_open": "test"},
-                {"left_swing": "test_a_bit_higer"}
+                {"left_swing": "test_a_bit_higher"}
             ]
         }]
 
@@ -33,7 +33,7 @@ class TestBasicGaitSelection(unittest.TestCase):
         actual_map = [{
             "walking": [{
                 "right_open": "test"},
-                {"left_swing": "test_a_bit_higer"}
+                {"left_swing": "test_a_bit_higher"}
             ]
         }]
         gait_selection = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
@@ -48,7 +48,7 @@ class TestBasicGaitSelection(unittest.TestCase):
         actual_map = [{
             "walking": [{
                 "right_open": "test"},
-                {"left_swing": "test_a_bit_higer"}
+                {"left_swing": "test_a_bit_higher"}
             ]
         }]
         gait_selection_parameters = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
