@@ -5,7 +5,7 @@ add_definitions(-std=c++11 -Wall -g)
 find_package(catkin REQUIRED COMPONENTS
         control_msgs
         march_shared_resources
-        robot_state_publisher
+        roscpp
         roslint
         rostest
         trajectory_msgs
@@ -32,15 +32,16 @@ include_directories(
 
 set(sourcefiles
         src/GaitSchedulerNode.cpp
-        include/march_gait_scheduler/Helper.h
-        src/Helper.cpp
+        include/march_gait_scheduler/Scheduler.h
+        src/Scheduler.cpp
         )
 
 add_library(march_gait_scheduler ${sourcefiles})
 
 add_executable(gait_scheduler_node
         src/GaitSchedulerNode.cpp
-        include/march_gait_scheduler/Helper.h
+        src/Scheduler.cpp
+        include/march_gait_scheduler/Scheduler.h
         )
 add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})

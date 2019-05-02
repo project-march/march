@@ -16,10 +16,12 @@
 #include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/GaitGoal.h>
+#include <march_gait_scheduler/Scheduler.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ServerFollowJoint;
 ros::Publisher joint_trajectory_pub;
 actionlib_msgs::GoalStatus trajectory_status;
+Scheduler scheduler;
 
 /**
  * To determine if a goal execution is finished and isn't in progress anymore.
@@ -52,16 +54,7 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
 void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr& goal, ServerFollowJoint* server)
 {
   ROS_INFO("executeFollowJointTrajectory: received msg");
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
-  ros::Duration delay = ros::Duration().fromSec(2);
-  trajectory_msgs::JointTrajectory trajectory = goal->current_subgait.trajectory;
-  ROS_INFO("timestamp before: %lu", trajectory.header.stamp.toNSec());
-//  Scheduler::delayGait(trajectory, delay);
-  ROS_INFO("timestamp after: %lu", trajectory.header.stamp.toNSec());
-
-  ROS_INFO("executeFollowJointTrajectory: received msg");
-  //  goal->goal.current_subgait.trajectory = trajectory;
-  //  trajectoryMsg.goal = *goal;
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(goal.get());
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();
 

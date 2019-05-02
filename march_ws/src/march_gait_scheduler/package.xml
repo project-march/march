@@ -10,15 +10,14 @@
 
     <build_depend>control_msgs</build_depend>
     <build_depend>march_shared_resources</build_depend>
-    <build_depend>robot_state_publisher</build_depend>
     <build_depend>roslint</build_depend>
+    <build_depend>roscpp</build_depend>
     <build_depend>rostest</build_depend>
     <build_depend>trajectory_msgs</build_depend>
 
-    <build_export_depend>march_description</build_export_depend>
-    <build_export_depend>robot_state_publisher</build_export_depend>
+    <build_export_depend>roscpp</build_export_depend>
 
-    <exec_depend>robot_state_publisher</exec_depend>
+    <exec_depend>roscpp</exec_depend>
 
     <export>
     </export>
