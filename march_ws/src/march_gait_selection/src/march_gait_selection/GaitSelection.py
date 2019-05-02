@@ -21,8 +21,8 @@ class PoseToTrajectoryAction(object):
         self._trajectory_execution_client.wait_for_server()
 
     def target_gait_callback(self, goal):
-        rospy.loginfo(" %s pose requested", goal.name)
-        trajectory_result = self.execute_trajectory(goal.name)
+        rospy.loginfo(" %s pose requested", goal.subgait_name)
+        trajectory_result = self.execute_trajectory(goal.subgait_name)
         if trajectory_result.error_code == FollowJointTrajectoryResult.SUCCESSFUL:
             rospy.loginfo("set_succeeded")
             self._target_gait_action_server.set_succeeded()
