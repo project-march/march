@@ -53,13 +53,11 @@ class TestBasicGaitSelection(unittest.TestCase):
         }]
         gait_selection_parameters = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
 
-        gait_selection_yaml = GaitSelection(default_yaml="/home/ishadijcks/march-iv/march_ws/src/march_gait_selection/test"
-                                                        "/defaults/default_correct_walking_gait.yaml")
+        gait_selection_yaml = GaitSelection(default_yaml="/home/ishadijcks/march-iv/march_ws/src/march_gait_selection"
+                                                         "/test/defaults/default_correct_walking_gait.yaml")
 
         self.assertEquals(gait_selection_parameters.gait_directory, gait_selection_yaml.gait_directory)
         self.assertEquals(gait_selection_parameters.gait_version_map, gait_selection_yaml.gait_version_map)
-
-
 
     def test_gait_selection_empty(self):
         with self.assertRaises(Exception) as context:
@@ -69,6 +67,5 @@ class TestBasicGaitSelection(unittest.TestCase):
 
 
 if __name__ == '__main__':
-
     rosunit.unitrun(PKG, 'test_basic_gait_selection', TestBasicGaitSelection)
     rosunit.unitrun(PKG, 'test_get_subgait', TestGetSubgait)

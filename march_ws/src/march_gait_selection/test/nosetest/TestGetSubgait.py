@@ -11,13 +11,13 @@ class TestGetSubgait(unittest.TestCase):
     def test_get_subgait(self):
         gait_directory = "test/gaits_correct_walking_gait"
 
-        actual_map =\
+        actual_map = \
             {
-            "walking":
-                {
-                    "right_open": "test_a_bit_higer",
-                    "left_swing": "test"
-                }
+                "walking":
+                    {
+                        "right_open": "test_a_bit_higer",
+                        "left_swing": "test"
+                    }
             }
         gait_selection = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
 

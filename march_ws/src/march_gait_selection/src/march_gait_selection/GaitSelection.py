@@ -45,7 +45,7 @@ class GaitSelection(object):
     def get_subgait_path(self, gait_name, subgait_name):
         print self.gait_directory
         return os.path.join(self.gait_directory, gait_name, subgait_name,
-                                    self.gait_version_map[gait_name][subgait_name] + '.subgait')
+                            self.gait_version_map[gait_name][subgait_name] + '.subgait')
 
 
 if __name__ == '__main__':
