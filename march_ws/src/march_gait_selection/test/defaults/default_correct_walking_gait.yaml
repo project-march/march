@@ -1,0 +1,5 @@
+directory: test/gaits_correct_walking_gait
+gaits:
+  - walking:
+    - right_open: test
+    - left_swing: test_a_bit_higer

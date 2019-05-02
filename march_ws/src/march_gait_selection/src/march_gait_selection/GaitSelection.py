@@ -1,60 +1,59 @@
 #!/usr/bin/env python
+import os
+
+import rospkg
 import rospy
-import actionlib
+import yaml
 
-from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryActionGoal, FollowJointTrajectoryResult
-from march_shared_resources.msg import GaitNameAction
-from trajectory_msgs.msg import JointTrajectoryPoint
+from ScheduleGait import ScheduleGait
+from march_shared_resources.msg import Subgait
 
 
-class PoseToTrajectoryAction(object):
-    _target_gait_action_server = None
-    _trajectory_execution_client = None
+class GaitSelection(object):
 
-    def __init__(self):
-        self._target_gait_action_server = actionlib.SimpleActionServer("march/gait/perform", GaitNameAction,
-                                                                       execute_cb=self.target_gait_callback,
-                                                                       auto_start=False)
-        self._target_gait_action_server.start()
-        self._trajectory_execution_client = actionlib.SimpleActionClient("march/gait/schedule",
-                                                                         FollowJointTrajectoryAction)
-        self._trajectory_execution_client.wait_for_server()
+    def __init__(self, gait_directory=None, gait_version_map=None, default_yaml=None):
+        if gait_directory is None and gait_version_map is None:
+            if default_yaml is None:
+                rospy.logfatal("Cannot instantiate GaitSelection without parameters, shutting down.")
+                raise ValueError('Cannot instantiate GaitSelection without parameters, shutting down.')
+            else:
+                default_config = yaml.load(open(default_yaml), Loader=yaml.BaseLoader)
+                self.gait_directory = os.path.join(
+                    rospkg.RosPack().get_path('march_gait_selection'), default_config["directory"])
+                self.gait_version_map = default_config["gaits"]
 
-    def target_gait_callback(self, goal):
-        rospy.loginfo(" %s pose requested", goal.subgait_name)
-        trajectory_result = self.execute_trajectory(goal.subgait_name)
-        if trajectory_result.error_code == FollowJointTrajectoryResult.SUCCESSFUL:
-            rospy.loginfo("set_succeeded")
-            self._target_gait_action_server.set_succeeded()
         else:
-            rospy.loginfo("set_aborted")
-            self._target_gait_action_server.set_aborted()
+            self.gait_directory = os.path.join(
+                rospkg.RosPack().get_path('march_gait_selection'), gait_directory)
+            self.gait_version_map = gait_version_map
 
-    def execute_trajectory(self, gait_name):
-        trajectory_message = FollowJointTrajectoryActionGoal()
-        trajectory_message.goal.trajectory.joint_names = ["left_hip", "left_knee", "left_ankle", "right_hip",
-                                                          "right_knee", "right_ankle"]
-        # For now we handle everything with 2 gaits sit and stand.
-        # @TODO(Isha) implement proper gait selection
-        if gait_name == "sit":
-            point = JointTrajectoryPoint()
-            point.positions = [1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399]
-            point.velocities = [0, 0, 0, 0, 0, 0]
-            point.time_from_start = rospy.Duration.from_sec(3)
-        else:
-            point = JointTrajectoryPoint()
-            point.positions = [0, 0, 0, 0, 0, 0]
-            point.velocities = [0, 0, 0, 0, 0, 0]
-            point.time_from_start = rospy.Duration.from_sec(3)
-        trajectory_message.goal.trajectory.points.append(point)
-        self._trajectory_execution_client.send_goal(trajectory_message.goal)
-        rospy.logdebug("wait_for_result:")
-        self._trajectory_execution_client.wait_for_result()
-        return self._trajectory_execution_client.get_result()
+    def set_subgait_version(self, gait, subgait, version):
+        if self.gait_directory[gait] is None:
+            rospy.logerr("Gait " + gait + " does not exist")
+        self.gait_directory[gait][subgait] = version
+
+    def get_subgait(self, gait_name, subgait_name):
+        subgait = Subgait()
+        print self.gait_version_map["walking"]
+        subgait_path = self.get_subgait_path(gait_name, subgait_name)
+
+        subgait_yaml = yaml.load(open(subgait_path), Loader=yaml.BaseLoader)
+
+        print(subgait_yaml)
+        return subgait_yaml['version']
+
+    def get_subgait_path(self, gait_name, subgait_name):
+        print self.gait_directory
+        return os.path.join(self.gait_directory, gait_name, subgait_name,
+                                    self.gait_version_map[gait_name][subgait_name] + '.subgait')
 
 
 if __name__ == '__main__':
     rospy.init_node("gait_selection")
-    server = PoseToTrajectoryAction()
+    server = ScheduleGait()
+
+    default_yaml = os.path.join(rospkg.RosPack().get_path('march_gait_selection'), 'gait', 'default.yaml')
+    GaitSelection = GaitSelection(default_yaml)
+
     rate = rospy.Rate(10)
     rospy.spin()
