@@ -15,21 +15,9 @@ find_package(catkin REQUIRED COMPONENTS
         )
 
 catkin_package(
+        INCLUDE_DIRS include
         CATKIN_DEPENDS
 )
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-include_directories(include ${catkin_INCLUDE_DIRS})
-
-set(sourcefiles
-        src/GaitSchedulerNode.cpp
-        src/Scheduler.cpp
-        include/march_gait_scheduler/Scheduler.h
-        )
-
-add_library(march_gait_scheduler ${sourcefiles})
-
 
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
@@ -40,12 +28,20 @@ file(GLOB_RECURSE lintfiles
         )
 
 roslint_cpp(${lintfiles})
+include_directories(
+        include
+        ${catkin_INCLUDE_DIRS})
 
-include_directories( include ${catkin_INCLUDE_DIRS})
-
-add_executable(gait_scheduler_node
+set(sourcefiles
         src/GaitSchedulerNode.cpp
         )
+
+add_library(march_gait_scheduler ${sourcefiles})
+
+add_executable(gait_scheduler_node
+        ${lintfiles}
+        )
+
 add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 
@@ -53,9 +49,11 @@ target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 ## Testing ##
 #############
 
+
+## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    add_rostest_gtest(${PROJECT_NAME}-test
-            test/simple-test.test
+    add_rostest_gmock(${PROJECT_NAME}-test
+            test/main-test.test
             test/TestRunner.cpp
             test/DelayGaitTest.cpp
             )

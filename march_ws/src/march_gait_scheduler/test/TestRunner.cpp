@@ -2,8 +2,7 @@
 
 #include "gtest/gtest.h"
 #include "ros/ros.h"
-#include <march_rqt_gait_generator/MarchGait.h>
-#include <march_gait_scheduler/Scheduler.h>
+
 
 class SchedulerTest : public ::testing::Test {
  protected:
