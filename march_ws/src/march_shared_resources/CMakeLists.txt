@@ -41,7 +41,8 @@ add_service_files(
 add_action_files(
         DIRECTORY action
         FILES Gait.action
-        FILES GaitName.action
+        GaitName.action
+        MoveToGait.action
 )
 
 generate_messages(
