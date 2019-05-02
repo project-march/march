@@ -1,0 +1,6 @@
+#goal definition
+string name
+Graph graph
+Subgait current_subgait
+---
+---

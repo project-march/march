@@ -1,8 +1,3 @@
-[submodule "march_ws/src/joint-control"]
-	path = march_ws/src/joint-control
-	url = https://github.com/project-march/joint-control.git
-	branch = develop
-	
 [submodule "march_ws/src/state-machine"]
 	path = march_ws/src/state-machine
 	url = https://github.com/project-march/state-machine.git
@@ -21,4 +16,9 @@
 [submodule "march_ws/src/gait-generation"]
 	path = march_ws/src/gait-generation
 	url = https://github.com/project-march/gait-generation.git
+	branch = develop
+
+[submodule "march_ws/src/march-simulation"]
+	path = march_ws/src/march-simulation
+	url = https://github.com/project-march/march-simulation.git
 	branch = develop

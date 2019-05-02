@@ -34,7 +34,7 @@ catkin_make || build_failed "Catkin_make failed"
 
 # Run roslint on all packages.
 # Except the packages defined in the excluded_packages array.
-declare -a excluded_packages=("march_moveit" "march_description" "march_launch" "march_gazebo" "march_rqt_launch_menu" "march_rqt_input_device" "march_moveit_test_joint")
+declare -a excluded_packages=("march_moveit" "march_description" "march_launch" "march_simulation" "march_rqt_launch_menu" "march_rqt_input_device" "march_moveit_test_joint")
 for directory in $(find -O3 -L src/ -name "CMakeLists.txt")
 do
 

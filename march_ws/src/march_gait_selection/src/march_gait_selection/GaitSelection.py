@@ -3,7 +3,7 @@ import rospy
 import actionlib
 
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryActionGoal, FollowJointTrajectoryResult
-from march_shared_resources.msg import MoveToGaitAction
+from march_shared_resources.msg import GaitNameAction
 from trajectory_msgs.msg import JointTrajectoryPoint
 
 
@@ -12,17 +12,17 @@ class PoseToTrajectoryAction(object):
     _trajectory_execution_client = None
 
     def __init__(self):
-        self._target_gait_action_server = actionlib.SimpleActionServer("march/target_gait", MoveToGaitAction,
+        self._target_gait_action_server = actionlib.SimpleActionServer("march/gait/perform", GaitNameAction,
                                                                        execute_cb=self.target_gait_callback,
                                                                        auto_start=False)
         self._target_gait_action_server.start()
-        self._trajectory_execution_client = actionlib.SimpleActionClient("exo_controller/follow_joint_trajectory",
+        self._trajectory_execution_client = actionlib.SimpleActionClient("march/gait/schedule",
                                                                          FollowJointTrajectoryAction)
         self._trajectory_execution_client.wait_for_server()
 
     def target_gait_callback(self, goal):
-        rospy.loginfo(" %s pose requested", goal.gait_name)
-        trajectory_result = self.execute_trajectory(goal.gait_name)
+        rospy.loginfo(" %s pose requested", goal.subgait_name)
+        trajectory_result = self.execute_trajectory(goal.subgait_name)
         if trajectory_result.error_code == FollowJointTrajectoryResult.SUCCESSFUL:
             rospy.loginfo("set_succeeded")
             self._target_gait_action_server.set_succeeded()

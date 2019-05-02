@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
         message_runtime
         std_msgs
         roslint
+        trajectory_msgs
         )
 
 add_message_files(
@@ -20,9 +21,12 @@ add_message_files(
         Error.msg
         Gait.msg
         GaitStatus.msg
+        Graph.msg
         PerformGait.msg
         PlayInputMaster.msg
         StepSize.msg
+        Sound.msg
+        Subgait.msg
 )
 
 add_service_files(
@@ -36,14 +40,16 @@ add_service_files(
 
 add_action_files(
         DIRECTORY action
-        FILES MoveToGait.action
-        FILES MoveToPose.action
+        FILES Gait.action
+        GaitName.action
+        MoveToGait.action
 )
 
 generate_messages(
         DEPENDENCIES
         actionlib_msgs
         std_msgs
+        trajectory_msgs
 )
 
 catkin_package(
@@ -54,6 +60,7 @@ catkin_package(
         message_generation
         message_runtime
         std_msgs
+        trajectory_msgs
         #DEPENDS system_lib
 )
 
