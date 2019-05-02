@@ -30,14 +30,10 @@ class TestGetSubgait(unittest.TestCase):
                         "left_swing": "test",
                     }
             }
-    def tearDown(self):
-        pass
-
 
     def test_get_subgait_correct(self):
         gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_correct)
         subgait = gait_selection.get_subgait('walking', 'left_swing')
-
         self.assertEquals('left_swing', subgait.name)
         self.assertEquals('test', subgait.version)
 

@@ -47,12 +47,12 @@ class GaitSelection(object):
     def validate_subgait_name(self, gait_name, subgait_name):
         try:
             self.gait_version_map[gait_name]
-        except:
+        except KeyError:
             rospy.logerr("Gait " + gait_name + " does not exist")
             return False
         try:
             self.gait_version_map[gait_name][subgait_name]
-        except:
+        except KeyError:
             rospy.logerr("Subgait " + subgait_name + " does not exist")
             return False
         return True
@@ -64,18 +64,19 @@ class GaitSelection(object):
         subgait_path = os.path.join(self.gait_directory, gait_name, subgait_name, version + '.subgait')
         try:
             open(subgait_path)
-        except:
+        except IOError:
             return False
         return True
 
     def get_subgait_path(self, gait_name, subgait_name):
         if not self.validate_subgait_name(gait_name, subgait_name):
             raise KeyError(
-                "Could not find subgait " + gait_name + "/" + subgait_name + " in the mapping" + str(self.gait_version_map))
+                "Could not find subgait " + gait_name + "/" + subgait_name +
+                " in the mapping" + str(self.gait_version_map))
         if not self.validate_version_name(gait_name, subgait_name, self.gait_version_map[gait_name][subgait_name]):
             raise KeyError(
-                "Could not find subgait file " + gait_name + "/" + subgait_name + "/" + self.gait_version_map[gait_name][
-                    subgait_name] + ".subgait")
+                "Could not find subgait file " + gait_name + "/" + subgait_name + "/" +
+                self.gait_version_map[gait_name][subgait_name] + ".subgait")
 
-        return os.path.join(self.gait_directory, gait_name, subgait_name, self.gait_version_map[gait_name][subgait_name]
-                            + '.subgait')
+        return os.path.join(self.gait_directory, gait_name, subgait_name,
+                            self.gait_version_map[gait_name][subgait_name] + '.subgait')

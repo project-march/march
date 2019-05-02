@@ -8,6 +8,8 @@ import rosunit
 from march_gait_selection.GaitSelection import GaitSelection
 
 import TestGetSubgait
+import TestValidateSubgaitName
+import TestValidateVersionName
 
 PKG = "march_gait_selection"
 
@@ -69,3 +71,5 @@ class TestBasicGaitSelection(unittest.TestCase):
 if __name__ == '__main__':
     rosunit.unitrun(PKG, 'test_basic_gait_selection', TestBasicGaitSelection)
     rosunit.unitrun(PKG, 'test_get_subgait', TestGetSubgait)
+    rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateSubgaitName)
+    rosunit.unitrun(PKG, 'test_validate_version_name', TestValidateVersionName)
