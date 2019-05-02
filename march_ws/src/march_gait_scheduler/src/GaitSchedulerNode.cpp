@@ -13,10 +13,10 @@
 #include <actionlib/server/simple_action_server.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <march_shared_resources/MoveToGaitAction.h>
+#include <march_shared_resources/GaitNameAction.h>
 #include <march_shared_resources/TopicNames.h>
 
-typedef actionlib::SimpleActionServer<march_shared_resources::MoveToGaitAction> ServerMoveToGait;
+typedef actionlib::SimpleActionServer<march_shared_resources::GaitNameAction> ServerGaitName;
 typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
 ros::Publisher joint_trajectory_pub;
 actionlib_msgs::GoalStatus trajectory_status;
@@ -97,20 +97,11 @@ int main(int argc, char** argv)
   std::string package_path = ros::package::getPath("gait_scheduler_node");
 
   std::string planning_group;
-  std::string follow_joint_trajectory_topic;
 
   //  retrieving planning group name (initialized in launch file) from parameter server
   n.getParam("/control_node/planning_group", planning_group);
 
   //  determining which planning group is used. If test_joint, topic name for ServerFollowJoint is changed
-  if (planning_group == "test_joint")
-  {
-    follow_joint_trajectory_topic = ActionNames::follow_test_joint_trajectory;
-  }
-  else
-  {
-    follow_joint_trajectory_topic = ActionNames::follow_joint_trajectory;
-  }
 
   joint_trajectory_pub =
       n.advertise<control_msgs::FollowJointTrajectoryActionGoal>(TopicNames::follow_joint_trajectory_execution, 1000);
@@ -119,8 +110,8 @@ int main(int argc, char** argv)
       n.subscribe(TopicNames::follow_joint_trajectory_execution_states, 1000, TrajectoryExecutionStatusCallback);
 
   ServerFollowJoint server_follow_joint_trajectory(
-      n, follow_joint_trajectory_topic, boost::bind(&executeFollowJointTrajectory, _1, &server_follow_joint_trajectory),
-      false);
+      n, ActionNames::schedule_gait,
+      boost::bind(&executeFollowJointTrajectory, _1, &server_follow_joint_trajectory), false);
   server_follow_joint_trajectory.start();
 
   while (ros::ok())
