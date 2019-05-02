@@ -4,9 +4,6 @@ add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
         control_msgs
-        controller_manager
-        effort_controllers
-        joint_state_controller
         march_shared_resources
         robot_state_publisher
         roslint
@@ -30,18 +27,21 @@ file(GLOB_RECURSE lintfiles
 roslint_cpp(${lintfiles})
 include_directories(
         include
-        ${catkin_INCLUDE_DIRS})
+        ${catkin_INCLUDE_DIRS}
+)
 
 set(sourcefiles
         src/GaitSchedulerNode.cpp
+        include/march_gait_scheduler/Helper.h
+        src/Helper.cpp
         )
 
 add_library(march_gait_scheduler ${sourcefiles})
 
 add_executable(gait_scheduler_node
-        ${lintfiles}
+        src/GaitSchedulerNode.cpp
+        include/march_gait_scheduler/Helper.h
         )
-
 add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 
@@ -57,5 +57,5 @@ if (CATKIN_ENABLE_TESTING)
             test/TestRunner.cpp
             test/DelayGaitTest.cpp
             )
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler gtest)
+    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler gtest gmock)
 endif ()
