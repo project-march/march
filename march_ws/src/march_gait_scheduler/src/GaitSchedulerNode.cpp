@@ -55,7 +55,7 @@ void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr
 {
   ROS_INFO("executeFollowJointTrajectory: received msg");
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
-      scheduler.scheduleTrajectory(goal.get(), ros::Time::now());
+      scheduler.scheduleTrajectory(goal.get(), ros::Duration().fromSec(0));
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();
 

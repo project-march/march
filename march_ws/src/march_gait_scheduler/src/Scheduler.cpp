@@ -19,23 +19,41 @@ ros::Time Scheduler::getEndTimeCurrentGait()
   return ros::Time().fromSec(0);
 }
 
-ros::Time Scheduler::getEarliestStartTime(ros::Time preferred_time)
+ros::Time Scheduler::getEarliestStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
-  if (preferred_time > getEndTimeCurrentGait())
+  ros::Time currentTime = ros::Time::now();
+
+  if (currentTime > possibleStartingTime)
   {
-    return preferred_time;
+    if (offset.toNSec() >= 0)
+    {
+      return currentTime + offset;
+    }
+    else
+    {
+      ROS_WARN("Negative offset is ignored, because no gait is currently being executed");
+      return currentTime;
+    }
   }
   else
   {
-    return possibleStartingTime;
+    if (possibleStartingTime + offset < currentTime)
+    {
+      ROS_WARN("Negative offset is partly ignored, otherwise the gait would be scheduled in the past");
+      return currentTime;
+    }
+    else
+    {
+      return possibleStartingTime + offset;
+    }
   }
 }
 
 control_msgs::FollowJointTrajectoryActionGoal
-Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Time preferred_time)
+Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Duration offset)
 {
-  ros::Time startingTime = getEarliestStartTime(preferred_time);
+  ros::Time startingTime = getEarliestStartTime(offset);
   trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
   trajectoryMsg.goal.trajectory = trajectory;

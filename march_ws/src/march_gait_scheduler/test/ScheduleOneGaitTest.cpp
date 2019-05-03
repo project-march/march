@@ -47,18 +47,19 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
 
   Scheduler scheduler;
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
-      scheduler.scheduleTrajectory(&gaitGoalConst, current_time);
+      scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
 
   // TODO(TIM) check which header should be set (now only the trajectory header in the message is set, not the high lvl
   // header)
-  ASSERT_EQ(current_time.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_FLOAT_EQ(current_time.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
 }
 
 TEST_F(ScheduleOneGaitTest, ScheduleInTheFuture)
 {
   ros::Time::init();
   ros::Time currentTime = ros::Time::now();
-  ros::Time futureTime = currentTime + ros::Duration().fromSec(50);
+  ros::Duration offset = ros::Duration().fromSec(50);
+  ros::Time futureTime = currentTime + offset;
 
   march_shared_resources::GaitGoal gaitGoal;
   gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
@@ -68,9 +69,9 @@ TEST_F(ScheduleOneGaitTest, ScheduleInTheFuture)
 
   Scheduler scheduler;
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
-      scheduler.scheduleTrajectory(&gaitGoalConst, futureTime);
+      scheduler.scheduleTrajectory(&gaitGoalConst, offset);
 
-  ASSERT_EQ(futureTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_FLOAT_EQ(futureTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
   ASSERT_NE(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
 }
 
@@ -78,7 +79,8 @@ TEST_F(ScheduleOneGaitTest, ScheduleInThePast)
 {
   ros::Time::init();
   ros::Time currentTime = ros::Time::now();
-  ros::Time pastTime = currentTime - ros::Duration().fromSec(50);
+  ros::Duration offset = ros::Duration().fromSec(-50);
+  ros::Time pastTime = currentTime + offset;
 
   march_shared_resources::GaitGoal gaitGoal;
   gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
@@ -87,8 +89,8 @@ TEST_F(ScheduleOneGaitTest, ScheduleInThePast)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, pastTime);
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, offset);
 
-  ASSERT_EQ(pastTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_FLOAT_EQ(pastTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
   ASSERT_NE(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
 }
