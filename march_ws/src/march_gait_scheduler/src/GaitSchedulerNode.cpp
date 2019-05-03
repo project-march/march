@@ -46,8 +46,6 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
   return false;
 }
 
-
-
 /**
  * Make ros control execute the joint trajectory by setting the trajectory goal
  * @param goal the trajectory goal for ros control
@@ -56,7 +54,8 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
 void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr& goal, ServerFollowJoint* server)
 {
   ROS_INFO("executeFollowJointTrajectory: received msg");
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(goal.get(), ros::Time::now());
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+      scheduler.scheduleTrajectory(goal.get(), ros::Time::now());
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();
 

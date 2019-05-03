@@ -21,19 +21,18 @@ protected:
     return point;
   }
 
-  trajectory_msgs::JointTrajectory fake_sit_trajectory(){
+  trajectory_msgs::JointTrajectory fake_sit_trajectory()
+  {
     march_shared_resources::GaitGoal goal;
     trajectory_msgs::JointTrajectory jointTrajectory;
-    jointTrajectory.joint_names = {"left_hip", "left_knee", "left_ankle", "right_hip", "right_knee", "right_ankle"};
+    jointTrajectory.joint_names = { "left_hip", "left_knee", "left_ankle", "right_hip", "right_knee", "right_ankle" };
     trajectory_msgs::JointTrajectoryPoint point;
-    point.positions = {1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399};
-    point.velocities = {0, 0, 0, 0, 0, 0};
+    point.positions = { 1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399 };
+    point.velocities = { 0, 0, 0, 0, 0, 0 };
     point.time_from_start = ros::Duration().fromSec(3);
-    jointTrajectory.points = {point};
+    jointTrajectory.points = { point };
     return jointTrajectory;
   }
-
-
 };
 
 TEST_F(ScheduleOneGaitTest, ScheduleNow)
@@ -47,9 +46,11 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, current_time);
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+      scheduler.scheduleTrajectory(&gaitGoalConst, current_time);
 
-  //TODO(TIM) check which header should be set (now only the trajectory header in the message is set, not the high lvl header)
+  // TODO(TIM) check which header should be set (now only the trajectory header in the message is set, not the high lvl
+  // header)
   ASSERT_EQ(current_time.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
 }
 
@@ -66,7 +67,8 @@ TEST_F(ScheduleOneGaitTest, ScheduleInTheFuture)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, futureTime);
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+      scheduler.scheduleTrajectory(&gaitGoalConst, futureTime);
 
   ASSERT_EQ(futureTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
   ASSERT_NE(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
