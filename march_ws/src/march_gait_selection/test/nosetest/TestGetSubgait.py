@@ -40,7 +40,7 @@ class TestGetSubgait(unittest.TestCase):
     def test_get_subgait_wrong(self):
         gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_wrong)
         subgait = gait_selection.get_subgait('walking', 'right_close')
-        self.assertEquals(Subgait(), subgait)
+        self.assertEquals(None, subgait)
 
     def test_set_subgait(self):
         gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_correct)

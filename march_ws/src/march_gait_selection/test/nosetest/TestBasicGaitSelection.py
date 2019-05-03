@@ -11,6 +11,7 @@ import TestGetSubgait
 import TestValidateSubgaitName
 import TestValidateVersionName
 import TestValidateVersionMap
+import TestValidateTrajectoryTransition
 
 PKG = "march_gait_selection"
 
@@ -74,3 +75,4 @@ if __name__ == '__main__':
     rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateSubgaitName)
     rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateVersionName)
     rosunit.unitrun(PKG, 'test_validate_version_name', TestValidateVersionMap)
+    rosunit.unitrun(PKG, 'test_validate_trajectory_transition', TestValidateTrajectoryTransition)

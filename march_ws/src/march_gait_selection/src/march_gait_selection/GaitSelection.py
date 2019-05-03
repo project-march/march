@@ -41,7 +41,7 @@ class GaitSelection(object):
             subgait_path = self.get_subgait_path(gait_name, subgait_name)
         except KeyError:
             rospy.logerr("Could not find subgait " + gait_name + "/" + subgait_name)
-            return Subgait()
+            return None
 
         subgait_yaml = yaml.load(open(subgait_path), Loader=yaml.SafeLoader)
         subgait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/Subgait', subgait_yaml)
@@ -120,8 +120,30 @@ class GaitSelection(object):
             return False
 
         for i in range(0, len(gait.from_subgait)):
-            pass
+            from_name = gait.from_subgait[i]
+            to_name = gait.to_subgait[i]
+            if to_name == "start":
+                rospy.logerr("Gait " + gait.name + " has a transition to start.")
+                return False
+            if from_name == "end":
+                rospy.logerr("Gait " + gait.name + " has a transition from end.")
+                return False
 
+            from_subgait = self.get_subgait(gait.name, from_name)
+            to_subgait = self.get_subgait(gait.name, to_name)
 
-    def validate_trajectory_transition(self, old_trajectory, new_trajectory):
-        return old_trajectory.names == new_trajectory.names and old_trajectory.points[-1] == new_trajectory.points[0]
+            if not from_name == "start" and from_subgait is None:
+                return False
+            if not to_name == "end" and to_subgait is None:
+                return False
+            if not self.validate_trajectory_transition(from_subgait.trajectory, to_subgait.tracjectory):
+                return False
+        return True
+
+    @staticmethod
+    def validate_trajectory_transition(old_trajectory, new_trajectory):
+        # Clear time_from_start as it doesn't need to match up.
+        old_trajectory.points[-1].time_from_start = rospy.Duration(0)
+        new_trajectory.points[0].time_from_start = rospy.Duration(0)
+
+        return old_trajectory.joint_names == new_trajectory.joint_names and old_trajectory.points[-1] == new_trajectory.points[0]
