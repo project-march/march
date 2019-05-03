@@ -8,14 +8,15 @@
 #include <march_shared_resources/GaitGoal.h>
 class Scheduler {
 
-  ros::Time getEndTimeCurrentGait();
+  const march_shared_resources::GaitGoal *lastGaitGoal = nullptr;
+  ros::Time startTimeLastGait = ros::Time::now();
 
-  trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
+  ros::Time getEndTimeCurrentGait();
+  ros::Time getEarliestStartTime(ros::Time preferred_time);
+  static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
  public:
-  const march_shared_resources::GaitGoal *lastGait;
-  ros::Time startTimeLastGait = ros::Time::now();
-  control_msgs::FollowJointTrajectoryActionGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory);
+  control_msgs::FollowJointTrajectoryActionGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory, ros::Time preferred_time);
 
 };
 

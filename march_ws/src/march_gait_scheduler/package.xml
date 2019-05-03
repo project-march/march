@@ -8,6 +8,8 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
+    <build_depend>actionlib</build_depend>
+    <build_depend>actionlib_msgs</build_depend>
     <build_depend>control_msgs</build_depend>
     <build_depend>march_shared_resources</build_depend>
     <build_depend>roslint</build_depend>
@@ -17,6 +19,8 @@
 
     <build_export_depend>roscpp</build_export_depend>
 
+    <exec_depend>actionlib</exec_depend>
+    <exec_depend>actionlib_msgs</exec_depend>
     <exec_depend>roscpp</exec_depend>
 
     <export>

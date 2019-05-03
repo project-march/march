@@ -46,6 +46,8 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
   return false;
 }
 
+
+
 /**
  * Make ros control execute the joint trajectory by setting the trajectory goal
  * @param goal the trajectory goal for ros control
@@ -54,7 +56,7 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
 void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr& goal, ServerFollowJoint* server)
 {
   ROS_INFO("executeFollowJointTrajectory: received msg");
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(goal.get());
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(goal.get(), ros::Time::now());
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();
 
@@ -76,24 +78,6 @@ void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr
     server->setAborted();
     return;
   }
-}
-
-
-void fake_goal(){
-  march_shared_resources::GaitGoal goal;
-  trajectory_msgs::JointTrajectory jointTrajectory;
-  jointTrajectory.joint_names = {"left_hip", "left_knee", "left_ankle", "right_hip", "right_knee", "right_ankle"};
-  trajectory_msgs::JointTrajectoryPoint point;
-  point.positions = {1.3, 1.3, 0.349065850399, 1.3, 1.3, 0.349065850399};
-  point.velocities = {0, 0, 0, 0, 0, 0};
-  point.time_from_start = ros::Duration().fromSec(3);
-  jointTrajectory.points = {point};
-  goal.current_subgait.trajectory = jointTrajectory;
-  goal.name = "sit";
-  const march_shared_resources::GaitGoalConstPtr& const_ptr_goal = &goal;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(const_ptr_goal.get());
-  joint_trajectory_pub.publish(trajectoryMsg);
-  trajectory_status = actionlib_msgs::GoalStatus();
 }
 
 /**

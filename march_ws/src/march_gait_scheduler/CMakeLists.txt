@@ -3,6 +3,8 @@ project(march_gait_scheduler)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
+        actionlib
+        actionlib_msgs
         control_msgs
         march_shared_resources
         roscpp
@@ -56,7 +58,7 @@ if (CATKIN_ENABLE_TESTING)
     add_rostest_gmock(${PROJECT_NAME}-test
             test/main-test.test
             test/TestRunner.cpp
-            test/DelayGaitTest.cpp
+            test/ScheduleOneGaitTest.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler gtest gmock)
 endif ()

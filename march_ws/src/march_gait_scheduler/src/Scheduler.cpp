@@ -10,27 +10,39 @@ trajectory_msgs::JointTrajectory Scheduler::setStartTimeGait(trajectory_msgs::Jo
 
 ros::Time Scheduler::getEndTimeCurrentGait()
 {
-  ros::Time endTime = this->startTimeLastGait;
-  if (this->lastGait != nullptr)
+  if (this->lastGaitGoal != nullptr && this->lastGaitGoal != NULL)
   {
-    endTime += this->lastGait->current_subgait.duration;
+    ros::Time endTime = this->startTimeLastGait;
+    endTime += this->lastGaitGoal->current_subgait.duration;
+    return endTime;
   }
-  return endTime;
+  return ros::Time().fromSec(0);
+}
+
+ros::Time Scheduler::getEarliestStartTime(ros::Time preferred_time)
+{
+  ros::Time possibleStartingTime = getEndTimeCurrentGait();
+  if (preferred_time > getEndTimeCurrentGait())
+  {
+    return preferred_time;
+  }
+  else
+  {
+    return possibleStartingTime;
+  }
 }
 
 control_msgs::FollowJointTrajectoryActionGoal
-Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal)
+Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Time preferred_time)
 {
-  this->lastGait = goal;
-  ros::Time startingTime = getEndTimeCurrentGait();
-  if (ros::Time::now() > getEndTimeCurrentGait())
-  {
-    startingTime = ros::Time::now();
-  }
-  this->startTimeLastGait = startingTime;
+  ros::Time startingTime = getEarliestStartTime(preferred_time);
   trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
-
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
   trajectoryMsg.goal.trajectory = trajectory;
+
+  // Update all variables
+  this->startTimeLastGait = startingTime;
+  this->lastGaitGoal = goal;
+
   return trajectoryMsg;
 }
