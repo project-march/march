@@ -12,14 +12,16 @@ import TestValidateSubgaitName
 import TestValidateVersionName
 import TestValidateVersionMap
 import TestValidateTrajectoryTransition
+import TestValidateGait
 
 PKG = "march_gait_selection"
 
 
 class TestBasicGaitSelection(unittest.TestCase):
     def test_gait_selection_creation_from_yaml(self):
-        gait_selection = GaitSelection(default_yaml="/home/ishadijcks/march-iv/march_ws/src/march_gait_selection/test"
-                                                    "/defaults/default_correct_walking_gait.yaml")
+        gait_selection = GaitSelection(
+            default_yaml=os.path.join(rospkg.RosPack().get_path('march_gait_selection'),
+                                      "test/defaults/default_correct_walking_gait.yaml"))
         actual_map = {
             "walking": {
                 "right_open": "test_a_bit_higher",
@@ -50,14 +52,14 @@ class TestBasicGaitSelection(unittest.TestCase):
         gait_directory = "test/gaits_correct_walking_gait"
 
         actual_map = {"walking": {
-                "right_open": "test_a_bit_higher",
-                "left_swing": "test"
-            }
+            "right_open": "test_a_bit_higher",
+            "left_swing": "test"
+        }
         }
         gait_selection_parameters = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
-
-        gait_selection_yaml = GaitSelection(default_yaml="/home/ishadijcks/march-iv/march_ws/src/march_gait_selection"
-                                                         "/test/defaults/default_correct_walking_gait.yaml")
+        default_yaml = os.path.join(rospkg.RosPack().get_path('march_gait_selection'),
+                                    "test/defaults/default_correct_walking_gait.yaml")
+        gait_selection_yaml = GaitSelection(default_yaml=default_yaml)
 
         self.assertEquals(gait_selection_parameters.gait_directory, gait_selection_yaml.gait_directory)
         self.assertEquals(gait_selection_parameters.gait_version_map, gait_selection_yaml.gait_version_map)
@@ -76,3 +78,4 @@ if __name__ == '__main__':
     rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateVersionName)
     rosunit.unitrun(PKG, 'test_validate_version_name', TestValidateVersionMap)
     rosunit.unitrun(PKG, 'test_validate_trajectory_transition', TestValidateTrajectoryTransition)
+    rosunit.unitrun(PKG, 'test_validate_gait', TestValidateGait)

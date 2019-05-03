@@ -146,4 +146,5 @@ class GaitSelection(object):
         old_trajectory.points[-1].time_from_start = rospy.Duration(0)
         new_trajectory.points[0].time_from_start = rospy.Duration(0)
 
-        return old_trajectory.joint_names == new_trajectory.joint_names and old_trajectory.points[-1] == new_trajectory.points[0]
+        return old_trajectory.joint_names == new_trajectory.joint_names \
+            and old_trajectory.points[-1] == new_trajectory.points[0]
