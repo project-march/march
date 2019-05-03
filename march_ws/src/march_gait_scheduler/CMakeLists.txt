@@ -59,6 +59,7 @@ if (CATKIN_ENABLE_TESTING)
             test/main-test.test
             test/TestRunner.cpp
             test/ScheduleOneGaitTest.cpp
+            test/ScheduleMultipleGaitsTest.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler gtest gmock)
 endif ()

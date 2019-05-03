@@ -19,6 +19,7 @@ ros::Time Scheduler::getEndTimeCurrentGait()
   return ros::Time().fromSec(0);
 }
 
+
 ros::Time Scheduler::getEarliestStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
