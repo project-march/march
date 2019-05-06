@@ -143,7 +143,7 @@ class GaitSelection(object):
             if not self.validate_subgait_transition(gait.name, gait.graph.from_subgait[i], gait.graph.to_subgait[i]):
                 return False
         return True
-        
+
     def validate_subgait_transition(self, gait_name, from_name, to_name):
         if from_name == "start":
             if self.get_subgait(gait_name, to_name) is None:

@@ -74,7 +74,8 @@ if __name__ == '__main__':
                                                             str(perform_gait_server.gait_selection.scan_directory())])
     set_selected_versions_service = rospy.Service('set_selected_versions', StringTrigger,
                                                   lambda msg: set_selected_versions_callback(msg,
-                                                                                             perform_gait_server.gait_selection))
+                                                                                             perform_gait_server.
+                                                                                             gait_selection))
     perform_gait_server.schedule_gait_client.wait_for_server()
 
     rate = rospy.Rate(10)
