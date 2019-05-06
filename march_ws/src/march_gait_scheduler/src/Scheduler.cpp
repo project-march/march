@@ -20,7 +20,7 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 }
 
 
-ros::Time Scheduler::getEarliestStartTime(ros::Duration offset)
+ros::Time Scheduler::getStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
   ros::Time currentTime = ros::Time::now();
@@ -54,7 +54,7 @@ ros::Time Scheduler::getEarliestStartTime(ros::Duration offset)
 control_msgs::FollowJointTrajectoryActionGoal
 Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Duration offset)
 {
-  ros::Time startingTime = getEarliestStartTime(offset);
+  ros::Time startingTime = getStartTime(offset);
   trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
   trajectoryMsg.goal.trajectory = trajectory;
