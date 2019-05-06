@@ -75,29 +75,29 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoNoOffset)
 }
 
 
-//TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoWithOffset)
-//{
-//  ros::Time::init();
-//  ros::Time current_time = ros::Time::now();
-//  march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
-//  ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
-//
-//  const auto& gaitSitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitSitGoal);
-//
-//  march_shared_resources::GaitGoal gaitStandGoal = fake_stand_goal();
-//  const auto& gaitStandGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitStandGoal);
-//
-//  Scheduler scheduler;
-//
-//  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgSit =
-//      scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0));
-//
-//  ros::Duration &offset = ros::Duration().fromSec(3);
-//  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgStand =
-//      scheduler.scheduleTrajectory(&gaitStandGoalConst, offset);
-//
-//  ros::Time secondStartTime = current_time + gaitDuration + offset;
-//
-//  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.goal.trajectory.header.stamp.toSec(), 0.1);
-//  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.goal.trajectory.header.stamp.toSec(), 0.1);
-//}
+TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoWithOffset)
+{
+  ros::Time::init();
+  ros::Time current_time = ros::Time::now();
+  march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
+  ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
+
+  const auto& gaitSitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitSitGoal);
+
+  march_shared_resources::GaitGoal gaitStandGoal = fake_stand_goal();
+  const auto& gaitStandGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitStandGoal);
+
+  Scheduler scheduler;
+
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgSit =
+      scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0));
+
+  ros::Duration offset = ros::Duration().fromSec(3);
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgStand =
+      scheduler.scheduleTrajectory(&gaitStandGoalConst, offset);
+
+  ros::Time secondStartTime = current_time + gaitDuration + offset;
+
+  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.goal.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.goal.trajectory.header.stamp.toSec(), 0.1);
+}
