@@ -38,8 +38,8 @@ class GaitSelection(object):
     def get_subgait(self, gait_name, subgait_name):
         try:
             subgait_path = self.get_subgait_path(gait_name, subgait_name)
-        except KeyError:
-            rospy.logerr("Could not find subgait " + gait_name + "/" + subgait_name)
+        except KeyError as e:
+            rospy.logerr(str(e))
             return None
 
         subgait_yaml = yaml.load(open(subgait_path), Loader=yaml.SafeLoader)
@@ -114,29 +114,65 @@ class GaitSelection(object):
                     return False
         return True
 
+    def validate_gait_by_name(self, gait_name):
+        gait_path = os.path.join(self.gait_directory, gait_name, gait_name + ".gait")
+        gait_yaml = yaml.load(open(gait_path), Loader=yaml.SafeLoader)
+        gait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/GaitGoal',
+                                                                   gait_yaml,
+                                                                   kind="message")
+        return self.validate_gait(gait)
+
     def validate_gait(self, gait):
-        if len(gait.from_subgait) != len(gait.to_subgait):
+        if len(gait.graph.from_subgait) != len(gait.graph.to_subgait):
+            rospy.logerr("Graph has the wrong size in gait %s", gait.name)
+            return False
+        if "start" not in gait.graph.from_subgait:
+            rospy.logerr("Start does not exist in gait %s", gait.name)
+            return False
+        if "end" not in gait.graph.to_subgait:
+            rospy.logerr("End does not exist in gait %s", gait.name)
+            return False
+        if "start" in gait.graph.to_subgait:
+            rospy.logerr("Gait %s has a transition to start", gait.name)
+            return False
+        if "end" in gait.graph.from_subgait:
+            rospy.logerr("Gait %s has a transition from end", gait.name)
             return False
 
-        for i in range(0, len(gait.from_subgait)):
-            from_name = gait.from_subgait[i]
-            to_name = gait.to_subgait[i]
-            if to_name == "start":
-                rospy.logerr("Gait " + gait.name + " has a transition to start.")
+        for i in range(0, len(gait.graph.from_subgait)):
+            if not self.validate_subgait_transition(gait.name, gait.graph.from_subgait[i], gait.graph.to_subgait[i]):
                 return False
-            if from_name == "end":
-                rospy.logerr("Gait " + gait.name + " has a transition from end.")
+        return True
+        
+    def validate_subgait_transition(self, gait_name, from_name, to_name):
+        if from_name == "start":
+            if self.get_subgait(gait_name, to_name) is None:
+                rospy.logerr("Could not find 'to' subgait %s/%s", gait_name, from_name)
                 return False
+            else:
+                return True
 
-            from_subgait = self.get_subgait(gait.name, from_name)
-            to_subgait = self.get_subgait(gait.name, to_name)
+        if to_name == "end":
+            if self.get_subgait(gait_name, from_name) is None:
+                rospy.logerr("Could not find 'from' subgait %s/%s", gait_name, from_name)
+                return False
+            else:
+                return True
 
-            if not from_name == "start" and from_subgait is None:
-                return False
-            if not to_name == "end" and to_subgait is None:
-                return False
-            if not self.validate_trajectory_transition(from_subgait.trajectory, to_subgait.tracjectory):
-                return False
+        from_subgait = self.get_subgait(gait_name, from_name)
+        to_subgait = self.get_subgait(gait_name, to_name)
+
+        if from_subgait is None:
+            rospy.logerr("Could not find 'from' subgait %s/%s", gait_name, from_name)
+            return False
+        if to_subgait is None:
+            rospy.logerr("Could not find 'to' subgait %s/%s", gait_name, to_name)
+            return False
+
+        if not self.validate_trajectory_transition(from_subgait.trajectory, to_subgait.trajectory):
+            rospy.logerr("Wrong transition from %s/%s/%s.subgait to %s/%s/%s.subgait",
+                         gait_name, from_name, from_subgait.version, gait_name, to_name, to_subgait.version)
+            return False
         return True
 
     @staticmethod

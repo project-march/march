@@ -1,6 +1,6 @@
 name: walking
 
 graph:
-  from: [start, right_open, left_swing, right_close]
+  from_subgait: [start, right_open, left_swing, right_close]
 
-  to:   [right_open, left_swing, right_close, end]
+  to_subgait:   [right_open, left_swing, right_close, end]
