@@ -30,10 +30,9 @@ class GaitSelection(object):
         rospy.loginfo("GaitSelection initialized with gait_version_map " + str(self.gait_version_map))
 
     def set_subgait_version(self, gait_name, subgait_name, version):
-        if self.validate_subgait_name(gait_name, subgait_name):
-            if self.validate_version_name(gait_name, subgait_name, version):
-                self.gait_version_map[gait_name][subgait_name] = version
-                return True
+        if self.validate_version_name(gait_name, subgait_name, version):
+            self.gait_version_map[gait_name][subgait_name] = version
+            return True
         return False
 
     def get_subgait(self, gait_name, subgait_name):
