@@ -87,13 +87,15 @@ class GaitSelection(object):
         """Scan the gait_directory recursively and create a dictionary of all subgait files"""
         rootdir = self.gait_directory.rstrip(os.sep)
 
-        gait_dict = {}
+        directory_dict = {}
         for gait in os.listdir(rootdir):
             gait_path = os.path.join(rootdir, gait)
+
             if not os.path.isdir(gait_path):
                 continue
 
-            subgait_dict = {}
+            gait_dict = {"image": os.path.join(gait_path, gait + '.png'), "subgaits": {}}
+
             for subgait in os.listdir(gait_path):
                 subgait_path = os.path.join(gait_path, subgait)
                 if not os.path.isdir(subgait_path):
@@ -101,9 +103,10 @@ class GaitSelection(object):
                 versions = []
                 for version in os.listdir(os.path.join(subgait_path)):
                     versions.append(version)
-                subgait_dict[subgait] = versions
-            gait_dict[gait] = subgait_dict
-        return gait_dict
+                gait_dict["subgaits"][subgait] = versions
+            directory_dict[gait] = gait_dict
+
+        return directory_dict
 
     def validate_version_map(self, map):
         # Check if all subgaits in the map exist.
