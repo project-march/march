@@ -102,7 +102,7 @@ class GaitSelection(object):
                     continue
                 versions = []
                 for version in os.listdir(os.path.join(subgait_path)):
-                    versions.append(version)
+                    versions.append(version.replace(".subgait", ""))
                 gait_dict["subgaits"][subgait] = versions
             directory_dict[gait] = gait_dict
 
