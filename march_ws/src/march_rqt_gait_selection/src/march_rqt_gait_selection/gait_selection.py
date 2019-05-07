@@ -1,8 +1,10 @@
+import ast
 import os
 import sys
 
 import rospy
 import rospkg
+from march_shared_resources.srv import StringTrigger, Trigger
 
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
@@ -34,6 +36,12 @@ class GaitSelectionPlugin(Plugin):
             print 'arguments: ', args
             print 'unknowns: ', unknowns
 
+        # Connect to services
+        rospy.wait_for_service('/march/gait_selection/get_version_map')
+        self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
+        rospy.wait_for_service('/march/gait_selection/get_directory_structure')
+        self.get_directory_structure = rospy.ServiceProxy('/march/gait_selection/get_directory_structure', Trigger)
+
         # Create QWidget
         self._widget = QWidget()
 
@@ -60,34 +68,28 @@ class GaitSelectionPlugin(Plugin):
         self._widget.findChild(QPushButton, "Apply").clicked.connect(self.set_gait_selection_map)
 
     def refresh(self):
-        gait_selection_map = {
-            'walking': {'right_open': 'test_a_bit_higher', 'right_close': 'not_the_default', 'left_swing': 'test_4'},
-            'walking2': {'right_open': 'test_a_bit_higher', 'right_close': 'right_close', 'left_swing': 'test_4'}}
-        gait_directory_structure = \
-            {
-                'walking': {
-                    'image': '/home/ishadijcks/Desktop/walk.bmp',
-                    'subgaits': {
-                        'right_open': ['test_a_bit_higher'],
-                        'right_close': ['not_the_default', 'right_close'],
-                        'left_swing': ['test_4']
-                    }
-                },
-                'walking2': {
-                    'image': '/home/ishadijcks/Desktop/walk2.bmp',
-                    'subgaits': {
-                        'right_open': ['test_a_bit_higher'],
-                        'right_close': ['not_the_default', 'right_close'],
-                        'left_swing': ['test_4']
-                    }
-                }
-            }
+        print "refreshing"
+
+        print
+        print self.get_directory_structure().message
+
+        try:
+            gait_version_map = ast.literal_eval(self.get_version_map().message)
+        except ValueError:
+            rospy.logerr("Gait selection map is not valid %s" + str(self.get_version_map().message))
+            return
+        try:
+            gait_directory_structure = ast.literal_eval(self.get_directory_structure().message)
+        except ValueError:
+            rospy.logerr("Gait directory structure is not valid %s" + str(self.get_directory_structure().message))
+            return
+
 
         gaits = self._widget.Gaits.findChildren(QGroupBox, "Gait")
         for gait in gaits:
             gait.deleteLater()
 
-        self.load_ui(gait_directory_structure, gait_selection_map)
+        self.load_ui(gait_directory_structure, gait_version_map)
         self._widget.layout().setSizeConstraint(QLayout.SetFixedSize)
 
     def load_ui(self, gait_directory_structure, gait_selection_map):
@@ -124,8 +126,9 @@ class GaitSelectionPlugin(Plugin):
         return subgait_group_box
 
     def create_dropdown(self, options, selection):
-        index = options.index(selection)
-        if index == -1:
+        try:
+            index = options.index(selection)
+        except ValueError:
             rospy.logerr("Selection %s not found in options %s.", str(selection), str(options))
             return None
         dropdown = QComboBox()
