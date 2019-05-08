@@ -10,7 +10,7 @@ import ast
 from std_srvs.srv import Trigger
 from march_shared_resources.srv import StringTrigger
 
-from march_shared_resources.msg import GaitNameAction, GaitAction, GaitActionGoal, GaitGoal
+from march_shared_resources.msg import GaitNameAction, GaitAction, GaitGoal
 
 from GaitSelection import GaitSelection
 
@@ -33,6 +33,7 @@ class PerformGaitAction(object):
             return False
         subgait = self.gait_selection.get_subgait(goal.name, goal.subgait_name)
         trajectory_result = self.schedule_gait(goal.name, subgait)
+        # @TODO(Isha, Tim) monitor the scheduled gait and pass feedback to the state machine.
         self.action_server.set_succeeded(True)
 
     def schedule_gait(self, gait_name, subgait):
@@ -42,7 +43,7 @@ class PerformGaitAction(object):
 
         self.schedule_gait_client.send_goal(gait_action_goal)
 
-        self.schedule_gait_client.wait_for_result(timeout=rospy.Duration(1))
+        self.schedule_gait_client.wait_for_result(timeout=subgait.duration + rospy.Duration(1))
         return self.schedule_gait_client.get_result()
 
 
