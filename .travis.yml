@@ -1,133 +1,76 @@
-# This installs ROS on a clean Travis-CI virtual machine, creates a ROS
-# workspace, resolves all listed dependencies, and sets environment variables
-# (setup.bash). Then, it compiles the entire ROS workspace (ensuring there are
-# no compilation errors), and runs all the tests. If any of the compilation/test
-# phases fail, the build is marked as a failure.
-#
-# We handle two types of package dependencies specified in the package manifest:
-#   - system dependencies that can be installed using `rosdep`, including other
-#     ROS packages and system libraries. These dependencies must be known to
-#     `rosdistro` and are installed using apt-get.
-#   - package dependencies that must be checked out from source. These are handled by
-#     `wstool`, and should be listed in a file named dependencies.rosinstall.
-#
-
-# There are envioronment variables you may want to change, such as ROS_DISTRO,
-# ROSINSTALL_FILE, and the CATKIN_OPTIONS file.  See the README.md for more
-# information on these flags, and
-# https://docs.travis-ci.com/user/environment-variables/ for information about
-# Travis environment variables in general.
-#
-# Author: Felix Duvallet <felixd@gmail.com>
-# Author: Project MARCH <software@projectmarch.nl>
-
-################################################################################
-
 dist: xenial
 sudo: required
 language:
-  - cpp
+- cpp
 cache:
-  - apt
-
+- apt
 notifications:
-  slack: projectmarch:$SLACK_NOTIFICATION_TOKEN
-
+  slack:
+    secure: dN+sNePHYq1PMm+E9S6Dk4UobyKS4r+fs0Xr8378UGt189HYV0al4DXPF95mnbQXknd9SbMA/qAWM7HRIt5plS4DjuR/7I5yrZnlnl1P6GPKtyhsCWrwgAyFWK5m+6bewzf/8pUg2YYGODGPBDReFqfli6c4Web1g/XW3M/DaVa4L7TqlKsmDEbYFDmooT8a1WFuxcYMSdgr3LGF2FBoPQVuBxYLYQX2xJ93KeniSzvsY5YMtBvMd5NP2C2/TWmJEMCvkLRbmFsl/eo8Nf4W9rNVt08kErQoRuABYO433ipZ+0zyFgzz2VVm0hxfVsSKUEt+uOarO/xP1z7mAnhrPeNWoM7Kw57djqEoqVRbr9EdKf5fg+UKLFWmlTvGagtzU4PB2/0Zq4sw/cdyXDDdMXwxjokpN9swvCM1faIWcG3A7M9mscIW/32hTmstqLtHG/1w0nNtg/N0Y16NOzCk98G2qiuCK+x031/TQDs0PE4JmilftW2nNhg5834dmMYsqKelLn5tVsXWKWMnQuZx22a7JQNQst9/Pt09+HuEzHfpUIZimjd8UoSIWlLJfocqM63ymUKY/t6TlTlLSkLexAAR/mzhyNQxZoYLHyxyJI8EjXu5KEVWH4Tw34oM2AcGE4bvg43LAajUQ/iz/7sxGcKN048uTzGF4uAz1Vutksk=
 addons:
   apt:
     packages:
-      - doxygen
-
-# Build all valid Ubuntu/ROS combinations available on Travis VMs.
+    - doxygen
 matrix:
   include:
-    - name: "Xenial kinetic"
-      dist: xenial
-      env: ROS_DISTRO=kinetic
-
-
-# Configuration variables. All variables are global now, but this can be used to
-# trigger a build matrix for different ROS distributions if desired.
+  - name: Xenial kinetic
+    dist: xenial
+    env: ROS_DISTRO=kinetic
 env:
   global:
     ROS_DISTRO: kinetic
-    ROS_CI_DESKTOP: "`lsb_release -cs`"  # e.g. [precise|trusty|...]
-    CI_SOURCE_PATH: $(pwd)
-    ROSINSTALL_FILE: $CI_SOURCE_PATH/dependencies.rosinstall
-    CATKIN_OPTIONS: $CI_SOURCE_PATH/catkin.options
-    ROS_PARALLEL_JOBS: '-j8 -l6'
-    # Set the python path manually to include /usr/-/python2.7/dist-packages
-    # as this is where apt-get installs python packages.
-    PYTHONPATH: $PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
-
-################################################################################
-
-# Install system dependencies, namely a very barebones ROS setup.
+    ROS_CI_DESKTOP: "`lsb_release -cs`"
+    CI_SOURCE_PATH: "$(pwd)"
+    ROSINSTALL_FILE: "$CI_SOURCE_PATH/dependencies.rosinstall"
+    CATKIN_OPTIONS: "$CI_SOURCE_PATH/catkin.options"
+    ROS_PARALLEL_JOBS: "-j8 -l6"
+    PYTHONPATH: "$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages"
 before_install:
-  - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
-  - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-  - sudo apt-get update -qq
-  - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
-  - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main" > /etc/apt/sources.list.d/ros-latest.list'
-  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  # Prepare rosdep to install dependencies.
-  - sudo rosdep init
-  - rosdep update
-  - sudo apt-get install ros-kinetic-rosbash
-  - sudo apt-get install ros-kinetic-roslaunch
-  - pip install --user catkin_lint
-  - sudo apt-get install python-catkin-tools
-
-# Create a catkin workspace with the package under integration.
+- sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\"
+  > /etc/apt/sources.list.d/ros-latest.list"
+- sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+- sudo apt-get update -qq
+- sudo apt-get install dpkg
+- sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
+- sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main"
+  > /etc/apt/sources.list.d/ros-latest.list'
+- wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+- source /opt/ros/$ROS_DISTRO/setup.bash
+- sudo rosdep init
+- rosdep update
+- sudo apt-get install ros-kinetic-rosbash
+- sudo apt-get install ros-kinetic-roslaunch
+- pip install --user catkin_lint
+- pip install --user catkin_tools_document
+- sudo apt-get install python-catkin-tools
 install:
-  - mkdir -p ~/catkin_ws/src
-  - cd ~/catkin_ws
-  - catkin init
-  # Create the devel/setup.bash (run catkin_make with an empty workspace) and
-  # source it to set the path variables.
-  - catkin build
-  - source devel/setup.bash
-  # Add the package under integration to the workspace using a symlink.
-  - cd ~/catkin_ws/src
-  - ln -s $CI_SOURCE_PATH .
-
-# Install all dependencies, using wstool first and rosdep second.
-# wstool looks for a ROSINSTALL_FILE defined in the environment variables.
+- mkdir -p ~/catkin_ws/src
+- cd ~/catkin_ws
+- catkin init
+- catkin build
+- source devel/setup.bash
+- cd ~/catkin_ws/src
+- ln -s $CI_SOURCE_PATH .
 before_script:
-  # source dependencies: install using wstool.
-  - cd ~/catkin_ws/src
-  - wstool init
-  - if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
-  - wstool up
-  # package dependencies: install using rosdep.
-  - cd ~/catkin_ws
-  - rosdep update
-  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-  - cd src
-  - cd ~/catkin_ws
-
-# Compile and test (mark the build as failed if any step fails). If the
-# CATKIN_OPTIONS file exists, use it as an argument to catkin_make, for example
-# to blacklist certain packages.
-#
-# NOTE on testing: `catkin_make run_tests` will show the output of the tests
-# (gtest, nosetest, etc..) but always returns 0 (success) even if a testSelfTest
-# fails. Running `catkin_test_results` aggregates all the results and returns
-# non-zero when a test fails (which notifies Travis the build failed).
+- cd ~/catkin_ws/src
+- wstool init
+- if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
+- wstool up
+- cd ~/catkin_ws
+- rosdep update
+- rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+- cd src
+- cd ~/catkin_ws
 script:
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  - cd ~/catkin_ws
-  - src/march-iv/build.sh
-  #  - cd docs
-  #  - bash doc.sh
-  - cd ..
-
+- source /opt/ros/$ROS_DISTRO/setup.bash
+- cd ~/catkin_ws
+- src/march-iv/build.sh
+- src/march-iv/doc.sh
+- pwd
 deploy:
   provider: pages
   skip_cleanup: true
-  local_dir: march_ws/docs/build/html
-  github_token: $GH_REPO_TOKEN
+  local_dir: "/home/travis/catkin_ws/docs/html"
+  github_token: "$GH_REPO_TOKEN"
   on:
     branch: develop
