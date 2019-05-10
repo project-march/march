@@ -7,10 +7,14 @@
     uri: https://github.com/project-march/hardware-interface
     version: develop
 - git:
-    local-name: march-iv
-    uri: https://github.com/project-march/march-iv
-    version: refactor/remove-workspace
+    local-name: state-machine
+    uri: https://github.com/project-march/state-machine
+    version: develop
 - git:
     local-name: march-simulation
     uri: https://github.com/project-march/march-simulation
+    version: develop
+- git:
+    local-name: pilot-devices
+    uri: https://github.com/project-march/pilot-devices-coordinator
     version: develop
