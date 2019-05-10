@@ -20,7 +20,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(include ${catkin_INCLUDE_DIRS})
+include_directories(${catkin_INCLUDE_DIRS})
 
 set(sourcefiles
         src/GaitSchedulerNode.cpp
@@ -38,8 +38,6 @@ file(GLOB_RECURSE lintfiles
         )
 
 roslint_cpp(${lintfiles})
-
-include_directories( include ${catkin_INCLUDE_DIRS})
 
 add_executable(gait_scheduler_node
         src/GaitSchedulerNode.cpp
