@@ -39,8 +39,6 @@ file(GLOB_RECURSE lintfiles
 
 roslint_cpp(${lintfiles})
 
-include_directories( include ${catkin_INCLUDE_DIRS})
-
 add_executable(gait_scheduler_node
         src/GaitSchedulerNode.cpp
         )
