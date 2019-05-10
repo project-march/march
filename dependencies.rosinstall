@@ -11,8 +11,8 @@
     uri: https://github.com/project-march/state-machine
     version: develop
 - git:
-    local-name: march-simulation
-    uri: https://github.com/project-march/march-simulation
+    local-name: simulation
+    uri: https://github.com/project-march/simulation
     version: develop
 - git:
     local-name: pilot-devices
