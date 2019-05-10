@@ -1,21 +1,21 @@
 dist: xenial
 sudo: required
 language:
-  - cpp
+- cpp
 cache:
-  - apt
+- apt
 notifications:
   slack:
-    secure: I7/Kqj/ZiaoW9bZzlDFYU2aFv1J3R0z5+6kDf9TI8AHsN9K/GYs05kG8gfpORmaBobF22AwpB/I5o8ga5nJGAP25SgX8bcP3jJaKUyfMxXj3ThkfINTMKeLhZqzh5c3ppBwHy62vdSDry4fyuIhtaWOa+8GqmI3D37/0yzFCPQLLYnSXoF5EKSFkKPytfVdwbOKE/uSgPbAy0xsPUKLEGdIhvFjyDzfj5KIHcYWFu9eus0GpuCJVJE/nGTz7PrQ9Rhuh3eVeJNn5CEXo+0Lgn8lghUY0xRH/0xn+mhjYZnxTNO18YRoiF8lUB+/phQx2E3GiDrtPd7BjtluKGIkgFMZM/dyzHN7lSeCJZ0nDhOuALNwdbhS8Hw18q5a6SanT4Kegno8ebDNwsEyHuiHy6D3XNE2PHIZ5SbSgX9MOaLBtarcHccAR19T+96mWJANS6rIKnhe0zW9+Jxl99mTCgcNjTmcm2YG5Axm8xOBmoK920I4ke1wfb9QLeMIOnQ/JM6DxkMbQGtoN49ztrg4cv+JwUOUnEn/yiLsz+p8EdaFiRLfAbww9VJ+1geDdGifv+TRq72RpTzGnNveNnRRysxBjfei3EwwoZqUFhZyVWQWqHuwSa8xFpxS3FMmDzP16oMAB/TuMV03MBTqNK/JDSMXq54Bs1pmtPJ4kvfGiKKo=
+    secure: dN+sNePHYq1PMm+E9S6Dk4UobyKS4r+fs0Xr8378UGt189HYV0al4DXPF95mnbQXknd9SbMA/qAWM7HRIt5plS4DjuR/7I5yrZnlnl1P6GPKtyhsCWrwgAyFWK5m+6bewzf/8pUg2YYGODGPBDReFqfli6c4Web1g/XW3M/DaVa4L7TqlKsmDEbYFDmooT8a1WFuxcYMSdgr3LGF2FBoPQVuBxYLYQX2xJ93KeniSzvsY5YMtBvMd5NP2C2/TWmJEMCvkLRbmFsl/eo8Nf4W9rNVt08kErQoRuABYO433ipZ+0zyFgzz2VVm0hxfVsSKUEt+uOarO/xP1z7mAnhrPeNWoM7Kw57djqEoqVRbr9EdKf5fg+UKLFWmlTvGagtzU4PB2/0Zq4sw/cdyXDDdMXwxjokpN9swvCM1faIWcG3A7M9mscIW/32hTmstqLtHG/1w0nNtg/N0Y16NOzCk98G2qiuCK+x031/TQDs0PE4JmilftW2nNhg5834dmMYsqKelLn5tVsXWKWMnQuZx22a7JQNQst9/Pt09+HuEzHfpUIZimjd8UoSIWlLJfocqM63ymUKY/t6TlTlLSkLexAAR/mzhyNQxZoYLHyxyJI8EjXu5KEVWH4Tw34oM2AcGE4bvg43LAajUQ/iz/7sxGcKN048uTzGF4uAz1Vutksk=
 addons:
   apt:
     packages:
-      - doxygen
+    - doxygen
 matrix:
   include:
-    - name: Xenial kinetic
-      dist: xenial
-      env: ROS_DISTRO=kinetic
+  - name: Xenial kinetic
+    dist: xenial
+    env: ROS_DISTRO=kinetic
 env:
   global:
     ROS_DISTRO: kinetic
@@ -26,47 +26,47 @@ env:
     ROS_PARALLEL_JOBS: "-j8 -l6"
     PYTHONPATH: "$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages"
 before_install:
-  - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\"
-    > /etc/apt/sources.list.d/ros-latest.list"
-  - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-  - sudo apt-get update -qq
-  - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
-  - sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main"
-    > /etc/apt/sources.list.d/ros-latest.list'
-  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  - sudo rosdep init
-  - rosdep update
-  - sudo apt-get install ros-kinetic-rosbash
-  - sudo apt-get install ros-kinetic-roslaunch
-  - pip install --user catkin_lint
-  - pip install --user catkin_tools_document
-  - sudo apt-get install python-catkin-tools
+- sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\"
+  > /etc/apt/sources.list.d/ros-latest.list"
+- sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+- sudo apt-get update -qq
+- sudo apt-get install dpkg
+- sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
+- sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu `lsb_release -sc` main"
+  > /etc/apt/sources.list.d/ros-latest.list'
+- wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
+- source /opt/ros/$ROS_DISTRO/setup.bash
+- sudo rosdep init
+- rosdep update
+- sudo apt-get install ros-kinetic-rosbash
+- sudo apt-get install ros-kinetic-roslaunch
+- pip install --user catkin_lint
+- pip install --user catkin_tools_document
+- sudo apt-get install python-catkin-tools
 install:
-  - mkdir -p ~/catkin_ws/src
-  - cd ~/catkin_ws
-  - catkin init
-  - catkin build
-  - source devel/setup.bash
-  - cd ~/catkin_ws/src
-  - ln -s $CI_SOURCE_PATH .
+- mkdir -p ~/catkin_ws/src
+- cd ~/catkin_ws
+- catkin init
+- catkin build
+- source devel/setup.bash
+- cd ~/catkin_ws/src
+- ln -s $CI_SOURCE_PATH .
 before_script:
-  - cd ~/catkin_ws/src
-  - wstool init
-  - if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
-  - wstool up
-  - cd ~/catkin_ws
-  - rosdep update
-  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
-  - cd src
-  - cd ~/catkin_ws
+- cd ~/catkin_ws/src
+- wstool init
+- if [[ -f $ROSINSTALL_FILE ]] ; then wstool merge $ROSINSTALL_FILE ; fi
+- wstool up
+- cd ~/catkin_ws
+- rosdep update
+- rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+- cd src
+- cd ~/catkin_ws
 script:
-  - source /opt/ros/$ROS_DISTRO/setup.bash
-  - cd ~/catkin_ws
-  - src/march-iv/build.sh
-  - src/march-iv/doc.sh
-  - pwd
+- source /opt/ros/$ROS_DISTRO/setup.bash
+- cd ~/catkin_ws
+- src/march-iv/build.sh
+- src/march-iv/doc.sh
+- pwd
 deploy:
   provider: pages
   skip_cleanup: true
