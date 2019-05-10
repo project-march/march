@@ -119,7 +119,7 @@ before_script:
 script:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   - cd ~/catkin_ws
-  - src/state-march-iv/build.sh
+  - src/march-iv/build.sh
   #  - cd docs
   #  - bash doc.sh
   - cd ..
