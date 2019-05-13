@@ -1,0 +1,3 @@
+<launch>
+    <node name="march_gait_selection" pkg="march_gait_selection" type="GaitSelectionNode.py" output="screen"/>
+</launch>
