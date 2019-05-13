@@ -26,8 +26,8 @@ class GaitSelection(object):
             self.gait_directory = os.path.join(
                 rospkg.RosPack().get_path('march_gait_selection'), gait_directory)
             self.gait_version_map = gait_version_map
-        rospy.loginfo("GaitSelection initialized with gait_directory " + self.gait_directory)
-        rospy.loginfo("GaitSelection initialized with gait_version_map " + str(self.gait_version_map))
+        rospy.logdebug("GaitSelection initialized with gait_directory " + self.gait_directory)
+        rospy.logdebug("GaitSelection initialized with gait_version_map " + str(self.gait_version_map))
 
     def set_subgait_version(self, gait_name, subgait_name, version):
         if self.validate_version_name(gait_name, subgait_name, version):
@@ -103,13 +103,14 @@ class GaitSelection(object):
                 versions = []
                 for version in os.listdir(os.path.join(subgait_path)):
                     versions.append(version.replace(".subgait", ""))
+                versions.sort()
                 gait_dict["subgaits"][subgait] = versions
             directory_dict[gait] = gait_dict
 
         return directory_dict
 
     def validate_version_map(self, map):
-        # Check if all subgaits in the map exist.
+        """Check if all subgaits in the map exist."""
         for gait in map:
             for subgait in map[gait]:
                 version = map[gait][subgait]
@@ -119,13 +120,20 @@ class GaitSelection(object):
 
     def validate_gait_by_name(self, gait_name):
         gait_path = os.path.join(self.gait_directory, gait_name, gait_name + ".gait")
-        gait_yaml = yaml.load(open(gait_path), Loader=yaml.SafeLoader)
+        try:
+            gait_yaml = yaml.load(open(gait_path), Loader=yaml.SafeLoader)
+        except IOError:
+            rospy.logerr("No such gait at %s.", gait_path)
+            return False
         gait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/GaitGoal',
                                                                    gait_yaml,
                                                                    kind="message")
         return self.validate_gait(gait)
 
     def validate_gait(self, gait):
+        if gait is None:
+            rospy.logerr("Cannot validate gait None")
+            return False
         if len(gait.graph.from_subgait) != len(gait.graph.to_subgait):
             rospy.logerr("Graph has the wrong size in gait %s", gait.name)
             return False
