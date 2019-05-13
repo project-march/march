@@ -37,9 +37,9 @@ class GaitSelectionPlugin(Plugin):
             print 'unknowns: ', unknowns
 
         # Connect to services
-        rospy.wait_for_service('/march/gait_selection/get_version_map')
+        rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
         self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
-        rospy.wait_for_service('/march/gait_selection/get_directory_structure')
+        rospy.wait_for_service('/march/gait_selection/get_directory_structure', 3)
         self.get_directory_structure = rospy.ServiceProxy('/march/gait_selection/get_directory_structure', Trigger)
 
         # Create QWidget
@@ -94,8 +94,11 @@ class GaitSelectionPlugin(Plugin):
 
     def load_ui(self, gait_directory_structure, gait_selection_map):
         for gait_name, gait in gait_directory_structure.iteritems():
-
-            gait_group_box = self.create_gait(gait_name, gait, gait_selection_map[gait_name])
+            try:
+                selection_map = gait_selection_map[gait_name]
+            except KeyError:
+                selection_map = None
+            gait_group_box = self.create_gait(gait_name, gait, selection_map)
             self._widget.Gaits.layout().addWidget(gait_group_box)
 
     def create_gait(self, name, gait, selections):
@@ -120,7 +123,11 @@ class GaitSelectionPlugin(Plugin):
         subgait_group_box.setLayout(QGridLayout())
         subgait_group_box.setObjectName("Subgait")
         subgait_group_box.setTitle(name)
-        dropdown = self.create_dropdown(subgait, version_selection[name])
+        try:
+            version_name = version_selection[name]
+        except TypeError:
+            version_name = None
+        dropdown = self.create_dropdown(subgait, version_name)
 
         subgait_group_box.layout().addWidget(dropdown, 0, 0)
         return subgait_group_box
@@ -129,8 +136,8 @@ class GaitSelectionPlugin(Plugin):
         try:
             index = options.index(selection)
         except ValueError:
-            rospy.logerr("Selection %s not found in options %s.", str(selection), str(options))
-            return None
+            rospy.logwarn("Selection %s not found in options %s.", str(selection), str(options))
+            index = -1
         dropdown = QComboBox()
         for option in options:
             dropdown.addItem(option)
