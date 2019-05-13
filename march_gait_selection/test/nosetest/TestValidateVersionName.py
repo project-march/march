@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
 import unittest
-import rosunit
 
 from march_gait_selection.GaitSelection import GaitSelection
-from march_shared_resources.msg import Subgait
 
 
 class TestValidateVersionName(unittest.TestCase):
@@ -37,3 +35,12 @@ class TestValidateVersionName(unittest.TestCase):
 
     def test_validate_version_name_wrong_version(self):
         self.assertFalse(self.gait_selection.validate_version_name("walking", "right_open", "wrong_version"))
+
+    def test_validate_version_name_empty_gait_name(self):
+        self.assertFalse(self.gait_selection.validate_version_name("", "right_open", "right_open"))
+
+    def test_validate_version_name_empty_subgait_name(self):
+        self.assertFalse(self.gait_selection.validate_version_name("walking", "", "right_open"))
+
+    def test_validate_version_name_empty_version(self):
+        self.assertFalse(self.gait_selection.validate_version_name("walking", "right_open", ""))

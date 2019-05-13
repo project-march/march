@@ -3,16 +3,10 @@ import os
 import unittest
 
 import rospkg
-import rosunit
 
 from march_gait_selection.GaitSelection import GaitSelection
 
-import TestGetSubgait
-import TestValidateSubgaitName
-import TestValidateVersionName
-import TestValidateVersionMap
-import TestValidateTrajectoryTransition
-import TestValidateGait
+
 
 PKG = "march_gait_selection"
 
@@ -25,7 +19,8 @@ class TestBasicGaitSelection(unittest.TestCase):
         actual_map = {
             "walking": {
                 "right_open": "test_a_bit_higher",
-                "left_swing": "test"
+                "left_swing": "test",
+                "right_close": "right_close"
             }
         }
 
@@ -53,7 +48,8 @@ class TestBasicGaitSelection(unittest.TestCase):
 
         actual_map = {"walking": {
             "right_open": "test_a_bit_higher",
-            "left_swing": "test"
+            "left_swing": "test",
+            "right_close": "right_close",
         }
         }
         gait_selection_parameters = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map)
@@ -70,12 +66,3 @@ class TestBasicGaitSelection(unittest.TestCase):
 
         self.assertTrue('Cannot instantiate GaitSelection without parameters, shutting down.' in context.exception)
 
-
-if __name__ == '__main__':
-    rosunit.unitrun(PKG, 'test_basic_gait_selection', TestBasicGaitSelection)
-    rosunit.unitrun(PKG, 'test_get_subgait', TestGetSubgait)
-    rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateSubgaitName)
-    rosunit.unitrun(PKG, 'test_validate_subgait_name', TestValidateVersionName)
-    rosunit.unitrun(PKG, 'test_validate_version_name', TestValidateVersionMap)
-    rosunit.unitrun(PKG, 'test_validate_trajectory_transition', TestValidateTrajectoryTransition)
-    rosunit.unitrun(PKG, 'test_validate_gait', TestValidateGait)

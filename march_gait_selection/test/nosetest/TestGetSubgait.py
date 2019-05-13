@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
 import unittest
-import rosunit
-
 from march_gait_selection.GaitSelection import GaitSelection
-from march_shared_resources.msg import Subgait
 
 
 class TestGetSubgait(unittest.TestCase):
@@ -41,6 +38,11 @@ class TestGetSubgait(unittest.TestCase):
         gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_wrong)
         subgait = gait_selection.get_subgait('walking', 'right_close')
         self.assertEquals(None, subgait)
+
+    def test_get_subgait_incorrect_version(self):
+        gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_correct)
+        gait_selection.gait_version_map["walking"]["right_close"] = "wrong_version"
+        self.assertRaises(KeyError, gait_selection.get_subgait_path, "walking", "right_close")
 
     def test_set_subgait(self):
         gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=self.actual_map_correct)

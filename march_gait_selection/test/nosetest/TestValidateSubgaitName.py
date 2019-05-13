@@ -1,10 +1,8 @@
 #!/usr/bin/env python
 
 import unittest
-import rosunit
 
 from march_gait_selection.GaitSelection import GaitSelection
-from march_shared_resources.msg import Subgait
 
 
 class TestValidateSubgaitName(unittest.TestCase):
