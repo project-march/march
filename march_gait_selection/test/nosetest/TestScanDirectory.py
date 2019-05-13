@@ -23,9 +23,10 @@ class TestScanDirectory(unittest.TestCase):
 
     gait_selection = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map_correct)
     absolute_gait_directory = os.path.join(rospkg.RosPack().get_path('march_gait_selection'), gait_directory)
-    self.maxDiff = None
 
     def test_validate_scan_directory(self):
+        self.maxDiff = None
+
         directory = {
             'walking': {
                 'image':
