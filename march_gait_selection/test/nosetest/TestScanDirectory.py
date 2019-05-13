@@ -34,7 +34,7 @@ class TestScanDirectory(unittest.TestCase):
                 'subgaits': {
                  'right_open': ['test_a_bit_higher'],
                  'right_close': ['not_the_default', 'right_close'],
-                 'left_swing': ['test', 'incompatible_with_right_open_test_a_bit_higher']
+                 'left_swing': ['incompatible_with_right_open_test_a_bit_higher', 'test']
                 }
              }
         }
