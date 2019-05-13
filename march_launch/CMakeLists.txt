@@ -26,5 +26,5 @@ if (CATKIN_ENABLE_TESTING)
     add_rostest_gtest(${PROJECT_NAME}-test test/simple-test.test
             test/ExampleTest.cpp
             )
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_state_machine_service)
+    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES})
 endif ()
