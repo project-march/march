@@ -78,10 +78,7 @@ def set_gait_version_map(msg, gait_selection):
 
 
 def update_default_versions(default_yaml, default_directory,  gait_version_map):
-    default_dict = {}
-    default_dict["directory"] = default_directory
-    default_dict["gaits"] = gait_version_map
-    print default_dict
+    default_dict = {"directory": default_directory, "gaits": gait_version_map}
     try:
         output_file = open(default_yaml, "w+")
         yaml_content = yaml.dump(default_dict)

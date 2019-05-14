@@ -4,6 +4,7 @@ import sys
 
 import rospy
 import rospkg
+from enum import Enum
 from march_shared_resources.srv import StringTrigger, Trigger
 
 from qt_gui.plugin import Plugin
@@ -16,7 +17,14 @@ from python_qt_binding.QtWidgets import QLayout
 from python_qt_binding.QtWidgets import QComboBox
 from python_qt_binding.QtWidgets import QHBoxLayout
 from python_qt_binding.QtWidgets import QGridLayout
+from python_qt_binding.QtWidgets import QPlainTextEdit
 
+class Color(Enum):
+    Debug = "#009100"
+    Info = "#000000"
+    Warning = "#b27300"
+    Error = "#FF0000"
+    Fatal = "#FF0000"
 
 class GaitSelectionPlugin(Plugin):
 
@@ -68,33 +76,47 @@ class GaitSelectionPlugin(Plugin):
 
         self.refresh()
 
-        self._widget.findChild(QPushButton, "Refresh").clicked.connect(self.refresh)
+        self._widget.findChild(QPushButton, "Refresh").clicked.connect(lambda: self.refresh(True))
         self._widget.findChild(QPushButton, "Apply").clicked.connect(
             lambda: [
-                self.set_gait_selection_map(),
+                self.set_gait_selection_map(True),
                 self.refresh()
             ])
         self._widget.findChild(QPushButton, "SaveDefault").clicked.connect(
             lambda: [
                 self.set_gait_selection_map(),
-                self.update_default_versions(),
+                self.update_defaults(True),
                 self.refresh()
             ])
 
-    def refresh(self):
+        self.log("Welcome to the Gait Selection.", Color.Debug)
+        self.log("Select the versions of subgaits you want to select and press Apply.", Color.Info)
+        self.log("Save as default persists between launches", Color.Info)
+        self.log("Any warnings or errors will be displayed in this log.", Color.Warning)
+        self.log("--------------------------------------", Color.Info)
+
+    def log(self, msg, level):
+        self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + msg + "</p>")
+        scrollbar = self._widget.findChild(QPlainTextEdit, "Log").verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+
+    def refresh(self, notify = False):
+        if notify:
+            self.log("Refreshing gait directory", Color.Debug)
         rospy.logdebug("Refreshing ui with %s", str(self.get_directory_structure().message))
 
         try:
             gait_version_map = ast.literal_eval(self.get_version_map().message)
         except ValueError:
-            rospy.logerr("Gait selection map is not valid %s" + str(self.get_version_map().message))
+            self.log("Gait selection map is not valid" + str(self.get_version_map().message), Color.Error)
+            rospy.logerr("Gait selection map is not valid" + str(self.get_version_map().message))
             return
         try:
             gait_directory_structure = ast.literal_eval(self.get_directory_structure().message)
         except ValueError:
-            rospy.logerr("Gait directory structure is not valid %s" + str(self.get_directory_structure().message))
+            self.log("Gait directory structure is not valid " + str(self.get_directory_structure().message), Color.Error)
+            rospy.logerr("Gait directory structure is not valid " + str(self.get_directory_structure().message))
             return
-
 
         gaits = self._widget.Gaits.findChildren(QGroupBox, "Gait")
         for gait in gaits:
@@ -149,7 +171,7 @@ class GaitSelectionPlugin(Plugin):
         try:
             index = options.index(selection)
         except ValueError:
-            rospy.logwarn("Selection %s not found in options %s.", str(selection), str(options))
+            rospy.loginfo("Selection %s not found in options %s.", str(selection), str(options))
             index = -1
         dropdown = QComboBox()
         for option in options:
@@ -157,7 +179,7 @@ class GaitSelectionPlugin(Plugin):
         dropdown.setCurrentIndex(index)
         return dropdown
 
-    def set_gait_selection_map(self):
+    def set_gait_selection_map(self, notify = False):
         gait_selection_map = {}
         gaits = self._widget.Gaits.findChildren(QGroupBox, "Gait")
         for gait in gaits:
@@ -172,10 +194,21 @@ class GaitSelectionPlugin(Plugin):
 
         res = self.set_version_map(str(gait_selection_map))
         if res.success:
+            if notify:
+                self.log("Selection applied.", Color.Debug)
             rospy.loginfo(res.message)
         else:
+            self.log(res.message, Color.Error)
+            self.log("Resetting to last valid selection", Color.Warning)
             rospy.logwarn(res.message)
 
-    """Return all widgets found in the requested layout."""
-    def get_layout_widgets(self, layout):
-        return (layout.itemAt(i).widget() for i in range(layout.count()))
+    def update_defaults(self, notify=False):
+        res = self.update_default_versions()
+        if res.success:
+            if notify:
+                self.log("Default selection updated.", Color.Debug)
+            rospy.loginfo(res.message)
+        else:
+            self.log(res.message, Color.Error)
+            self.log("Resetting to last valid selection", Color.Warning)
+            rospy.logwarn(res.message)

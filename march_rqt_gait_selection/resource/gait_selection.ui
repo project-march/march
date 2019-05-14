@@ -56,6 +56,18 @@ QGroupBox::title {
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPlainTextEdit" name="Log">
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">#Log {
+background-color: #F2F1F0
+}</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
