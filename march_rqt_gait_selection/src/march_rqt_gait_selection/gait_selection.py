@@ -41,6 +41,10 @@ class GaitSelectionPlugin(Plugin):
         self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
         rospy.wait_for_service('/march/gait_selection/get_directory_structure', 3)
         self.get_directory_structure = rospy.ServiceProxy('/march/gait_selection/get_directory_structure', Trigger)
+        rospy.wait_for_service('/march/gait_selection/set_version_map', 3)
+        self.set_version_map = rospy.ServiceProxy('/march/gait_selection/set_version_map', StringTrigger)
+        rospy.wait_for_service('/march/gait_selection/update_default_versions', 3)
+        self.update_default_versions = rospy.ServiceProxy('/march/gait_selection/update_default_versions', Trigger)
 
         # Create QWidget
         self._widget = QWidget()
@@ -65,13 +69,20 @@ class GaitSelectionPlugin(Plugin):
         self.refresh()
 
         self._widget.findChild(QPushButton, "Refresh").clicked.connect(self.refresh)
-        self._widget.findChild(QPushButton, "Apply").clicked.connect(self.set_gait_selection_map)
+        self._widget.findChild(QPushButton, "Apply").clicked.connect(
+            lambda: [
+                self.set_gait_selection_map(),
+                self.refresh()
+            ])
+        self._widget.findChild(QPushButton, "SaveDefault").clicked.connect(
+            lambda: [
+                self.set_gait_selection_map(),
+                self.update_default_versions(),
+                self.refresh()
+            ])
 
     def refresh(self):
-        print "refreshing"
-
-        print
-        print self.get_directory_structure().message
+        rospy.logdebug("Refreshing ui with %s", str(self.get_directory_structure().message))
 
         try:
             gait_version_map = ast.literal_eval(self.get_version_map().message)
@@ -157,7 +168,11 @@ class GaitSelectionPlugin(Plugin):
                 version = str(subgait.findChild(QComboBox).currentText())
                 gait_selection_map[gait_name][subgait_name] = version
 
-        print gait_selection_map
+        res = self.set_version_map(str(gait_selection_map))
+        if res.success:
+            rospy.loginfo(res.message)
+        else:
+            rospy.logwarn(res.message)
 
     """Return all widgets found in the requested layout."""
     def get_layout_widgets(self, layout):

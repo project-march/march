@@ -50,7 +50,7 @@ QGroupBox::title {
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="SaveButton">
+       <widget class="QPushButton" name="SaveDefault">
         <property name="text">
          <string>Save as default</string>
         </property>
