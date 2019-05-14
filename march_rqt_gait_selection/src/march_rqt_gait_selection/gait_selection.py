@@ -138,6 +138,8 @@ class GaitSelectionPlugin(Plugin):
             version_name = version_selection[name]
         except TypeError:
             version_name = None
+        except KeyError:
+            version_name = None
         dropdown = self.create_dropdown(subgait, version_name)
 
         subgait_group_box.layout().addWidget(dropdown, 0, 0)
