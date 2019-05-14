@@ -1,0 +1,5 @@
+float64 power_distribution_board_current
+bool master_shutdown_requested
+
+PowerNet low_voltage
+PowerNet high_voltage
