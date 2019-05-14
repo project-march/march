@@ -58,6 +58,9 @@ QGroupBox::title {
       </item>
       <item>
        <widget class="QPlainTextEdit" name="Log">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="autoFillBackground">
          <bool>false</bool>
         </property>
