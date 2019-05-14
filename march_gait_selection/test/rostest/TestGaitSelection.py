@@ -19,4 +19,4 @@ class TestRosGaitSelection(unittest.TestCase):
 
 if __name__ == '__main__':
     import rostest
-    rostest.rosrun(PKG, 'test_gait_selection', TestRosGaitSelection, ["--cov"])
+    rostest.rosrun(PKG, 'test_gait_selection', TestRosGaitSelection)
