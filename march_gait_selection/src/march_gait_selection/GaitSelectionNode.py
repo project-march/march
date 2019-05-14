@@ -66,6 +66,7 @@ def set_gait_version_map(msg, gait_selection):
         return [False, "Not a valid dictionary " + str(msg.string)]
 
     if gait_selection.validate_version_map(map):
+        gait_selection.gait_version_map = map
         return [True, "Gait version map set to " + str(gait_selection.gait_version_map)]
     return [False, "Gait version map is not valid " + str(map)]
 
