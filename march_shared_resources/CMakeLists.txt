@@ -38,6 +38,7 @@ add_service_files(
         GaitRequest.srv
         PlayInput.srv
         Trigger.srv
+        StringTrigger.srv
 )
 
 add_action_files(

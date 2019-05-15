@@ -12,6 +12,7 @@ find_package(catkin REQUIRED COMPONENTS
         roslint
         rospy
         std_msgs
+        rospy_message_converter
         )
 
 ## System dependencies are found with CMake's conventions

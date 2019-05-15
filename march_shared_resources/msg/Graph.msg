@@ -1,2 +1,2 @@
-string[] from
-string[] to
+string[] from_subgait
+string[] to_subgait
