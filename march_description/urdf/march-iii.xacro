@@ -12,31 +12,41 @@
     <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
-    <xacro:property name="upper_leg_height" value="${0.39}"/>
+    <xacro:property name="upper_leg_height" value="${0.385}"/>
     <xacro:property name="upper_leg_mass" value="1.080"/>
 
-    <xacro:property name="lower_leg_height" value="${0.39}"/>
+    <xacro:property name="lower_leg_height" value="${0.385}"/>
     <xacro:property name="lower_leg_mass" value="1.133"/>
 
-    <xacro:property name="foot_height" value="${0.14*1}"/>
+    <xacro:property name="foot_height" value="${0.184}"/>
     <xacro:property name="foot_mass" value="0.393"/>
 
-    <xacro:property name="hip_height" value="0.33"/>
+    <xacro:property name="ankle_plate_height" value="0.07"/>
 
-    <xacro:property name="hip_rotation_lower_limit" value="${-15*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_rotation_upper_limit" value="${105*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_effort_limit" value="1000.0"/> <!-- Rad -->
-    <xacro:property name="hip_velocity_limit" value="1000.0"/> <!-- rad/s -->
+    <xacro:property name="hip_height" value="0.420"/>
+    <xacro:property name="hip_base_height" value="0.160"/>
+    <xacro:property name="hip_aa_frame_height" value="0.130"/>
+    <xacro:property name="hip_aa_frame_width" value="0.1395"/>
 
-    <xacro:property name="knee_rotation_lower_limit" value="${-15*pi/180}"/>
-    <xacro:property name="knee_rotation_upper_limit" value="${105*pi/180}"/>
-    <xacro:property name="knee_effort_limit" value="1000.0"/>
-    <xacro:property name="knee_velocity_limit" value="1000.0"/>
+    <xacro:property name="hip_fe_rotation_lower_limit" value="${-15*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_fe_rotation_upper_limit" value="${105*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_fe_effort_limit" value="10927.0"/> <!-- IU -->
+    <xacro:property name="hip_fe_velocity_limit" value="48.0"/> <!-- rad/s -->
+
+    <xacro:property name="hip_aa_rotation_lower_limit" value="${20*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_aa_rotation_upper_limit" value="${-30*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_aa_effort_limit" value="10927.0"/> <!-- IU -->
+    <xacro:property name="hip_aa_velocity_limit" value="15.0"/> <!-- rad/s -->
+
+    <xacro:property name="knee_rotation_lower_limit" value="${-5*pi/180}"/>
+    <xacro:property name="knee_rotation_upper_limit" value="${115*pi/180}"/>
+    <xacro:property name="knee_effort_limit" value="10927.0"/>
+    <xacro:property name="knee_velocity_limit" value="48.0"/>
 
     <xacro:property name="ankle_rotation_lower_limit" value="${-15*pi/180}"/>
-    <xacro:property name="ankle_rotation_upper_limit" value="${20*pi/180}"/>
-    <xacro:property name="ankle_effort_limit" value="1000.0"/>
-    <xacro:property name="ankle_velocity_limit" value="1000.0"/>
+    <xacro:property name="ankle_rotation_upper_limit" value="${30*pi/180}"/>
+    <xacro:property name="ankle_effort_limit" value="10927.0"/>
+    <xacro:property name="ankle_velocity_limit" value="15.0"/>
 
     <xacro:property name="hover_height" value="0.3"/>
 
@@ -56,16 +66,30 @@
 
     <joint name="hip" type="fixed">
         <parent link="${parent_name}"/>
-        <child link="hip_bone"/>
+        <child link="hip_base"/>
         <origin xyz="0 0 ${lower_leg_height+upper_leg_height+hover_height}" rpy="0 0 0"/>
     </joint>
 
-    <joint name="left_hip" type="revolute">
-        <parent link="hip_bone"/>
+    <joint name="left_hip_aa" type="revolute">
+        <parent link="hip_base"/>
+        <child link="hip_aa_frame_left_side"/>
+        <origin xyz="0 ${-hip_base_height/2} 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${hip_aa_rotation_lower_limit}" upper="${hip_aa_rotation_upper_limit}"/>
+    </joint>
+
+    <joint name="left_hip_angle" type="fixed">
+        <parent link="hip_aa_frame_left_side"/>
+        <child link="hip_aa_frame_left_front"/>
+        <origin xyz="0 ${-hip_aa_frame_height} 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="left_hip_fe" type="revolute">
+        <parent link="hip_aa_frame_left_front"/>
         <child link="upper_leg_left"/>
-        <origin xyz="0 ${-hip_height/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
-        <limit velocity="${hip_velocity_limit}" effort="${hip_effort_limit}" lower="${hip_rotation_lower_limit}" upper="${hip_rotation_upper_limit}"/>
+        <limit velocity="${hip_fe_velocity_limit}" effort="${hip_fe_effort_limit}" lower="${hip_fe_rotation_lower_limit}" upper="${hip_fe_rotation_upper_limit}"/>
     </joint>
 
     <joint name="left_knee" type="revolute">
@@ -78,18 +102,38 @@
 
     <joint name="left_ankle" type="revolute">
         <parent link="lower_leg_left"/>
-        <child link="foot_left"/>
+        <child link="ankle_plate_left"/>
         <origin xyz="0 0 ${-lower_leg_height}" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <limit velocity="${ankle_velocity_limit}" effort="${ankle_effort_limit}" lower="${ankle_rotation_lower_limit}" upper="${ankle_rotation_upper_limit}"/>
     </joint>
 
-    <joint name="right_hip" type="revolute">
-        <parent link="hip_bone"/>
+    <joint name="left_foot_angle" type="fixed">
+        <parent link="ankle_plate_left"/>
+        <child link="foot_left"/>
+        <origin xyz="0 0 ${-ankle_plate_height}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="right_hip_aa" type="revolute">
+        <parent link="hip_base"/>
+        <child link="hip_aa_frame_right_side"/>
+        <origin xyz="0 ${hip_base_height/2} 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${-hip_aa_rotation_lower_limit}" upper="${-hip_aa_rotation_upper_limit}"/>
+    </joint>
+
+    <joint name="right_hip_angle" type="fixed">
+        <parent link="hip_aa_frame_right_side"/>
+        <child link="hip_aa_frame_right_front"/>
+        <origin xyz="0 ${hip_aa_frame_height} 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="right_hip_fe" type="revolute">
+        <parent link="hip_aa_frame_right_front"/>
         <child link="upper_leg_right"/>
-        <origin xyz="0 ${hip_height/2} 0" rpy="0 0 0"/>
+        <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
-        <limit velocity="${hip_velocity_limit}" effort="${hip_effort_limit}" lower="${hip_rotation_lower_limit}" upper="${hip_rotation_upper_limit}"/>
+        <limit velocity="${hip_fe_velocity_limit}" effort="${hip_fe_effort_limit}" lower="${hip_fe_rotation_lower_limit}" upper="${hip_fe_rotation_upper_limit}"/>
     </joint>
 
     <joint name="right_knee" type="revolute">
@@ -102,14 +146,20 @@
 
     <joint name="right_ankle" type="revolute">
         <parent link="lower_leg_right"/>
-        <child link="foot_right"/>
+        <child link="ankle_plate_right"/>
         <origin xyz="0 0 ${-lower_leg_height}" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
         <limit velocity="${ankle_velocity_limit}" effort="${ankle_effort_limit}" lower="${ankle_rotation_lower_limit}" upper="${ankle_rotation_upper_limit}"/>
     </joint>
 
+    <joint name="right_foot_angle" type="fixed">
+        <parent link="ankle_plate_right"/>
+        <child link="foot_right"/>
+        <origin xyz="0 0 ${-ankle_pslate_height}" rpy="0 0 0"/>
+    </joint>
+
     <!-- give colors to some links in gazebo -->
-    <gazebo reference="hip_bone">
+    <gazebo reference="hip_base">
         <material>Gazebo/Blue</material>
     </gazebo>
     <gazebo reference="foot_left">
@@ -120,11 +170,11 @@
     </gazebo>
 
     <!-- Hip-->
-    <link name="hip_bone">
+    <link name="hip_base">
         <visual>
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <geometry>
-                <box size="${width} ${hip_height} ${width}"/>
+                <box size="${width} ${hip_base_height} ${width}"/>
             </geometry>
         </visual>
 
@@ -138,14 +188,60 @@
         </inertial>
     </link>
 
+    <!-- Left Moving Hip-->
+    <link name="hip_aa_frame_left_side">
+        <visual>
+            <origin xyz="0 ${-hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${hip_aa_frame_height} ${width}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
+
+    <link name="hip_aa_frame_left_front">
+        <visual>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${hip_aa_frame_width} ${width} ${width}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
+
     <!-- Upper Leg Left-->
     <link name="upper_leg_left">
         <visual>
+            <origin xyz="0 0 ${-0.9*upper_leg_height}" rpy="0 0 1.8"/>
+            <geometry>
+                <!--                <box size="${width} ${width} ${upper_leg_height}"/>-->
+                <mesh filename="package://march_description/urdf/stl-files/UpperLegRight1.stl" scale="1.2 1.2 1.2"/>
+                <!--                TODO: both upper legs are the same. So one of them has to be replaced.-->
+            </geometry>
+        </visual>
+
+        <collision>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
             <geometry>
                 <box size="${width} ${width} ${upper_leg_height}"/>
             </geometry>
-        </visual>
+        </collision>
 
         <inertial>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
@@ -163,12 +259,33 @@
             <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
             <geometry>
                 <box size="${width} ${width} ${lower_leg_height}"/>
+                <!--                <mesh filename="package://march_description/urdf/stl-files/LowerLeg.stl" scale="1.2 1.2 1.2"/>-->
             </geometry>
         </visual>
 
         <inertial>
             <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
+
+    <!-- Lower Leg Left -->
+    <link name="ankle_plate_left">
+        <visual>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${ankle_plate_height}"/>
+                <!--                <mesh filename="package://march_description/urdf/stl-files/LowerLeg.stl" scale="1.2 1.2 1.2"/>-->
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <mass value="${mass}"/>
             <inertia
                     ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
@@ -187,6 +304,7 @@
 
         <inertial>
             <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
+            <!--            TODO: adjust the origin so the foot also sticks out a little bit to the back-->
             <mass value="${foot_mass}"/>
             <inertia
                     ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
@@ -200,15 +318,59 @@
         </collision>
     </link>
 
+    <!-- Right Moving Hip-->
+    <link name="hip_aa_frame_right_side">
+        <visual>
+            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${hip_aa_frame_height} ${width}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
+
+    <link name="hip_aa_frame_right_front">
+        <visual>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${hip_aa_frame_width} ${width} ${width}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
 
     <!-- Upper Leg Right-->
     <link name="upper_leg_right">
         <visual>
+            <origin xyz="0 0 ${-0.9*upper_leg_height}" rpy="0 0 -1.8"/>
+            <geometry>
+                <!--                <box size="${width} ${width} ${upper_leg_height}"/>-->
+                <mesh filename="package://march_description/urdf/stl-files/UpperLegRight1.stl" scale="1.2 1.2 1.2"/>
+            </geometry>
+        </visual>
+
+        <collision>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
             <geometry>
                 <box size="${width} ${width} ${upper_leg_height}"/>
             </geometry>
-        </visual>
+        </collision>
 
         <inertial>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
@@ -239,6 +401,26 @@
         </inertial>
     </link>
 
+    <!-- Lower Leg Right -->
+    <link name="ankle_plate_right">
+        <visual>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${ankle_plate_height}"/>
+                <!--                <mesh filename="package://march_description/urdf/stl-files/LowerLeg.stl" scale="1.2 1.2 1.2"/>-->
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <mass value="${mass}"/>
+            <inertia
+                    ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${mass / 12.0 * (width*width + width*width)}"/>
+        </inertial>
+    </link>
+
     <!-- Foot Right -->
     <link name="foot_right">
         <visual>
@@ -250,6 +432,7 @@
 
         <inertial>
             <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
+            <!--            TODO: adjust the origin so the foot also sticks out a little bit to the back-->
             <mass value="${mass}"/>
             <inertia
                     ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
@@ -265,12 +448,23 @@
 
 
     <!-- ROS Control plugin for Gazebo -->
-    <transmission name="left_hip">
+    <transmission name="left_hip_aa">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_hip">
+        <joint name="left_hip_aa">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
-        <actuator name="left_hip_motor">
+        <actuator name="left_hip_aa_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="left_hip_fe">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="left_hip_fe">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="left_hip_fe_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
@@ -298,12 +492,23 @@
         </actuator>
     </transmission>
 
-    <transmission name="right_hip">
+    <transmission name="right_hip_aa">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_hip">
+        <joint name="right_hip_aa">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
-        <actuator name="right_hip_motor">
+        <actuator name="right_hip_aa_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <transmission name="right_hip_fe">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="right_hip_fe">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="right_hip_fe_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
