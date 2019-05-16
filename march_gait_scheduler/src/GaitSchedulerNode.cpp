@@ -13,13 +13,15 @@
 #include <actionlib/server/simple_action_server.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <march_shared_resources/GaitNameAction.h>
+#include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/TopicNames.h>
+#include <march_shared_resources/GaitGoal.h>
+#include <march_gait_scheduler/Scheduler.h>
 
-typedef actionlib::SimpleActionServer<march_shared_resources::GaitNameAction> ServerGaitName;
-typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
+typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ServerFollowJoint;
 ros::Publisher joint_trajectory_pub;
 actionlib_msgs::GoalStatus trajectory_status;
+Scheduler scheduler;
 
 /**
  * To determine if a goal execution is finished and isn't in progress anymore.
@@ -49,11 +51,11 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus& status)
  * @param goal the trajectory goal for ros control
  * @param server The server, which is needed in the callback to return succeeded or aborted.
  */
-void executeFollowJointTrajectory(const control_msgs::FollowJointTrajectoryGoalConstPtr& goal,
-                                  ServerFollowJoint* server)
+void executeFollowJointTrajectory(const march_shared_resources::GaitGoalConstPtr& goal, ServerFollowJoint* server)
 {
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
-  trajectoryMsg.goal = *goal;
+  ROS_INFO("executeFollowJointTrajectory: received msg");
+  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+      scheduler.scheduleTrajectory(goal.get(), ros::Duration().fromSec(0));
   joint_trajectory_pub.publish(trajectoryMsg);
   trajectory_status = actionlib_msgs::GoalStatus();
 
@@ -92,16 +94,7 @@ int main(int argc, char** argv)
 {
   ros::init(argc, argv, "gait_scheduler_node");
   ros::NodeHandle n;
-
   ros::Rate rate(100);
-  std::string package_path = ros::package::getPath("gait_scheduler_node");
-
-  std::string planning_group;
-
-  //  retrieving planning group name (initialized in launch file) from parameter server
-  n.getParam("/control_node/planning_group", planning_group);
-
-  //  determining which planning group is used. If test_joint, topic name for ServerFollowJoint is changed
 
   joint_trajectory_pub =
       n.advertise<control_msgs::FollowJointTrajectoryActionGoal>(TopicNames::follow_joint_trajectory_execution, 1000);
@@ -110,8 +103,9 @@ int main(int argc, char** argv)
       n.subscribe(TopicNames::follow_joint_trajectory_execution_states, 1000, TrajectoryExecutionStatusCallback);
 
   ServerFollowJoint server_follow_joint_trajectory(
-      n, ActionNames::schedule_gait,
-      boost::bind(&executeFollowJointTrajectory, _1, &server_follow_joint_trajectory), false);
+      n, ActionNames::schedule_gait, boost::bind(&executeFollowJointTrajectory, _1, &server_follow_joint_trajectory),
+      false);
+
   server_follow_joint_trajectory.start();
 
   while (ros::ok())
