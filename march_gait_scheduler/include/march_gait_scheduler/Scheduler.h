@@ -11,7 +11,7 @@
 class Scheduler {
 
   const march_shared_resources::GaitGoal *lastGaitGoal = nullptr;
-  ros::Time startTimeLastGait = ros::Time::now();
+  ros::Time startTimeLastGait;
 
   ros::Time getEndTimeCurrentGait();
   ros::Time getStartTime(ros::Duration offset);
