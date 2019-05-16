@@ -57,6 +57,7 @@ target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 if (CATKIN_ENABLE_TESTING)
     add_rostest_gmock(${PROJECT_NAME}-test
             test/main-test.test
+            test/TestRunner.cpp
             test/ScheduleOneGaitTest.cpp
             test/ScheduleMultipleGaitsTest.cpp
             )
