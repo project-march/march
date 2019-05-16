@@ -1,0 +1,4 @@
+<launch>
+    <node name="march_gait_selection" pkg="march_gait_selection" type="GaitSelectionNode.py" output="screen"/>
+    <test test-name="gait_selection_tests" pkg="march_gait_selection" type="TestGaitSelection.py"/>
+</launch>
