@@ -19,7 +19,7 @@ class Scheduler {
   static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
  public:
-  control_msgs::FollowJointTrajectoryActionGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory, ros::Duration offset);
+  control_msgs::FollowJointTrajectoryGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory, ros::Duration offset);
 
 };
 

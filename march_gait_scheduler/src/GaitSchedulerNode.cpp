@@ -20,7 +20,8 @@
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction>
     ServerFollowJoint;
-ros::Publisher joint_trajectory_pub;
+//ros::Publisher joint_trajectory_pub;
+actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>* followJointTrajectoryAction;
 actionlib_msgs::GoalStatus trajectory_status;
 Scheduler scheduler;
 
@@ -45,6 +46,28 @@ bool statusIsTerminal(const actionlib_msgs::GoalStatus &status) {
   return false;
 }
 
+
+void doneCb(const actionlib::SimpleClientGoalState& state,
+            const control_msgs::FollowJointTrajectoryResultConstPtr& result)
+{
+  ROS_INFO("Finished in state [%s]", state.toString().c_str());
+  ROS_INFO("Error?: %i", result->error_code);
+  ROS_INFO("Error?: %s", result->error_string.c_str());
+  ros::shutdown();
+}
+
+// Called once when the goal becomes active
+void activeCb()
+{
+  ROS_INFO("Goal just went active");
+}
+
+// Called every time feedback is received for the goal
+void feedbackCb(const control_msgs::FollowJointTrajectoryFeedbackConstPtr& feedback)
+{
+  ROS_INFO("Got Feedback timestamp %d", feedback->header.stamp.toSec());
+}
+
 /**
  * Make ros control execute the joint trajectory by setting the trajectory goal
  * @param goal the trajectory goal for ros control
@@ -58,9 +81,9 @@ void executeFollowJointTrajectory(
   ROS_INFO("Gait Scheduler received msg to schedule: %s of %s",
            goal->current_subgait.name.c_str(), goal->name.c_str());
   try {
-    control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+    control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
         scheduler.scheduleTrajectory(goal.get(), ros::Duration().fromSec(0));
-    joint_trajectory_pub.publish(trajectoryMsg);
+    followJointTrajectoryAction->sendGoal(trajectoryMsg, &doneCb, &activeCb, &feedbackCb);
   } catch (std::runtime_error error) {
     ROS_ERROR(
         "When trying to schedule a trajectory the following error occurred: %s",
@@ -105,9 +128,13 @@ int main(int argc, char **argv) {
   ros::NodeHandle n;
   ros::Rate rate(100);
 
-  joint_trajectory_pub =
-      n.advertise<control_msgs::FollowJointTrajectoryActionGoal>(
-          TopicNames::follow_joint_trajectory_execution, 1000);
+//  joint_trajectory_pub =
+//      n.advertise<control_msgs::FollowJointTrajectoryActionGoal>(
+//          TopicNames::follow_joint_trajectory_execution, 1000);
+  followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>("/march/trajectory_controller/follow_joint_trajectory", true);
+  ROS_INFO("Waiting for followJointTrajectoryAction server to start.");
+  // wait for the action server to start
+  followJointTrajectoryAction->waitForServer(); //will wait for infinite time
 
   ros::Subscriber joint_trajectory_status_sub =
       n.subscribe(TopicNames::follow_joint_trajectory_execution_states, 1000,

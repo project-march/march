@@ -58,7 +58,7 @@ bool Scheduler::lastScheduledGaitInProgress() {
   return true;
 }
 
-control_msgs::FollowJointTrajectoryActionGoal
+control_msgs::FollowJointTrajectoryGoal
 Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Duration offset)
 {
   ROS_INFO("start time lastgait: %d", this->startTimeLastGait.toSec());
@@ -69,8 +69,8 @@ Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros:
   }
   ros::Time startingTime = getStartTime(offset);
   trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
-  trajectoryMsg.goal.trajectory = trajectory;
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsg;
+  trajectoryMsg.trajectory = trajectory;
 
   // Update all variables
   this->startTimeLastGait = startingTime;
