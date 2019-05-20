@@ -15,6 +15,7 @@ class Scheduler {
 
   ros::Time getEndTimeCurrentGait();
   ros::Time getStartTime(ros::Duration offset);
+  bool lastScheduledGaitInProgress();
   static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
  public:

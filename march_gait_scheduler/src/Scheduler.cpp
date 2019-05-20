@@ -50,10 +50,23 @@ ros::Time Scheduler::getStartTime(ros::Duration offset)
     }
   }
 }
+bool Scheduler::lastScheduledGaitInProgress() {
+  ros::Time currentTime = ros::Time::now();
+  if(currentTime < this->startTimeLastGait){
+    return false;
+  }
+  return true;
+}
 
 control_msgs::FollowJointTrajectoryActionGoal
 Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Duration offset)
 {
+  ROS_INFO("start time lastgait: %d", this->startTimeLastGait.toSec());
+  ROS_INFO("Current time: %d", ros::Time::now().toSec());
+
+  if(!lastScheduledGaitInProgress()){
+    throw std::runtime_error("There is already a gait scheduled in the future.");
+  }
   ros::Time startingTime = getStartTime(offset);
   trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
   control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg;
