@@ -8,15 +8,27 @@ trajectory_msgs::JointTrajectory Scheduler::setStartTimeGait(trajectory_msgs::Jo
   return trajectory;
 }
 
+void Scheduler::init() {
+  ROS_WARN("initalizing time: %f", this->startTimeLastGait.toSec());
+  while(this->startTimeLastGait.toSec() == 0.0){
+    ROS_WARN("initalizing time: %f", this->startTimeLastGait.toSec());
+    this->startTimeLastGait = ros::Time::now();
+  }
+  ROS_WARN("initalized time at: %f", this->startTimeLastGait.toSec());
+
+}
+
 ros::Time Scheduler::getEndTimeCurrentGait()
 {
   if (this->lastGaitGoal != nullptr && this->lastGaitGoal != NULL)
   {
     ros::Time endTime = this->startTimeLastGait;
+    ROS_WARN_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait);
     endTime += this->lastGaitGoal->current_subgait.duration;
+    ROS_WARN_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f", this->lastGaitGoal->current_subgait.duration.toSec());
     return endTime;
   }
-  return ros::Time().fromSec(0);
+  return ros::Time().fromSec(0.001);
 }
 
 ros::Time Scheduler::getStartTime(ros::Duration offset)

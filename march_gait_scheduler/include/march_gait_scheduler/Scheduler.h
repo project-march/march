@@ -10,6 +10,8 @@
 
 class Scheduler
 {
+
+
   const march_shared_resources::GaitGoal* lastGaitGoal = nullptr;
   ros::Time startTimeLastGait;
 
@@ -18,7 +20,9 @@ class Scheduler
   static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
 public:
-  const double APPROVE_TIME_BEFORE_END_GAIT = 0.5;  // in seconds
+  void init();
+
+  const double APPROVE_TIME_BEFORE_END_GAIT = 0.1;  // in seconds
   ros::Time getEndTimeCurrentGait();
   control_msgs::FollowJointTrajectoryGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory,
                                                              ros::Duration offset);
