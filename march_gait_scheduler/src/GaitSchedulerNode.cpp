@@ -45,7 +45,7 @@ void feedbackCb(
       scheduler.APPROVE_TIME_BEFORE_END_GAIT) {
     if (schedule_gait_action_server->isActive()) {
       schedule_gait_action_server->setSucceeded();
-      ROS_INFO_THROTTLE(1, "Set SUCCEEDED!!!!");
+      ROS_INFO("Set SUCCEEDED!!!!");
     }
   }
 }
