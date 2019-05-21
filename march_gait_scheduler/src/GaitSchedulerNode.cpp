@@ -36,7 +36,7 @@ void activeCallback() { ROS_DEBUG("Gait trajectory goal just went active"); }
 void feedbackCallback(
     const control_msgs::FollowJointTrajectoryFeedbackConstPtr &feedback) {
   if (scheduler.getEndTimeCurrentGait().toSec() -
-      feedback->header.stamp.toSec() <
+          feedback->header.stamp.toSec() <
       scheduler.APPROVE_TIME_BEFORE_END_GAIT) {
     if (schedule_gait_action_server->isActive()) {
       schedule_gait_action_server->setSucceeded();
