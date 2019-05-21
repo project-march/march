@@ -57,8 +57,8 @@ bool Scheduler::lastScheduledGaitInProgress() {
 control_msgs::FollowJointTrajectoryGoal
 Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal, ros::Duration offset)
 {
-  ROS_INFO("start time lastgait: %d", this->startTimeLastGait.toSec());
-  ROS_INFO("Current time: %d", ros::Time::now().toSec());
+  ROS_DEBUG("start time lastgait: %f", this->startTimeLastGait.toSec());
+  ROS_DEBUG("Current time: %f", ros::Time::now().toSec());
 
   if(!lastScheduledGaitInProgress()){
     throw std::runtime_error("There is already a gait scheduled in the future.");
