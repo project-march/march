@@ -44,10 +44,10 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
       scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
 
-  ASSERT_FLOAT_EQ(current_time.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_FLOAT_EQ(current_time.toSec(), trajectoryMsg.trajectory.header.stamp.toSec());
 }
 
 TEST_F(ScheduleOneGaitTest, ScheduleTrajectoryUnchanged)
@@ -62,12 +62,12 @@ TEST_F(ScheduleOneGaitTest, ScheduleTrajectoryUnchanged)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
       scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
   for (int i = 0; i < trajectory.points.size(); i++)
   {
     trajectory_msgs::JointTrajectoryPoint pointExpected = trajectory.points[i];
-    trajectory_msgs::JointTrajectoryPoint point = trajectoryMsg.goal.trajectory.points[i];
+    trajectory_msgs::JointTrajectoryPoint point = trajectoryMsg.trajectory.points[i];
     ASSERT_NEAR(pointExpected.time_from_start.toNSec(), point.time_from_start.toNSec(), 0.1);
     ASSERT_NEAR(pointExpected.accelerations.size(), point.accelerations.size(), 0.1);
     ASSERT_NEAR(pointExpected.velocities[1], point.velocities[1], 0.1);
@@ -90,10 +90,10 @@ TEST_F(ScheduleOneGaitTest, ScheduleInTheFuture)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, offset);
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, offset);
 
-  ASSERT_NEAR(futureTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec(), 0.1);
-  ASSERT_NE(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_NEAR(futureTime.toSec(), trajectoryMsg.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NE(currentTime.toSec(), trajectoryMsg.trajectory.header.stamp.toSec());
 }
 
 TEST_F(ScheduleOneGaitTest, ScheduleInThePast)
@@ -109,8 +109,8 @@ TEST_F(ScheduleOneGaitTest, ScheduleInThePast)
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, offset);
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsg = scheduler.scheduleTrajectory(&gaitGoalConst, offset);
 
-  ASSERT_NEAR(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec(), 0.1);
-  ASSERT_NE(currentTime.toSec(), trajectoryMsg.goal.trajectory.header.stamp.toSec());
+  ASSERT_NEAR(currentTime.toSec(), trajectoryMsg.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NE(currentTime.toSec(), trajectoryMsg.trajectory.header.stamp.toSec());
 }

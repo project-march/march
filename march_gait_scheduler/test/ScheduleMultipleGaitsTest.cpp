@@ -61,16 +61,16 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoNoOffset)
 
   Scheduler scheduler;
 
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgSit =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgSit =
       scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0));
 
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgStand =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgStand =
       scheduler.scheduleTrajectory(&gaitStandGoalConst, ros::Duration().fromSec(0));
 
   ros::Time secondStartTime = (current_time + gaitDuration);
 
-  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.goal.trajectory.header.stamp.toSec(), 0.1);
-  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.goal.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.trajectory.header.stamp.toSec(), 0.1);
 }
 
 TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoWithOffset)
@@ -87,15 +87,15 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoWithOffset)
 
   Scheduler scheduler;
 
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgSit =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgSit =
       scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0));
 
   ros::Duration offset = ros::Duration().fromSec(3);
-  control_msgs::FollowJointTrajectoryActionGoal trajectoryMsgStand =
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgStand =
       scheduler.scheduleTrajectory(&gaitStandGoalConst, offset);
 
   ros::Time secondStartTime = current_time + gaitDuration + offset;
 
-  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.goal.trajectory.header.stamp.toSec(), 0.1);
-  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.goal.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(secondStartTime.toSec(), trajectoryMsgStand.trajectory.header.stamp.toSec(), 0.1);
 }
