@@ -51,11 +51,7 @@ ros::Time Scheduler::getStartTime(ros::Duration offset)
   }
 }
 bool Scheduler::lastScheduledGaitInProgress() {
-  ros::Time currentTime = ros::Time::now();
-  if(currentTime < this->startTimeLastGait){
-    return false;
-  }
-  return true;
+  return ros::Time::now() >= this->startTimeLastGait;
 }
 
 control_msgs::FollowJointTrajectoryGoal
