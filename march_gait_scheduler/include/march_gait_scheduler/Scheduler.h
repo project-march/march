@@ -2,11 +2,11 @@
 #ifndef MARCH_GAIT_SCHEDULER_SCHEDULER_H
 #define MARCH_GAIT_SCHEDULER_SCHEDULER_H
 
-#include <ros/ros.h>
-#include <ros/duration.h>
-#include <trajectory_msgs/JointTrajectory.h>
 #include <control_msgs/FollowJointTrajectoryActionGoal.h>
 #include <march_shared_resources/GaitGoal.h>
+#include <ros/duration.h>
+#include <ros/ros.h>
+#include <trajectory_msgs/JointTrajectory.h>
 
 class Scheduler {
 
@@ -15,13 +15,15 @@ class Scheduler {
 
   ros::Time getStartTime(ros::Duration offset);
   bool lastScheduledGaitInProgress();
-  static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
+  static trajectory_msgs::JointTrajectory
+  setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
- public:
+public:
   const double APPROVE_TIME_BEFORE_END_GAIT = 0.5; // in seconds
   ros::Time getEndTimeCurrentGait();
-  control_msgs::FollowJointTrajectoryGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory, ros::Duration offset);
-
+  control_msgs::FollowJointTrajectoryGoal
+  scheduleTrajectory(const march_shared_resources::GaitGoal *trajectory,
+                     ros::Duration offset);
 };
 
-#endif //MARCH_GAIT_SCHEDULER_SCHEDULER_H
+#endif // MARCH_GAIT_SCHEDULER_SCHEDULER_H
