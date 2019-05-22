@@ -11,7 +11,6 @@ PKG = 'march_gait_selection'
 class TestRosGaitSelection(unittest.TestCase):
 
     def test_gait_selection_services(self):
-        rospy.init_node("test_gait_selection", anonymous=True, disable_signals=True)
         rospy.wait_for_service("march/gait_selection/get_version_map", 3)
         rospy.wait_for_service("march/gait_selection/get_directory_structure", 1)
         rospy.wait_for_service("march/gait_selection/set_version_map", 1)
@@ -20,7 +19,6 @@ class TestRosGaitSelection(unittest.TestCase):
         self.assertTrue(True)
 
     def test_set_subgait_version(self):
-        rospy.init_node("test_gait_selection", anonymous=True, disable_signals=True)
 
         # Initialize services
         rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
@@ -41,7 +39,6 @@ class TestRosGaitSelection(unittest.TestCase):
         self.assertEqual("not_the_default", new_version_map["walk"]["right_close"])
 
     def test_set_subgait_version_wrong(self):
-        rospy.init_node("test_gait_selection", anonymous=True, disable_signals=True)
 
         # Initialize services
         rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
@@ -61,4 +58,6 @@ class TestRosGaitSelection(unittest.TestCase):
 
 if __name__ == '__main__':
     import rostest
-    rostest.rosrun(PKG, 'test_gait_selection', TestRosGaitSelection)
+    rospy.init_node("test_gait_selection_node", anonymous=True, disable_signals=True)
+
+rostest.rosrun(PKG, 'test_gait_selection', TestRosGaitSelection)
