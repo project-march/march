@@ -13,7 +13,7 @@ ros::Time Scheduler::getEndTimeCurrentGait()
   if (this->lastGaitGoal != nullptr && this->lastGaitGoal != NULL)
   {
     ros::Time endTime = this->startTimeLastGait;
-    ROS_DEBUG_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait);
+    ROS_DEBUG_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait.toSec());
     endTime += this->lastGaitGoal->current_subgait.duration;
     ROS_DEBUG_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f",
                        this->lastGaitGoal->current_subgait.duration.toSec());
