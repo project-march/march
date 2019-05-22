@@ -118,3 +118,28 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleThreeNoOffset)
 
   ASSERT_THROW(scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0)), std::runtime_error);
 }
+
+TEST_F(ScheduleMultipleGaitsTest, ScheduleSecondGaitInThePast)
+{
+  ros::Time::init();
+  ros::Time current_time = ros::Time::now();
+  march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
+  ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
+
+  const auto& gaitSitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitSitGoal);
+
+  march_shared_resources::GaitGoal gaitStandGoal = fake_stand_goal();
+  const auto& gaitStandGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitStandGoal);
+
+  Scheduler scheduler;
+
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgSit =
+      scheduler.scheduleTrajectory(&gaitSitGoalConst, ros::Duration().fromSec(0));
+
+  ros::Duration offset = ros::Duration().fromSec(-6);
+  control_msgs::FollowJointTrajectoryGoal trajectoryMsgStand =
+      scheduler.scheduleTrajectory(&gaitStandGoalConst, offset);
+
+  ASSERT_NEAR(current_time.toSec(), trajectoryMsgSit.trajectory.header.stamp.toSec(), 0.1);
+  ASSERT_NEAR(current_time.toSec(), trajectoryMsgStand.trajectory.header.stamp.toSec(), 0.1);
+}
