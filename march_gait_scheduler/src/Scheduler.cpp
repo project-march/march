@@ -25,11 +25,6 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 ros::Time Scheduler::getStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
-  if (!ros::Time::isSimTime())
-  {
-    ROS_ERROR("Ros time is not sim Time");
-    throw std::runtime_error("Ros time is not sim Time");
-  }
   ros::Time currentTime = ros::Time::now();
 
   if (currentTime > possibleStartingTime)
