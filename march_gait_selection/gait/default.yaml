@@ -1,4 +1,0 @@
-directory: gait
-gaits:
-  walk: {left_close: left_close, left_swing: test, right_close: right_close, right_open: test_a_bit_higher,
-    right_swing: test}
