@@ -33,21 +33,18 @@ include_directories(
         ${catkin_INCLUDE_DIRS}
 )
 
-set(sourcefiles
+add_library(march_gait_scheduler
         src/GaitSchedulerNode.cpp
         include/march_gait_scheduler/Scheduler.h
         src/Scheduler.cpp
-        )
+)
 
-add_library(march_gait_scheduler ${sourcefiles})
+target_link_libraries(march_gait_scheduler ${catkin_LIBRARIES})
 
-add_executable(gait_scheduler_node
-        src/GaitSchedulerNode.cpp
-        src/Scheduler.cpp
-        include/march_gait_scheduler/Scheduler.h
-        )
+add_executable(gait_scheduler_node src/GaitSchedulerNode.cpp)
+
+target_link_libraries(gait_scheduler_node march_gait_scheduler)
 add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
