@@ -15,7 +15,8 @@ ros::Time Scheduler::getEndTimeCurrentGait()
     ros::Time endTime = this->startTimeLastGait;
     ROS_DEBUG_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait);
     endTime += this->lastGaitGoal->current_subgait.duration;
-    ROS_DEBUG_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f", this->lastGaitGoal->current_subgait.duration.toSec());
+    ROS_DEBUG_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f",
+                       this->lastGaitGoal->current_subgait.duration.toSec());
     return endTime;
   }
   return ros::Time().fromSec(0.001);
@@ -24,7 +25,8 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 ros::Time Scheduler::getStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
-  if(!ros::Time::isSimTime()){
+  if (!ros::Time::isSimTime())
+  {
     ROS_ERROR("Ros time is not sim Time");
     throw std::runtime_error("Ros time is not sim Time");
   }
