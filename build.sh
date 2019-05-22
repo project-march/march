@@ -16,6 +16,9 @@ notify () {
     fi
 }
 
+# Enable test coverage
+catkin config --cmake-args -DENABLE_COVERAGE_TESTING=ON -DCMAKE_BUILD_TYPE=Debug
+
 # Build entire workspace
 catkin build --summarize  --no-notify|| build_failed "Could not build workspace"
 source devel/setup.bash
