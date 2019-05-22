@@ -85,8 +85,7 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(100);
 
-  // Make the start time a bit more then 0, because 0 ros time needs to be threaded differently.
-  scheduler = new Scheduler(ros::Time(0.001));
+  scheduler = new Scheduler();
 
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
       "/march/trajectory_controller/follow_joint_trajectory", true);

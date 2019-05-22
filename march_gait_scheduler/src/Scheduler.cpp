@@ -83,5 +83,3 @@ control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleTrajectory(const marc
 
   return trajectoryMsg;
 }
-Scheduler::Scheduler(ros::Time startTimeLastGait) : startTimeLastGait(startTimeLastGait) {
-}
