@@ -3,6 +3,7 @@ project(march_safety)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
+        code_coverage
         march_shared_resources
         roscpp
         roslint
@@ -42,14 +43,14 @@ add_executable(march_safety_node src/SafetyNode.cpp src/TemperatureSafety.cpp in
 add_dependencies(march_safety_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 
-
-
-#############
-## Testing ##
-#############
-
 # Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
+
+    if(ENABLE_COVERAGE_TESTING)
+        include(CodeCoverage)
+        APPEND_COVERAGE_COMPILER_FLAGS()
+    endif()
+
     add_rostest_gtest(${PROJECT_NAME}-test
             test/march_safety.test
             test/TestTemperatureError.cpp
@@ -58,5 +59,12 @@ if (CATKIN_ENABLE_TESTING)
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
 
+    if(ENABLE_COVERAGE_TESTING)
+        set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
+        add_code_coverage(
+                NAME ${PROJECT_NAME}_coverage
+                DEPENDS tests
+        )
+    endif()
 endif ()
 

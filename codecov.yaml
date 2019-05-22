@@ -1,0 +1,12 @@
+ignore:
+# Ignore packages completely
+  - "march_description/.*"
+  - "march_launch/.*"
+  - "march_shared_resources/.*"
+  - "march_rqt_gait_selection/.*"
+
+# Ignore test folders
+  - "march_gait_sheduler/test/.*"
+  - "march_gait_selection/test/.*"
+  - "march_safety/test/.*"
+

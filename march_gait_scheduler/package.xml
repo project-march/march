@@ -8,6 +8,7 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
+    <build_depend>code_coverage</build_depend>
     <build_depend>control_msgs</build_depend>
     <build_depend>controller_manager</build_depend>
     <build_depend>effort_controllers</build_depend>
