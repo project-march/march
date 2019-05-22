@@ -8,24 +8,14 @@ trajectory_msgs::JointTrajectory Scheduler::setStartTimeGait(trajectory_msgs::Jo
   return trajectory;
 }
 
-void Scheduler::init() {
-  ROS_WARN("initalizing time: %f", this->startTimeLastGait.toSec());
-  while(this->startTimeLastGait.toSec() == 0.0){
-    ROS_WARN("initalizing time: %f", this->startTimeLastGait.toSec());
-    this->startTimeLastGait = ros::Time::now();
-  }
-  ROS_WARN("initalized time at: %f", this->startTimeLastGait.toSec());
-
-}
-
 ros::Time Scheduler::getEndTimeCurrentGait()
 {
   if (this->lastGaitGoal != nullptr && this->lastGaitGoal != NULL)
   {
     ros::Time endTime = this->startTimeLastGait;
-    ROS_WARN_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait);
+    ROS_DEBUG_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait);
     endTime += this->lastGaitGoal->current_subgait.duration;
-    ROS_WARN_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f", this->lastGaitGoal->current_subgait.duration.toSec());
+    ROS_DEBUG_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f", this->lastGaitGoal->current_subgait.duration.toSec());
     return endTime;
   }
   return ros::Time().fromSec(0.001);
@@ -34,6 +24,10 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 ros::Time Scheduler::getStartTime(ros::Duration offset)
 {
   ros::Time possibleStartingTime = getEndTimeCurrentGait();
+  if(!ros::Time::isSimTime()){
+    ROS_ERROR("Ros time is not sim Time");
+    throw std::runtime_error("Ros time is not sim Time");
+  }
   ros::Time currentTime = ros::Time::now();
 
   if (currentTime > possibleStartingTime)
@@ -71,8 +65,8 @@ bool Scheduler::lastScheduledGaitInProgress()
 control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal,
                                                                       ros::Duration offset)
 {
-  ROS_DEBUG("start time lastgait: %f", this->startTimeLastGait.toSec());
-  ROS_DEBUG("Current time: %f", ros::Time::now().toSec());
+  ROS_INFO("start time lastgait: %f", this->startTimeLastGait.toSec());
+  ROS_INFO("Current time: %f", ros::Time::now().toSec());
 
   if (!lastScheduledGaitInProgress())
   {
@@ -88,4 +82,6 @@ control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleTrajectory(const marc
   this->lastGaitGoal = goal;
 
   return trajectoryMsg;
+}
+Scheduler::Scheduler(ros::Time startTimeLastGait) : startTimeLastGait(startTimeLastGait) {
 }
