@@ -3,6 +3,7 @@ project(march_gait_scheduler)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
+        code_coverage
         control_msgs
         controller_manager
         effort_controllers
@@ -45,14 +46,24 @@ add_executable(gait_scheduler_node
 add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
 
-#############
-## Testing ##
-#############
-
 if (CATKIN_ENABLE_TESTING)
+
+    if(ENABLE_COVERAGE_TESTING)
+        include(CodeCoverage)
+        APPEND_COVERAGE_COMPILER_FLAGS()
+    endif()
+
     add_rostest_gtest(${PROJECT_NAME}-test test/simple-test.test
             test/ExampleTest.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
+
+    if(ENABLE_COVERAGE_TESTING)
+        set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
+        add_code_coverage(
+                NAME ${PROJECT_NAME}_coverage
+                DEPENDS tests
+        )
+    endif()
 endif ()
 
