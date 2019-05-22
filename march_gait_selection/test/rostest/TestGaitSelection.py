@@ -29,13 +29,13 @@ class TestRosGaitSelection(unittest.TestCase):
         # Set and get a mapping to see if it changes
         version_map_string = self.get_version_map().message
         version_map = ast.literal_eval(version_map_string)
-        version_map["walk"]["right_close"] = 'not_the_default'
+        version_map["walking"]["right_close"] = 'not_the_default'
 
         result = self.set_version_map(str(version_map))
         self.assertTrue(result.success)
         new_version_map_string = self.get_version_map().message
         new_version_map = ast.literal_eval(new_version_map_string)
-        self.assertEqual("not_the_default", new_version_map["walk"]["right_close"])
+        self.assertEqual("not_the_default", new_version_map["walking"]["right_close"])
 
     def test_set_subgait_version_wrong(self):
         # Initialize services
@@ -48,7 +48,7 @@ class TestRosGaitSelection(unittest.TestCase):
         # Set and get a mapping to see if it changes
         version_map_string = self.get_version_map().message
         version_map = ast.literal_eval(version_map_string)
-        version_map["walk"]["right_close"] = 'wrong_subgait'
+        version_map["walking"]["right_close"] = 'wrong_subgait'
 
         result = self.set_version_map(str(version_map))
         self.assertFalse(result.success)
