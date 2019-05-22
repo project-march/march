@@ -8,6 +8,7 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <build_depend>code_coverage</build_depend>
   <build_depend>march_shared_resources</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>roslint</build_depend>

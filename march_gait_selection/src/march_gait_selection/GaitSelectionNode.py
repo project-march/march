@@ -91,9 +91,10 @@ def update_default_versions(default_yaml, default_directory,  gait_version_map):
 
 if __name__ == '__main__':
     rospy.init_node("gait_selection")
-    default_directory = 'gait'
-    default_yaml = os.path.join(rospkg.RosPack().get_path('march_gait_selection'), default_directory, 'default.yaml')
-    gait_selection = GaitSelection(default_yaml=default_yaml)
+    gait_package = rospy.get_param("/march/gait_file_package", "march_gait_files")
+    gait_directory = rospy.get_param("/march/gait_file_directory", "gait")
+
+    gait_selection = GaitSelection(gait_package, gait_directory)
     perform_gait_server = PerformGaitAction(gait_selection)
 
     # Use lambdas to process service calls inline

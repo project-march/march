@@ -19,7 +19,7 @@ class TestValidateVersionMap(unittest.TestCase):
                         "right_close": "right_close"
                     }
             }
-        gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=map)
+        gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
         self.assertTrue(gait_selection.validate_version_map(map))
 
     def test_validate_version_map_wrong_gait(self):
@@ -36,7 +36,7 @@ class TestValidateVersionMap(unittest.TestCase):
                         "right_open": "test_a_bit_higher",
                     }
             }
-        gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=map)
+        gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
         self.assertFalse(gait_selection.validate_version_map(map))
 
     def test_validate_version_map_wrong_subgait(self):
@@ -49,7 +49,7 @@ class TestValidateVersionMap(unittest.TestCase):
                         "right_close": "right_close"
                     }
             }
-        gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=map)
+        gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
         self.assertFalse(gait_selection.validate_version_map(map))
 
     def test_validate_version_map_wrong_version(self):
@@ -62,5 +62,5 @@ class TestValidateVersionMap(unittest.TestCase):
                         "right_close": "right_close"
                     }
             }
-        gait_selection = GaitSelection(gait_directory=self.gait_directory, gait_version_map=map)
+        gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
         self.assertFalse(gait_selection.validate_version_map(map))
