@@ -8,17 +8,6 @@
 class ScheduleOneGaitTest : public ::testing::Test
 {
 protected:
-  trajectory_msgs::JointTrajectoryPoint createPoint(double position = 0, double velocity = 0, double acceleration = 0,
-                                                    int time_from_start = 0)
-  {
-    trajectory_msgs::JointTrajectoryPoint point = trajectory_msgs::JointTrajectoryPoint();
-    point.positions = { position };
-    point.velocities = { velocity };
-    point.accelerations = { acceleration };
-    point.time_from_start = ros::Duration().fromNSec(time_from_start);
-    return point;
-  }
-
   trajectory_msgs::JointTrajectory fake_sit_trajectory()
   {
     march_shared_resources::GaitGoal goal;
@@ -53,7 +42,6 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
 TEST_F(ScheduleOneGaitTest, ScheduledTrajectoryTheSameAsRequested)
 {
   ros::Time::init();
-  ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitGoal;
   const trajectory_msgs::JointTrajectory& trajectory = fake_sit_trajectory();
   gaitGoal.current_subgait.trajectory = trajectory;
@@ -64,7 +52,7 @@ TEST_F(ScheduleOneGaitTest, ScheduledTrajectoryTheSameAsRequested)
   Scheduler scheduler;
   control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
       scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
-  for (int i = 0; i < trajectory.points.size(); i++)
+  for (int i = 0; (unsigned)i < trajectory.points.size(); i++)
   {
     trajectory_msgs::JointTrajectoryPoint pointExpected = trajectory.points[i];
     trajectory_msgs::JointTrajectoryPoint point = trajectoryMsg.trajectory.points[i];

@@ -103,7 +103,6 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleTwoWithOffset)
 TEST_F(ScheduleMultipleGaitsTest, ScheduleThreeNoOffset)
 {
   ros::Time::init();
-  ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
   ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
 
