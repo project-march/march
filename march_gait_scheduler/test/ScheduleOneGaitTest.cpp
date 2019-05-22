@@ -50,7 +50,7 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
   ASSERT_FLOAT_EQ(current_time.toSec(), trajectoryMsg.trajectory.header.stamp.toSec());
 }
 
-TEST_F(ScheduleOneGaitTest, ScheduleTrajectoryUnchanged)
+TEST_F(ScheduleOneGaitTest, ScheduledTrajectoryTheSameAsRequested)
 {
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
