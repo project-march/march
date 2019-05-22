@@ -21,10 +21,10 @@ class TestRosGaitSelection(unittest.TestCase):
     def test_set_subgait_version(self):
 
         # Initialize services
-        rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
+        rospy.wait_for_service('/march/gait_selection/get_version_map', 5)
         self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
 
-        rospy.wait_for_service('/march/gait_selection/set_version_map', 3)
+        rospy.wait_for_service('/march/gait_selection/set_version_map', 1)
         self.set_version_map = rospy.ServiceProxy('/march/gait_selection/set_version_map', StringTrigger)
 
         # Set and get a mapping to see if it changes
@@ -41,10 +41,10 @@ class TestRosGaitSelection(unittest.TestCase):
     def test_set_subgait_version_wrong(self):
 
         # Initialize services
-        rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
+        rospy.wait_for_service('/march/gait_selection/get_version_map', 5)
         self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
 
-        rospy.wait_for_service('/march/gait_selection/set_version_map', 3)
+        rospy.wait_for_service('/march/gait_selection/set_version_map', 1)
         self.set_version_map = rospy.ServiceProxy('/march/gait_selection/set_version_map', StringTrigger)
 
         # Set and get a mapping to see if it changes
