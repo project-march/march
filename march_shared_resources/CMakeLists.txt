@@ -27,6 +27,7 @@ add_message_files(
         PowerDistributionBoardState.msg
         PowerNet.msg
         StepSize.msg
+        Setpoint.msg
         Sound.msg
         Subgait.msg
 )

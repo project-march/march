@@ -13,10 +13,10 @@ from march_gait_selection.GaitSelection import GaitSelection
 
 class TestValidateTrajectoryTransition(unittest.TestCase):
     def setUp(self):
-        self.gait_selection = GaitSelection(default_yaml=os.path.join(rospkg.RosPack().get_path('march_gait_selection'),
-                                                                      "test/defaults/default_correct_walking_gait.yaml"))
+        self.gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
+
         gait_path = os.path.join(rospkg.RosPack().get_path('march_gait_selection'),
-                                 "test/gaits_correct_walking_gait/walking/walking.gait")
+                                 "test/correct_walking_gait/walking/walking.gait")
         gait_yaml = yaml.load(open(gait_path), Loader=yaml.SafeLoader)
         self.gait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/GaitGoal',
                                                                         gait_yaml,
