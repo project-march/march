@@ -19,7 +19,7 @@ ros::Time Scheduler::getEndTimeCurrentGait()
                        this->lastGaitGoal->current_subgait.duration.toSec());
     return endTime;
   }
-  return ros::Time().fromSec(0.001);
+  return ros::Time::now();
 }
 
 ros::Time Scheduler::getStartTime(ros::Duration offset)
