@@ -56,6 +56,10 @@
     <!-- Import all Gazebo-customization elements, including Gazebo colors -->
     <xacro:include filename="$(find march_description)/urdf/march.gazebo"/>
 
+    <material name="blue">
+        <color rgba="0 0 0.6 1"/>
+    </material>
+
 
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
         <robotNamespace>/march</robotNamespace>
@@ -93,7 +97,7 @@
     </joint>
 
     <joint name="left_knee" type="revolute">
-        <parent link="upper_leg_left"/>
+        <parent link= "upper_leg_left"/>
         <child link="lower_leg_left"/>
         <origin xyz="0 0 ${-upper_leg_height}" rpy="0 0 0"/>
         <axis xyz="0 -1 0"/>
@@ -176,6 +180,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -202,6 +207,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/HipLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -246,6 +252,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/UpperLegLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -272,6 +279,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/LowerLegLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -298,6 +306,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/FootLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -344,6 +353,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/HipRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -388,6 +398,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/UpperLegRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -415,6 +426,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/LowerLegRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
@@ -441,6 +453,7 @@
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/FootRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
+            <material name="blue"/>
         </visual>
 
         <inertial>
