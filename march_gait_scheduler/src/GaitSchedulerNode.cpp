@@ -6,6 +6,7 @@
 #include <iostream>
 #include <ros/package.h>
 #include <sensor_msgs/JointState.h>
+#include <sensor_msgs/Temperature.h>
 #include <std_msgs/Float64.h>
 
 #include <actionlib/client/simple_action_client.h>
@@ -18,8 +19,8 @@
 #include <march_shared_resources/GaitGoal.h>
 #include <march_shared_resources/TopicNames.h>
 
-typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ServerFollowJoint;
-ServerFollowJoint* schedule_gait_action_server;
+typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
+ScheduleGaitActionServer* schedule_gait_action_server;
 actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>* followJointTrajectoryAction;
 Scheduler* scheduler;
 
@@ -86,21 +87,15 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(100);
 
-  scheduler = new Scheduler();
-
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
       "/march/trajectory_controller/follow_joint_trajectory", true);
 
-  followJointTrajectoryAction->waitForServer(ros::Duration(10));  // will wait for infinite time
+  followJointTrajectoryAction->waitForServer(ros::Duration(10));
 
-  schedule_gait_action_server = new ServerFollowJoint(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
+  schedule_gait_action_server = new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
   schedule_gait_action_server->start();
 
-  while (ros::ok())
-  {
-    rate.sleep();
-    ros::spinOnce();
-  }
+  ros::spin();
 
   return 0;
 }
