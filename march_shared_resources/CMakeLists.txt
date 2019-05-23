@@ -28,6 +28,7 @@ add_message_files(
         HighVoltageNet.msg
         LowVoltageNet.msg
         StepSize.msg
+        Setpoint.msg
         Sound.msg
         Subgait.msg
 )
