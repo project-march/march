@@ -92,7 +92,8 @@ int main(int argc, char** argv)
 
   followJointTrajectoryAction->waitForServer(ros::Duration(10));
 
-  schedule_gait_action_server = new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
+  schedule_gait_action_server =
+      new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
   schedule_gait_action_server->start();
 
   ros::spin();
