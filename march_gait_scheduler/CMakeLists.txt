@@ -60,6 +60,8 @@ if (CATKIN_ENABLE_TESTING)
             test/ScheduleOneGaitTest.cpp
             test/ScheduleMultipleGaitsTest.cpp
             test/EndTimeTest.cpp
+            test/AcceptanceTest.cpp
+            test/CallbackCounter.cpp
             )
 
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
