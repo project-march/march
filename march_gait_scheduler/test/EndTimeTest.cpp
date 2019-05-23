@@ -5,7 +5,7 @@
 #include <trajectory_msgs/JointTrajectory.h>
 #include <trajectory_msgs/JointTrajectoryPoint.h>
 
-class ScheduleEndTimeTest : public ::testing::Test
+class EndTimeTest : public ::testing::Test
 {
 protected:
   trajectory_msgs::JointTrajectory fake_sit_trajectory()
@@ -22,7 +22,7 @@ protected:
   }
 };
 
-TEST_F(ScheduleEndTimeTest, NothingScheduled)
+TEST_F(EndTimeTest, NothingScheduled)
 {
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
@@ -34,7 +34,7 @@ TEST_F(ScheduleEndTimeTest, NothingScheduled)
   ASSERT_NEAR(current_time.toSec(), scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 }
 
-TEST_F(ScheduleEndTimeTest, OnGaitScheduled)
+TEST_F(EndTimeTest, OnGaitScheduled)
 {
   const double duration = 3;
   ros::Time::init();
@@ -53,7 +53,7 @@ TEST_F(ScheduleEndTimeTest, OnGaitScheduled)
   ASSERT_NEAR(current_time.toSec() + duration, scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 }
 
-TEST_F(ScheduleEndTimeTest, TwoGaitsScheduled)
+TEST_F(EndTimeTest, TwoGaitsScheduled)
 {
   const double duration = 3;
   ros::Time::init();
