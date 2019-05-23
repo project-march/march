@@ -1,5 +1,4 @@
-# The emergency button for the high voltage is triggered.
-bool high_voltage_emergency_button_triggered
+bool high_voltage_enabled
 
 # The current consumed by the power distribution board.
 float32 power_distribution_board_current
