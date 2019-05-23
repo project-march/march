@@ -174,7 +174,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${hip_base_height} ${width}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -187,6 +186,13 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${hip_base_height} ${width}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Left Moving Hip-->
@@ -194,29 +200,28 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${hip_aa_frame_height} ${width}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/HipLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
 
         <inertial>
-            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <origin xyz="0 ${-hip_aa_frame_height/2} 0" rpy="0 0 0"/>
             <mass value="${mass}"/>
             <inertia
                     ixx="${mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 ${-hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${hip_aa_frame_height} ${width}"/>
+            </geometry>
+        </collision>
     </link>
 
     <link name="hip_aa_frame_left_front">
-<!--        <visual>-->
-<!--            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>-->
-<!--            <geometry>-->
-<!--                <box size="${hip_aa_frame_width} ${width} ${width}"/>-->
-<!--            </geometry>-->
-<!--        </visual>-->
-
         <inertial>
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
             <mass value="${mass}"/>
@@ -225,6 +230,13 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${hip_aa_frame_width} ${width} ${width}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Upper Leg Left-->
@@ -232,18 +244,9 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <!--                <box size="${width} ${width} ${upper_leg_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/UpperLegLeft.stl" scale="1.15 1.15 1.15"/>
-                <!--                TODO: both upper legs are the same. So one of them has to be replaced.-->
             </geometry>
         </visual>
-
-        <collision>
-            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
-            <geometry>
-                <box size="${width} ${width} ${upper_leg_height}"/>
-            </geometry>
-        </collision>
 
         <inertial>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
@@ -253,6 +256,13 @@
                     iyy="${mass / 12.0 * (upper_leg_height*upper_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${upper_leg_height}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Lower Leg Left -->
@@ -260,7 +270,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${width} ${lower_leg_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/LowerLegLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -273,6 +282,13 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${lower_leg_height}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Lower Leg Left -->
@@ -280,7 +296,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${width} ${ankle_plate_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/FootLeft.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -293,17 +308,17 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${ankle_plate_height}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Foot Left -->
     <link name="foot_left">
-<!--        <visual>-->
-<!--            <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>-->
-<!--            <geometry>-->
-<!--                <box size="${foot_height} ${width} ${width}"/>-->
-<!--            </geometry>-->
-<!--        </visual>-->
-
         <inertial>
             <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
             <!--            TODO: adjust the origin so the foot also sticks out a little bit to the back-->
@@ -313,7 +328,9 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
         <collision>
+            <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="${foot_height} ${width} ${width}"/>
             </geometry>
@@ -325,7 +342,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${hip_aa_frame_height} ${width}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/HipRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -338,16 +354,16 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${hip_aa_frame_height} ${width}"/>
+            </geometry>
+        </collision>
     </link>
 
     <link name="hip_aa_frame_right_front">
-<!--        <visual>-->
-<!--            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>-->
-<!--            <geometry>-->
-<!--                <box size="${hip_aa_frame_width} ${width} ${width}"/>-->
-<!--            </geometry>-->
-<!--        </visual>-->
-
         <inertial>
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
             <mass value="${mass}"/>
@@ -356,6 +372,13 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${hip_aa_frame_width} ${width} ${width}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Upper Leg Right-->
@@ -363,17 +386,9 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <!--                <box size="${width} ${width} ${upper_leg_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/UpperLegRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
-
-        <collision>
-            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
-            <geometry>
-                <box size="${width} ${width} ${upper_leg_height}"/>
-            </geometry>
-        </collision>
 
         <inertial>
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
@@ -383,6 +398,14 @@
                     iyy="${mass / 12.0 * (upper_leg_height*upper_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${upper_leg_height}"/>
+            </geometry>
+        </collision>
+
     </link>
 
     <!-- Lower Leg Right -->
@@ -390,7 +413,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${width} ${lower_leg_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/LowerLegRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -403,6 +425,13 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${lower_leg_height}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Lower Leg Right -->
@@ -410,7 +439,6 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-<!--                <box size="${width} ${width} ${ankle_plate_height}"/>-->
                 <mesh filename="package://march_description/urdf/stl-files/FootRight.stl" scale="1.15 1.15 1.15"/>
             </geometry>
         </visual>
@@ -423,17 +451,17 @@
                     iyy="${mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
+
+        <collision>
+            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${width} ${width} ${ankle_plate_height}"/>
+            </geometry>
+        </collision>
     </link>
 
     <!-- Foot Right -->
     <link name="foot_right">
-<!--        <visual>-->
-<!--            <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>-->
-<!--            <geometry>-->
-<!--                <box size="${foot_height} ${width} ${width}"/>-->
-<!--            </geometry>-->
-<!--        </visual>-->
-
         <inertial>
             <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
             <!--            TODO: adjust the origin so the foot also sticks out a little bit to the back-->
@@ -444,6 +472,7 @@
                     izz="${mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
         <collision>
+            <origin xyz="${-foot_height/2} 0 0" rpy="0 0 0"/>
             <geometry>
                 <box size="${foot_height} ${width} ${width}"/>
             </geometry>
