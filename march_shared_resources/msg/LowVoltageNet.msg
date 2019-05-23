@@ -1,3 +1,3 @@
 string name
 bool operational
-float64 current
+float32 current

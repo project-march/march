@@ -2,10 +2,10 @@
 bool high_voltage_emergency_button_triggered
 
 # The current consumed by the power distribution board.
-float64 power_distribution_board_current
+float32 power_distribution_board_current
 
 # The total current of all high voltage nets combined.
-float64 high_voltage_net_current
+float32 high_voltage_net_current
 
 # The request of the power distribution board to shutdown the master.
 bool master_shutdown_requested
