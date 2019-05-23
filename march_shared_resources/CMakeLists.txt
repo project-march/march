@@ -25,7 +25,8 @@ add_message_files(
         PerformGait.msg
         PlayInputMaster.msg
         PowerDistributionBoardState.msg
-        PowerNet.msg
+        HighVoltageNet.msg
+        LowVoltageNet.msg
         StepSize.msg
         Sound.msg
         Subgait.msg
