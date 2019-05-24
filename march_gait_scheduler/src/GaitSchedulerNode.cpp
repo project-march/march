@@ -87,6 +87,8 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(100);
 
+  scheduler = new Scheduler();
+
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
       "/march/trajectory_controller/follow_joint_trajectory", true);
 
