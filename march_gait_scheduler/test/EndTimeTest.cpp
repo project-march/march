@@ -49,7 +49,7 @@ TEST_F(EndTimeTest, OnGaitScheduled)
   Scheduler scheduler;
   ASSERT_NEAR(current_time.toSec(), scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 
-  scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
+  scheduler.scheduleGait(&gaitGoalConst, ros::Duration().fromSec(0));
   ASSERT_NEAR(current_time.toSec() + duration, scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 }
 
@@ -68,9 +68,9 @@ TEST_F(EndTimeTest, TwoGaitsScheduled)
   Scheduler scheduler;
   ASSERT_NEAR(current_time.toSec(), scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 
-  scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
+  scheduler.scheduleGait(&gaitGoalConst, ros::Duration().fromSec(0));
   ASSERT_NEAR(current_time.toSec() + duration, scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 
-  scheduler.scheduleTrajectory(&gaitGoalConst, ros::Duration().fromSec(0));
+  scheduler.scheduleGait(&gaitGoalConst, ros::Duration().fromSec(0));
   ASSERT_NEAR(current_time.toSec() + 2 * duration, scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 }

@@ -39,9 +39,9 @@ protected:
   CallbackCounter callbackCounter;
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
-  ServerFollowJoint schedule_gait_action_server(nh, "/march/trajectory_controller/follow_joint_trajectory",
+  ServerFollowJoint scheduleGaitActionServer(nh, "/march/trajectory_controller/follow_joint_trajectory",
                                                 boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
-  schedule_gait_action_server.start();
+  scheduleGaitActionServer.start();
 
   actionlib::SimpleActionClient<march_shared_resources::GaitAction> scheduleGaitAction("march/gait/schedule", true);
   scheduleGaitAction.waitForServer(ros::Duration(2));
@@ -62,10 +62,10 @@ TEST_F(AcceptanceTest, ScheduleOneGait)
   CallbackCounter callbackCounter;
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
-  ServerFollowJoint schedule_gait_action_server(nh, "/march/trajectory_controller/follow_joint_trajectory",
+  ServerFollowJoint scheduleGaitActionServer(nh, "/march/trajectory_controller/follow_joint_trajectory",
                                                 boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
 
-  schedule_gait_action_server.start();
+  scheduleGaitActionServer.start();
 
   actionlib::SimpleActionClient<march_shared_resources::GaitAction> scheduleGaitAction("march/gait/schedule", true);
   scheduleGaitAction.waitForServer(ros::Duration(2));

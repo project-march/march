@@ -11,10 +11,10 @@
 class Scheduler
 {
   const march_shared_resources::GaitGoal* lastGaitGoal = nullptr;
-  ros::Time startTimeLastGait;
+  ros::Time startLastGait;
 
   ros::Time getStartTime(ros::Duration offset);
-  bool lastScheduledGaitInProgress();
+  bool lastScheduledGaitNotStarted();
   static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
 public:
@@ -23,8 +23,8 @@ public:
    */
   ros::Duration GAIT_SUCCEEDED_OFFSET = ros::Duration(0.2);
   ros::Time getEndTimeCurrentGait();
-  control_msgs::FollowJointTrajectoryGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory,
-                                                             ros::Duration offset);
+  control_msgs::FollowJointTrajectoryGoal scheduleGait(const march_shared_resources::GaitGoal *gaitGoal,
+                                                       ros::Duration offset);
 };
 
 #endif  // MARCH_GAIT_SCHEDULER_SCHEDULER_H

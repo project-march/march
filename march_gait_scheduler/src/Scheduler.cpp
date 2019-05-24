@@ -12,11 +12,8 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 {
   if (this->lastGaitGoal != nullptr && this->lastGaitGoal != NULL)
   {
-    ros::Time endTime = this->startTimeLastGait;
-    ROS_DEBUG_THROTTLE(1, "startTimeLastGait: %f", this->startTimeLastGait.toSec());
+    ros::Time endTime = this->startLastGait;
     endTime += this->lastGaitGoal->current_subgait.duration;
-    ROS_DEBUG_THROTTLE(1, "this->lastGaitGoal->current_subgait.duration: %f",
-                       this->lastGaitGoal->current_subgait.duration.toSec());
     return endTime;
   }
   return ros::Time::now();
@@ -24,10 +21,10 @@ ros::Time Scheduler::getEndTimeCurrentGait()
 
 ros::Time Scheduler::getStartTime(ros::Duration offset)
 {
-  ros::Time possibleStartingTime = getEndTimeCurrentGait();
+  ros::Time endCurrentGait = getEndTimeCurrentGait();
   ros::Time currentTime = ros::Time::now();
 
-  if (currentTime > possibleStartingTime)
+  if (currentTime > endCurrentGait)
   {
     if (offset.toNSec() >= 0)
     {
@@ -42,7 +39,7 @@ ros::Time Scheduler::getStartTime(ros::Duration offset)
   }
   else
   {
-    if (possibleStartingTime + offset < currentTime)
+    if (endCurrentGait + offset < currentTime)
     {
       ROS_WARN("Negative offset is partly ignored, otherwise the gait would be "
                "scheduled in the past");
@@ -50,33 +47,32 @@ ros::Time Scheduler::getStartTime(ros::Duration offset)
     }
     else
     {
-      return possibleStartingTime + offset;
+      return endCurrentGait + offset;
     }
   }
 }
-bool Scheduler::lastScheduledGaitInProgress()
+bool Scheduler::lastScheduledGaitNotStarted()
 {
-  return ros::Time::now() >= this->startTimeLastGait;
+  return ros::Time::now() < this->startLastGait;
 }
 
-control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal,
-                                                                      ros::Duration offset)
+control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleGait(const march_shared_resources::GaitGoal *gaitGoal,
+                                                                ros::Duration offset)
 {
-  ROS_DEBUG("start time lastgait: %f", this->startTimeLastGait.toSec());
+  ROS_DEBUG("start time lastgait: %f", this->startLastGait.toSec());
   ROS_DEBUG("Current time: %f", ros::Time::now().toSec());
 
-  if (!lastScheduledGaitInProgress())
+  if (lastScheduledGaitNotStarted())
   {
     throw std::runtime_error("There is already a gait scheduled in the future.");
   }
-  ros::Time startingTime = getStartTime(offset);
-  trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(goal->current_subgait.trajectory, startingTime);
+  ros::Time startTime = getStartTime(offset);
+  trajectory_msgs::JointTrajectory trajectory = setStartTimeGait(gaitGoal->current_subgait.trajectory, startTime);
   control_msgs::FollowJointTrajectoryGoal trajectoryMsg;
   trajectoryMsg.trajectory = trajectory;
 
-  // Update all variables
-  this->startTimeLastGait = startingTime;
-  this->lastGaitGoal = goal;
+  this->startLastGait = startTime;
+  this->lastGaitGoal = gaitGoal;
 
   return trajectoryMsg;
 }
