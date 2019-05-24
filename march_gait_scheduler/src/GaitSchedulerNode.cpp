@@ -94,9 +94,12 @@ int main(int argc, char** argv)
 
   ROS_INFO("Wait on joint trajectory action server");
   bool isConnected = followJointTrajectoryAction->waitForServer(ros::Duration(10));
-  if(isConnected){
+  if (isConnected)
+  {
     ROS_INFO("Connected to joint trajectory action server");
-  }else{
+  }
+  else
+  {
     ROS_ERROR("Not connected to joint trajectory action server");
   }
 
