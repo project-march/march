@@ -2,30 +2,18 @@
 
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <sensor_msgs/Temperature.h>
+#include <ros/ros.h>
 
 struct CallbackCounter
 {
+  int count;
+
   CallbackCounter() : count(0)
   {
   }
 
-  void cb_test(const sensor_msgs::Temperature& msg)
+  void cb_action(const control_msgs::FollowJointTrajectoryGoalConstPtr& goal)
   {
-    ++count;
+    count++;
   }
-
-  void cb(const control_msgs::FollowJointTrajectoryAction& msg)
-  {
-    ++count;
-  }
-
-  void cb_action(const control_msgs::FollowJointTrajectoryGoalConstPtr& goal){
-    ++count;
-  }
-
-  void cb_fake(){
-    ++count;
-  }
-
-  int count;
 };

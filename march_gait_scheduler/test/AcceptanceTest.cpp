@@ -32,7 +32,7 @@ protected:
   }
 };
 
-TEST_F(AcceptanceTest, ScheduleNoGaits)
+ TEST_F(AcceptanceTest, ScheduleNoGaits)
 {
   ros::NodeHandle nh;
   ros::Time::init();
@@ -40,7 +40,7 @@ TEST_F(AcceptanceTest, ScheduleNoGaits)
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
   ServerFollowJoint schedule_gait_action_server(nh, "/march/trajectory_controller/follow_joint_trajectory",
-                                                boost::bind(&CallbackCounter::cb_action, callbackCounter, _1), false);
+                                                boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
   schedule_gait_action_server.start();
 
   actionlib::SimpleActionClient<march_shared_resources::GaitAction> scheduleGaitAction("march/gait/schedule", true);
@@ -63,7 +63,8 @@ TEST_F(AcceptanceTest, ScheduleOneGait)
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
   ServerFollowJoint schedule_gait_action_server(nh, "/march/trajectory_controller/follow_joint_trajectory",
-                                                boost::bind(&CallbackCounter::cb_action, callbackCounter, _1), false);
+                                                boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
+
   schedule_gait_action_server.start();
 
   actionlib::SimpleActionClient<march_shared_resources::GaitAction> scheduleGaitAction("march/gait/schedule", true);
@@ -73,11 +74,17 @@ TEST_F(AcceptanceTest, ScheduleOneGait)
   march_shared_resources::GaitGoal goal = fake_sit_goal();
   scheduleGaitAction.sendGoal(goal);
 
-  ros::Duration timeout_duration = ros::Duration(1);
-  ros::topic::waitForMessage<control_msgs::FollowJointTrajectoryActionGoal>(
-      "/march/trajectory_controller/follow_joint_trajectory/goal", timeout_duration);
-  ros::spinOnce();
+  ros::Rate rate(100);
+  double time_out_time = ros::Time::now().toSec() + 1;
+  while (callbackCounter.count == 0)
+  {
+    if (ros::Time::now().toSec() > time_out_time)
+    {
+      FAIL() << "Time out, callback not received in 1 second";
+    }
+    rate.sleep();
+    ros::spinOnce();
+  }
 
-  // TODO(TIM) make sure the 2nd part of the test works
-  // EXPECT_EQ(1, callbackCounter.count);
+  EXPECT_EQ(1, callbackCounter.count);
 }
