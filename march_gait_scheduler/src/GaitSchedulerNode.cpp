@@ -92,7 +92,7 @@ int main(int argc, char** argv)
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
       "/march/trajectory_controller/follow_joint_trajectory", true);
 
-  ROS_INFO("Wait on joint trajectory action server");
+  ROS_DEBUG("Wait on joint trajectory action server");
   bool isConnected = followJointTrajectoryAction->waitForServer(ros::Duration(10));
   if (isConnected)
   {
