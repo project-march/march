@@ -87,12 +87,21 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(100);
 
+  scheduler = new Scheduler();
+
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
       "/march/trajectory_controller/follow_joint_trajectory", true);
 
-  followJointTrajectoryAction->waitForServer(ros::Duration(10));
+  ROS_INFO("Wait on joint trajectory action server");
+  bool isConnected = followJointTrajectoryAction->waitForServer(ros::Duration(10));
+  if(isConnected){
+    ROS_INFO("Connected to joint trajectory action server");
+  }else{
+    ROS_ERROR("Not connected to joint trajectory action server");
+  }
 
-  schedule_gait_action_server = new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
+  schedule_gait_action_server =
+      new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
   schedule_gait_action_server->start();
 
   ros::spin();
