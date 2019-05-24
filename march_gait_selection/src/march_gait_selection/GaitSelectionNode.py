@@ -77,8 +77,9 @@ def set_gait_version_map(msg, gait_selection):
     return [False, "Gait version map is not valid " + str(map)]
 
 
-def update_default_versions(default_yaml, default_directory,  gait_version_map):
-    default_dict = {"directory": default_directory, "gaits": gait_version_map}
+def update_default_versions(gait_package, gait_directory,  gait_version_map):
+    default_yaml = os.path.join(rospkg.RosPack().get_path(gait_package), gait_directory, 'default.yaml')
+    default_dict = {"gaits": gait_version_map}
     try:
         output_file = open(default_yaml, "w+")
         yaml_content = yaml.dump(default_dict)
@@ -116,7 +117,7 @@ if __name__ == '__main__':
 
     update_default_versions_service = rospy.Service('march/gait_selection/update_default_versions', Trigger,
                                                     lambda msg: update_default_versions(
-                                                     default_yaml, default_directory, gait_selection.gait_version_map))
+                                                     gait_package, gait_directory, gait_selection.gait_version_map))
 
     perform_gait_server.schedule_gait_client.wait_for_server()
 
