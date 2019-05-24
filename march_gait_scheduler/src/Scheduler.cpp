@@ -62,7 +62,7 @@ bool Scheduler::lastScheduledGaitInProgress()
 control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleTrajectory(const march_shared_resources::GaitGoal* goal,
                                                                       ros::Duration offset)
 {
-  ROS_DEBUG("start time lastgait: %f", this->startTimeLastGait.toSec());
+  ROS_DEBUG("Start time last gait: %f", this->startTimeLastGait.toSec());
   ROS_DEBUG("Current time: %f", ros::Time::now().toSec());
 
   if (!lastScheduledGaitInProgress())
