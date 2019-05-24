@@ -18,7 +18,10 @@ class Scheduler
   static trajectory_msgs::JointTrajectory setStartTimeGait(trajectory_msgs::JointTrajectory trajectory, ros::Time time);
 
 public:
-  const double APPROVE_TIME_BEFORE_END_GAIT = 0.1;  // in seconds
+  /**
+   * A gait is succeeded this duration before its actual completion.
+   */
+  ros::Duration GAIT_SUCCEEDED_OFFSET = ros::Duration(0.2);
   ros::Time getEndTimeCurrentGait();
   control_msgs::FollowJointTrajectoryGoal scheduleTrajectory(const march_shared_resources::GaitGoal* trajectory,
                                                              ros::Duration offset);
