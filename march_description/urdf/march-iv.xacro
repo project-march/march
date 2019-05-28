@@ -8,8 +8,8 @@
     <xacro:property name="parent_name" value="world"/>
 
     <!-- Constants for robot dimensions -->
-    <xacro:property name="PI" value="3.1415926535897931"/>
     <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
+    <!-- TODO @Jitske: add accurate masses and inertia for all links -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="upper_leg_height" value="${0.385}"/>
