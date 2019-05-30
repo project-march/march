@@ -56,7 +56,7 @@ bool Scheduler::lastScheduledGaitNotStarted()
   return ros::Time::now() < this->startLastGait;
 }
 
-control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleGait(const march_shared_resources::GaitGoal *gaitGoal,
+control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleGait(const march_shared_resources::GaitGoal* gaitGoal,
                                                                 ros::Duration offset)
 {
   ROS_DEBUG("Start time last gait: %f", this->startLastGait.toSec());

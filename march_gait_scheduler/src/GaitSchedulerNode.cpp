@@ -12,12 +12,14 @@
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/server/simple_action_server.h>
 #include <boost/algorithm/string.hpp>
+#include <dynamic_reconfigure/server.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <march_gait_scheduler/Scheduler.h>
 #include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/GaitGoal.h>
 #include <march_shared_resources/TopicNames.h>
+#include <march_gait_scheduler/Scheduler.h>
+#include <march_gait_scheduler/SchedulerConfig.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
 ScheduleGaitActionServer* scheduleGaitActionServer;
@@ -80,6 +82,18 @@ void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
   }
 }
 
+/**
+ * This callback is called when parameters from the config file are changed during run-time.
+ * This method updates the local values which depend on these parameters to make ensure the values are not out-of-date.
+ * @param config the config file with all the parameters
+ * @param level A bitmask
+ */
+void schedulerConfigCallback(march_gait_scheduler::SchedulerConfig& config, uint32_t level)
+{
+  // Make sure there is always a possible interval between min and max temperature.
+  scheduler->GAIT_SUCCEEDED_OFFSET = ros::Duration(config.gait_succeeded_offset);
+}
+
 int main(int argc, char** argv)
 {
   ros::init(argc, argv, "gait_scheduler_node");
@@ -101,8 +115,11 @@ int main(int argc, char** argv)
     ROS_ERROR("Not connected to joint trajectory action server");
   }
 
-  scheduleGaitActionServer =
-      new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
+  // Make the temperature values dynamic reconfigurable
+  dynamic_reconfigure::Server<march_gait_scheduler::SchedulerConfig> server;
+  server.setCallback(boost::bind(&schedulerConfigCallback, _1, _2));
+
+  scheduleGaitActionServer = new ScheduleGaitActionServer(n, ActionNames::schedule_gait, &scheduleGaitCallback, false);
   scheduleGaitActionServer->start();
 
   ros::spin();
