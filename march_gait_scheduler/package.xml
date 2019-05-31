@@ -12,6 +12,7 @@
     <build_depend>actionlib_msgs</build_depend>
     <build_depend>code_coverage</build_depend>
     <build_depend>control_msgs</build_depend>
+    <build_depend>dynamic_reconfigure</build_depend>
     <build_depend>march_shared_resources</build_depend>
     <build_depend>roslint</build_depend>
     <build_depend>roscpp</build_depend>

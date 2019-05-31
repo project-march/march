@@ -3,6 +3,7 @@ project(march_gait_scheduler)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
+        dynamic_reconfigure
         code_coverage
         actionlib
         actionlib_msgs
@@ -13,6 +14,10 @@ find_package(catkin REQUIRED COMPONENTS
         rostest
         trajectory_msgs
         )
+
+generate_dynamic_reconfigure_options(
+        config/Scheduler.cfg
+)
 
 catkin_package(
         INCLUDE_DIRS include
@@ -44,7 +49,7 @@ target_link_libraries(march_gait_scheduler ${catkin_LIBRARIES})
 add_executable(gait_scheduler_node src/GaitSchedulerNode.cpp)
 
 target_link_libraries(gait_scheduler_node march_gait_scheduler)
-add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
+add_dependencies(gait_scheduler_node ${PROJECT_NAME}_gencfg ${catkin_EXPORTED_TARGETS})
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)

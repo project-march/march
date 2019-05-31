@@ -8,6 +8,8 @@
 #include <ros/ros.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
+#include <march_gait_scheduler/SchedulerConfig.h>
+
 class Scheduler
 {
   const march_shared_resources::GaitGoal* lastGaitGoal = nullptr;
@@ -23,7 +25,7 @@ public:
    */
   ros::Duration GAIT_SUCCEEDED_OFFSET = ros::Duration(0.2);
   ros::Time getEndTimeCurrentGait();
-  control_msgs::FollowJointTrajectoryGoal scheduleGait(const march_shared_resources::GaitGoal *gaitGoal,
+  control_msgs::FollowJointTrajectoryGoal scheduleGait(const march_shared_resources::GaitGoal* gaitGoal,
                                                        ros::Duration offset);
 };
 
