@@ -19,7 +19,7 @@ class TestValidateSubgaitName(unittest.TestCase):
                 }
         }
 
-    gait_selection = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map_correct)
+    gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
 
     def test_validate_subgait_name_correct(self):
         self.assertTrue(self.gait_selection.validate_subgait_name("walking", "right_open"))

@@ -19,7 +19,7 @@ class TestValidateVersionName(unittest.TestCase):
                 }
         }
 
-    gait_selection = GaitSelection(gait_directory=gait_directory, gait_version_map=actual_map_correct)
+    gait_selection = GaitSelection('march_gait_selection', "test/correct_walking_gait")
 
     def test_validate_version_name_correct(self):
         self.assertTrue(self.gait_selection.validate_version_name("walking", "right_open", "test_a_bit_higher"))

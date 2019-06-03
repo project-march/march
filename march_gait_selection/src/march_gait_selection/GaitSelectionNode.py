@@ -67,16 +67,19 @@ def set_gait_version_map(msg, gait_selection):
         return [False, "Not a valid dictionary " + str(msg.string)]
 
     if gait_selection.validate_version_map(map):
+        backup_map = gait_selection.gait_version_map
         gait_selection.gait_version_map = map
+        for gait in map:
+            if not gait_selection.validate_gait_by_name(gait):
+                gait_selection.gait_version_map = backup_map
+                return [False, "Gait " + gait + " is invalid"]
         return [True, "Gait version map set to " + str(gait_selection.gait_version_map)]
     return [False, "Gait version map is not valid " + str(map)]
 
 
-def update_default_versions(default_yaml, default_directory,  gait_version_map):
-    default_dict = {}
-    default_dict["directory"] = default_directory
-    default_dict["gaits"] = gait_version_map
-    print default_dict
+def update_default_versions(gait_package, gait_directory,  gait_version_map):
+    default_yaml = os.path.join(rospkg.RosPack().get_path(gait_package), gait_directory, 'default.yaml')
+    default_dict = {"gaits": gait_version_map}
     try:
         output_file = open(default_yaml, "w+")
         yaml_content = yaml.dump(default_dict)
@@ -89,9 +92,10 @@ def update_default_versions(default_yaml, default_directory,  gait_version_map):
 
 if __name__ == '__main__':
     rospy.init_node("gait_selection")
-    default_directory = 'gait'
-    default_yaml = os.path.join(rospkg.RosPack().get_path('march_gait_selection'), default_directory, 'default.yaml')
-    gait_selection = GaitSelection(default_yaml=default_yaml)
+    gait_package = rospy.get_param("/march/gait_file_package", "march_gait_files")
+    gait_directory = rospy.get_param("/march/gait_file_directory", "gait")
+
+    gait_selection = GaitSelection(gait_package, gait_directory)
     perform_gait_server = PerformGaitAction(gait_selection)
 
     # Use lambdas to process service calls inline
@@ -113,7 +117,7 @@ if __name__ == '__main__':
 
     update_default_versions_service = rospy.Service('march/gait_selection/update_default_versions', Trigger,
                                                     lambda msg: update_default_versions(
-                                                     default_yaml, default_directory, gait_selection.gait_version_map))
+                                                     gait_package, gait_directory, gait_selection.gait_version_map))
 
     perform_gait_server.schedule_gait_client.wait_for_server()
 

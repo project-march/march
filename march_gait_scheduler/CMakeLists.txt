@@ -3,31 +3,26 @@ project(march_gait_scheduler)
 add_definitions(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
+        dynamic_reconfigure
+        code_coverage
+        actionlib
+        actionlib_msgs
         control_msgs
-        controller_manager
-        effort_controllers
-        joint_state_controller
         march_shared_resources
-        robot_state_publisher
+        roscpp
         roslint
         rostest
         trajectory_msgs
         )
 
-catkin_package(
-        CATKIN_DEPENDS
+generate_dynamic_reconfigure_options(
+        config/Scheduler.cfg
 )
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-include_directories(${catkin_INCLUDE_DIRS})
-
-set(sourcefiles
-        src/GaitSchedulerNode.cpp
-        )
-
-add_library(march_gait_scheduler ${sourcefiles})
-
+catkin_package(
+        INCLUDE_DIRS include
+        CATKIN_DEPENDS
+)
 
 # Roslinter
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")
@@ -38,21 +33,49 @@ file(GLOB_RECURSE lintfiles
         )
 
 roslint_cpp(${lintfiles})
+include_directories(
+        include
+        ${catkin_INCLUDE_DIRS}
+)
 
-add_executable(gait_scheduler_node
+add_library(march_gait_scheduler
         src/GaitSchedulerNode.cpp
-        )
-add_dependencies(gait_scheduler_node ${catkin_EXPORTED_TARGETS})
-target_link_libraries(gait_scheduler_node ${catkin_LIBRARIES})
+        include/march_gait_scheduler/Scheduler.h
+        src/Scheduler.cpp
+)
 
-#############
-## Testing ##
-#############
+target_link_libraries(march_gait_scheduler ${catkin_LIBRARIES})
 
+add_executable(gait_scheduler_node src/GaitSchedulerNode.cpp)
+
+target_link_libraries(gait_scheduler_node march_gait_scheduler)
+add_dependencies(gait_scheduler_node ${PROJECT_NAME}_gencfg ${catkin_EXPORTED_TARGETS})
+
+## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
-    add_rostest_gtest(${PROJECT_NAME}-test test/simple-test.test
-            test/ExampleTest.cpp
-            )
-    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
-endif ()
 
+    if(ENABLE_COVERAGE_TESTING)
+        include(CodeCoverage)
+        APPEND_COVERAGE_COMPILER_FLAGS()
+    endif()
+
+    add_rostest_gmock(${PROJECT_NAME}-test
+            test/main-test.test
+            test/TestRunner.cpp
+            test/ScheduleOneGaitTest.cpp
+            test/ScheduleMultipleGaitsTest.cpp
+            test/EndTimeTest.cpp
+            test/AcceptanceTest.cpp
+            test/CallbackCounter.cpp
+            )
+
+    target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_gait_scheduler)
+
+    if(ENABLE_COVERAGE_TESTING)
+        set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
+        add_code_coverage(
+                NAME ${PROJECT_NAME}_coverage
+                DEPENDS tests
+        )
+    endif()
+endif ()
