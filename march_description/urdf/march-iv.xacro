@@ -500,7 +500,7 @@
         </joint>
         <actuator name="left_hip_aa_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
 
@@ -533,7 +533,7 @@
         </joint>
         <actuator name="left_ankle_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
 
@@ -544,7 +544,7 @@
         </joint>
         <actuator name="right_hip_aa_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
 
@@ -577,7 +577,7 @@
         </joint>
         <actuator name="right_ankle_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-            <mechanicalReduction>1</mechanicalReduction>
+            <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
 
