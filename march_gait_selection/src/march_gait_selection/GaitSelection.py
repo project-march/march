@@ -12,22 +12,23 @@ from rospy_message_converter import message_converter
 
 class GaitSelection(object):
 
-    def __init__(self, gait_directory=None, gait_version_map=None, default_yaml=None):
-        if gait_directory is None and gait_version_map is None:
-            if default_yaml is None:
-                rospy.logfatal("Cannot instantiate GaitSelection without parameters, shutting down.")
-                raise ValueError('Cannot instantiate GaitSelection without parameters, shutting down.')
-            else:
-                default_config = yaml.load(open(default_yaml), Loader=yaml.SafeLoader)
-                self.gait_directory = os.path.join(
-                    rospkg.RosPack().get_path('march_gait_selection'), default_config["directory"])
-                self.gait_version_map = default_config["gaits"]
-        else:
-            self.gait_directory = os.path.join(
-                rospkg.RosPack().get_path('march_gait_selection'), gait_directory)
-            self.gait_version_map = gait_version_map
-        rospy.logdebug("GaitSelection initialized with gait_directory " + self.gait_directory)
-        rospy.logdebug("GaitSelection initialized with gait_version_map " + str(self.gait_version_map))
+    def __init__(self, package, directory):
+        try:
+            default_yaml = os.path.join(rospkg.RosPack().get_path(package), directory, 'default.yaml')
+        except rospkg.common.ResourceNotFound:
+            rospy.logerr("Could not find package %s, Shutting down.", package)
+            raise Exception("Could not find package " + package + ", Shutting down.", )
+        try:
+            default_config = yaml.load(open(default_yaml), Loader=yaml.SafeLoader)
+        except IOError:
+            rospy.logerr("Could not find %s/%s/default.yaml, Shutting down.", package, directory)
+            raise Exception("Could not find " + package + "/" + directory + "/default.yaml, Shutting down.")
+
+        self.gait_directory = os.path.join(rospkg.RosPack().get_path(package), directory)
+
+        self.gait_version_map = default_config["gaits"]
+        rospy.loginfo("GaitSelection initialized with gait_directory %s/%s.", package, directory)
+        rospy.logdebug("GaitSelection initialized with gait_version_map %s.", str(self.gait_version_map))
 
     def set_subgait_version(self, gait_name, subgait_name, version):
         if self.validate_version_name(gait_name, subgait_name, version):
@@ -44,6 +45,8 @@ class GaitSelection(object):
 
         subgait_yaml = yaml.load(open(subgait_path), Loader=yaml.SafeLoader)
         subgait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/Subgait', subgait_yaml)
+        subgait.name = subgait_name
+        subgait.version = self.gait_version_map[gait_name][subgait_name]
         return subgait
 
     def validate_subgait_name(self, gait_name, subgait_name):
