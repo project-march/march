@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
         FILES
         Error.msg
+        Gait.msg
         GaitInstruction.msg
         GaitStatus.msg
         Graph.msg
