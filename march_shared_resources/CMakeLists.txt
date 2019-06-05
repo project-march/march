@@ -20,6 +20,7 @@ add_message_files(
         FILES
         Error.msg
         Gait.msg
+        GaitInstruction.msg
         GaitStatus.msg
         Graph.msg
         PerformGait.msg
@@ -36,7 +37,6 @@ add_message_files(
 add_service_files(
         FILES
         GaitInput.srv
-        GaitInstruction.srv
         GaitRequest.srv
         PlayInput.srv
         Trigger.srv
