@@ -79,7 +79,7 @@
         <parent link="hip_base"/>
         <child link="hip_aa_frame_left_side"/>
         <origin xyz="0 ${-hip_base_height/2} 0" rpy="0 0 0"/>
-        <axis xyz="1 0 0"/>
+        <axis xyz="-1 0 0"/>
         <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${hip_aa_rotation_lower_limit}" upper="${hip_aa_rotation_upper_limit}"/>
     </joint>
 
@@ -124,7 +124,7 @@
         <child link="hip_aa_frame_right_side"/>
         <origin xyz="0 ${hip_base_height/2} 0" rpy="0 0 0"/>
         <axis xyz="1 0 0"/>
-        <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${-hip_aa_rotation_lower_limit}" upper="${-hip_aa_rotation_upper_limit}"/>
+        <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${hip_aa_rotation_lower_limit}" upper="${hip_aa_rotation_upper_limit}"/>
     </joint>
 
     <joint name="right_hip_angle" type="fixed">
