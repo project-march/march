@@ -1,0 +1,3 @@
+<launch>
+    <node name="rqt_input_device" pkg="march_rqt_input_device" type="rqt_input_device" output="screen"/>
+</launch>
