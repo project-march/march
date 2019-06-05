@@ -8,8 +8,8 @@
     <xacro:property name="parent_name" value="world"/>
 
     <!-- Constants for robot dimensions -->
-    <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
     <!-- TODO @Jitske: add accurate masses and inertia for all links -->
+    <xacro:property name="mass" value="1"/> <!-- arbitrary value for mass -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="upper_leg_height" value="${0.385}"/>
@@ -34,8 +34,8 @@
     <xacro:property name="hip_fe_effort_limit" value="10927.0"/> <!-- IU -->
     <xacro:property name="hip_fe_velocity_limit" value="48.0"/> <!-- rad/s -->
 
-    <xacro:property name="hip_aa_rotation_lower_limit" value="${20*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_aa_rotation_upper_limit" value="${-30*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_aa_rotation_lower_limit" value="${-30*pi/180}"/> <!-- rad -->
+    <xacro:property name="hip_aa_rotation_upper_limit" value="${20*pi/180}"/> <!-- rad -->
     <xacro:property name="hip_aa_effort_limit" value="10927.0"/> <!-- IU -->
     <xacro:property name="hip_aa_velocity_limit" value="15.0"/> <!-- rad/s -->
 
