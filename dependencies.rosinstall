@@ -14,7 +14,3 @@
     local-name: simulation
     uri: https://github.com/project-march/simulation
     version: develop
-- git:
-    local-name: pilot-devices
-    uri: https://github.com/project-march/pilot-devices-coordinator
-    version: develop
