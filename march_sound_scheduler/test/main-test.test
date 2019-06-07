@@ -1,0 +1,4 @@
+<launch>
+    <node name="sound_scheduler_node" pkg="march_sound_scheduler" type="sound_scheduler_node" output="screen"/>
+    <test test-name="march_sound_scheduler_tests" pkg="march_sound_scheduler" type="march_sound_scheduler-test"/>
+</launch>
