@@ -39,7 +39,7 @@ protected:
   CallbackCounter callbackCounter;
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
-  ServerFollowJoint scheduleGaitActionServer(nh, "/march/trajectory_controller/follow_joint_trajectory",
+  ServerFollowJoint scheduleGaitActionServer(nh, "/march/controller/trajectory/follow_joint_trajectory",
                                                 boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
   scheduleGaitActionServer.start();
 
@@ -49,7 +49,7 @@ protected:
 
   ros::Duration timeout_duration = ros::Duration(1);
   ros::topic::waitForMessage<control_msgs::FollowJointTrajectoryActionGoal>(
-      "/march/trajectory_controller/follow_joint_trajectory/goal", timeout_duration);
+      "/march/controller/trajectory/follow_joint_trajectory/goal", timeout_duration);
   ros::spinOnce();
 
    EXPECT_EQ(0, callbackCounter.count);
@@ -62,7 +62,7 @@ TEST_F(AcceptanceTest, ScheduleOneGait)
   CallbackCounter callbackCounter;
 
   typedef actionlib::SimpleActionServer<control_msgs::FollowJointTrajectoryAction> ServerFollowJoint;
-  ServerFollowJoint scheduleGaitActionServer(nh, "/march/trajectory_controller/follow_joint_trajectory",
+  ServerFollowJoint scheduleGaitActionServer(nh, "/march/controller/trajectory/follow_joint_trajectory",
                                                 boost::bind(&CallbackCounter::cb_action, &callbackCounter, _1), false);
 
   scheduleGaitActionServer.start();
