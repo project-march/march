@@ -9,6 +9,7 @@ InputDeviceSafety::InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeH
   this->error_publisher = error_publisher;
   this->createSubscribers();
   this->time_last_alive = ros::Time(0);
+  this->time_last_send_error = ros::Time(0);
 }
 
 void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg)
@@ -41,8 +42,12 @@ void InputDeviceSafety::checkConnection()
   }
   if (ros::Time::now() > time_last_alive + this->connection_timeout)
   {
-    auto error_msg = createErrorMessage();
-    ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
-    error_publisher->publish(error_msg);
+    if (ros::Time::now() > time_last_send_error + ros::Duration(1))
+    {
+      auto error_msg = createErrorMessage();
+      ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
+      error_publisher->publish(error_msg);
+      this->time_last_send_error = ros::Time::now();
+    }
   }
 }

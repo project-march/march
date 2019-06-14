@@ -57,6 +57,7 @@ if (CATKIN_ENABLE_TESTING)
             test/TestTemperatureError.cpp
             test/TestNoTemperatureError.cpp
             test/TestTemperatureParameterized.cpp
+            test/TestConnectionLostError.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
 

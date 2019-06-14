@@ -22,7 +22,7 @@ int main(int argc, char** argv)
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
 
   // Create a subscriber for each sensor
-//  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, n);
+  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, n);
 
   InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&error_publisher, n);
 
