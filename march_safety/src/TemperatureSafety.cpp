@@ -1,6 +1,5 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
-#include <march_shared_resources/TopicNames.h>
 
 TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::NodeHandle n)
 {
