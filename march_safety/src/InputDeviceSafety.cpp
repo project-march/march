@@ -5,6 +5,7 @@ InputDeviceSafety::InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeH
 {
   int milliseconds;
   n.getParam(ros::this_node::getName() + std::string("/input_device_connection_timeout"), milliseconds);
+  ROS_INFO("timeout time: %f s", ((double)milliseconds) / 1000);
   this->connection_timeout = ros::Duration(0, milliseconds * 1000000);
   this->error_publisher = error_publisher;
   this->createSubscribers();
@@ -20,9 +21,14 @@ void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& m
 march_shared_resources::Error InputDeviceSafety::createErrorMessage()
 {
   march_shared_resources::Error error_msg;
+  std::ostringstream message_stream;
+  message_stream << "Input Device Connection Lost. Current time: " << ros::Time::now().toSec()
+                 << " and last alive message was: " << this->time_last_alive.toSec()
+                 << "The difference in time is: " << ros::Time::now().toSec() - this->time_last_alive.toSec();
+  std::string error_message = message_stream.str();
   // @TODO(Tim) Come up with real error codes
   error_msg.error_code = 1;  // For now a randomly chosen error code
-  error_msg.error_message = "Input Device Connection Lost";
+  error_msg.error_message = error_message;
   error_msg.type = march_shared_resources::Error::FATAL;
   return error_msg;
 }
