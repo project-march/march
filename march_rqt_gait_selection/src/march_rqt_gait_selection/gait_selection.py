@@ -45,13 +45,19 @@ class GaitSelectionPlugin(Plugin):
             print 'unknowns: ', unknowns
 
         # Connect to services
-        rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
+        try:
+            rospy.wait_for_service('/march/gait_selection/get_version_map', 3)
+            rospy.wait_for_service('/march/gait_selection/get_directory_structure', 3)
+            rospy.wait_for_service('/march/gait_selection/set_version_map', 3)
+            rospy.wait_for_service('/march/gait_selection/update_default_versions', 3)
+        except rospy.ROSException:
+            rospy.logerr("Shutting down march_rqt_gait_selection, could not connect to march_gait_selection.")
+            rospy.signal_shutdown("Shutting down march_rqt_gait_selection, could not connect to march_gait_selection.")
+            exit(0)
+
         self.get_version_map = rospy.ServiceProxy('/march/gait_selection/get_version_map', Trigger)
-        rospy.wait_for_service('/march/gait_selection/get_directory_structure', 3)
         self.get_directory_structure = rospy.ServiceProxy('/march/gait_selection/get_directory_structure', Trigger)
-        rospy.wait_for_service('/march/gait_selection/set_version_map', 3)
         self.set_version_map = rospy.ServiceProxy('/march/gait_selection/set_version_map', StringTrigger)
-        rospy.wait_for_service('/march/gait_selection/update_default_versions', 3)
         self.update_default_versions = rospy.ServiceProxy('/march/gait_selection/update_default_versions', Trigger)
 
         # Create QWidget

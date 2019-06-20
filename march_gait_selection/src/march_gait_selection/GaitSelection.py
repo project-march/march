@@ -191,9 +191,22 @@ class GaitSelection(object):
 
     @staticmethod
     def validate_trajectory_transition(old_trajectory, new_trajectory):
-        # Clear time_from_start as it doesn't need to match up.
-        old_trajectory.points[-1].time_from_start = rospy.Duration(0)
-        new_trajectory.points[0].time_from_start = rospy.Duration(0)
+        if set(old_trajectory.joint_names) != set(new_trajectory.joint_names):
+            rospy.logwarn("Joint names are not equal: %s, %s",
+                          str(old_trajectory.joint_names), str(new_trajectory.joint_names))
+            return False
 
-        return old_trajectory.joint_names == new_trajectory.joint_names \
-            and old_trajectory.points[-1] == new_trajectory.points[0]
+        last_old_point_positions = set(zip(old_trajectory.joint_names, old_trajectory.points[-1].positions))
+        last_old_point_velocities = set(zip(old_trajectory.joint_names, old_trajectory.points[-1].velocities))
+        last_old_point_accelerations = set(zip(old_trajectory.joint_names, old_trajectory.points[-1].accelerations))
+        last_old_point_effort = set(zip(old_trajectory.joint_names, old_trajectory.points[-1].effort))
+
+        first_new_point_positions = set(zip(new_trajectory.joint_names, new_trajectory.points[0].positions))
+        first_new_point_velocities = set(zip(new_trajectory.joint_names, new_trajectory.points[0].velocities))
+        first_new_point_accelerations = set(zip(new_trajectory.joint_names, new_trajectory.points[0].accelerations))
+        first_new_point_effort = set(zip(new_trajectory.joint_names, new_trajectory.points[0].effort))
+
+        return last_old_point_positions == first_new_point_positions and \
+            last_old_point_velocities == first_new_point_velocities and \
+            last_old_point_accelerations == first_new_point_accelerations and \
+            last_old_point_effort == first_new_point_effort
