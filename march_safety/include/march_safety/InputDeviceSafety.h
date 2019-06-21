@@ -1,4 +1,4 @@
-// Copyright 2019 Project March.time
+// Copyright 2019 Project March
 #ifndef PROJECT_INPUTDEVICESAFETY_H
 #define PROJECT_INPUTDEVICESAFETY_H
 
