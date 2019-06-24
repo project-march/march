@@ -5,7 +5,6 @@ InputDeviceSafety::InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeH
 {
   int milliseconds;
   n.getParam(ros::this_node::getName() + std::string("/input_device_connection_timeout"), milliseconds);
-  ROS_INFO("timeout time: %f s", ((double)milliseconds) / 1000);
   this->connection_timeout = ros::Duration(0, milliseconds * 1000000);
   this->error_publisher = error_publisher;
   this->createSubscribers();
