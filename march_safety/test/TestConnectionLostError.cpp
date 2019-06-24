@@ -14,6 +14,25 @@ class TestConnectionLostError : public ::testing::Test
 protected:
 };
 
+TEST_F(TestConnectionLostError, connectionNeverStarted)
+{
+  ros::Time::init();
+  ros::NodeHandle nh;
+  ErrorCounter errorCounter;
+  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
+
+  while (0 == sub.getNumPublishers())
+  {
+    ros::Duration(0.1).sleep();
+  }
+  EXPECT_EQ(1, sub.getNumPublishers());
+
+  ros::spinOnce();
+  ros::Duration(0.5).sleep();
+  ros::spinOnce();
+  EXPECT_EQ(0, errorCounter.count);
+}
+
 TEST_F(TestConnectionLostError, connectionNotLost)
 {
   ros::Time::init();
