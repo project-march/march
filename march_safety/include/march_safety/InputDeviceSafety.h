@@ -21,6 +21,8 @@ class InputDeviceSafety
 
   march_shared_resources::Error createErrorMessage();
 
+  march_shared_resources::Error createFutureErrorMessage();
+
   void createSubscribers();
 
 public:
