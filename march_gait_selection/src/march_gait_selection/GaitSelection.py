@@ -8,6 +8,7 @@ import rospy
 from march_shared_resources.msg import Subgait
 from trajectory_msgs.msg import JointTrajectory
 from rospy_message_converter import message_converter
+from urdf_parser_py import urdf
 
 
 class GaitSelection(object):
@@ -27,6 +28,20 @@ class GaitSelection(object):
         self.gait_directory = os.path.join(rospkg.RosPack().get_path(package), directory)
 
         self.gait_version_map = default_config["gaits"]
+
+        self.joint_names = []
+
+        try:
+            self.robot = urdf.Robot.from_parameter_server()
+
+            for joint in self.robot.joints:
+                if joint.type != "fixed":
+                    self.joint_names.append(joint.name)
+        except KeyError:
+            self.robot = None
+            rospy.logwarn("No urdf found, cannot filter out unused joints. "
+                          "The gait selection will publish gaits with all joints.")
+
         rospy.loginfo("GaitSelection initialized with gait_directory %s/%s.", package, directory)
         rospy.logdebug("GaitSelection initialized with gait_version_map %s.", str(self.gait_version_map))
 
@@ -47,7 +62,19 @@ class GaitSelection(object):
         subgait = message_converter.convert_dictionary_to_ros_message('march_shared_resources/Subgait', subgait_yaml)
         subgait.name = subgait_name
         subgait.version = self.gait_version_map[gait_name][subgait_name]
+
+        if self.robot is not None:
+            subgait = self.filter_subgait(subgait, self.joint_names)
+
         return subgait
+
+    def filter_subgait(self, subgait, joint_names):
+        """Remove joints from the subgait if they are not present in the urdf."""
+        print subgait
+        print joint_names
+
+        return subgait
+
 
     def validate_subgait_name(self, gait_name, subgait_name):
         try:
