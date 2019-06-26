@@ -14,6 +14,33 @@ class TestConnectionLostError : public ::testing::Test
 protected:
 };
 
+
+TEST_F(TestConnectionLostError, connectionLost)
+{
+  ros::Time::init();
+  ros::NodeHandle nh;
+  ros::Publisher pub_alive = nh.advertise<std_msgs::Time>("march/input_device/alive", 0);
+  ErrorCounter errorCounter;
+  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
+
+  while (0 == pub_alive.getNumSubscribers() || 0 == sub.getNumPublishers())
+  {
+    ros::Duration(0.1).sleep();
+  }
+  EXPECT_EQ(1, pub_alive.getNumSubscribers());
+  EXPECT_EQ(1, sub.getNumPublishers());
+
+  std_msgs::Time timeMessage;
+  timeMessage.data = ros::Time::now();
+  pub_alive.publish(timeMessage);
+  ros::spinOnce();
+
+  ros::Duration(0.8).sleep();
+  ros::spinOnce();
+
+  EXPECT_EQ(1, errorCounter.count);
+}
+
 TEST_F(TestConnectionLostError, connectionNeverStarted)
 {
   ros::Time::init();
@@ -57,28 +84,15 @@ TEST_F(TestConnectionLostError, connectionNotLost)
   EXPECT_EQ(0, errorCounter.count);
 }
 
-TEST_F(TestConnectionLostError, connectionLost)
+/**
+ * The main method which runs all the tests
+ */
+int main(int argc, char** argv)
 {
-  ros::Time::init();
-  ros::NodeHandle nh;
-  ros::Publisher pub_alive = nh.advertise<std_msgs::Time>("march/input_device/alive", 0);
-  ErrorCounter errorCounter;
-  ros::Subscriber sub = nh.subscribe("march/error", 0, &ErrorCounter::cb, &errorCounter);
+  ros::init(argc, argv, "march_safety_test");
+  testing::InitGoogleTest(&argc, argv);
+  auto res = RUN_ALL_TESTS();
 
-  while (0 == pub_alive.getNumSubscribers() || 0 == sub.getNumPublishers())
-  {
-    ros::Duration(0.1).sleep();
-  }
-  EXPECT_EQ(1, pub_alive.getNumSubscribers());
-  EXPECT_EQ(1, sub.getNumPublishers());
-
-  std_msgs::Time timeMessage;
-  timeMessage.data = ros::Time::now();
-  pub_alive.publish(timeMessage);
-  ros::spinOnce();
-
-  ros::Duration(0.8).sleep();
-  ros::spinOnce();
-
-  EXPECT_EQ(1, errorCounter.count);
+  ros::shutdown();
+  return res;
 }

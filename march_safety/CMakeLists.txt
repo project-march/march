@@ -57,9 +57,15 @@ if (CATKIN_ENABLE_TESTING)
             test/TestTemperatureError.cpp
             test/TestNoTemperatureError.cpp
             test/TestTemperatureParameterized.cpp
-            test/TestConnectionLostError.cpp
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
+
+
+    add_rostest_gtest(${PROJECT_NAME}-test-connection
+            test/march_safety_connection.test
+            test/TestConnectionLostError.cpp
+            )
+    target_link_libraries(${PROJECT_NAME}-test-connection ${catkin_LIBRARIES} march_safety gtest gmock)
 
     if(ENABLE_COVERAGE_TESTING)
         set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
@@ -68,5 +74,7 @@ if (CATKIN_ENABLE_TESTING)
                 DEPENDS tests
         )
     endif()
+
+
 endif ()
 

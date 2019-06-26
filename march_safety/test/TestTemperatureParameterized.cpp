@@ -50,6 +50,7 @@ TEST_P(TestTemperatureParameterized, valuesAroundThreshold)
   }
   EXPECT_EQ(1, pub_joint1.getNumSubscribers());
   EXPECT_EQ(1, sub.getNumPublishers());
+  EXPECT_EQ(0, errorCounter.count);
 
   sensor_msgs::Temperature msg;
   msg.temperature = temperature;

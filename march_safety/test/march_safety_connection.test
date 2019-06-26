@@ -5,11 +5,7 @@
 
     <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">
         <rosparam>
-            default_temperature_threshold: 40
-        </rosparam>
-        <rosparam param="temperature_thresholds">
-            test_joint1: 60
-            test_joint2: 70
+            input_device_connection_timeout: 100
         </rosparam>
     </node>
 
