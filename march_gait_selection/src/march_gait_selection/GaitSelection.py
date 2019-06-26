@@ -4,6 +4,7 @@ import os
 import yaml
 import rospkg
 import rospy
+import socket
 
 from march_shared_resources.msg import Subgait
 from trajectory_msgs.msg import JointTrajectory
@@ -30,6 +31,7 @@ class GaitSelection(object):
         self.gait_version_map = default_config["gaits"]
 
         self.joint_names = []
+        self.robot = None
 
         try:
             self.robot = urdf.Robot.from_parameter_server()
@@ -37,10 +39,12 @@ class GaitSelection(object):
             for joint in self.robot.joints:
                 if joint.type != "fixed":
                     self.joint_names.append(joint.name)
+
         except KeyError:
-            self.robot = None
             rospy.logwarn("No urdf found, cannot filter out unused joints. "
                           "The gait selection will publish gaits with all joints.")
+        except socket.error:
+            rospy.loginfo("Could not connect to parameter server.")
 
         rospy.loginfo("GaitSelection initialized with gait_directory %s/%s.", package, directory)
         rospy.logdebug("GaitSelection initialized with gait_version_map %s.", str(self.gait_version_map))
