@@ -70,11 +70,22 @@ class GaitSelection(object):
 
     def filter_subgait(self, subgait, joint_names):
         """Remove joints from the subgait if they are not present in the urdf."""
-        print subgait
-        print joint_names
+
+        for i in reversed(range(0, len(subgait.trajectory.joint_names))):
+            joint = subgait.trajectory.joint_names[i]
+            if joint not in joint_names:
+                del subgait.trajectory.joint_names[i]
+                for j in range(0, len(subgait.trajectory.points)):
+                    if len(subgait.trajectory.points[j].positions) > 0:
+                        del subgait.trajectory.points[j].positions[i]
+                    if len(subgait.trajectory.points[j].velocities) > 0:
+                        del subgait.trajectory.points[j].velocities[i]
+                    if len(subgait.trajectory.points[j].accelerations) > 0:
+                        del subgait.trajectory.points[j].acceleration[i]
+                    if len(subgait.trajectory.points[j].effort) > 0:
+                        del subgait.trajectory.points[j].effort[i]
 
         return subgait
-
 
     def validate_subgait_name(self, gait_name, subgait_name):
         try:
