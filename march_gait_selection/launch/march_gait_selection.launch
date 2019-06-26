@@ -15,7 +15,4 @@
     <rosparam param="/march/gait_file_directory" subst_value="true">$(arg gait_file_directory)</rosparam>
     <node name="march_gait_selection" pkg="march_gait_selection" type="GaitSelectionNode.py" output="screen"/>
 
-    <param name="robot_description"
-           command="$(find xacro)/xacro --inorder '$(find march_description)/urdf/march-iv.xacro'" />
-
 </launch>
