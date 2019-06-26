@@ -112,11 +112,15 @@ class InputDevicePlugin(Plugin):
 
         self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
 
-        pub_thread = threading.Thread(target=self.publish_alive_msg)
-        pub_thread.start()
+        self.publish_alive = True
+
+        self.pub_thread = threading.Thread(target=self.publish_alive_msg)
+        self.pub_thread.start()
 
     def shutdown_plugin(self):
         # unregister all publishers here
+        self.publish_alive = False
+        self.pub_thread.join()
         self.instruction_gait_pub.unregister()
         self.error_pub.unregister()
         self.alive_pub.unregister()
@@ -145,7 +149,7 @@ class InputDevicePlugin(Plugin):
 
     def publish_alive_msg(self):
         rate = rospy.Rate(20)
-        while not rospy.is_shutdown():
+        while not rospy.is_shutdown() and self.publish_alive:
             self.alive_pub.publish(Time(rospy.Time.now()))
             rate.sleep()
 
