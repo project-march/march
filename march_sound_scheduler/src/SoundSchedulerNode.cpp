@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 
   scheduler = new Scheduler();
 
-  ros::Subscriber soundSub = n.subscribe("march/sound/schedule", 10, &Scheduler::scheduleMsg, scheduler);
+  ros::Subscriber soundSub = n.subscribe("/march/sound/schedule", 10, &Scheduler::scheduleMsg, scheduler);
   while (0 == pub_sound.getNumSubscribers())
   {
     ROS_INFO("Waiting on sound play topic");

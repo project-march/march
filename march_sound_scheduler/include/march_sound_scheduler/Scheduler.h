@@ -12,21 +12,20 @@
 #include <march_sound_scheduler/ScheduledSound.h>
 #include <march_shared_resources/Sound.h>
 
-class Scheduler {
-
+class Scheduler
+{
 public:
+  std::priority_queue<ScheduledSound, std::vector<ScheduledSound>> soundQueue;
+  sound_play::SoundClient sc;
 
-    std::priority_queue<ScheduledSound, std::vector<ScheduledSound>> soundQueue;
-    sound_play::SoundClient sc;
+  Scheduler();
 
-    Scheduler();
+  void schedule(ScheduledSound sound);
+  void scheduleMsg(march_shared_resources::Sound msg);
 
-    void schedule(ScheduledSound sound);
-    void scheduleMsg(march_shared_resources::Sound msg);
+  void spin();
 
-    void spin();
-
-    void play(ScheduledSound sound);
+  void play(ScheduledSound sound);
 };
 
 #endif  // MARCH_SOUND_SCHEDULER_SCHEDULER_H
