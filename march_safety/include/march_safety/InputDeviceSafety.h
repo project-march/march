@@ -10,13 +10,13 @@
 
 class InputDeviceSafety
 {
-  const double send_error_rate = 1;
   ros::NodeHandle n;
   ros::Publisher* error_publisher;
   ros::Duration connection_timeout;
   ros::Time time_last_alive;
   ros::Time time_last_send_error;
   ros::Subscriber subscriber_input_device_alive;
+  int send_errors_interval;
 
   void inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg);
 
