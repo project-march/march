@@ -1,12 +1,14 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
 #include <march_shared_resources/TopicNames.h>
+#include <march_shared_resources/Sound.h>
 
-TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::NodeHandle n)
+TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher, ros::NodeHandle n)
 {
   n.getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
   n.getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
   this->error_publisher = error_publisher;
+  this->sound_publisher = sound_publisher;
   this->createSubscribers();
 }
 
@@ -18,6 +20,10 @@ void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstP
     auto error_msg = createErrorMessage(msg->temperature, sensor_name);
     ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
     error_publisher->publish(error_msg);
+    march_shared_resources::Sound sound;
+    sound.time = ros::Time::now();
+    sound.file_name = "fatal.wav";
+    sound_publisher->publish(sound);
   }
 }
 

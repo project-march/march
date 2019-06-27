@@ -9,6 +9,7 @@
 
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/Error.h>
+#include <march_shared_resources/Sound.h>
 
 int main(int argc, char** argv)
 {
@@ -18,9 +19,10 @@ int main(int argc, char** argv)
 
   // Create an error publisher to notify the system (state machine) if something is wrong
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>(TopicNames::error, 1000);
+  ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
 
   // Create a subscriber for each sensor
-  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, n);
+  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, &sound_publisher, n);
 
   while (ros::ok())
   {
