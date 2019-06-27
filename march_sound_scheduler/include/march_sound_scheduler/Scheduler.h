@@ -10,6 +10,7 @@
 #include <sound_play/sound_play.h>
 
 #include <march_sound_scheduler/ScheduledSound.h>
+#include <march_shared_resources/Sound.h>
 
 class Scheduler {
 
@@ -21,6 +22,7 @@ public:
     Scheduler();
 
     void schedule(ScheduledSound sound);
+    void scheduleMsg(march_shared_resources::Sound msg);
 
     void spin();
 
