@@ -10,6 +10,7 @@
 
 class InputDeviceSafety
 {
+  const double send_error_rate = 1;
   ros::NodeHandle n;
   ros::Publisher* error_publisher;
   ros::Duration connection_timeout;
@@ -22,8 +23,6 @@ class InputDeviceSafety
   march_shared_resources::Error createErrorMessage();
 
   march_shared_resources::Error createFutureErrorMessage();
-
-  void createSubscribers();
 
 public:
   InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeHandle n);

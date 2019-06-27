@@ -5,11 +5,12 @@ InputDeviceSafety::InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeH
 {
   int milliseconds;
   n.getParam(ros::this_node::getName() + std::string("/input_device_connection_timeout"), milliseconds);
-  this->connection_timeout = ros::Duration(0, milliseconds * 1000000);
+  this->connection_timeout = ros::Duration(milliseconds / 1000);
   this->error_publisher = error_publisher;
-  this->createSubscribers();
   this->time_last_alive = ros::Time(0);
   this->time_last_send_error = ros::Time(0);
+  this->subscriber_input_device_alive = n.subscribe<std_msgs::Time>("/march/input_device/alive", 1000,
+                                                                    &InputDeviceSafety::inputDeviceAliveCallback, this);
 }
 
 void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg)
@@ -47,12 +48,6 @@ march_shared_resources::Error InputDeviceSafety::createFutureErrorMessage()
   return error_msg;
 }
 
-void InputDeviceSafety::createSubscribers()
-{
-  subscriber_input_device_alive = n.subscribe<std_msgs::Time>("/march/input_device/alive", 1000,
-                                                              &InputDeviceSafety::inputDeviceAliveCallback, this);
-}
-
 void InputDeviceSafety::checkConnection()
 {
   if (time_last_alive.toSec() == 0)
@@ -60,19 +55,20 @@ void InputDeviceSafety::checkConnection()
     ROS_DEBUG_THROTTLE(5, "No input device connected yet");
     return;
   }
-  if (ros::Time::now() > time_last_alive + this->connection_timeout)
+  // send at most an error every second
+  if (ros::Time::now() > time_last_send_error + ros::Duration(this->send_error_rate))
   {
-    if (ros::Time::now() > time_last_send_error + ros::Duration(1))
+    // Check if there is no alive msg receive for the timeout duration.
+    if (ros::Time::now() > time_last_alive + this->connection_timeout)
     {
       auto error_msg = createErrorMessage();
       ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
       error_publisher->publish(error_msg);
       this->time_last_send_error = ros::Time::now();
     }
-  }
-  if (ros::Time::now() < time_last_alive)
-  {
-    if (ros::Time::now() > time_last_send_error + ros::Duration(1))
+    // Check if the alive msg is not timestamped with a future time.
+    // This can happen when one node is using sim_tim and others aren't.
+    if (ros::Time::now() < time_last_alive)
     {
       auto error_msg = createFutureErrorMessage();
       ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
