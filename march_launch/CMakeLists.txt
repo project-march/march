@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
         march_simulation
         march_state_machine
         march_state_machine_service
+        rosserial_python
         rostest
         )
 
