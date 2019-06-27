@@ -22,7 +22,7 @@ void Scheduler::spin()
 {
   if (this->soundQueue.empty())
   {
-    ROS_DEBUG("Sounds in queue %d", this->soundQueue.size());
+    ROS_DEBUG("Sounds in queue %ld", this->soundQueue.size());
     return;
   }
 
