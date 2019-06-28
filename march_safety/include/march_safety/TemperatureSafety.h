@@ -14,6 +14,8 @@ class TemperatureSafety
   ros::Publisher* error_publisher;
   ros::Publisher* sound_publisher;
   double default_temperature_threshold;
+  double send_errors_interval;
+  ros::Time time_last_send_error;
   std::map<std::string, double> temperature_thresholds_map;
   std::vector<ros::Subscriber> temperature_subscribers = {};
 
