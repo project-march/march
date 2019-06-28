@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "std_msgs/Time.h"
 #include "SafetyType.h"
+#include "SafetyHandler.h"
 #include <sstream>
 
 #include <march_shared_resources/Error.h>
@@ -12,7 +13,7 @@
 class InputDeviceSafety : public SafetyType
 {
   ros::NodeHandle n;
-  ros::Publisher* error_publisher;
+  SafetyHandler* safety_handler;
   ros::Duration connection_timeout;
   ros::Time time_last_alive;
   ros::Time time_last_send_error;
@@ -21,12 +22,8 @@ class InputDeviceSafety : public SafetyType
 
   void inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg);
 
-  march_shared_resources::Error createErrorMessage();
-
-  march_shared_resources::Error createFutureErrorMessage();
-
 public:
-  InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeHandle n);
+  InputDeviceSafety(SafetyHandler* safety_handler, ros::NodeHandle n);
 
   void update() override;
 

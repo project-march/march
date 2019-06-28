@@ -5,6 +5,7 @@
 #include "ros/ros.h"
 #include "sensor_msgs/Temperature.h"
 #include "SafetyType.h"
+#include "SafetyHandler.h"
 #include <sstream>
 
 #include <march_shared_resources/TopicNames.h>
@@ -14,8 +15,7 @@
 class TemperatureSafety : public SafetyType
 {
   ros::NodeHandle n;
-  ros::Publisher* error_publisher;
-  ros::Publisher* sound_publisher;
+  SafetyHandler* safety_handler;
   double default_temperature_threshold;
   double send_errors_interval;
   ros::Time time_last_send_error;
@@ -28,13 +28,6 @@ class TemperatureSafety : public SafetyType
    * @param sensor_name the name of the sender
    */
   void temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name);
-
-  /**
-   * Create the temperature error message
-   * @param temperature the measured temperature
-   * @param sensor_name the sender of the temperature
-   */
-  march_shared_resources::Error createErrorMessage(double temperature, const std::string& sensor_name);
 
   /**
    * Create a subscriber for every sensor that publishes temperatures
@@ -50,7 +43,7 @@ class TemperatureSafety : public SafetyType
   double getThreshold(const std::string& sensor_name);
 
 public:
-  TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher, ros::NodeHandle n);
+  TemperatureSafety(SafetyHandler* safety_handler, ros::NodeHandle n);
 
 };
 

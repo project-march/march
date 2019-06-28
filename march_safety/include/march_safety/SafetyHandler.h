@@ -5,17 +5,20 @@
 #include <string>
 #include <ros/ros.h>
 #include <march_shared_resources/Error.h>
+#include <march_shared_resources/Sound.h>
 
-class SafetyHandler {
+class SafetyHandler
+{
   ros::NodeHandle* n;
   ros::Publisher* error_publisher;
+  ros::Publisher* sound_publisher;
 
 public:
-  SafetyHandler(ros::Publisher* errorPublisher, ros::NodeHandle* n);
+  SafetyHandler(ros::NodeHandle* n, ros::Publisher* errorPublisher, ros::Publisher* soundPublisher);
 
-  void publishError(int8_t errorSeverity, std::string message);
+  void publishFatal(std::string message);
+
+  void publishNonFatal(std::string message);
 };
-
-
 
 #endif  // MARCH_WS_SAFETYHANDLER_H

@@ -13,6 +13,7 @@
 
 #include <march_safety/InputDeviceSafety.h>
 #include <march_safety/TemperatureSafety.h>
+#include <march_safety/SafetyHandler.h>
 
 int main(int argc, char** argv)
 {
@@ -24,19 +25,20 @@ int main(int argc, char** argv)
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("march/error", 1000);
   ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
 
+  SafetyHandler safetyHandler = SafetyHandler(n, &error_publisher, &sound_publisher);
+
   std::vector<SafetyType> safety_list;
 
-  TemperatureSafety temperatureSafety = TemperatureSafety(&error_publisher, &sound_publisher, n);
+  TemperatureSafety temperatureSafety = TemperatureSafety(&safetyHandler, n);
   safety_list.push_back(temperatureSafety);
 
-  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&error_publisher, n);
+  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&safetyHandler, n);
   safety_list.push_back(inputDeviceSafety);
 
   while (ros::ok())
   {
     rate.sleep();
     ros::spinOnce();
-    inputDeviceSafety.update();
     for (auto & i : safety_list)
       i.update();
   }
