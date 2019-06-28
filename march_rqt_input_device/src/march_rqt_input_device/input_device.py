@@ -71,7 +71,11 @@ class InputDevicePlugin(Plugin):
         gait_walk_button = MarchButton(name="gait_walk",
                                        image="/gait_walk.png",
                                        callback=lambda: self.publish_gait(
-                                           "gait_walk"), column_span=2)
+                                           "gait_walk"))
+        gait_single_step_button = MarchButton(name="gait_single_step",
+                                       image="/gait_single_step.png",
+                                       callback=lambda: self.publish_gait(
+                                           "gait_single_step"))
         gait_stand_button = MarchButton(name="gait_stand",
                                         image="/gait_stand.png",
                                         callback=lambda: self.publish_gait(
@@ -88,7 +92,7 @@ class InputDevicePlugin(Plugin):
         march_button_layout = [
             [home_sit_button, home_stand_button],
             [gait_sit_button, gait_stand_button],
-            [gait_walk_button],
+            [gait_walk_button, gait_single_step_button],
             [stop_button, error_button],
         ]
 
