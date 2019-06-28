@@ -3,7 +3,8 @@
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/Sound.h>
 
-TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher, ros::NodeHandle n)
+TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher,
+                                     ros::NodeHandle n)
 {
   n.getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
   n.getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
