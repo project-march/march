@@ -8,6 +8,7 @@
 
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/Error.h>
+#include <march_shared_resources/Sound.h>
 
 class TemperatureSafety
 {

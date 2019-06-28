@@ -1,7 +1,5 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
-#include <march_shared_resources/TopicNames.h>
-#include <march_shared_resources/Sound.h>
 
 TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher,
                                      ros::NodeHandle n)
