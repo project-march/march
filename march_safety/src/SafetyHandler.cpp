@@ -6,32 +6,41 @@ SafetyHandler::SafetyHandler(ros::NodeHandle* n, ros::Publisher* errorPublisher,
 {
 }
 
-void SafetyHandler::publishFatal(std::string message)
+void SafetyHandler::publishErrorMessage(const std::string& message, int8_t error_type) const
 {
   march_shared_resources::Error error_msg;
   std::ostringstream message_stream;
   error_msg.error_message = message;
-  error_msg.type = march_shared_resources::Error::FATAL;
-
-  ROS_ERROR("%s", error_msg.error_message.c_str());
+  error_msg.type = error_type;
   error_publisher->publish(error_msg);
+}
+
+void SafetyHandler::publishErrorSound(int8_t error_type) const
+{
   march_shared_resources::Sound sound;
   sound.time = ros::Time::now();
-  sound.file_name = "fatal.wav";
+  if(error_type == march_shared_resources::Error::FATAL){
+    sound.file_name = "fatal.wav";
+  }else if(error_type == march_shared_resources::Error::NON_FATAL){
+    sound.file_name = "r2-alarm.wav";
+  }
   sound_publisher->publish(sound);
+}
+
+void SafetyHandler::publishFatal(std::string message)
+{
+  ROS_ERROR("%s", message.c_str());
+
+  publishErrorMessage(message, march_shared_resources::Error::FATAL);
+
+  publishErrorSound(march_shared_resources::Error::FATAL);
 }
 
 void SafetyHandler::publishNonFatal(std::string message)
 {
-  march_shared_resources::Error error_msg;
-  std::ostringstream message_stream;
-  error_msg.error_message = message;
-  error_msg.type = march_shared_resources::Error::NON_FATAL;
+  ROS_ERROR("%s", message.c_str());
 
-  ROS_ERROR("%s", error_msg.error_message.c_str());
-  error_publisher->publish(error_msg);
-  march_shared_resources::Sound sound;
-  sound.time = ros::Time::now();
-  sound.file_name = "r2-alarm.wav";
-  sound_publisher->publish(sound);
+  publishErrorMessage(message, march_shared_resources::Error::NON_FATAL);
+
+  publishErrorSound(march_shared_resources::Error::NON_FATAL);
 }

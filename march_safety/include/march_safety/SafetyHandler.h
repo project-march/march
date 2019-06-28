@@ -19,6 +19,10 @@ public:
   void publishFatal(std::string message);
 
   void publishNonFatal(std::string message);
+
+  void publishErrorMessage(const std::string& message, int8_t error_type) const;
+
+  void publishErrorSound(int8_t error_type) const;
 };
 
 #endif  // MARCH_WS_SAFETYHANDLER_H
