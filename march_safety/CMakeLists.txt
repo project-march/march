@@ -34,12 +34,13 @@ include_directories(
 set(sourcefiles
         src/SafetyNode.cpp
         include/march_safety/TemperatureSafety.h
+        include/march_safety/InputDeviceSafety.h
         src/TemperatureSafety.cpp
+        src/InputDeviceSafety.cpp
         )
 
 add_library(march_safety ${sourcefiles})
-
-add_executable(march_safety_node src/SafetyNode.cpp src/TemperatureSafety.cpp include/march_safety/TemperatureSafety.h)
+add_executable(march_safety_node ${sourcefiles})
 add_dependencies(march_safety_node ${catkin_EXPORTED_TARGETS})
 target_link_libraries(march_safety_node ${catkin_LIBRARIES})
 
@@ -59,6 +60,13 @@ if (CATKIN_ENABLE_TESTING)
             )
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} march_safety gtest gmock)
 
+
+    add_rostest_gtest(${PROJECT_NAME}-test-connection
+            test/march_safety_connection.test
+            test/TestConnectionLostError.cpp
+            )
+    target_link_libraries(${PROJECT_NAME}-test-connection ${catkin_LIBRARIES} march_safety gtest gmock)
+
     if(ENABLE_COVERAGE_TESTING)
         set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
         add_code_coverage(
@@ -66,5 +74,7 @@ if (CATKIN_ENABLE_TESTING)
                 DEPENDS tests
         )
     endif()
+
+
 endif ()
 
