@@ -23,7 +23,7 @@ class InputDeviceSafety : public SafetyType
   void inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg);
 
 public:
-  InputDeviceSafety(SafetyHandler* safety_handler, ros::NodeHandle n);
+  InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_handler);
 
   void update() override;
 

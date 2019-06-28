@@ -43,7 +43,7 @@ class TemperatureSafety : public SafetyType
   double getThreshold(const std::string& sensor_name);
 
 public:
-  TemperatureSafety(SafetyHandler* safety_handler, ros::NodeHandle n);
+  TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler);
 
 };
 

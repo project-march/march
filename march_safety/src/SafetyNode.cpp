@@ -25,14 +25,14 @@ int main(int argc, char** argv)
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("march/error", 1000);
   ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
 
-  SafetyHandler safetyHandler = SafetyHandler(n, &error_publisher, &sound_publisher);
+  SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher);
 
   std::vector<SafetyType> safety_list;
 
-  TemperatureSafety temperatureSafety = TemperatureSafety(&safetyHandler, n);
+  TemperatureSafety temperatureSafety = TemperatureSafety(&n, &safetyHandler);
   safety_list.push_back(temperatureSafety);
 
-  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&safetyHandler, n);
+  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&n, &safetyHandler);
   safety_list.push_back(inputDeviceSafety);
 
   while (ros::ok())

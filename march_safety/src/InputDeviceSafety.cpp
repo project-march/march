@@ -1,18 +1,18 @@
 // Copyright 2019 Project March.
 #include <march_safety/InputDeviceSafety.h>
 
-InputDeviceSafety::InputDeviceSafety(SafetyHandler* safety_handler, ros::NodeHandle n)
+InputDeviceSafety::InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
 {
   int milliseconds;
-  n.getParam(ros::this_node::getName() + std::string("/input_device_connection_timeout"), milliseconds);
+  n->getParam(ros::this_node::getName() + std::string("/input_device_connection_timeout"), milliseconds);
   double send_errors_interval_param;
-  n.getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
+  n->getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
   this->send_errors_interval = send_errors_interval_param;
   this->connection_timeout = ros::Duration(milliseconds / 1000);
   this->safety_handler = safety_handler;
   this->time_last_alive = ros::Time(0);
   this->time_last_send_error = ros::Time(0);
-  this->subscriber_input_device_alive = n.subscribe<std_msgs::Time>("/march/input_device/alive", 1000,
+  this->subscriber_input_device_alive = n->subscribe<std_msgs::Time>("/march/input_device/alive", 1000,
                                                                     &InputDeviceSafety::inputDeviceAliveCallback, this);
 }
 
