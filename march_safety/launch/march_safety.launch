@@ -14,7 +14,7 @@
             right_knee: 40
             right_ankle: 40
         </rosparam>
-        <rosparam param="temperature_thresholds_non_fatal">
+        <rosparam param="temperature_thresholds">
             left_hip_aa: 50
             left_hip_fe: 45
             left_knee: 45
