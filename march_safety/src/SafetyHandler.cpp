@@ -19,9 +19,12 @@ void SafetyHandler::publishErrorSound(int8_t error_type) const
 {
   march_shared_resources::Sound sound;
   sound.time = ros::Time::now();
-  if(error_type == march_shared_resources::Error::FATAL){
+  if (error_type == march_shared_resources::Error::FATAL)
+  {
     sound.file_name = "fatal.wav";
-  }else if(error_type == march_shared_resources::Error::NON_FATAL){
+  }
+  else if (error_type == march_shared_resources::Error::NON_FATAL)
+  {
     sound.file_name = "r2-alarm.wav";
   }
   sound_publisher->publish(sound);
