@@ -5,7 +5,9 @@
 class SafetyType
 {
 public:
-  void update();
+  virtual void update()
+  {
+  }
 };
 
 #endif  // MARCH_WS_SAFETYTYPE_H
