@@ -51,7 +51,7 @@ march_shared_resources::Error InputDeviceSafety::createFutureErrorMessage()
   return error_msg;
 }
 
-void InputDeviceSafety::checkConnection()
+void InputDeviceSafety::update()
 {
   if (time_last_alive.toSec() == 0)
   {

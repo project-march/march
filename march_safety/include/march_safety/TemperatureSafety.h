@@ -4,13 +4,14 @@
 
 #include "ros/ros.h"
 #include "sensor_msgs/Temperature.h"
+#include "SafetyType.h"
 #include <sstream>
 
 #include <march_shared_resources/TopicNames.h>
 #include <march_shared_resources/Error.h>
 #include <march_shared_resources/Sound.h>
 
-class TemperatureSafety
+class TemperatureSafety : public SafetyType
 {
   ros::NodeHandle n;
   ros::Publisher* error_publisher;
@@ -49,7 +50,8 @@ class TemperatureSafety
   double getThreshold(const std::string& sensor_name);
 
 public:
-  TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher, ros::NodeHandle n);
+  TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher, ros::NodeHandle n)
+
 };
 
 #endif  // PROJECT_TEMPERATURESAFETY_H

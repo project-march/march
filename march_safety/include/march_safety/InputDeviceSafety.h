@@ -4,11 +4,12 @@
 
 #include "ros/ros.h"
 #include "std_msgs/Time.h"
+#include "SafetyType.h"
 #include <sstream>
 
 #include <march_shared_resources/Error.h>
 
-class InputDeviceSafety
+class InputDeviceSafety : public SafetyType
 {
   ros::NodeHandle n;
   ros::Publisher* error_publisher;
@@ -27,7 +28,8 @@ class InputDeviceSafety
 public:
   InputDeviceSafety(ros::Publisher* error_publisher, ros::NodeHandle n);
 
-  void checkConnection();
+  void update() override;
+
 };
 
 #endif  // PROJECT_INPUTDEVICESAFETY_H
