@@ -1,8 +1,8 @@
 // Copyright 2019 Project March.
 #include "march_safety/SafetyHandler.h"
 
-SafetyHandler::SafetyHandler(ros::NodeHandle* n, ros::Publisher* errorPublisher, ros::Publisher* soundPublisher)
-  : n(n), error_publisher(errorPublisher), sound_publisher(soundPublisher)
+SafetyHandler::SafetyHandler(ros::NodeHandle* n, ros::Publisher* error_publisher, ros::Publisher* sound_publisher)
+  : n(n), error_publisher(error_publisher), sound_publisher(sound_publisher)
 {
 }
 

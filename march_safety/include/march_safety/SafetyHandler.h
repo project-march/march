@@ -14,7 +14,7 @@ class SafetyHandler
   ros::Publisher* sound_publisher;
 
 public:
-  SafetyHandler(ros::NodeHandle* n, ros::Publisher* errorPublisher, ros::Publisher* soundPublisher);
+  SafetyHandler(ros::NodeHandle* n, ros::Publisher* error_publisher, ros::Publisher* sound_publisher);
 
   void publishFatal(std::string message);
 
