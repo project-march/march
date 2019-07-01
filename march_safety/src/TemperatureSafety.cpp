@@ -38,11 +38,11 @@ void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstP
   }
   else if (temperature > getThreshold(sensor_name, non_fatal_temperature_thresholds_map))
   {
-    safety_handler->publishFatal(error_message);
+    safety_handler->publishNonFatal(error_message);
   }
   else if (temperature > getThreshold(sensor_name, warning_temperature_thresholds_map))
   {
-    safety_handler->publishFatal(error_message);
+    ROS_WARN("%s", error_message.c_str());
   }
 }
 
