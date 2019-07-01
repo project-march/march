@@ -12,8 +12,8 @@
  */
 static const std::vector<std::tuple<float, float>> testCases = {
   // tuple(temperature, error_count)
-  std::make_tuple(-10, 0), std::make_tuple(1, 0),  std::make_tuple(59, 0), std::make_tuple(60, 0),
-  std::make_tuple(61, 1),  std::make_tuple(62, 1), std::make_tuple(120, 1)
+  std::make_tuple(-10, 0), std::make_tuple(1, 0),  std::make_tuple(69, 0), std::make_tuple(70, 0),
+  std::make_tuple(71, 1),  std::make_tuple(72, 1), std::make_tuple(120, 1)
 };
 
 class TestTemperatureParameterized : public ::testing::Test, public ::testing::WithParamInterface<std::tuple<float, float>>

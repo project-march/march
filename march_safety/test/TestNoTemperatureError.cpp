@@ -27,7 +27,7 @@ TEST_F(TestNoTemperatureError, belowSpecificThreshold)
 
   sensor_msgs::Temperature msg;
   int temperature;
-  nh.getParam("/march_safety_node/temperature_thresholds/test_joint1", temperature);
+  nh.getParam("/march_safety_node/temperature_thresholds_non_fatal/test_joint1", temperature);
   msg.temperature = temperature - 1;
   pub_joint1.publish(msg);
 
@@ -59,7 +59,7 @@ TEST_F(TestNoTemperatureError, belowSpecificThreshold2)
 
   sensor_msgs::Temperature msg;
   int temperature;
-  nh.getParam("/march_safety_node/temperature_thresholds/test_joint2", temperature);
+  nh.getParam("/march_safety_node/temperature_thresholds_non_fatal/test_joint2", temperature);
   msg.temperature = temperature - 1;
   pub_joint2.publish(msg);
 

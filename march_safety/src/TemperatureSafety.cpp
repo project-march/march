@@ -1,41 +1,61 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
 
-TemperatureSafety::TemperatureSafety(ros::Publisher* error_publisher, ros::Publisher* sound_publisher,
-                                     ros::NodeHandle n)
+TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
 {
-  n.getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
-  n.getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
-  this->error_publisher = error_publisher;
-  this->sound_publisher = sound_publisher;
+  n->getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_warning", warning_temperature_thresholds_map);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_non_fatal", non_fatal_temperature_thresholds_map);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_fatal", fatal_temperature_thresholds_map);
   double send_errors_interval_param;
-  n.getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
+  n->getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
   this->send_errors_interval = send_errors_interval_param;
   this->time_last_send_error = ros::Time(0);
+  this->safety_handler = safety_handler;
   this->createSubscribers();
 }
 
 void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
 {
   // send at most an error every second
-  if (ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000))
+  if (ros::Time::now() <= (time_last_send_error + ros::Duration(this->send_errors_interval / 1000)))
   {
-    // If the threshold is exceeded raise an error
-    if (msg->temperature > getThreshold(sensor_name))
-    {
-      auto error_msg = createErrorMessage(msg->temperature, sensor_name);
-      ROS_ERROR("%i, %s", error_msg.error_code, error_msg.error_message.c_str());
-      error_publisher->publish(error_msg);
-      march_shared_resources::Sound sound;
-      sound.time = ros::Time::now();
-      sound.file_name = "fatal.wav";
-      sound_publisher->publish(sound);
-      time_last_send_error = ros::Time::now();
-    }
+    return;
+  }
+
+  double temperature = msg->temperature;
+  if (temperature <= getThreshold(sensor_name, warning_temperature_thresholds_map))
+  {
+    return;
+  }
+
+  std::string error_message = getErrorMessage(temperature, sensor_name);
+
+  // If the threshold is exceeded raise an error
+  if (temperature > getThreshold(sensor_name, fatal_temperature_thresholds_map))
+  {
+    safety_handler->publishFatal(error_message);
+  }
+  else if (temperature > getThreshold(sensor_name, non_fatal_temperature_thresholds_map))
+  {
+    safety_handler->publishNonFatal(error_message);
+  }
+  else if (temperature > getThreshold(sensor_name, warning_temperature_thresholds_map))
+  {
+    ROS_WARN("%s", error_message.c_str());
   }
 }
 
-double TemperatureSafety::getThreshold(const std::string& sensor_name)
+std::string TemperatureSafety::getErrorMessage(double temperature, const std::string& sensor_name)
+{
+  std::ostringstream message_stream;
+  message_stream << sensor_name << " temperature too high: " << temperature;
+  std::string error_message = message_stream.str();
+  return error_message;
+}
+
+double TemperatureSafety::getThreshold(const std::string& sensor_name,
+                                       std::map<std::string, double> temperature_thresholds_map)
 {
   if (temperature_thresholds_map.find(sensor_name) != temperature_thresholds_map.end())
   {
@@ -45,22 +65,9 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name)
   else
   {
     // Fall back to default if there is no defined threshold
-    ROS_WARN_ONCE("There is no specific temperature threshold for %s sensor", sensor_name.c_str());
+    ROS_WARN_ONCE("There is a specific temperature threshold missing for %s sensor", sensor_name.c_str());
     return default_temperature_threshold;
   }
-}
-
-march_shared_resources::Error TemperatureSafety::createErrorMessage(double temperature, const std::string& sensor_name)
-{
-  march_shared_resources::Error error_msg;
-  std::ostringstream message_stream;
-  message_stream << sensor_name << " temperature too high: " << temperature;
-  std::string error_message = message_stream.str();
-  // @TODO(Tim) Come up with real error codes
-  error_msg.error_code = 1;  // For now a randomly chosen error code
-  error_msg.error_message = error_message;
-  error_msg.type = march_shared_resources::Error::FATAL;
-  return error_msg;
 }
 
 void TemperatureSafety::createSubscribers()

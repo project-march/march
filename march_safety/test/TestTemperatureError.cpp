@@ -27,7 +27,7 @@ TEST_F(TestTemperatureError, exceedSpecificThreshold)
 
   sensor_msgs::Temperature msg;
   int temperature;
-  nh.getParam("/march_safety_node/temperature_thresholds/test_joint1", temperature);
+  nh.getParam("/march_safety_node/temperature_thresholds_non_fatal/test_joint1", temperature);
   msg.temperature = temperature + 1;
   pub_joint1.publish(msg);
 

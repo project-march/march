@@ -35,8 +35,11 @@ set(sourcefiles
         src/SafetyNode.cpp
         include/march_safety/TemperatureSafety.h
         include/march_safety/InputDeviceSafety.h
+        include/march_safety/SafetyHandler.h
+        include/march_safety/SafetyType.h
         src/TemperatureSafety.cpp
         src/InputDeviceSafety.cpp
+        src/SafetyHandler.cpp
         )
 
 add_library(march_safety ${sourcefiles})
