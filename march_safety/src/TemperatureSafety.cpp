@@ -4,7 +4,9 @@
 TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
 {
   n->getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
-  n->getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_warning", warning_temperature_thresholds_map);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_non_fatal", non_fatal_temperature_thresholds_map);
+  n->getParam(ros::this_node::getName() + "/temperature_thresholds_fatal", fatal_temperature_thresholds_map);
   double send_errors_interval_param;
   n->getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
   this->send_errors_interval = send_errors_interval_param;
@@ -16,20 +18,44 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
 void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
 {
   // send at most an error every second
-  if (ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000))
+  if (!(ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000)))
   {
-    // If the threshold is exceeded raise an error
-    if (msg->temperature > getThreshold(sensor_name))
-    {
-      std::ostringstream message_stream;
-      message_stream << sensor_name << " temperature too high: " << msg->temperature;
-      std::string error_message = message_stream.str();
-      safety_handler->publishFatal(error_message);
-    }
+    return;
+  }
+
+  double temperature = msg->temperature;
+  if (temperature <= getThreshold(sensor_name, warning_temperature_thresholds_map))
+  {
+    return;
+  }
+
+  std::string error_message = getErrorMessage(temperature, sensor_name);
+
+  // If the threshold is exceeded raise an error
+  if (temperature > getThreshold(sensor_name, fatal_temperature_thresholds_map))
+  {
+    safety_handler->publishFatal(error_message);
+  }
+  else if (temperature > getThreshold(sensor_name, non_fatal_temperature_thresholds_map))
+  {
+    safety_handler->publishFatal(error_message);
+  }
+  else if (temperature > getThreshold(sensor_name, warning_temperature_thresholds_map))
+  {
+    safety_handler->publishFatal(error_message);
   }
 }
 
-double TemperatureSafety::getThreshold(const std::string& sensor_name)
+std::string TemperatureSafety::getErrorMessage(double temperature, const std::string& sensor_name)
+{
+  std::ostringstream message_stream;
+  message_stream << sensor_name << " temperature too high: " << temperature;
+  std::string error_message = message_stream.str();
+  return error_message;
+}
+
+double TemperatureSafety::getThreshold(const std::string& sensor_name,
+                                       std::map<std::string, double> temperature_thresholds_map)
 {
   if (temperature_thresholds_map.find(sensor_name) != temperature_thresholds_map.end())
   {
@@ -39,7 +65,7 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name)
   else
   {
     // Fall back to default if there is no defined threshold
-    ROS_WARN_ONCE("There is no specific temperature threshold for %s sensor", sensor_name.c_str());
+    ROS_WARN_ONCE("There is a specific temperature threshold missing for %s sensor", sensor_name.c_str());
     return default_temperature_threshold;
   }
 }
