@@ -22,7 +22,7 @@ int main(int argc, char** argv)
   ros::Rate rate(200);
 
   // Create an error publisher to notify the system (state machine) if something is wrong
-  ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("march/error", 1000);
+  ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("/march/error", 1000);
   ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
 
   SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher);
