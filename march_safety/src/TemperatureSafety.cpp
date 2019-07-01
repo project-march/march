@@ -18,7 +18,7 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
 void TemperatureSafety::temperatureCallback(const sensor_msgs::TemperatureConstPtr& msg, const std::string& sensor_name)
 {
   // send at most an error every second
-  if (!(ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000)))
+  if (ros::Time::now() <= (time_last_send_error + ros::Duration(this->send_errors_interval / 1000)))
   {
     return;
   }
