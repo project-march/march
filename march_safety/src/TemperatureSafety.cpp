@@ -5,11 +5,11 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
 {
   n->getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
   n->getParam(ros::this_node::getName() + "/temperature_thresholds", temperature_thresholds_map);
-  this->safety_handler = safety_handler;
   double send_errors_interval_param;
   n->getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
   this->send_errors_interval = send_errors_interval_param;
   this->time_last_send_error = ros::Time(0);
+  this->safety_handler = safety_handler;
   this->createSubscribers();
 }
 
