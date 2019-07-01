@@ -19,7 +19,9 @@ class TemperatureSafety : public SafetyType
   double default_temperature_threshold;
   double send_errors_interval;
   ros::Time time_last_send_error;
-  std::map<std::string, double> temperature_thresholds_map;
+  std::map<std::string, double> fatal_temperature_thresholds_map;
+  std::map<std::string, double> non_fatal_temperature_thresholds_map;
+  std::map<std::string, double> warning_temperature_thresholds_map;
   std::vector<ros::Subscriber> temperature_subscribers = {};
 
   /**
@@ -34,13 +36,15 @@ class TemperatureSafety : public SafetyType
    */
   void createSubscribers();
 
+  std::string getErrorMessage(double temperature, const std::string& sensor_name);
+
   /**
    * Find the specific defined threshold for this sensor
    * If there is none, fall back to the default
    * @param sensor_name
    * @return the threshold
    */
-  double getThreshold(const std::string& sensor_name);
+  double getThreshold(const std::string& sensor_name, std::map<std::string, double> temperature_thresholds_map);
 
 public:
   TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler);
