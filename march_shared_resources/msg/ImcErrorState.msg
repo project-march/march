@@ -1,3 +1,5 @@
 string[] joint_names
 string[] state
-uint16[] status_word
+string[] status_word
+string[] detailed_error
+string[] motion_error
