@@ -1,10 +1,11 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
-#include <urdf/model.h>
 
 // TODO(@Tim) Throw an exception when no temperatures are published.
 
-TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
+TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler,
+                                     std::vector<std::string> joint_names)
+  : joint_names(joint_names)
 {
   n->getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
   n->getParam(ros::this_node::getName() + "/temperature_thresholds_warning", warning_temperature_thresholds_map);
@@ -15,18 +16,6 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   this->send_errors_interval = send_errors_interval_param;
   this->time_last_send_error = ros::Time(0);
   this->safety_handler = safety_handler;
-
-  int count = 0;
-  while (!n->hasParam("/robot_description"))
-  {
-    ros::Duration(0.5).sleep();
-    count++;
-    if (count == 10)
-    {
-      ROS_ERROR("Failed to read the urdf from the parameter server.");
-      throw std::runtime_error("Failed to read the urdf from the parameter server.");
-    }
-  }
 
   this->createSubscribers();
 }
@@ -88,26 +77,6 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name,
 
 void TemperatureSafety::createSubscribers()
 {
-  std::vector<std::string> joint_names;
-
-  urdf::Model model;
-
-  if (!model.initParam("/robot_description"))
-  {
-    ROS_ERROR("Failed to read the urdf from the parameter server.");
-    throw std::runtime_error("Failed to read the urdf from the parameter server.");
-  }
-
-  // Get joint names from urdf
-  for (auto const& urdfJoint : model.joints_)
-  {
-    if (urdfJoint.second->type != urdf::Joint::FIXED)
-    {
-      ROS_WARN_STREAM(urdfJoint.first);
-      joint_names.push_back(urdfJoint.first);
-    }
-  }
-
   for (const std::string& joint_name : joint_names)
   {
     // Use boost::bind to pass on the sensor_name as extra parameter to the callback method
