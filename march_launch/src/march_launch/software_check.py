@@ -67,10 +67,11 @@ class SoftwareCheckPlugin(Plugin):
 
         self.check_runner = CheckRunner(self.log)
 
-        self.test_buttons = self._widget.Checks.findChildren(QWidget)
+        self.test_buttons = self._widget.Checks.findChildren(QPushButton)
 
         for test_button in self.test_buttons:
             test_button.clicked.connect(lambda: self.run_test(test_button.objectName()))
+            test_button.setStyleSheet("background-color: " + str(Color.Check_Unknown.value))
 
     def log(self, msg, level):
         self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + str(msg) + "</p>")
@@ -79,7 +80,11 @@ class SoftwareCheckPlugin(Plugin):
 
     def run_test(self, name):
         result = self.check_runner.run_check_by_name(name)
+        self.update_test_button(name, result)
 
-
-    def update_test_button(self):
-        pass
+    def update_test_button(self, name, result):
+        button = self._widget.Checks.findChild(QPushButton, name)
+        if result:
+            button.setStyleSheet("background-color: " + str(Color.Check_Passed.value))
+        else:
+            button.setStyleSheet("background-color: " + str(Color.Check_Failed.value))
