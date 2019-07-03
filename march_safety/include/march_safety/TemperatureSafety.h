@@ -23,6 +23,7 @@ class TemperatureSafety : public SafetyType
   std::map<std::string, double> non_fatal_temperature_thresholds_map;
   std::map<std::string, double> warning_temperature_thresholds_map;
   std::vector<ros::Subscriber> temperature_subscribers = {};
+  std::vector<std::string> joint_names;
 
   /**
    * This callback checks if the temperature values do not exceed the defined threshold
@@ -47,8 +48,7 @@ class TemperatureSafety : public SafetyType
   double getThreshold(const std::string& sensor_name, std::map<std::string, double> temperature_thresholds_map);
 
 public:
-  TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler);
-
+  TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler, std::vector<std::string> joint_names);
 };
 
 #endif  // PROJECT_TEMPERATURESAFETY_H

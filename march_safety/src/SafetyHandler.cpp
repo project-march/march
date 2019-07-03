@@ -25,7 +25,7 @@ void SafetyHandler::publishErrorSound(int8_t error_type) const
   }
   else if (error_type == march_shared_resources::Error::NON_FATAL)
   {
-    sound.file_name = "r2-alarm.wav";
+    sound.file_name = "non-fatal.wav";
   }
   sound_publisher->publish(sound);
 }

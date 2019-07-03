@@ -1,6 +1,6 @@
 <launch>
     <rosparam>
-        sensors: [test_joint1, test_joint2, test_joint3]
+        /march/joint_names: [test_joint1, test_joint2, test_joint3]
     </rosparam>
 
     <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">

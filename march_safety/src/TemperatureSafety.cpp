@@ -1,7 +1,11 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
 
-TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
+// TODO(@Tim) Throw an exception when no temperatures are published.
+
+TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler,
+                                     std::vector<std::string> joint_names)
+  : joint_names(joint_names)
 {
   n->getParam(ros::this_node::getName() + std::string("/default_temperature_threshold"), default_temperature_threshold);
   n->getParam(ros::this_node::getName() + "/temperature_thresholds_warning", warning_temperature_thresholds_map);
@@ -12,6 +16,7 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   this->send_errors_interval = send_errors_interval_param;
   this->time_last_send_error = ros::Time(0);
   this->safety_handler = safety_handler;
+
   this->createSubscribers();
 }
 
@@ -72,14 +77,12 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name,
 
 void TemperatureSafety::createSubscribers()
 {
-  std::vector<std::string> sensor_names;
-  n.getParam("/sensors", sensor_names);
-  for (const std::string& sensor_name : sensor_names)
+  for (const std::string& joint_name : joint_names)
   {
     // Use boost::bind to pass on the sensor_name as extra parameter to the callback method
     ros::Subscriber subscriber_temperature = n.subscribe<sensor_msgs::Temperature>(
-        std::string(TopicNames::temperature) + "/" + sensor_name, 1000,
-        boost::bind(&TemperatureSafety::temperatureCallback, this, _1, sensor_name));
+        std::string(TopicNames::temperature) + "/" + joint_name, 1000,
+        boost::bind(&TemperatureSafety::temperatureCallback, this, _1, joint_name));
 
     temperature_subscribers.push_back(subscriber_temperature);
   }
