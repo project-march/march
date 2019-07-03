@@ -35,7 +35,7 @@ int main(int argc, char** argv)
   {
     ros::Duration(0.5).sleep();
     count++;
-    if (count == 10)
+    if (count > 10)
     {
       ROS_ERROR("Failed to read the urdf from the parameter server.");
       throw std::runtime_error("Failed to read the urdf from the parameter server.");
