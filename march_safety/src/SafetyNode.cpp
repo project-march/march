@@ -31,35 +31,19 @@ int main(int argc, char** argv)
   std::vector<SafetyType> safety_list;
 
   int count = 0;
-  while (!n.hasParam("/robot_description"))
+  while (!n.hasParam("/march/joint_names"))
   {
     ros::Duration(0.5).sleep();
     count++;
     if (count > 10)
     {
-      ROS_ERROR("Failed to read the urdf from the parameter server.");
-      throw std::runtime_error("Failed to read the urdf from the parameter server.");
+      ROS_ERROR("Failed to read the joint_names from the parameter server.");
+      throw std::runtime_error("Failed to read the joint_names from the parameter server.");
     }
   }
 
   std::vector<std::string> joint_names;
-
-  urdf::Model model;
-
-  if (!model.initParam("/robot_description"))
-  {
-    ROS_ERROR("Failed to read the urdf from the parameter server.");
-    throw std::runtime_error("Failed to read the urdf from the parameter server.");
-  }
-
-  // Get joint names from urdf
-  for (auto const& urdfJoint : model.joints_)
-  {
-    if (urdfJoint.second->type != urdf::Joint::FIXED)
-    {
-      joint_names.push_back(urdfJoint.first);
-    }
-  }
+  n.getParam("/march/joint_names", joint_names);
 
   TemperatureSafety temperatureSafety = TemperatureSafety(&n, &safetyHandler, joint_names);
   safety_list.push_back(temperatureSafety);
