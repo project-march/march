@@ -4,13 +4,13 @@ import sys
 
 import rospy
 import rospkg
-from enum import Enum
 from march_shared_resources.srv import StringTrigger, Trigger
 
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
 from python_qt_binding.QtWidgets import QGroupBox
+from python_qt_binding.QtWidgets import QFrame
 from python_qt_binding.QtWidgets import QLabel
 from python_qt_binding.QtWidgets import QPushButton
 from python_qt_binding.QtWidgets import QLayout
@@ -19,12 +19,9 @@ from python_qt_binding.QtWidgets import QHBoxLayout
 from python_qt_binding.QtWidgets import QGridLayout
 from python_qt_binding.QtWidgets import QPlainTextEdit
 
-class Color(Enum):
-    Debug = "#009100"
-    Info = "#000000"
-    Warning = "#b27300"
-    Error = "#FF0000"
-    Fatal = "#FF0000"
+from CheckRunner import CheckRunner
+from Color import Color
+
 
 class SoftwareCheckPlugin(Plugin):
 
@@ -53,7 +50,7 @@ class SoftwareCheckPlugin(Plugin):
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
         # Give QObjects reasonable names
-        self._widget.setObjectName('Software Check')
+        self._widget.setObjectName('SoftwareCheck')
         # Show _widget.windowTitle on left-top of each plugin (when
         # it's set in _widget). This is useful when you open multiple
         # plugins at once. Also if you open multiple instances of your
@@ -68,7 +65,21 @@ class SoftwareCheckPlugin(Plugin):
         self.log("Select the software checks you want to perform.", Color.Info)
         self.log("--------------------------------------", Color.Info)
 
+        self.check_runner = CheckRunner(self.log)
+
+        self.test_buttons = self._widget.Checks.findChildren(QWidget)
+
+        for test_button in self.test_buttons:
+            test_button.clicked.connect(lambda: self.run_test(test_button.objectName()))
+
     def log(self, msg, level):
-        self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + msg + "</p>")
+        self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + str(msg) + "</p>")
         scrollbar = self._widget.findChild(QPlainTextEdit, "Log").verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
+
+    def run_test(self, name):
+        result = self.check_runner.run_check_by_name(name)
+
+
+    def update_test_button(self):
+        pass
