@@ -1,5 +1,8 @@
 // Copyright 2019 Project March.
 #include <march_safety/TemperatureSafety.h>
+#include <urdf/model.h>
+
+// TODO(@Tim) Throw an exception when no temperatures are published.
 
 TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
 {
@@ -12,6 +15,19 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   this->send_errors_interval = send_errors_interval_param;
   this->time_last_send_error = ros::Time(0);
   this->safety_handler = safety_handler;
+
+  int count = 0;
+  while (!n->hasParam("/robot_description"))
+  {
+    ros::Duration(0.5).sleep();
+    count++;
+    if (count == 10)
+    {
+      ROS_ERROR("Failed to read the urdf from the parameter server.");
+      throw std::runtime_error("Failed to read the urdf from the parameter server.");
+    }
+  }
+
   this->createSubscribers();
 }
 
@@ -72,14 +88,32 @@ double TemperatureSafety::getThreshold(const std::string& sensor_name,
 
 void TemperatureSafety::createSubscribers()
 {
-  std::vector<std::string> sensor_names;
-  n.getParam("/sensors", sensor_names);
-  for (const std::string& sensor_name : sensor_names)
+  std::vector<std::string> joint_names;
+
+  urdf::Model model;
+
+  if (!model.initParam("/robot_description"))
+  {
+    ROS_ERROR("Failed to read the urdf from the parameter server.");
+    throw std::runtime_error("Failed to read the urdf from the parameter server.");
+  }
+
+  // Get joint names from urdf
+  for (auto const& urdfJoint : model.joints_)
+  {
+    if (urdfJoint.second->type != urdf::Joint::FIXED)
+    {
+      ROS_WARN_STREAM(urdfJoint.first);
+      joint_names.push_back(urdfJoint.first);
+    }
+  }
+
+  for (const std::string& joint_name : joint_names)
   {
     // Use boost::bind to pass on the sensor_name as extra parameter to the callback method
     ros::Subscriber subscriber_temperature = n.subscribe<sensor_msgs::Temperature>(
-        std::string(TopicNames::temperature) + "/" + sensor_name, 1000,
-        boost::bind(&TemperatureSafety::temperatureCallback, this, _1, sensor_name));
+        std::string(TopicNames::temperature) + "/" + joint_name, 1000,
+        boost::bind(&TemperatureSafety::temperatureCallback, this, _1, joint_name));
 
     temperature_subscribers.push_back(subscriber_temperature);
   }
