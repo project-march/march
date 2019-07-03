@@ -149,7 +149,7 @@ class InputDevicePlugin(Plugin):
 
     def publish_error(self):
         rospy.logdebug("Mock Input Device published error")
-        self.error_pub.publish(Error(-1, "Fake error thrown by the develop input device.", Error.FATAL))
+        self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
 
     def publish_alive_msg(self):
         rate = rospy.Rate(20)
