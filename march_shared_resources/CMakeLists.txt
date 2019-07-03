@@ -32,6 +32,7 @@ add_message_files(
         Setpoint.msg
         Sound.msg
         Subgait.msg
+        ImcErrorState.msg
 )
 
 add_service_files(
