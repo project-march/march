@@ -86,7 +86,7 @@
         <axis xyz="-1 0 0"/>
         
         <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${hip_aa_rotation_lower_limit}" upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}" soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}" soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}" k_position="5" k_velocity="5" />
 
     </joint>
 
@@ -103,7 +103,7 @@
         <axis xyz="0 1 0"/>
         
         <limit velocity="${hip_fe_velocity_limit}" effort="${hip_fe_effort_limit}" lower="${hip_fe_rotation_lower_limit}" upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}" soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}" soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}" k_position="5" k_velocity="5" />
     </joint>
 
     <joint name="left_knee" type="revolute">
@@ -113,7 +113,7 @@
         <axis xyz="0 -1 0"/>
         
         <limit velocity="${knee_velocity_limit}" effort="${knee_effort_limit}" lower="${knee_rotation_lower_limit}" upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_soft_buffer}" soft_upper_limit="${knee_rotation_upper_limit - knee_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_soft_buffer}" soft_upper_limit="${knee_rotation_upper_limit - knee_soft_buffer}" k_position="5" k_velocity="5" />
     </joint>
 
     <joint name="left_ankle" type="revolute">
@@ -123,7 +123,7 @@
         <axis xyz="0 1 0"/>
         
         <limit velocity="${ankle_velocity_limit}" effort="${ankle_effort_limit}" lower="${ankle_rotation_lower_limit}" upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_soft_buffer}" soft_upper_limit="${ankle_rotation_upper_limit - ankle_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_soft_buffer}" soft_upper_limit="${ankle_rotation_upper_limit - ankle_soft_buffer}" k_position="5" k_velocity="5" />
     </joint>
 
     <joint name="left_foot_angle" type="fixed">
@@ -139,7 +139,7 @@
         <axis xyz="1 0 0"/>
         
         <limit velocity="${hip_aa_velocity_limit}" effort="${hip_aa_effort_limit}" lower="${hip_aa_rotation_lower_limit}" upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}" soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}" soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}" k_position="5" k_velocity="5" />
 
     </joint>
 
@@ -156,7 +156,7 @@
         <axis xyz="0 1 0"/>
         
         <limit velocity="${hip_fe_velocity_limit}" effort="${hip_fe_effort_limit}" lower="${hip_fe_rotation_lower_limit}" upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}" soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}" soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}" k_position="5" k_velocity="5" />
 
     </joint>
 
@@ -167,7 +167,7 @@
         <axis xyz="0 -1 0"/>
 
         <limit velocity="${knee_velocity_limit}" effort="${knee_effort_limit}" lower="${knee_rotation_lower_limit}" upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_soft_buffer}" soft_upper_limit="${knee_rotation_upper_limit - knee_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_soft_buffer}" soft_upper_limit="${knee_rotation_upper_limit - knee_soft_buffer}" k_position="5" k_velocity="5" />
     </joint>
 
     <joint name="right_ankle" type="revolute">
@@ -177,7 +177,7 @@
         <axis xyz="0 1 0"/>
 
         <limit velocity="${ankle_velocity_limit}" effort="${ankle_effort_limit}" lower="${ankle_rotation_lower_limit}" upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_soft_buffer}" soft_upper_limit="${ankle_rotation_upper_limit - ankle_soft_buffer}" k_position="100" k_velocity="10" />
+        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_soft_buffer}" soft_upper_limit="${ankle_rotation_upper_limit - ankle_soft_buffer}" k_position="5" k_velocity="5" />
     </joint>
 
     <joint name="right_foot_angle" type="fixed">
