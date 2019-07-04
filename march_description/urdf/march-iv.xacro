@@ -43,7 +43,7 @@
 
     <xacro:property name="knee_rotation_lower_limit" value="${-5*pi/180}"/>
     <xacro:property name="knee_rotation_upper_limit" value="${115*pi/180}"/>
-    <xacro:property name="knee_soft_buffer" value="${5*pi/180}"/> <!-- rad -->
+    <xacro:property name="knee_soft_buffer" value="${4*pi/180}"/> <!-- rad -->
     <xacro:property name="knee_effort_limit" value="10927.0"/>
     <xacro:property name="knee_velocity_limit" value="1.0"/>
 
