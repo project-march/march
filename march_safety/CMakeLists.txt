@@ -10,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
         rostest
         sensor_msgs
         std_msgs
+        urdf
         )
 
 catkin_package(
