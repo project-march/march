@@ -77,6 +77,7 @@ class LayoutBuilder:
         css_base = """
         background: url(<img_path>) no-repeat center center;
         background-color:#1F1E24;
+        color: #FFFFFF;
         """
         return css_base.replace("<img_path>", img_path)
 
