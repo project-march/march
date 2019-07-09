@@ -67,14 +67,12 @@ class SoftwareCheckPlugin(Plugin):
 
         self.check_runner = CheckRunner(self.log)
 
-        self.test_buttons = self._widget.Checks.findChildren(QPushButton)
-
-        for test_button in self.test_buttons:
-            test_button.clicked.connect(lambda: self.run_test(test_button.objectName()))
-            test_button.setStyleSheet("background-color: " + str(Color.Check_Unknown.value))
+        self._widget.Checks.findChild(QPushButton, "Default").clicked.connect(lambda: self.run_test("Default"))
+        self._widget.Checks.findChild(QPushButton, "URDF").clicked.connect(lambda: self.run_test("URDF"))
 
     def log(self, msg, level):
-        self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + str(msg) + "</p>")
+        self._widget.findChild(QPlainTextEdit, "Log").appendHtml(
+            "<p style='color:" + str(level.value) + "'>" + str(msg) + "</p>")
         scrollbar = self._widget.findChild(QPlainTextEdit, "Log").verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
 

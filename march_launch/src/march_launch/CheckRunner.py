@@ -1,6 +1,7 @@
 import rospy
 
 from checks.DefaultCheck import DefaultCheck
+from checks.URDFCheck import URDFCheck
 from Color import Color
 from SoftwareCheckThread import SoftwareCheckThread
 from python_qt_binding.QtWidgets import QMessageBox
@@ -8,8 +9,9 @@ from python_qt_binding.QtWidgets import QMessageBox
 
 class CheckRunner:
     def __init__(self, logger=None):
-        self.checks = []
-        self.checks.append(DefaultCheck())
+        self.checks = [DefaultCheck(), URDFCheck()]
+        for check in self.checks:
+            check.log_signal.connect(lambda msg, color: self.log(msg, color))
         self.logger = logger
         self.thread = None
 
