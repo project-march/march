@@ -5,7 +5,7 @@ from march_launch.Color import Color
 class SoftwareCheck(QObject):
     log_signal = pyqtSignal(str, Color)
 
-    def __init__(self, name, description, timeout=10000, manual_confirmation=False):
+    def __init__(self, name, description, timeout=10, manual_confirmation=False):
         QObject.__init__(self, None)
         self.name = name
         self.description = description
