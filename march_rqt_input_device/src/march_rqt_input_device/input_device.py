@@ -166,8 +166,12 @@ class InputDevicePlugin(Plugin):
     def publish_alive_msg(self):
         rate = rospy.Rate(20)
         while not rospy.is_shutdown() and self.publish_alive:
+            try:
+                rate.sleep()
+            except rospy.exceptions.ROSInterruptException:
+                self.publish_alive = False
+
             self.alive_pub.publish(Time(rospy.Time.now()))
-            rate.sleep()
 
     # def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure
