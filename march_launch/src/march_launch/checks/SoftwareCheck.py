@@ -1,11 +1,12 @@
 class SoftwareCheck:
 
-    def __init__(self, name, description, timeout = 10000):
+    def __init__(self, name, description, timeout=10000, manual_confirmation=False):
         self.name = name
         self.description = description
+        self.manual_confirmation = manual_confirmation
+        self.timeout = timeout
         self.passed = False
         self.done = False
-        self.timeout = timeout
 
     def reset(self):
         self.passed = False

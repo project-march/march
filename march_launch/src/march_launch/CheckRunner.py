@@ -3,6 +3,7 @@ import rospy
 from checks.DefaultCheck import DefaultCheck
 from Color import Color
 from SoftwareCheckThread import SoftwareCheckThread
+from python_qt_binding.QtWidgets import QMessageBox
 
 
 class CheckRunner:
@@ -45,7 +46,11 @@ class CheckRunner:
                 check.reset()
                 return False
 
+        self.thread.exit()
+        self.thread = None
         result = check.passed
+        if result and check.manual_confirmation:
+            result = self.validate_manually()
         check.reset()
 
         if result:
@@ -65,3 +70,8 @@ class CheckRunner:
     def log(self, msg, level):
         if self.logger is not None:
             self.logger(msg, level)
+
+    @staticmethod
+    def validate_manually():
+        reply = QMessageBox.question(None, 'Message', "Did the test pass?", QMessageBox.Yes, QMessageBox.No)
+        return reply == QMessageBox.Yes
