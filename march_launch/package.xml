@@ -18,6 +18,7 @@
     <build_depend>march_state_machine_service</build_depend>
     <build_depend>rosserial_python</build_depend>
     <build_depend>rostest</build_depend>
+    <build_depend>roslint</build_depend>
     <build_depend>rqt_gui</build_depend>
     <build_depend>rqt_gui_py</build_depend>
     <build_export_depend>rospy</build_export_depend>
