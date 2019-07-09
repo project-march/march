@@ -46,6 +46,8 @@ class LayoutBuilder:
             qt_button.clicked.connect(march_button.callback)
         qt_button.setStyleSheet(
             self.create_button_css(self.get_image_path(march_button.image)))
+        if march_button.text != "":
+            qt_button.setText(march_button.text)
         qt_button.setMinimumSize(march_button.size)
 
         return qt_button
@@ -75,6 +77,7 @@ class LayoutBuilder:
         css_base = """
         background: url(<img_path>) no-repeat center center;
         background-color:#1F1E24;
+        color: #FFFFFF;
         """
         return css_base.replace("<img_path>", img_path)
 
