@@ -4,7 +4,7 @@ from SoftwareCheck import SoftwareCheck
 class DefaultCheck(SoftwareCheck):
 
     def __init__(self):
-        SoftwareCheck.__init__(self, "Default", "Just an example software check, is always true", 1000)
+        SoftwareCheck.__init__(self, "Default", "Just an example software check, is always true", 1)
 
     def perform(self):
         self.done = True

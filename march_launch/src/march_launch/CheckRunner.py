@@ -2,6 +2,7 @@ import rospy
 
 from checks.DefaultCheck import DefaultCheck
 from Color import Color
+from SoftwareCheckThread import SoftwareCheckThread
 
 
 class CheckRunner:
@@ -9,6 +10,7 @@ class CheckRunner:
         self.checks = []
         self.checks.append(DefaultCheck())
         self.logger = logger
+        self.thread = None
 
     def run_check_by_name(self, name):
         check = self.get_check(name)
@@ -18,6 +20,9 @@ class CheckRunner:
         return self.run_check(check)
 
     def run_check(self, check):
+        if self.thread is not None:
+            self.log("Already running another check", Color.Warning)
+
         if check is None:
             self.log("Check does not exist", Color.Error)
             return
@@ -25,13 +30,18 @@ class CheckRunner:
         self.log("Starting check " + str(check.name) + ": " + str(check.description), Color.Info)
 
         start = rospy.get_rostime()
-        check.perform()
+        self.thread = SoftwareCheckThread(check)
+        self.thread.start()
 
         while not check.done:
             if rospy.get_rostime() < start + rospy.Duration.from_sec(check.timeout):
                 rospy.sleep(0.1)
+
             else:
-                self.log("Check " + str(check.name) + " timed out after " + str(check.timeout/1000.0) + "s", Color.Error)
+                self.log("Check " + str(check.name) + " timed out after " + str(check.timeout) + "s", Color.Error)
+                self.thread.exit()
+                self.thread = None
+
                 check.reset()
                 return False
 
@@ -44,7 +54,6 @@ class CheckRunner:
             self.log("Check " + str(check.name) + " has failed", Color.Error)
 
         self.log("--------------------------------------", Color.Info)
-
         return result
 
     def get_check(self, name):
