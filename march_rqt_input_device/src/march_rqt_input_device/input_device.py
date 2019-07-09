@@ -83,6 +83,10 @@ class InputDevicePlugin(Plugin):
 
         stop_button = MarchButton(name="gait_stop", image="/stop.png",
                                   callback=lambda: self.publish_stop())
+        pause_button = MarchButton(name="gait_pause", text="Pause",
+                                  callback=lambda: self.publish_pause())
+        continue_button = MarchButton(name="gait_continue", text="Continue",
+                                  callback=lambda: self.publish_continue())
 
         error_button = MarchButton(name="error", image="/error.png",
                                    callback=lambda: self.publish_error())
@@ -90,9 +94,9 @@ class InputDevicePlugin(Plugin):
         # The button layout.
         # Position in the array determines position on screen.
         march_button_layout = [
-            [home_sit_button, home_stand_button],
-            [gait_sit_button, gait_stand_button],
-            [gait_walk_button, gait_single_step_button],
+            [home_sit_button, home_stand_button, gait_walk_button],
+            [gait_sit_button, gait_stand_button, gait_single_step_button],
+            [pause_button, continue_button],
             [stop_button, error_button],
         ]
 
@@ -146,6 +150,14 @@ class InputDevicePlugin(Plugin):
     def publish_stop(self):
         rospy.logdebug("Mock Input Device published stop")
         self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
+
+    def publish_continue(self):
+        rospy.logdebug("Mock Input Device published continue")
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
+
+    def publish_pause(self):
+        rospy.logdebug("Mock Input Device published pause")
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
 
     def publish_error(self):
         rospy.logdebug("Mock Input Device published error")
