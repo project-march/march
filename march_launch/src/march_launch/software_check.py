@@ -63,12 +63,12 @@ class SoftwareCheckPlugin(Plugin):
 
         self.log("Welcome to the Software Check.", Color.Debug)
         self.log("Select the software checks you want to perform.", Color.Info)
-        self.log("--------------------------------------", Color.Info)
 
         self.check_runner = CheckRunner(self.log)
 
         self._widget.Checks.findChild(QPushButton, "Default").clicked.connect(lambda: self.run_test("Default"))
         self._widget.Checks.findChild(QPushButton, "URDF").clicked.connect(lambda: self.run_test("URDF"))
+        self._widget.Checks.findChild(QPushButton, "SlaveCount").clicked.connect(lambda: self.run_test("SlaveCount"))
 
     def log(self, msg, level):
         self._widget.findChild(QPlainTextEdit, "Log").appendHtml(

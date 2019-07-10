@@ -2,6 +2,7 @@ import rospy
 
 from checks.DefaultCheck import DefaultCheck
 from checks.URDFCheck import URDFCheck
+from checks.SlaveCountCheck import SlaveCountCheck
 from Color import Color
 from SoftwareCheckThread import SoftwareCheckThread
 from python_qt_binding.QtWidgets import QMessageBox
@@ -9,7 +10,7 @@ from python_qt_binding.QtWidgets import QMessageBox
 
 class CheckRunner:
     def __init__(self, logger=None):
-        self.checks = [DefaultCheck(), URDFCheck()]
+        self.checks = [DefaultCheck(), URDFCheck(), SlaveCountCheck()]
         for check in self.checks:
             check.log_signal.connect(lambda msg, color: self.log(msg, color))
         self.logger = logger
@@ -23,6 +24,8 @@ class CheckRunner:
         return self.run_check(check)
 
     def run_check(self, check):
+        self.log("--------------------------------------", Color.Info)
+
         if self.thread is not None:
             self.log("Already running another check", Color.Warning)
 
@@ -60,7 +63,6 @@ class CheckRunner:
         else:
             self.log("Check " + str(check.name) + " has failed", Color.Error)
 
-        self.log("--------------------------------------", Color.Info)
         return result
 
     def get_check(self, name):
