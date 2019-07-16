@@ -73,6 +73,7 @@ def set_gait_version_map(msg, gait_selection):
             if not gait_selection.validate_gait_by_name(gait):
                 gait_selection.gait_version_map = backup_map
                 return [False, "Gait " + gait + " is invalid"]
+        gait_selection.load_subgait_files()
         return [True, "Gait version map set to " + str(gait_selection.gait_version_map)]
     return [False, "Gait version map is not valid " + str(map)]
 
