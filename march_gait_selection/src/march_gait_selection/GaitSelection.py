@@ -68,7 +68,10 @@ class GaitSelection(object):
                 self.loaded_subgaits[gait][subgait] = self.load_subgait(gait, subgait)
 
     def get_subgait(self, gait_name, subgait_name):
-        return self.loaded_subgaits[gait_name][subgait_name]
+        try:
+            return self.loaded_subgaits[gait_name][subgait_name]
+        except KeyError:
+            return None
 
     def load_subgait(self, gait_name, subgait_name):
         try:
