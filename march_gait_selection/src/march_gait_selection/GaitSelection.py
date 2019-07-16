@@ -51,6 +51,10 @@ class GaitSelection(object):
 
         self.load_subgait_files()
 
+    def set_gait_version_map(self, gait_version_map):
+        self.gait_version_map = gait_version_map
+        self.load_subgait_files()
+
     def set_subgait_version(self, gait_name, subgait_name, version):
         if self.validate_version_name(gait_name, subgait_name, version):
             self.gait_version_map[gait_name][subgait_name] = version
