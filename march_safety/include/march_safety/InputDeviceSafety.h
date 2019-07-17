@@ -25,7 +25,7 @@ class InputDeviceSafety : public SafetyType
 public:
   InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_handler);
 
-  void update();
+  void update() override;
 
 };
 
