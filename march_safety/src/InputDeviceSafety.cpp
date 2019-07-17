@@ -28,7 +28,6 @@ void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& m
 
 void InputDeviceSafety::update()
 {
-  ROS_INFO("ypdate");
   if (time_last_alive.toSec() == 0)
   {
     ROS_INFO_THROTTLE(5, "No input device connected yet");
