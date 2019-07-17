@@ -12,20 +12,26 @@ InputDeviceSafety::InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   this->safety_handler = safety_handler;
   this->time_last_alive = ros::Time(0);
   this->time_last_send_error = ros::Time(0);
-  this->subscriber_input_device_alive = n->subscribe<std_msgs::Time>("/march/input_device/alive", 1000,
-                                                                    &InputDeviceSafety::inputDeviceAliveCallback, this);
+  ROS_INFO("subscribing to alive");
+  this->subscriber_input_device_alive = n->subscribe<std_msgs::Time>(
+      "/march/input_device/alive", 1000, &InputDeviceSafety::inputDeviceAliveCallback, this);
 }
 
 void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg)
 {
   this->time_last_alive = msg->data;
+  if (this->time_last_alive.toSec() == 0)
+  {
+    ROS_INFO("Safety node started listing to the input device alive topic");
+  }
 }
 
 void InputDeviceSafety::update()
 {
+  ROS_INFO("ypdate");
   if (time_last_alive.toSec() == 0)
   {
-    ROS_DEBUG_THROTTLE(5, "No input device connected yet");
+    ROS_INFO_THROTTLE(5, "No input device connected yet");
     return;
   }
   // send at most an error every second

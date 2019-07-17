@@ -28,36 +28,36 @@ int main(int argc, char** argv)
 
   SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher);
 
-  std::vector<SafetyType> safety_list;
+  std::vector<std::unique_ptr<SafetyType>> safety_list;
+//  int count = 0;
+  //  while (!n.hasParam("/march/joint_names"))
+  //  {
+  //    ros::Duration(0.5).sleep();
+  //    count++;
+  //    if (count > 10)
+  //    {
+  //      ROS_ERROR("Failed to read the joint_names from the parameter server.");
+  //      throw std::runtime_error("Failed to read the joint_names from the parameter server.");
+  //    }
+  //  }
 
-  int count = 0;
-  while (!n.hasParam("/march/joint_names"))
-  {
-    ros::Duration(0.5).sleep();
-    count++;
-    if (count > 10)
-    {
-      ROS_ERROR("Failed to read the joint_names from the parameter server.");
-      throw std::runtime_error("Failed to read the joint_names from the parameter server.");
-    }
-  }
+  //  std::vector<std::string> joint_names;
+  //  n.getParam("/march/joint_names", joint_names);
 
-  std::vector<std::string> joint_names;
-  n.getParam("/march/joint_names", joint_names);
+  //  TemperatureSafety temperatureSafety = TemperatureSafety(&n, &safetyHandler, joint_names);
+  //  safety_list.push_back(temperatureSafety);
 
-  TemperatureSafety temperatureSafety = TemperatureSafety(&n, &safetyHandler, joint_names);
-  safety_list.push_back(temperatureSafety);
-
-  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&n, &safetyHandler);
-  safety_list.push_back(inputDeviceSafety);
-
+//  InputDeviceSafety inputDeviceSafety =
+//  safety_list.push_back(inputDeviceSafety);
+  safety_list.push_back( std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safetyHandler)) ) ;
   while (ros::ok())
   {
     rate.sleep();
     ros::spinOnce();
     for (auto& i : safety_list)
     {
-      i.update();
+      ROS_INFO_THROTTLE(1,"loop");
+      i->update();
     }
   }
 

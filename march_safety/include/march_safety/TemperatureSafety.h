@@ -49,6 +49,8 @@ class TemperatureSafety : public SafetyType
 
 public:
   TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_handler, std::vector<std::string> joint_names);
+
+  void update();
 };
 
 #endif  // PROJECT_TEMPERATURESAFETY_H
