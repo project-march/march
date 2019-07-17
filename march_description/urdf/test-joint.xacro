@@ -17,7 +17,7 @@
 
     <xacro:property name="joint_buffer" value="${3*pi/180}"/> <!-- rad -->
     <xacro:property name="joint_lower_limit" value="-0.5673"/> <!-- rad -->
-    <xacro:property name="joint_upper_limit" value="0"/> <!-- rad -->
+    <xacro:property name="joint_upper_limit" value="0.3549"/> <!-- rad -->
     <xacro:property name="joint_effort_limit" value="8000.0"/>
     <xacro:property name="joint_velocity_limit" value="0.5"/> <!-- rad/s -->
 
