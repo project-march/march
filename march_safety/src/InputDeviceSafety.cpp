@@ -8,7 +8,7 @@ InputDeviceSafety::InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   double send_errors_interval_param;
   n->getParam(ros::this_node::getName() + std::string("/send_errors_interval"), send_errors_interval_param);
   this->send_errors_interval = send_errors_interval_param;
-  this->connection_timeout = ros::Duration(milliseconds / 1000);
+  this->connection_timeout = ros::Duration(milliseconds / 1000.0);
   this->safety_handler = safety_handler;
   this->time_last_alive = ros::Time(0);
   this->time_last_send_error = ros::Time(0);
@@ -34,7 +34,7 @@ void InputDeviceSafety::update()
     return;
   }
   // send at most an error every second
-  if (ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000))
+  if (ros::Time::now() > time_last_send_error + ros::Duration(this->send_errors_interval / 1000.0))
   {
     // Check if there is no alive msg receive for the timeout duration.
     if (ros::Time::now() > time_last_alive + this->connection_timeout)
