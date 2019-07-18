@@ -28,8 +28,7 @@ int main(int argc, char** argv)
 
   SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher);
 
-  std::vector<SafetyType> safety_list;
-
+  std::vector<std::unique_ptr<SafetyType>> safety_list;
   int count = 0;
   while (!n.hasParam("/march/joint_names"))
   {
@@ -45,11 +44,8 @@ int main(int argc, char** argv)
   std::vector<std::string> joint_names;
   n.getParam("/march/joint_names", joint_names);
 
-  TemperatureSafety temperatureSafety = TemperatureSafety(&n, &safetyHandler, joint_names);
-  safety_list.push_back(temperatureSafety);
-
-  InputDeviceSafety inputDeviceSafety = InputDeviceSafety(&n, &safetyHandler);
-  safety_list.push_back(inputDeviceSafety);
+  safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safetyHandler, joint_names)));
+  safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safetyHandler)));
 
   while (ros::ok())
   {
@@ -57,7 +53,7 @@ int main(int argc, char** argv)
     ros::spinOnce();
     for (auto& i : safety_list)
     {
-      i.update();
+      i->update();
     }
   }
 
