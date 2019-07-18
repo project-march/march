@@ -1,8 +1,12 @@
 // Copyright 2019 Project March.
 #include "march_safety/SafetyHandler.h"
 
-SafetyHandler::SafetyHandler(ros::NodeHandle* n, ros::Publisher* error_publisher, ros::Publisher* sound_publisher)
-  : n(n), error_publisher(error_publisher), sound_publisher(sound_publisher)
+SafetyHandler::SafetyHandler(ros::NodeHandle* n, ros::Publisher* error_publisher, ros::Publisher* sound_publisher,
+                             ros::Publisher* gait_instruction_publisher)
+  : n(n)
+  , error_publisher(error_publisher)
+  , sound_publisher(sound_publisher)
+  , gait_instruction_publisher(gait_instruction_publisher)
 {
 }
 
@@ -13,6 +17,13 @@ void SafetyHandler::publishErrorMessage(const std::string& message, int8_t error
   error_msg.error_message = message;
   error_msg.type = error_type;
   error_publisher->publish(error_msg);
+}
+
+void SafetyHandler::publishStopMessage() const
+{
+  march_shared_resources::GaitInstruction gait_instruction_msg;
+  gait_instruction_msg.type = march_shared_resources::GaitInstruction::STOP;
+  error_publisher->publish(gait_instruction_msg);
 }
 
 void SafetyHandler::publishErrorSound(int8_t error_type) const
@@ -43,7 +54,7 @@ void SafetyHandler::publishNonFatal(std::string message)
 {
   ROS_ERROR("%s", message.c_str());
 
-  publishErrorMessage(message, march_shared_resources::Error::NON_FATAL);
+  publishStopMessage();
 
   publishErrorSound(march_shared_resources::Error::NON_FATAL);
 }
