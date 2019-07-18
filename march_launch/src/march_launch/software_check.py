@@ -9,14 +9,7 @@ from march_shared_resources.srv import StringTrigger, Trigger
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
 from python_qt_binding.QtWidgets import QWidget
-from python_qt_binding.QtWidgets import QGroupBox
-from python_qt_binding.QtWidgets import QFrame
-from python_qt_binding.QtWidgets import QLabel
 from python_qt_binding.QtWidgets import QPushButton
-from python_qt_binding.QtWidgets import QLayout
-from python_qt_binding.QtWidgets import QComboBox
-from python_qt_binding.QtWidgets import QHBoxLayout
-from python_qt_binding.QtWidgets import QGridLayout
 from python_qt_binding.QtWidgets import QPlainTextEdit
 
 from CheckRunner import CheckRunner

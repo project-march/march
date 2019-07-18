@@ -1,3 +1,4 @@
+import rospy
 from march_launch.Color import Color
 from LaunchCheck import LaunchCheck
 from urdf_parser_py import urdf
@@ -7,12 +8,18 @@ class URDFCheck(LaunchCheck):
 
     def __init__(self):
         LaunchCheck.__init__(self, "URDF", "Please check if the loaded joints are correct", "march_launch",
-                             "launch/upload_march_iv_urdf.launch", 10, True)
+                             "upload_march_iv_urdf.launch", 10, True)
 
     def perform(self):
         self.launch()
 
-        robot = urdf.Robot.from_parameter_server()
+        rospy.sleep(rospy.Duration.from_sec(3))
+        try:
+            robot = urdf.Robot.from_parameter_server()
+        except KeyError:
+            self.stop_launch_process()
+            self.passed = False
+            self.done = True
 
         count = 0
         for joint in robot.joints:
@@ -30,6 +37,6 @@ class URDFCheck(LaunchCheck):
                       + velocity + " rad/s max effort " + effort + " IU"
                 self.log(msg, Color.Info)
 
-        self.launch_process.shutdown()
-        self.done = True
+        self.stop_launch_process()
         self.passed = True
+        self.done = True

@@ -1,0 +1,3 @@
+<launch>
+    <node name="slave_count_check" pkg="march_hardware" type="slave_count_check"/>
+</launch>

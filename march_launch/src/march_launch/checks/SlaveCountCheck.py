@@ -3,18 +3,27 @@ import subprocess
 
 import rospy
 from march_launch.Color import Color
-from SoftwareCheck import SoftwareCheck
-from urdf_parser_py import urdf
+from LaunchCheck import LaunchCheck
 
 
-class SlaveCountCheck(SoftwareCheck):
+class SlaveCountCheck(LaunchCheck):
 
     def __init__(self):
-        SoftwareCheck.__init__(self, "SlaveCount", "", 10, True)
+        LaunchCheck.__init__(self, "SlaveCount", "", "march_launch", "slave_count.launch")
 
     def perform(self):
-        slave_count = os.system('ssh march@march rosrun march_hardware slave_count_check')
-        # slave_count = os.system('rosrun march_hardware slave_count_check')
+        self.launch()
+
+        rospy.sleep(rospy.Duration.from_sec(3))
+        self.stop_launch_process()
+        try:
+            slave_count = rospy.get_param("/check/slave_count")
+        except KeyError:
+            self.log("Could not find key /check/slave_count", Color.Error)
+            self.passed = False
+            self.done = True
+            return
+
         self.log("Ethercat found " + str(slave_count) + " slave(s)", Color.Info)
-        self.done = True
         self.passed = slave_count > 0
+        self.done = True

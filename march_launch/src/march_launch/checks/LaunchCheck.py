@@ -1,9 +1,5 @@
-import os
-
-import rospkg
-
+import subprocess
 from SoftwareCheck import SoftwareCheck
-import roslaunch
 
 
 class LaunchCheck(SoftwareCheck):
@@ -15,12 +11,11 @@ class LaunchCheck(SoftwareCheck):
         self.launch_process = None
 
     def launch(self):
-        uuid = roslaunch.rlutil.get_or_generate_uuid(None, False)
-        roslaunch.configure_logging(uuid)
-        launch_file = os.path.join(rospkg.RosPack().get_path(self.package), self.file)
-
-        self.launch_process = roslaunch.parent.ROSLaunchParent(uuid, [launch_file])
-        self.launch_process.start()
+        cmd = "roslaunch " + self.package + " " + self.file
+        self.launch_process = subprocess.Popen(cmd, shell=True, executable='/bin/bash')
 
     def perform(self):
         raise NotImplementedError("Please implement method 'perform()' on the subclass")
+
+    def stop_launch_process(self):
+        self.launch_process.kill()

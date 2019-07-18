@@ -51,7 +51,7 @@ class CheckRunner:
                 check.reset()
                 return False
 
-        self.thread.exit()
+        self.thread.wait()
         self.thread = None
         result = check.passed
         if result and check.manual_confirmation:
