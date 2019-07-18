@@ -117,11 +117,10 @@ class InputDevicePlugin(Plugin):
         # Position in the array determines position on screen.
         march_button_layout = [
             [home_sit_button, home_stand_button, gait_walk_button],
-            [gait_sit_button, gait_stand_button, gait_sofa_sit_button],
-            [gait_sofa_stand_button, gait_single_step_small_button, gait_single_step_normal_button],
-            [gait_side_step_left_button, gait_side_step_right_button],
-            [pause_button, continue_button],
-            [stop_button, error_button],
+            [gait_sit_button, gait_stand_button, gait_single_step_normal_button],
+            [gait_sofa_sit_button, gait_sofa_stand_button, gait_single_step_small_button,],
+            [gait_side_step_left_button, gait_side_step_right_button, stop_button],
+            [pause_button, continue_button, error_button],
         ]
 
         # Create the qt_layout from the button layout.
