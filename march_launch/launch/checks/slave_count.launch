@@ -1,3 +1,4 @@
 <launch>
-    <node name="slave_count_check" pkg="march_hardware" type="slave_count_check"/>
+    <machine name="march" address="march" user="march"/>
+    <node name="slave_count_check" pkg="march_hardware" type="slave_count_check" machine="march"/>
 </launch>
