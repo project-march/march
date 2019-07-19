@@ -46,7 +46,6 @@ void SafetyHandler::publishFatal(std::string message)
   ROS_ERROR("%s", message.c_str());
 
   publishErrorMessage(message, march_shared_resources::Error::FATAL);
-
   publishErrorSound(march_shared_resources::Error::FATAL);
 }
 
@@ -55,6 +54,6 @@ void SafetyHandler::publishNonFatal(std::string message)
   ROS_ERROR("%s", message.c_str());
 
   publishStopMessage();
-
+  publishErrorMessage(message, march_shared_resources::Error::NON_FATAL);
   publishErrorSound(march_shared_resources::Error::NON_FATAL);
 }
