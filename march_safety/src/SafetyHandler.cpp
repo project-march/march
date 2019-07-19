@@ -23,7 +23,7 @@ void SafetyHandler::publishStopMessage() const
 {
   march_shared_resources::GaitInstruction gait_instruction_msg;
   gait_instruction_msg.type = march_shared_resources::GaitInstruction::STOP;
-  error_publisher->publish(gait_instruction_msg);
+  gait_instruction_publisher->publish(gait_instruction_msg);
 }
 
 void SafetyHandler::publishErrorSound(int8_t error_type) const
