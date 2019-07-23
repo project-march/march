@@ -40,7 +40,7 @@
         <origin xyz="0 0 ${hover_height}" rpy="0 0 0"/>
     </joint>
 
-    <joint name="test_joint" type="revolute">
+    <joint name="test_joint_lin" type="revolute">
         <parent link="joint_base"/>
         <child link="bar"/>
         <origin xyz="0 ${-joint_base_width} 0" rpy="0 0 0"/>
