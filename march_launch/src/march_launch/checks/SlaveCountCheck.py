@@ -14,7 +14,7 @@ class SlaveCountCheck(LaunchCheck):
     def perform(self):
         self.launch()
 
-        rospy.sleep(rospy.Duration.from_sec(3))
+        rospy.sleep(rospy.Duration.from_sec(5))
         self.stop_launch_process()
         try:
             slave_count = rospy.get_param("/check/slave_count")
