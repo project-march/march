@@ -16,10 +16,10 @@
     <xacro:property name="bar_width" value="0.05"/>
 
     <xacro:property name="joint_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="joint_lower_limit" value="-0.5673"/> <!-- rad -->
-    <xacro:property name="joint_upper_limit" value="0.3549"/> <!-- rad -->
-    <xacro:property name="joint_effort_limit" value="1000.0"/>
-    <xacro:property name="joint_velocity_limit" value="1.5"/> <!-- rad/s -->
+    <xacro:property name="joint_lower_limit" value="${-8.5*pi/180}"/> <!-- rad -->
+    <xacro:property name="joint_upper_limit" value="${8.5*pi/180}"/> <!-- rad -->
+    <xacro:property name="joint_effort_limit" value="10927.0"/>
+    <xacro:property name="joint_velocity_limit" value="1.0"/> <!-- rad/s -->
 
     <xacro:property name="hover_height" value="0.5"/>
 
@@ -40,7 +40,7 @@
         <origin xyz="0 0 ${hover_height}" rpy="0 0 0"/>
     </joint>
 
-    <joint name="test_joint_rot" type="revolute">
+    <joint name="linear_joint" type="revolute">
         <parent link="joint_base"/>
         <child link="bar"/>
         <origin xyz="0 ${-joint_base_width} 0" rpy="0 0 0"/>
@@ -71,7 +71,7 @@
                     ixx="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}" ixy="0.0" ixz="0.0"
                     iyy="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}" iyz="0.0"
                     izz="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}"/>
-                                                <!--(joint_base_width*joint_base_width + joint_base_width*joint_base_width)-->
+            <!--(joint_base_width*joint_base_width + joint_base_width*joint_base_width)-->
         </inertial>
     </link>
 
@@ -98,7 +98,7 @@
     <!-- ROS Control plugin for Gazebo -->
     <transmission name="test_joint">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="test_joint">
+        <joint name="linear_joint">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
         <actuator name="test_joint_motor">
