@@ -1,4 +1,3 @@
 <launch>
-
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
 </launch>
