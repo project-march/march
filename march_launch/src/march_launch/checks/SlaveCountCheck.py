@@ -9,7 +9,7 @@ from LaunchCheck import LaunchCheck
 class SlaveCountCheck(LaunchCheck):
 
     def __init__(self):
-        LaunchCheck.__init__(self, "SlaveCount", "", "march_launch", "slave_count.launch")
+        LaunchCheck.__init__(self, "SlaveCount", "", "march_launch", "slave_count.launch", manual_confirmation=True)
 
     def perform(self):
         self.launch()
