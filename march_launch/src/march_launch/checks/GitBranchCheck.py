@@ -1,26 +1,28 @@
 import os
 import rospkg
+import rospy
 
 from pygit2 import Repository, GitError
 
 from march_launch.Color import Color
-from SoftwareCheck import SoftwareCheck
+from LaunchCheck import LaunchCheck
 
 
-class GitBranchCheck(SoftwareCheck):
+class GitBranchCheck(LaunchCheck):
 
     def __init__(self):
-        SoftwareCheck.__init__(self, "GitBranch", "Please confirm the branches below", 1, True)
+        LaunchCheck.__init__(self, "GitBranch", "Please confirm the branches below", "march_launch", "launch/checks/git_branch.launch", 10, True)
 
     def perform(self):
-        march_launch_path = rospkg.RosPack().get_path("march_launch")
-        head = os.path.split(march_launch_path)[0]
-        source_path = os.path.split(head)[0]
+        self.launch()
 
-        for repository_name in os.listdir(source_path):
-            repository_path = os.path.join(source_path, repository_name)
-            try:
-                branch_name = Repository(repository_path).head.shorthand
+        rospy.sleep(4)
+        self.stop_launch_process()
+
+        branch_tuples = self.get_key_from_parameter_server("/checks/git_branch")
+
+        for branch_tuple in branch_tuples:
+                repository_name, branch_name = branch_tuple
                 print_string = repository_name + ": " + branch_name
                 if branch_name == "develop":
                     self.log(print_string, Color.Debug)
@@ -28,8 +30,6 @@ class GitBranchCheck(SoftwareCheck):
                     self.log(print_string, Color.Debug)
                 else:
                     self.log(print_string, Color.Warning)
-            except GitError as e:
-                pass
 
         self.done = True
         self.passed = True
