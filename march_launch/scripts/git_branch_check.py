@@ -15,7 +15,7 @@ for repository_name in os.listdir(source_path):
     repository_path = os.path.join(source_path, repository_name)
     try:
         branch_name = Repository(repository_path).head.shorthand
-        result.append({repository_name, branch_name})
+        result.append([repository_name, branch_name])
     except GitError as e:
         pass
 
