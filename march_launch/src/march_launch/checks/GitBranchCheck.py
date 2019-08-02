@@ -11,7 +11,7 @@ from LaunchCheck import LaunchCheck
 class GitBranchCheck(LaunchCheck):
 
     def __init__(self):
-        LaunchCheck.__init__(self, "GitBranch", "Please confirm the branches below", "march_launch", "launch/checks/git_branch.launch", 10, True)
+        LaunchCheck.__init__(self, "GitBranch", "Please confirm the branches below", "march_launch", "git_branch.launch", 10, True)
 
     def perform(self):
         self.launch()
