@@ -94,14 +94,13 @@
         </inertial>
     </link>
 
-
     <!-- ROS Control plugin for Gazebo -->
-    <transmission name="test_joint">
+    <transmission name="linear_joint_transmission">
         <type>transmission_interface/SimpleTransmission</type>
         <joint name="linear_joint">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
-        <actuator name="test_joint_motor">
+        <actuator name="linear_joint_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
