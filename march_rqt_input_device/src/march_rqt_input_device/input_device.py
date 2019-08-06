@@ -113,6 +113,14 @@ class InputDevicePlugin(Plugin):
                                                          text="Stairs down final step",
                                                          callback=lambda: self.publish_gait(
                                                              "gait_stairs_down_final_step"))
+        gait_side_open_reveal_button = MarchButton(name="gait_side_open_reveal",
+                                                   text="Side open Reveal",
+                                                   callback=lambda: self.publish_gait(
+                                                       "gait_side_open_reveal"))
+        gait_side_close_reveal_button = MarchButton(name="gait_side_close_reveal",
+                                                    text="Side close Reveal",
+                                                    callback=lambda: self.publish_gait(
+                                                        "gait_side_close_reveal"))
 
         stop_button = MarchButton(name="gait_stop", image="/stop.png",
                                   callback=lambda: self.publish_stop())
@@ -131,7 +139,8 @@ class InputDevicePlugin(Plugin):
             [gait_sit_button, gait_stand_button, gait_single_step_normal_button],
             [gait_sofa_sit_button, gait_sofa_stand_button, gait_single_step_small_button],
             [gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
-            [gait_stairs_down_button, gait_stairs_down_final_step_button, stop_button],
+            [gait_stairs_down_button, gait_stairs_down_final_step_button],
+            [gait_side_open_reveal_button, gait_side_close_reveal_button, stop_button],
             [pause_button, continue_button, error_button],
         ]
 
