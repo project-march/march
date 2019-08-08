@@ -113,83 +113,109 @@ class InputDevicePlugin(Plugin):
                                                          text="Stairs down final step",
                                                          callback=lambda: self.publish_gait(
                                                              "gait_stairs_down_final_step"))
+        gait_slope_up_button = MarchButton(name="gait_slope_up",
+                                           text="Slope up",
+                                           callback=lambda: self.publish_gait(
+                                               "gait_slope_up"))
 
-        stop_button = MarchButton(name="gait_stop", image="/stop.png",
-                                  callback=lambda: self.publish_stop())
-        pause_button = MarchButton(name="gait_pause", text="Pause",
-                                   callback=lambda: self.publish_pause())
-        continue_button = MarchButton(name="gait_continue", text="Continue",
-                                      callback=lambda: self.publish_continue())
+        gait_slope_down_button = MarchButton(name="gait_slope_down",
+                                             text="Slope down",
+                                             callback=lambda: self.publish_gait(
+                                                 "gait_slope_down"))
+        gait_slope_down_final_step_button = MarchButton(name="gait_slope_down_final_step",
+                                                        text="Stairs slope final step",
+                                                        callback=lambda: self.publish_gait(
+                                                            "gait_slope_down_final_step"))
+        gait_single_high_step_button = MarchButton(name="gait_single_high_step",
+                                                   text="Single high step",
+                                                   callback=lambda: self.publish_gait(
+                                                       "gait_single_high_step"))
 
-        error_button = MarchButton(name="error", image="/error.png",
-                                   callback=lambda: self.publish_error())
+    stop_button = MarchButton(name="gait_stop", image="/stop.png",
+                              callback=lambda: self.publish_stop())
+    pause_button = MarchButton(name="gait_pause", text="Pause",
+                               callback=lambda: self.publish_pause())
+    continue_button = MarchButton(name="gait_continue", text="Continue",
+                                  callback=lambda: self.publish_continue())
 
-        # The button layout.
-        # Position in the array determines position on screen.
-        march_button_layout = [
-            [home_sit_button, home_stand_button, gait_walk_button],
-            [gait_sit_button, gait_stand_button, gait_single_step_normal_button],
-            [gait_sofa_sit_button, gait_sofa_stand_button, gait_single_step_small_button],
-            [gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
-            [gait_stairs_down_button, gait_stairs_down_final_step_button, stop_button],
-            [pause_button, continue_button, error_button],
-        ]
+    error_button = MarchButton(name="error", image="/error.png",
+                               callback=lambda: self.publish_error())
 
-        # Create the qt_layout from the button layout.
-        layout_builder = LayoutBuilder(march_button_layout)
-        qt_layout = layout_builder.build()
-        # Apply the qt_layout to the top level widget.
-        self._widget.frame.setLayout(qt_layout)
+    # The button layout.
+    # Position in the array determines position on screen.
+    march_button_layout = [
+        [home_sit_button, home_stand_button, gait_walk_button, gait_sit_button],
+        [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
+        [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
+        [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
+         gait_slope_up_button],
+        [gait_slope_down_button, gait_slope_down_final_step_button, stop_button],
+        [pause_button, continue_button, error_button],
+    ]
 
-        # Make the frame as tight as possible with spacing between the buttons.
-        qt_layout.setSpacing(15)
-        self._widget.frame.adjustSize()
+    # Create the qt_layout from the button layout.
+    layout_builder = LayoutBuilder(march_button_layout)
+    qt_layout = layout_builder.build()
+    # Apply the qt_layout to the top level widget.
+    self._widget.frame.setLayout(qt_layout)
 
-        # ROS publishers.
-        # It is important that you unregister them in the self.shutdown method.
-        self.instruction_gait_pub = rospy.Publisher(
-            'march/input_device/instruction', GaitInstruction, queue_size=10)
+    # Make the frame as tight as possible with spacing between the buttons.
+    qt_layout.setSpacing(15)
+    self._widget.frame.adjustSize()
 
-        self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
+    # ROS publishers.
+    # It is important that you unregister them in the self.shutdown method.
+    self.instruction_gait_pub = rospy.Publisher(
+        'march/input_device/instruction', GaitInstruction, queue_size=10)
 
-        self.alive_thread = PublishAliveThread()
-        self.alive_thread.start()
+    self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
 
-    def shutdown_plugin(self):
-        self.alive_thread.stop()
+    self.alive_thread = PublishAliveThread()
+    self.alive_thread.start()
 
-    def save_settings(self, plugin_settings, instance_settings):
-        # TODO save intrinsic configuration, usually using:
-        # instance_settings.set_value(k, v)
-        pass
 
-    def restore_settings(self, plugin_settings, instance_settings):
-        # TODO restore intrinsic configuration, usually using:
-        # v = instance_settings.value(k)
-        pass
+def shutdown_plugin(self):
+    self.alive_thread.stop()
 
-    def publish_gait(self, string):
-        rospy.logdebug("Mock Input Device published gait: " + string)
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.GAIT, string))
 
-    def publish_stop(self):
-        rospy.logdebug("Mock Input Device published stop")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
+def save_settings(self, plugin_settings, instance_settings):
+    # TODO save intrinsic configuration, usually using:
+    # instance_settings.set_value(k, v)
+    pass
 
-    def publish_continue(self):
-        rospy.logdebug("Mock Input Device published continue")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
 
-    def publish_pause(self):
-        rospy.logdebug("Mock Input Device published pause")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
+def restore_settings(self, plugin_settings, instance_settings):
+    # TODO restore intrinsic configuration, usually using:
+    # v = instance_settings.value(k)
+    pass
 
-    def publish_error(self):
-        rospy.logdebug("Mock Input Device published error")
-        self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
 
-    # def trigger_configuration(self):
-    # Comment in to signal that the plugin has a way to configure
-    # This will enable a setting button (the gear icon)
-    # in each dock widget title bar
-    # Usually used to open a modal configuration dialog
+def publish_gait(self, string):
+    rospy.logdebug("Mock Input Device published gait: " + string)
+    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.GAIT, string))
+
+
+def publish_stop(self):
+    rospy.logdebug("Mock Input Device published stop")
+    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
+
+
+def publish_continue(self):
+    rospy.logdebug("Mock Input Device published continue")
+    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
+
+
+def publish_pause(self):
+    rospy.logdebug("Mock Input Device published pause")
+    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
+
+
+def publish_error(self):
+    rospy.logdebug("Mock Input Device published error")
+    self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
+
+# def trigger_configuration(self):
+# Comment in to signal that the plugin has a way to configure
+# This will enable a setting button (the gear icon)
+# in each dock widget title bar
+# Usually used to open a modal configuration dialog
