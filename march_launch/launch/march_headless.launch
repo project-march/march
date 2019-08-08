@@ -4,7 +4,19 @@
             launch_settings:
                 rqt_launch_menu: false
                 run_configuration: exoskeleton
+                input_device:
+                    real: true
+                    wireless: false
     </rosparam>
+
+
+    <node
+            pkg="rosbag"
+            name="record"
+            type="record"
+            output="screen"
+            args="-a"
+    />
 
     <include file="$(find march_state_machine)/launch/march_state_machine.launch"/>
 </launch>
