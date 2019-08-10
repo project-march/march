@@ -130,47 +130,47 @@ class InputDevicePlugin(Plugin):
                                                    callback=lambda: self.publish_gait(
                                                        "gait_single_high_step"))
 
-    stop_button = MarchButton(name="gait_stop", image="/stop.png",
-                              callback=lambda: self.publish_stop())
-    pause_button = MarchButton(name="gait_pause", text="Pause",
-                               callback=lambda: self.publish_pause())
-    continue_button = MarchButton(name="gait_continue", text="Continue",
-                                  callback=lambda: self.publish_continue())
+        stop_button = MarchButton(name="gait_stop", image="/stop.png",
+                                  callback=lambda: self.publish_stop())
+        pause_button = MarchButton(name="gait_pause", text="Pause",
+                                   callback=lambda: self.publish_pause())
+        continue_button = MarchButton(name="gait_continue", text="Continue",
+                                      callback=lambda: self.publish_continue())
 
-    error_button = MarchButton(name="error", image="/error.png",
-                               callback=lambda: self.publish_error())
+        error_button = MarchButton(name="error", image="/error.png",
+                                   callback=lambda: self.publish_error())
 
-    # The button layout.
-    # Position in the array determines position on screen.
-    march_button_layout = [
-        [home_sit_button, home_stand_button, gait_walk_button, gait_sit_button],
-        [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
-        [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
-        [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
-         gait_slope_up_button],
-        [gait_slope_down_button, gait_slope_down_final_step_button, stop_button],
-        [pause_button, continue_button, error_button],
-    ]
+        # The button layout.
+        # Position in the array determines position on screen.
+        march_button_layout = [
+            [home_sit_button, home_stand_button, gait_walk_button, gait_sit_button],
+            [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
+            [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
+            [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
+             gait_slope_up_button],
+            [gait_slope_down_button, gait_slope_down_final_step_button, stop_button],
+            [pause_button, continue_button, error_button],
+        ]
 
-    # Create the qt_layout from the button layout.
-    layout_builder = LayoutBuilder(march_button_layout)
-    qt_layout = layout_builder.build()
-    # Apply the qt_layout to the top level widget.
-    self._widget.frame.setLayout(qt_layout)
+        # Create the qt_layout from the button layout.
+        layout_builder = LayoutBuilder(march_button_layout)
+        qt_layout = layout_builder.build()
+        # Apply the qt_layout to the top level widget.
+        self._widget.frame.setLayout(qt_layout)
 
-    # Make the frame as tight as possible with spacing between the buttons.
-    qt_layout.setSpacing(15)
-    self._widget.frame.adjustSize()
+        # Make the frame as tight as possible with spacing between the buttons.
+        qt_layout.setSpacing(15)
+        self._widget.frame.adjustSize()
 
-    # ROS publishers.
-    # It is important that you unregister them in the self.shutdown method.
-    self.instruction_gait_pub = rospy.Publisher(
-        'march/input_device/instruction', GaitInstruction, queue_size=10)
+        # ROS publishers.
+        # It is important that you unregister them in the self.shutdown method.
+        self.instruction_gait_pub = rospy.Publisher(
+            'march/input_device/instruction', GaitInstruction, queue_size=10)
 
-    self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
+        self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
 
-    self.alive_thread = PublishAliveThread()
-    self.alive_thread.start()
+        self.alive_thread = PublishAliveThread()
+        self.alive_thread.start()
 
 
 def shutdown_plugin(self):
