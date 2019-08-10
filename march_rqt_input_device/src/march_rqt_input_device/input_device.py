@@ -169,8 +169,9 @@ class InputDevicePlugin(Plugin):
 
         self.error_pub = rospy.Publisher('march/error', Error, queue_size=10)
 
-        self.alive_thread = PublishAliveThread()
-        self.alive_thread.start()
+        if rospy.get_param("ping_safety_node", "true"):
+            self.alive_thread = PublishAliveThread()
+            self.alive_thread.start()
 
     def shutdown_plugin(self):
         self.alive_thread.stop()
@@ -205,8 +206,8 @@ class InputDevicePlugin(Plugin):
         rospy.logdebug("Mock Input Device published error")
         self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
 
-# def trigger_configuration(self):
-# Comment in to signal that the plugin has a way to configure
-# This will enable a setting button (the gear icon)
-# in each dock widget title bar
-# Usually used to open a modal configuration dialog
+    # def trigger_configuration(self):
+    # Comment in to signal that the plugin has a way to configure
+    # This will enable a setting button (the gear icon)
+    # in each dock widget title bar
+    # Usually used to open a modal configuration dialog
