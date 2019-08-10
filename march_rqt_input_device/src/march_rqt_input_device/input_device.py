@@ -172,46 +172,38 @@ class InputDevicePlugin(Plugin):
         self.alive_thread = PublishAliveThread()
         self.alive_thread.start()
 
+    def shutdown_plugin(self):
+        self.alive_thread.stop()
 
-def shutdown_plugin(self):
-    self.alive_thread.stop()
+    def save_settings(self, plugin_settings, instance_settings):
+        # TODO save intrinsic configuration, usually using:
+        # instance_settings.set_value(k, v)
+        pass
 
+    def restore_settings(self, plugin_settings, instance_settings):
+        # TODO restore intrinsic configuration, usually using:
+        # v = instance_settings.value(k)
+        pass
 
-def save_settings(self, plugin_settings, instance_settings):
-    # TODO save intrinsic configuration, usually using:
-    # instance_settings.set_value(k, v)
-    pass
+    def publish_gait(self, string):
+        rospy.logdebug("Mock Input Device published gait: " + string)
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.GAIT, string))
 
+    def publish_stop(self):
+        rospy.logdebug("Mock Input Device published stop")
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
 
-def restore_settings(self, plugin_settings, instance_settings):
-    # TODO restore intrinsic configuration, usually using:
-    # v = instance_settings.value(k)
-    pass
+    def publish_continue(self):
+        rospy.logdebug("Mock Input Device published continue")
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
 
+    def publish_pause(self):
+        rospy.logdebug("Mock Input Device published pause")
+        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
 
-def publish_gait(self, string):
-    rospy.logdebug("Mock Input Device published gait: " + string)
-    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.GAIT, string))
-
-
-def publish_stop(self):
-    rospy.logdebug("Mock Input Device published stop")
-    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
-
-
-def publish_continue(self):
-    rospy.logdebug("Mock Input Device published continue")
-    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
-
-
-def publish_pause(self):
-    rospy.logdebug("Mock Input Device published pause")
-    self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
-
-
-def publish_error(self):
-    rospy.logdebug("Mock Input Device published error")
-    self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
+    def publish_error(self):
+        rospy.logdebug("Mock Input Device published error")
+        self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
 
 # def trigger_configuration(self):
 # Comment in to signal that the plugin has a way to configure
