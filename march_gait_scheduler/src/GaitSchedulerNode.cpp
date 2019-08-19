@@ -12,7 +12,6 @@
 #include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/GaitGoal.h>
 #include <march_gait_scheduler/Scheduler.h>
-#include <march_gait_scheduler/SchedulerConfig.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
 ScheduleGaitActionServer* scheduleGaitActionServer;
@@ -22,12 +21,20 @@ Scheduler* scheduler;
 void doneCallback(const actionlib::SimpleClientGoalState& state,
                   const control_msgs::FollowJointTrajectoryResultConstPtr& result)
 {
-  ROS_DEBUG("Gait trajectory execution DONE");
-  if (scheduleGaitActionServer->isActive() && !scheduler->gaitDone)
+  if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
   {
-    scheduler->gaitDone = true;
+    ROS_INFO("Gait already done and action already ended");
+  }
+  if (result->error_code == result->SUCCESSFUL)
+  {
     scheduleGaitActionServer->setSucceeded();
-    ROS_WARN("Schedule gait action SUCCEEDED");
+    ROS_WARN("Gait trajectory execution DONE, this should only happen when GAIT_SUCCEEDED_OFFSET is 0");
+    ROS_INFO("Schedule gait action SUCCEEDED");
+  }
+  else
+  {
+    scheduleGaitActionServer->setAborted();
+    ROS_WARN("Schedule gait action FAILED, FollowJointTrajectory error_code is %d ", result->error_code);
   }
 }
 
@@ -46,16 +53,13 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
       ROS_ERROR("Negative difference");
       return;
     }
-    if (scheduleGaitActionServer->isActive() && !scheduler->gaitDone)
+    if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
     {
-      scheduler->gaitDone = true;
-      scheduleGaitActionServer->setSucceeded();
-      ROS_DEBUG("Schedule gait action SUCCEEDED");
+      ROS_INFO("Gait already done and action already ended");
     }
-    else
-    {
-      ROS_DEBUG("gait almost done, but no active server");
-    }
+    scheduler->gaitDone = true;
+    scheduleGaitActionServer->setSucceeded();
+    ROS_DEBUG("Schedule gait action SUCCEEDED");
   }
 }
 
