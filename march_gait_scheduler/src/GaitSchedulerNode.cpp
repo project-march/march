@@ -23,8 +23,9 @@ void doneCallback(const actionlib::SimpleClientGoalState& state,
                   const control_msgs::FollowJointTrajectoryResultConstPtr& result)
 {
   ROS_DEBUG("Gait trajectory execution DONE");
-  if (scheduleGaitActionServer->isActive())
+  if (scheduleGaitActionServer->isActive() && !scheduler->gaitDone)
   {
+    scheduler->gaitDone = true;
     scheduleGaitActionServer->setSucceeded();
     ROS_WARN("Schedule gait action SUCCEEDED");
   }
@@ -40,10 +41,20 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
   if (scheduler->getEndTimeCurrentGait().toSec() - feedback->header.stamp.toSec() <
       scheduler->GAIT_SUCCEEDED_OFFSET.toSec())
   {
-    if (scheduleGaitActionServer->isActive())
+    if (scheduler->getEndTimeCurrentGait().toSec() - feedback->header.stamp.toSec() < 0)
     {
+      ROS_ERROR("Negative difference");
+      return;
+    }
+    if (scheduleGaitActionServer->isActive() && !scheduler->gaitDone)
+    {
+      scheduler->gaitDone = true;
       scheduleGaitActionServer->setSucceeded();
       ROS_DEBUG("Schedule gait action SUCCEEDED");
+    }
+    else
+    {
+      ROS_DEBUG("gait almost done, but no active server");
     }
   }
 }
@@ -57,6 +68,7 @@ void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
     control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
         scheduler->scheduleGait(goal.get(), ros::Duration().fromSec(0));
     followJointTrajectoryAction->sendGoal(trajectoryMsg, &doneCallback, &activeCallback, &feedbackCallback);
+    scheduler->gaitDone = false;
     ROS_DEBUG("follow joint trajectory action called");
   }
   catch (std::runtime_error error)
