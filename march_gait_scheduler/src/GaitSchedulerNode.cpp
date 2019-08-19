@@ -12,6 +12,7 @@
 #include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/GaitGoal.h>
 #include <march_gait_scheduler/Scheduler.h>
+#include <march_gait_scheduler/SchedulerConfig.h>
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
 ScheduleGaitActionServer* scheduleGaitActionServer;
