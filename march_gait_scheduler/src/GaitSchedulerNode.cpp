@@ -57,7 +57,8 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
     }
     if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
     {
-      ROS_INFO("Gait already done and action already ended");
+      ROS_INFO("Gait already done or action already ended");
+      return;
     }
     scheduler->gaitDone = true;
     scheduleGaitActionServer->setSucceeded();
