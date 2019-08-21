@@ -91,7 +91,7 @@ class GaitSelection(object):
                                                                           subgait_yaml)
         except ValueError as e:
             rospy.logerr(str(e))
-            rospy.logerr("Could not load subgait " + gait_name + "/" + subgait_name)
+            rospy.logerr("Could not load subgait " + gait_name + "/" + subgait_name + " from " + subgait_path)
             return None
 
         subgait.name = subgait_name
