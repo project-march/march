@@ -24,7 +24,8 @@ void doneCallback(const actionlib::SimpleClientGoalState& state,
 {
   if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
   {
-    ROS_INFO("Gait already done and action already ended");
+    ROS_INFO("Gait already done or action already ended");
+    return;
   }
   if (result->error_code == result->SUCCESSFUL)
   {
