@@ -13,18 +13,6 @@ class TrainingLogPlugin(Plugin):
         # Give QObjects reasonable names
         self.setObjectName('TrainingLogPlugin')
 
-        # Process standalone plugin command-line arguments
-        from argparse import ArgumentParser
-        parser = ArgumentParser()
-        # Add argument(s) to the parser.
-        parser.add_argument("-q", "--quiet", action="store_true",
-                      dest="quiet",
-                      help="Put plugin in silent mode")
-        args, unknowns = parser.parse_known_args(context.argv())
-        if not args.quiet:
-            print 'arguments: ', args
-            print 'unknowns: ', unknowns
-
         # Create QWidget
         self._widget = QWidget()
         # Get path to UI file which should be in the "resource" folder of this package
@@ -32,7 +20,7 @@ class TrainingLogPlugin(Plugin):
         # Extend the widget with all attributes and children from UI file
         loadUi(ui_file, self._widget)
         # Give QObjects reasonable names
-        self._widget.setObjectName('MyPluginUi')
+        self._widget.setObjectName('TrainingLogUi')
         # Show _widget.windowTitle on left-top of each plugin (when 
         # it's set in _widget). This is useful when you open multiple 
         # plugins at once. Also if you open multiple instances of your 
@@ -42,6 +30,7 @@ class TrainingLogPlugin(Plugin):
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         # Add widget to the user interface
         context.add_widget(self._widget)
+        self._widget.LogButton.clicked.connect(self.log)
 
     def shutdown_plugin(self):
         # TODO unregister all publishers here
@@ -56,6 +45,10 @@ class TrainingLogPlugin(Plugin):
         # TODO restore intrinsic configuration, usually using:
         # v = instance_settings.value(k)
         pass
+
+    def log(self):
+        print(self._widget.LogText.toPlainText())
+        self._widget.LogText.clear()
 
     #def trigger_configuration(self):
         # Comment in to signal that the plugin has a way to configure
