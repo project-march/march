@@ -6,7 +6,8 @@ from std_msgs.msg import String
 
 from qt_gui.plugin import Plugin
 from python_qt_binding import loadUi
-from python_qt_binding.QtWidgets import QWidget
+from python_qt_binding.QtGui import QKeySequence
+from python_qt_binding.QtWidgets import QWidget, QShortcut
 
 class TrainingLogPlugin(Plugin):
 
@@ -16,6 +17,7 @@ class TrainingLogPlugin(Plugin):
 
         self._widget = QWidget()
         self.init_ui(context)
+        self.init_shortcuts()
 
         self.timestamp = ''
         self.training_log_publisher = rospy.Publisher('/march/training/log', String, queue_size=10)
@@ -32,6 +34,12 @@ class TrainingLogPlugin(Plugin):
         self._widget.LogButton.clicked.connect(self.log)
         self._widget.TimestampButton.clicked.connect(self.create_timestamp)
         self._widget.ClearButton.clicked.connect(self.clear)
+
+    def init_shortcuts(self):
+        log_shortcut = QShortcut(QKeySequence('Ctrl+L'), self._widget)
+        clear_shortcut = QShortcut(QKeySequence('Ctrl+D'), self._widget)
+        log_shortcut.activated.connect(self.log)
+        clear_shortcut.activated.connect(self.clear)
 
     def shutdown_plugin(self):
         rospy.signal_shutdown('rqt plugin closed')
