@@ -17,6 +17,7 @@ class TrainingLogPlugin(Plugin):
         self._widget = QWidget()
         self.init_ui(context)
 
+        self.timestamp = ''
         self.training_log_publisher = rospy.Publisher('/march/training/log', String, queue_size=10)
 
     def init_ui(self, context):
@@ -24,29 +25,41 @@ class TrainingLogPlugin(Plugin):
         loadUi(ui_file, self._widget)
 
         self._widget.setObjectName('TrainingLogUi')
-
-        if context.serial_number() > 1:
-            self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
-
         context.add_widget(self._widget)
 
         self.hideLabel(True)
         self._widget.LogText.undoAvailable.connect(self.hideLabel)
         self._widget.LogButton.clicked.connect(self.log)
+        self._widget.TimestampButton.clicked.connect(self.create_timestamp)
+        self._widget.ClearButton.clicked.connect(self.clear)
 
     def shutdown_plugin(self):
-        rospy.signal_shutdown("rqt plugin closed")
+        rospy.signal_shutdown('rqt plugin closed')
 
     def log(self):
         message = self._widget.LogText.toPlainText().strip()
         if message:
+            message = '[%s] %s' % (self.timestamp, message)
             rospy.loginfo(message)
             self.training_log_publisher.publish(message)
             self._widget.SuccessLabel.show()
+            self._widget.TimestampLabel.clear()
+            self.timestamp = ''
         self._widget.LogText.clear()
+
+    def create_timestamp(self):
+        self.timestamp = '%.5f' % rospy.get_time()
+        rospy.loginfo('timestamped at %s', self.timestamp)
+        self._widget.TimestampLabel.setText(self.timestamp)
+        self._widget.SuccessLabel.hide()
+
+    def clear(self):
+        self.timestamp = ''
+        self._widget.TimestampLabel.clear()
+        self._widget.LogText.clear()
+        self._widget.SuccessLabel.hide()
 
     def hideLabel(self, hide):
         if hide:
             self._widget.SuccessLabel.hide()
-
 
