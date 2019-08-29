@@ -2,9 +2,10 @@
 <package format="2">
   <name>march_rqt_training_log</name>
   <version>0.0.0</version>
-  <description>The march_rqt_training_log package</description>
+  <description>An RQT plugin for manually entering log messages for exceptional events during training.</description>
 
   <maintainer email="software@projectmarch.nl">Project March</maintainer>
+  <maintainer email="o.dehaas@projectmarch.nl">Olav de Haas</maintainer>
 
   <license>TODO</license>
 
