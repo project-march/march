@@ -45,15 +45,29 @@ class TrainingLogPlugin(Plugin):
         rospy.signal_shutdown('rqt plugin closed')
 
     def log(self):
-        message = self._widget.LogText.toPlainText().strip()
-        if message:
-            message = '[%s] %s' % (self.timestamp, message)
+        if self.get_text():
+            message = self.create_message()
             rospy.loginfo(message)
             self.training_log_publisher.publish(message)
             self._widget.SuccessLabel.show()
             self._widget.TimestampLabel.clear()
             self.timestamp = ''
         self._widget.LogText.clear()
+
+    def get_text(self):
+        return self._widget.LogText.toPlainText().strip()
+
+    def get_camera_take(self):
+        return self._widget.CameraTakeText.text().strip()
+
+    def create_message(self):
+        message = ''
+        if self.timestamp:
+            message += '[%s] ' % self.timestamp
+        if self.get_camera_take():
+            message += '[take: %s] ' % self.get_camera_take()
+
+        return message + self.get_text()
 
     def create_timestamp(self):
         self.timestamp = '%.5f' % rospy.get_time()
@@ -66,6 +80,7 @@ class TrainingLogPlugin(Plugin):
         self._widget.TimestampLabel.clear()
         self._widget.LogText.clear()
         self._widget.SuccessLabel.hide()
+        self._widget.CameraTakeText.clear()
 
     def hideLabel(self, hide):
         if hide:

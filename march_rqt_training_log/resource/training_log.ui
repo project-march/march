@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>665</width>
-    <height>589</height>
+    <height>606</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>410</y>
+     <y>440</y>
      <width>251</width>
      <height>71</height>
     </rect>
@@ -33,9 +33,9 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>50</y>
+     <y>80</y>
      <width>571</width>
-     <height>261</height>
+     <height>151</height>
     </rect>
    </property>
   </widget>
@@ -43,7 +43,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>430</y>
+     <y>460</y>
      <width>281</width>
      <height>35</height>
     </rect>
@@ -59,7 +59,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>330</y>
+     <y>360</y>
      <width>251</width>
      <height>71</height>
     </rect>
@@ -75,7 +75,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>350</y>
+     <y>380</y>
      <width>281</width>
      <height>35</height>
     </rect>
@@ -91,7 +91,7 @@
    <property name="geometry">
     <rect>
      <x>50</x>
-     <y>490</y>
+     <y>520</y>
      <width>251</width>
      <height>71</height>
     </rect>
@@ -101,6 +101,42 @@
    </property>
    <property name="text">
     <string>Clear</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="MessageLabel">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>40</y>
+     <width>571</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Message:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="CameraTakeLabel">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>250</y>
+     <width>571</width>
+     <height>35</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Camera take:</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="CameraTakeText">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>290</y>
+     <width>251</width>
+     <height>47</height>
+    </rect>
    </property>
   </widget>
  </widget>
