@@ -109,10 +109,6 @@ class InputDevicePlugin(Plugin):
                                               image="/gait_stairs_down.png",
                                               callback=lambda: self.publish_gait(
                                                   "gait_stairs_down"))
-        gait_stairs_down_final_step_button = MarchButton(name="gait_stairs_down_final_step",
-                                                         image="/gait_stairs_down_final_step.png",
-                                                         callback=lambda: self.publish_gait(
-                                                             "gait_stairs_down_final_step"))
         gait_slope_up_button = MarchButton(name="gait_slope_up",
                                            image="/gait_slope_up.png",
                                            callback=lambda: self.publish_gait(
@@ -125,22 +121,42 @@ class InputDevicePlugin(Plugin):
                                                    text="Single high step",
                                                    callback=lambda: self.publish_gait(
                                                        "gait_single_high_step"))
-        gait_set_ankle_from_2_5_to_min5 = MarchButton(name="gait_set_ankle_from_2.5_to_-5",
+        gait_set_ankle_from_2_5_to_min5 = MarchButton(name="gait_set_ankle_from_2_5_to_min5",
                                                       text="Set ankle from 2.5 to -5",
                                                       callback=lambda: self.publish_gait(
-                                                          "gait_set_ankle_from_2.5_to_-5"))
-        gait_set_ankle_from_min5_to_min10 = MarchButton(name="gait_set_ankle_from_-5_to_-10",
+                                                          "gait_set_ankle_from_2_5_to_min5"))
+        gait_set_ankle_from_min5_to_min10 = MarchButton(name="gait_set_ankle_from_min5_to_min10",
                                                         text="Set ankle from -5 to -10",
                                                         callback=lambda: self.publish_gait(
-                                                            "gait_set_ankle_from_-5_to_-10"))
-        gait_set_ankle_from_min10_to_min5 = MarchButton(name="gait_set_ankle_from_-10_to_-5",
+                                                            "gait_set_ankle_from_min5_to_min10"))
+        gait_set_ankle_from_min10_to_min5 = MarchButton(name="gait_set_ankle_from_min10_to_min5",
                                                         text="Set ankle from -10 to -5",
                                                         callback=lambda: self.publish_gait(
-                                                            "gait_set_ankle_from_-10_to_-5"))
-        gait_set_ankle_from_min5_to_2_5 = MarchButton(name="gait_set_ankle_from_-5_to_2.5",
+                                                            "gait_set_ankle_from_min10_to_min5"))
+        gait_set_ankle_from_min5_to_2_5 = MarchButton(name="gait_set_ankle_from_min5_to_2_5",
                                                       text="Set ankle from -5 to 2.5",
                                                       callback=lambda: self.publish_gait(
-                                                          "gait_set_ankle_from_-5_to_2.5"))
+                                                          "gait_set_ankle_from_min5_to_2_5"))
+        gait_tilted_path_first_starting_step = MarchButton(name="gait_tilted_path_first_starting_step",
+                                                           text="Tilted path first starting step",
+                                                           callback=lambda: self.publish_gait(
+                                                               "gait_tilted_path_first_starting_step"))
+        gait_tilted_path_second_starting_step = MarchButton(name="gait_tilted_path_second_starting_step",
+                                                            text="Tilted path second starting step",
+                                                            callback=lambda: self.publish_gait(
+                                                                "gait_tilted_path_second_starting_step"))
+        gait_tilted_path_middle_step = MarchButton(name="gait_tilted_path_middle_step",
+                                                   text="Tilted path middle step",
+                                                   callback=lambda: self.publish_gait(
+                                                       "gait_tilted_path_middle_step"))
+        gait_tilted_path_first_ending_step = MarchButton(name="gait_tilted_path_first_ending_step",
+                                                         text="Tilted path first ending step",
+                                                         callback=lambda: self.publish_gait(
+                                                             "gait_tilted_path_first_ending_step"))
+        gait_tilted_path_second_ending_step = MarchButton(name="gait_tilted_path_second_ending_step",
+                                                          text="Tilted path first second step",
+                                                          callback=lambda: self.publish_gait(
+                                                              "gait_tilted_path_first_second_step"))
 
         stop_button = MarchButton(name="gait_stop", image="/stop.png",
                                   callback=lambda: self.publish_stop())
