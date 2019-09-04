@@ -117,6 +117,10 @@ class InputDevicePlugin(Plugin):
                                              image="/gait_slope_down.png",
                                              callback=lambda: self.publish_gait(
                                                  "gait_slope_down"))
+        gait_slope_down_final_step_button = MarchButton(name="gait_slope_down_final_step",
+                                                        image="/gait_slope_down_final_step.png",
+                                                        callback=lambda: self.publish_gait(
+                                                            "gait_slope_down_final_step"))
         gait_single_high_step_button = MarchButton(name="gait_single_high_step",
                                                    text="Single high step",
                                                    callback=lambda: self.publish_gait(
@@ -175,8 +179,8 @@ class InputDevicePlugin(Plugin):
             [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
             [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button,
              gait_stairs_up_button],
-            [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
-             gait_slope_up_button],
+            [gait_stairs_down_button, gait_single_high_step_button, gait_slope_up_button,
+             gait_slope_down_final_step_button],
             [gait_slope_down_button, set_ankle_from_2_5_to_min5, tilted_path_first_starting_step,
              tilted_path_second_starting_step],
             [set_ankle_from_min5_to_min10, tilted_path_middle_step, set_ankle_from_min10_to_min5,
