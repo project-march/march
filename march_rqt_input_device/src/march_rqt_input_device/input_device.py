@@ -89,6 +89,14 @@ class InputDevicePlugin(Plugin):
                                                   image="/gait_side_step_right.png",
                                                   callback=lambda: self.publish_gait(
                                                       "gait_side_step_right"))
+        gait_side_step_left_small_button = MarchButton(name="gait_side_step_left_small",
+                                                       text="Side step left small",
+                                                       callback=lambda: self.publish_gait(
+                                                           "gait_side_step_left_small"))
+        gait_side_step_right_small_button = MarchButton(name="gait_side_step_right_small",
+                                                        text="Side step right small",
+                                                        callback=lambda: self.publish_gait(
+                                                            "gait_side_step_right_small"))
         gait_stand_button = MarchButton(name="gait_stand",
                                         image="/gait_stand.png",
                                         callback=lambda: self.publish_gait(
@@ -145,11 +153,13 @@ class InputDevicePlugin(Plugin):
         march_button_layout = [
             [home_sit_button, home_stand_button, gait_walk_button, gait_sit_button],
             [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
-            [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
+            [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button,
+             gait_stairs_up_button],
             [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
              gait_slope_up_button],
-            [gait_slope_down_button, gait_slope_down_final_step_button, stop_button],
-            [pause_button, continue_button, error_button],
+            [gait_slope_down_button, gait_slope_down_final_step_button, gait_side_step_left_small_button,
+             gait_side_step_right_small_button],
+            [stop_button, pause_button, continue_button, error_button],
         ]
 
         # Create the qt_layout from the button layout.
