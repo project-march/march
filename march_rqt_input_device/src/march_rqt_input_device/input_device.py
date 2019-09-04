@@ -121,14 +121,26 @@ class InputDevicePlugin(Plugin):
                                              image="/gait_slope_down.png",
                                              callback=lambda: self.publish_gait(
                                                  "gait_slope_down"))
-        gait_slope_down_final_step_button = MarchButton(name="gait_slope_down_final_step",
-                                                        image="/gait_slope_down_final_step.png",
-                                                        callback=lambda: self.publish_gait(
-                                                            "gait_slope_down_final_step"))
         gait_single_high_step_button = MarchButton(name="gait_single_high_step",
                                                    text="Single high step",
                                                    callback=lambda: self.publish_gait(
                                                        "gait_single_high_step"))
+        gait_set_ankle_from_2_5_to_min5 = MarchButton(name="gait_set_ankle_from_2.5_to_-5",
+                                                      text="Set ankle from 2.5 to -5",
+                                                      callback=lambda: self.publish_gait(
+                                                          "gait_set_ankle_from_2.5_to_-5"))
+        gait_set_ankle_from_min5_to_min10 = MarchButton(name="gait_set_ankle_from_-5_to_-10",
+                                                        text="Set ankle from -5 to -10",
+                                                        callback=lambda: self.publish_gait(
+                                                            "gait_set_ankle_from_-5_to_-10"))
+        gait_set_ankle_from_min10_to_min5 = MarchButton(name="gait_set_ankle_from_-10_to_-5",
+                                                        text="Set ankle from -10 to -5",
+                                                        callback=lambda: self.publish_gait(
+                                                            "gait_set_ankle_from_-10_to_-5"))
+        gait_set_ankle_from_min5_to_2_5 = MarchButton(name="gait_set_ankle_from_-5_to_2.5",
+                                                      text="Set ankle from -5 to 2.5",
+                                                      callback=lambda: self.publish_gait(
+                                                          "gait_set_ankle_from_-5_to_2.5"))
 
         stop_button = MarchButton(name="gait_stop", image="/stop.png",
                                   callback=lambda: self.publish_stop())
@@ -145,10 +157,15 @@ class InputDevicePlugin(Plugin):
         march_button_layout = [
             [home_sit_button, home_stand_button, gait_walk_button, gait_sit_button],
             [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button],
-            [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button, gait_stairs_up_button],
+            [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button,
+             gait_stairs_up_button],
             [gait_stairs_down_button, gait_stairs_down_final_step_button, gait_single_high_step_button,
              gait_slope_up_button],
-            [gait_slope_down_button, gait_slope_down_final_step_button, stop_button],
+            [gait_slope_down_button, set_ankle_from_2_5_to_min5, tilted_path_first_starting_step,
+             tilted_path_second_starting_step],
+            [set_ankle_from_min5_to_min10, tilted_path_middle_step, set_ankle_from_min10_to_min5,
+             tilted_path_first_ending_step],
+            [tilted_path_second_ending_step, set_ankle_from_min5_to_2_5, stop_button],
             [pause_button, continue_button, error_button],
         ]
 
