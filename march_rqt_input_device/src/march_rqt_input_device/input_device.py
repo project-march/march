@@ -181,11 +181,11 @@ class InputDevicePlugin(Plugin):
              gait_stairs_up_button],
             [gait_stairs_down_button, gait_single_high_step_button, gait_slope_up_button,
              gait_slope_down_final_step_button],
-            [gait_slope_down_button, set_ankle_from_2_5_to_min5, tilted_path_first_starting_step,
-             tilted_path_second_starting_step],
-            [set_ankle_from_min5_to_min10, tilted_path_middle_step, set_ankle_from_min10_to_min5,
-             tilted_path_first_ending_step],
-            [tilted_path_second_ending_step, set_ankle_from_min5_to_2_5, stop_button],
+            [gait_slope_down_button, gait_set_ankle_from_2_5_to_min5, gait_tilted_path_first_starting_step,
+             gait_tilted_path_second_starting_step],
+            [gait_set_ankle_from_min5_to_min10, gait_tilted_path_middle_step, gait_set_ankle_from_min10_to_min5,
+             gait_tilted_path_first_ending_step],
+            [gait_tilted_path_second_ending_step, gait_set_ankle_from_min5_to_2_5, stop_button],
             [pause_button, continue_button, error_button],
         ]
 
