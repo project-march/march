@@ -160,7 +160,7 @@ class InputDevicePlugin(Plugin):
         gait_tilted_path_second_ending_step = MarchButton(name="gait_tilted_path_second_ending_step",
                                                           text="Tilted path second ending step",
                                                           callback=lambda: self.publish_gait(
-                                                              "gait_tilted_path_first_second_step"))
+                                                              "gait_tilted_path_second_ending_step"))
 
         stop_button = MarchButton(name="gait_stop", image="/stop.png",
                                   callback=lambda: self.publish_stop())
