@@ -7,8 +7,7 @@
     <!--Important note: when changing value make sure rviz fixed frame is set to the same value (moveit.rviz)-->
     <xacro:property name="parent_name" value="world"/>
 
-    <xacro:arg name="max_effort_rotary" default="26000.0" />
-    <!--    Rotary effort limit could be increased to 30905.66 IU = 25 A -->
+    <xacro:arg name="max_effort_rotary" default="20475" /> <!-- = 25 A -->
     <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
     <xacro:property name="max_effort_value" value="$(arg max_effort_value)" />
 
