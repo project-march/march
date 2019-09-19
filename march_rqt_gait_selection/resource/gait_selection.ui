@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>256</width>
-    <height>207</height>
+    <width>873</width>
+    <height>588</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,6 +28,12 @@ QGroupBox::title {
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="1">
     <widget class="QFrame" name="Settings">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -76,13 +82,37 @@ background-color: #F2F1F0
    </item>
    <item row="0" column="0">
     <widget class="QFrame" name="Gaits">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QVBoxLayout" name="verticalLayout_2"/>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <widget class="QWidget" name="content">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>551</width>
+           <height>548</height>
+          </rect>
+         </property>
+        </widget>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

@@ -14,6 +14,7 @@ from python_qt_binding.QtWidgets import QGroupBox
 from python_qt_binding.QtWidgets import QLabel
 from python_qt_binding.QtWidgets import QPushButton
 from python_qt_binding.QtWidgets import QLayout
+from python_qt_binding.QtWidgets import QVBoxLayout
 from python_qt_binding.QtWidgets import QComboBox
 from python_qt_binding.QtWidgets import QHBoxLayout
 from python_qt_binding.QtWidgets import QGridLayout
@@ -79,6 +80,7 @@ class GaitSelectionPlugin(Plugin):
             self._widget.setWindowTitle(self._widget.windowTitle() + (' (%d)' % context.serial_number()))
         # Add widget to the user interface
         context.add_widget(self._widget)
+        self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").setLayout(QVBoxLayout())
 
         self.refresh()
 
@@ -124,12 +126,11 @@ class GaitSelectionPlugin(Plugin):
             rospy.logerr("Gait directory structure is not valid " + str(self.get_directory_structure().message))
             return
 
-        gaits = self._widget.Gaits.findChildren(QGroupBox, "Gait")
+        gaits = self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").findChildren(QGroupBox, "Gait")
         for gait in gaits:
             gait.deleteLater()
 
         self.load_ui(gait_directory_structure, gait_version_map)
-        self._widget.layout().setSizeConstraint(QLayout.SetFixedSize)
 
     def load_ui(self, gait_directory_structure, gait_selection_map):
         for gait_name, gait in gait_directory_structure.iteritems():
@@ -138,7 +139,7 @@ class GaitSelectionPlugin(Plugin):
             except KeyError:
                 selection_map = None
             gait_group_box = self.create_gait(gait_name, gait, selection_map)
-            self._widget.Gaits.layout().addWidget(gait_group_box)
+            self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").layout().addWidget(gait_group_box)
 
     def create_gait(self, name, gait, selections):
         gait_group_box = QGroupBox()
@@ -187,7 +188,7 @@ class GaitSelectionPlugin(Plugin):
 
     def set_gait_selection_map(self, notify = False):
         gait_selection_map = {}
-        gaits = self._widget.Gaits.findChildren(QGroupBox, "Gait")
+        gaits = self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").findChildren(QGroupBox, "Gait")
         for gait in gaits:
             gait_name = str(gait.title())
             gait_selection_map[gait_name] = {}
