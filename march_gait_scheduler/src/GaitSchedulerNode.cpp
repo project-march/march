@@ -25,7 +25,7 @@ void doneCallback(const actionlib::SimpleClientGoalState& state,
 {
   if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
   {
-    ROS_INFO("Gait already done or action already ended");
+    ROS_DEBUG("Gait already done or action already ended");
     return;
   }
   if (result->error_code == result->SUCCESSFUL)
@@ -63,7 +63,7 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
     }
     if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
     {
-      ROS_INFO("Gait already done or action already ended");
+      ROS_DEBUG("Gait already done or action already ended");
       return;
     }
     scheduler->gaitDone = true;
