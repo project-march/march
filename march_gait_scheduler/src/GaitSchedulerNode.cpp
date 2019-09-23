@@ -2,18 +2,12 @@
 
 #include "ros/ros.h"
 #include <control_msgs/FollowJointTrajectoryAction.h>
-#include <fstream>
-#include <iostream>
 #include <ros/package.h>
-#include <sensor_msgs/JointState.h>
-#include <sensor_msgs/Temperature.h>
 #include <std_msgs/Float64.h>
 
 #include <actionlib/client/simple_action_client.h>
 #include <actionlib/server/simple_action_server.h>
-#include <boost/algorithm/string.hpp>
 #include <dynamic_reconfigure/server.h>
-#include <trajectory_msgs/JointTrajectory.h>
 
 #include <march_shared_resources/GaitAction.h>
 #include <march_shared_resources/GaitGoal.h>
@@ -23,16 +17,32 @@
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
 ScheduleGaitActionServer* scheduleGaitActionServer;
 actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>* followJointTrajectoryAction;
+ros::Publisher trajectory_publisher;
 Scheduler* scheduler;
 
 void doneCallback(const actionlib::SimpleClientGoalState& state,
                   const control_msgs::FollowJointTrajectoryResultConstPtr& result)
 {
-  ROS_DEBUG("Gait trajectory execution DONE");
-  if (scheduleGaitActionServer->isActive())
+  if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
+  {
+    ROS_DEBUG("Gait already done or action already ended");
+    return;
+  }
+  if (result->error_code == result->SUCCESSFUL)
   {
     scheduleGaitActionServer->setSucceeded();
-    ROS_WARN("Schedule gait action SUCCEEDED");
+    ROS_WARN("Gait trajectory execution DONE, this should only happen when GAIT_SUCCEEDED_OFFSET is 0");
+    ROS_INFO("Schedule gait action SUCCEEDED");
+  }
+  else
+  {
+    scheduleGaitActionServer->setAborted();
+    ROS_WARN("Schedule gait action FAILED, FollowJointTrajectory error_code is %d ", result->error_code);
+
+      trajectory_msgs::JointTrajectory empty_trajectory;
+      empty_trajectory.points.clear();
+      empty_trajectory.joint_names.clear();
+      trajectory_publisher.publish(empty_trajectory);
   }
 }
 
@@ -46,11 +56,19 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
   if (scheduler->getEndTimeCurrentGait().toSec() - feedback->header.stamp.toSec() <
       scheduler->GAIT_SUCCEEDED_OFFSET.toSec())
   {
-    if (scheduleGaitActionServer->isActive())
+    if (scheduler->getEndTimeCurrentGait().toSec() - feedback->header.stamp.toSec() < 0)
     {
-      scheduleGaitActionServer->setSucceeded();
-      ROS_DEBUG("Schedule gait action SUCCEEDED");
+      ROS_ERROR("Negative difference");
+      return;
     }
+    if (!scheduleGaitActionServer->isActive() || scheduler->gaitDone)
+    {
+      ROS_DEBUG("Gait already done or action already ended");
+      return;
+    }
+    scheduler->gaitDone = true;
+    scheduleGaitActionServer->setSucceeded();
+    ROS_DEBUG("Schedule gait action SUCCEEDED");
   }
 }
 
@@ -63,6 +81,7 @@ void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
     control_msgs::FollowJointTrajectoryGoal trajectoryMsg =
         scheduler->scheduleGait(goal.get(), ros::Duration().fromSec(0));
     followJointTrajectoryAction->sendGoal(trajectoryMsg, &doneCallback, &activeCallback, &feedbackCallback);
+    scheduler->gaitDone = false;
     ROS_DEBUG("follow joint trajectory action called");
   }
   catch (std::runtime_error error)
@@ -89,7 +108,6 @@ void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
  */
 void schedulerConfigCallback(march_gait_scheduler::SchedulerConfig& config, uint32_t level)
 {
-  // Make sure there is always a possible interval between min and max temperature.
   scheduler->GAIT_SUCCEEDED_OFFSET = ros::Duration(config.gait_succeeded_offset);
 }
 
@@ -114,7 +132,10 @@ int main(int argc, char** argv)
     ROS_ERROR("Not connected to joint trajectory action server");
   }
 
-  // Make the temperature values dynamic reconfigurable
+  std::string controller_name;
+  n.getParam(ros::this_node::getName() + std::string("/controller_name"), controller_name);
+  trajectory_publisher = n.advertise<trajectory_msgs::JointTrajectory>("/" + controller_name + "/command", 1000);
+
   dynamic_reconfigure::Server<march_gait_scheduler::SchedulerConfig> server;
   server.setCallback(boost::bind(&schedulerConfigCallback, _1, _2));
 
