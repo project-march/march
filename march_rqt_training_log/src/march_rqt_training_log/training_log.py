@@ -41,6 +41,7 @@ class TrainingLogPlugin(Plugin):
         timestamp_shortcut = QShortcut(QKeySequence('Ctrl+T'), self._widget)
         log_shortcut.activated.connect(self.log)
         clear_shortcut.activated.connect(self.clear)
+        timestamp_shortcut.activated.connect(self.create_timestamp)
 
     def shutdown_plugin(self):
         rospy.signal_shutdown('rqt plugin closed')
