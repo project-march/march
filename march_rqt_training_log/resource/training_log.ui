@@ -22,6 +22,9 @@
      <height>71</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ctrl+L&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -64,6 +67,9 @@
      <height>71</height>
     </rect>
    </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ctrl+T&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
    <property name="styleSheet">
     <string notr="true"/>
    </property>
@@ -95,6 +101,9 @@
      <width>251</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Ctrl+D&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="styleSheet">
     <string notr="true"/>

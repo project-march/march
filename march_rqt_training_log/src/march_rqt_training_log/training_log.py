@@ -38,6 +38,7 @@ class TrainingLogPlugin(Plugin):
     def init_shortcuts(self):
         log_shortcut = QShortcut(QKeySequence('Ctrl+L'), self._widget)
         clear_shortcut = QShortcut(QKeySequence('Ctrl+D'), self._widget)
+        timestamp_shortcut = QShortcut(QKeySequence('Ctrl+T'), self._widget)
         log_shortcut.activated.connect(self.log)
         clear_shortcut.activated.connect(self.clear)
 
