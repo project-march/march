@@ -19,7 +19,7 @@ install(DIRECTORY resource
         DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
        )
 
-install(PROGRAMS scripts/rqt_launch_menu
+install(PROGRAMS scripts/march_rqt_training_log
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
        )
 
