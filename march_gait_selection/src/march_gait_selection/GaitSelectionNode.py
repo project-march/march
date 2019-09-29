@@ -92,6 +92,7 @@ def update_default_versions(gait_package, gait_directory,  gait_version_map):
         return [False, "Could not write to " + default_yaml]
     return [True, "Succesfully wrote defaults " + str(gait_version_map) + " to file " + default_yaml]
 
+
 def main():
     rospy.init_node("gait_selection")
     gait_package = rospy.get_param("/march/gait_file_package", "march_gait_files")
