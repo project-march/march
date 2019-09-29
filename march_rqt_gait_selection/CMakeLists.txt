@@ -20,7 +20,7 @@ install(DIRECTORY resource
 )
 
 install(DIRECTORY launch
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
 )
 
 install(PROGRAMS scripts/rqt_gait_selection
