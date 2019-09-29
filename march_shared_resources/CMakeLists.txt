@@ -1,78 +1,64 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_shared_resources)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-#add_compile_options(-std = c++ 11)
-
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-        actionlib_msgs
-        message_generation
-        message_runtime
-        std_msgs
-        roslint
-        trajectory_msgs
-        )
+    actionlib_msgs
+    message_generation
+    message_runtime
+    std_msgs
+    trajectory_msgs
+)
 
 add_message_files(
-        FILES
-        Error.msg
-        Gait.msg
-        GaitInstruction.msg
-        GaitStatus.msg
-        Graph.msg
-        PerformGait.msg
-        PlayInputMaster.msg
-        PowerDistributionBoardState.msg
-        HighVoltageNet.msg
-        LowVoltageNet.msg
-        StepSize.msg
-        Setpoint.msg
-        Sound.msg
-        Subgait.msg
-        ImcErrorState.msg
-        AfterLimitJointCommand.msg
+    FILES
+    AfterLimitJointCommand.msg
+    Error.msg
+    Gait.msg
+    GaitInstruction.msg
+    GaitStatus.msg
+    Graph.msg
+    HighVoltageNet.msg
+    ImcErrorState.msg
+    LowVoltageNet.msg
+    PerformGait.msg
+    PlayInputMaster.msg
+    PowerDistributionBoardState.msg
+    Setpoint.msg
+    Sound.msg
+    StepSize.msg
+    Subgait.msg
 )
 
 add_service_files(
-        FILES
-        GaitInput.srv
-        GaitRequest.srv
-        PlayInput.srv
-        Trigger.srv
-        StringTrigger.srv
+    FILES
+    GaitInput.srv
+    GaitRequest.srv
+    PlayInput.srv
+    StringTrigger.srv
+    Trigger.srv
 )
 
 add_action_files(
-        DIRECTORY action
-        FILES Gait.action
-        GaitName.action
-        MoveToGait.action
+    DIRECTORY action
+    FILES
+    Gait.action
+    GaitName.action
+    MoveToGait.action
 )
 
 generate_messages(
-        DEPENDENCIES
-        actionlib_msgs
-        std_msgs
-        trajectory_msgs
+    DEPENDENCIES
+    actionlib_msgs
+    std_msgs
+    trajectory_msgs
 )
 
 catkin_package(
-#        INCLUDE_DIRS include
-        #LIBRARIES march_shared_resources
-        CATKIN_DEPENDS
-        actionlib_msgs
-        message_generation
-        message_runtime
-        std_msgs
-        trajectory_msgs
-        #DEPENDS system_lib
-)
-
-include_directories(
-        #include
-        ${catkin_INCLUDE_DIRS}
+    CATKIN_DEPENDS
+    actionlib_msgs
+    message_generation
+    message_runtime
+    std_msgs
+    trajectory_msgs
 )
 
