@@ -18,10 +18,7 @@ catkin_package(
     std_msgs
 )
 
-file(GLOB_RECURSE lintfiles
-    "src/*.py"
-    )
-
+file(GLOB_RECURSE lintfiles "src/*.py")
 roslint_python(${lintfiles})
 
 catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node

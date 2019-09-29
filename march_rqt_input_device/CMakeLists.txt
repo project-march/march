@@ -8,8 +8,8 @@ find_package(catkin REQUIRED COMPONENTS
     rqt_gui_py
 )
 
-catkin_package()
 catkin_python_setup()
+catkin_package()
 
 install(FILES plugin.xml
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}

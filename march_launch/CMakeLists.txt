@@ -12,9 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
     rqt_gui_py
 )
 
-catkin_package()
-
 catkin_python_setup()
+catkin_package()
 
 install(FILES plugin.xml
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
@@ -35,10 +34,7 @@ install(PROGRAMS scripts/git_branch_check
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-file(GLOB_RECURSE lintfiles
-    "src/*.py"
-)
-
+file(GLOB_RECURSE lintfiles "src/*.py")
 roslint_python(${lintfiles})
 
 if (CATKIN_ENABLE_TESTING)
