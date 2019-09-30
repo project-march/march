@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<!-- Revolute-Revolute Manipulator -->
+<robot name="march" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Switch between airgaiting or standing on the ground-->
+    <!--Value set to: 'world' fixes the robot to the world-->
+    <!--Value set to: 'base_link' makes the robot stand on the ground-->
+    <!--Important note: when changing value make sure rviz fixed frame is set to the same value (moveit.rviz)-->
+
+    <!-- Constants for robot dimensions -->
+    <xacro:property name="PI" value="3.1415926535897931"/>
+    <xacro:property name="joint_base_mass" value="1"/> <!-- arbitrary value for joint_base_mass -->
+    <xacro:property name="joint_base_width" value="0.05"/> <!-- Cube dimensions (width x width x width) of joint base -->
+
+    <xacro:property name="bar_length" value="${0.39}"/>
+    <xacro:property name="bar_mass" value="1.080"/>
+    <xacro:property name="bar_width" value="0.05"/>
+
+    <xacro:property name="joint_buffer" value="${3*pi/180}"/> <!-- rad -->
+    <xacro:property name="joint_lower_limit" value="${-8.5*pi/180}"/> <!-- rad -->
+    <xacro:property name="joint_upper_limit" value="${8.5*pi/180}"/> <!-- rad -->
+    <xacro:property name="joint_effort_limit" value="10927.0"/>
+    <xacro:property name="joint_velocity_limit" value="1.0"/> <!-- rad/s -->
+
+    <xacro:property name="hover_height" value="0.5"/>
+
+    <!-- Import all Gazebo-customization elements, including Gazebo colors -->
+    <xacro:include filename="$(find march_description)/urdf/march.gazebo"/>
+
+
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+        <robotNamespace>/march</robotNamespace>
+    </plugin>
+
+    <!-- Used for fixing robot to Gazebo 'base_link' -->
+    <link name="world"/>
+
+    <joint name="joint_base_fixed_parent_joint" type="fixed">
+        <parent link="world"/>
+        <child link="joint_base"/>
+        <origin xyz="0 0 ${hover_height}" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="linear_joint" type="revolute">
+        <parent link="joint_base"/>
+        <child link="bar"/>
+        <origin xyz="0 ${-joint_base_width} 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit velocity="${joint_velocity_limit}" effort="${joint_effort_limit}" lower="${joint_lower_limit}" upper="${joint_upper_limit}"/>
+        <safety_controller soft_lower_limit="${joint_lower_limit + joint_buffer}" soft_upper_limit="${joint_upper_limit - joint_buffer}" k_position="10" k_velocity="10" />
+    </joint>
+
+    <!-- give colors to some links in gazebo -->
+    <gazebo reference="joint_base">
+        <material>Gazebo/Blue</material>
+    </gazebo>
+
+
+    <!-- Joint Base-->
+    <link name="joint_base">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${joint_base_width} ${joint_base_width} ${joint_base_width}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="${joint_base_mass}"/>
+            <inertia
+                    ixx="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}" ixy="0.0" ixz="0.0"
+                    iyy="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}" iyz="0.0"
+                    izz="${joint_base_mass / 12.0 * (2*(joint_base_width*joint_base_width))}"/>
+            <!--(joint_base_width*joint_base_width + joint_base_width*joint_base_width)-->
+        </inertial>
+    </link>
+
+    <!-- Bar-->
+    <link name="bar">
+        <visual>
+            <origin xyz="0 0 ${-bar_length/2}" rpy="0 0 0"/>
+            <geometry>
+                <box size="${bar_width} ${bar_width} ${bar_length}"/>
+            </geometry>
+        </visual>
+
+        <inertial>
+            <origin xyz="0 0 ${-bar_length/2}" rpy="0 0 0"/>
+            <mass value="${bar_mass}"/>
+            <inertia
+                    ixx="${joint_base_mass / 12.0 * (bar_width*bar_width + bar_length*bar_length)}" ixy="0.0" ixz="0.0"
+                    iyy="${joint_base_mass / 12.0 * (bar_length*bar_length + bar_width*bar_width)}" iyz="0.0"
+                    izz="${joint_base_mass / 12.0 * (bar_width*bar_width + bar_width*bar_width)}"/>
+        </inertial>
+    </link>
+
+    <!-- ROS Control plugin for Gazebo -->
+    <transmission name="linear_joint_transmission">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="linear_joint">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="linear_joint_motor">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+
+</robot>

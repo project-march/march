@@ -40,7 +40,7 @@
         <origin xyz="0 0 ${hover_height}" rpy="0 0 0"/>
     </joint>
 
-    <joint name="test_joint" type="revolute">
+    <joint name="rotational_joint" type="revolute">
         <parent link="joint_base"/>
         <child link="bar"/>
         <origin xyz="0 ${-joint_base_width} 0" rpy="0 0 0"/>
@@ -94,14 +94,13 @@
         </inertial>
     </link>
 
-
     <!-- ROS Control plugin for Gazebo -->
-    <transmission name="test_joint">
+    <transmission name="rotational_joint_transmission">
         <type>transmission_interface/SimpleTransmission</type>
-        <joint name="test_joint">
+        <joint name="rotational_joint">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
         </joint>
-        <actuator name="test_joint_motor">
+        <actuator name="rotational_joint_motor">
             <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
             <mechanicalReduction>1</mechanicalReduction>
         </actuator>
