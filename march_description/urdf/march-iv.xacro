@@ -236,9 +236,12 @@
             <origin xyz="0 0 0" rpy="0 0 0"/>
             <mass value="${hip_base_mass}"/>
             <inertia
-                    ixx="${hip_base_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_base_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_base_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.0745937"
+                    ixy="0.0000239249"
+                    ixz="-0.00000472801"
+                    iyy="0.117325"
+                    iyz="-0.0179732"
+                    izz="0.0684134" />
         </inertial>
 
         <collision>
@@ -272,9 +275,12 @@
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.0165504"
+                    ixy="0.00655578"
+                    ixz="-0.0000996411"
+                    iyy="0.00841686"
+                    iyz="-0.0000910634"
+                    izz="0.0229261" />
         </inertial>
 
         <collision>
@@ -299,9 +305,12 @@
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
-                    ixx="${upper_leg_mass / 12.0 * (width*width + upper_leg_height*upper_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${upper_leg_mass / 12.0 * (upper_leg_height*upper_leg_height + width*width)}" iyz="0.0"
-                    izz="${upper_leg_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.11867"
+                    ixy="-0.0000363676"
+                    ixz="0.0125652"
+                    iyy="0.119187"
+                    iyz="0.0000393791"
+                    izz="0.00881972" />
         </inertial>
 
         <collision>
@@ -326,9 +335,12 @@
             <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
-                    ixx="${lower_leg_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${lower_leg_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${lower_leg_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.108683"
+                    ixy="-0.0264923"
+                    ixz="-0.00109811"
+                    iyy="0.0725438"
+                    iyz="-0.00934723"
+                    izz="0.0715361" />
         </inertial>
 
         <collision>
@@ -363,9 +375,12 @@
             <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
-                    ixx="${foot_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${foot_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${foot_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.00855883"
+                    ixy="-0.00185339"
+                    ixz="0.00166213"
+                    iyy="0.00855883"
+                    iyz="0.00254464"
+                    izz="0.00715736" />
         </inertial>
 
         <collision>
@@ -399,9 +414,12 @@
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.0165504"
+                    ixy="-0.00655578"
+                    ixz="0.0000996411"
+                    iyy="0.00841686"
+                    iyz="-0.0000910634"
+                    izz="0.0229261" />
         </inertial>
 
         <collision>
@@ -426,9 +444,12 @@
             <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
-                    ixx="${upper_leg_mass / 12.0 * (width*width + upper_leg_height*upper_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${upper_leg_mass / 12.0 * (upper_leg_height*upper_leg_height + width*width)}" iyz="0.0"
-                    izz="${upper_leg_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.11867"
+                    ixy="0.0000363676"
+                    ixz="-0.0125652"
+                    iyy="0.119187"
+                    iyz="0.0000393791"
+                    izz="0.00881972" />
         </inertial>
 
         <collision>
@@ -454,9 +475,12 @@
             <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
-                    ixx="${lower_leg_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${lower_leg_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${lower_leg_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.108683"
+                    ixy="0.0264923"
+                    ixz="0.00109811"
+                    iyy="0.0725438"
+                    iyz="-0.00934723"
+                    izz="0.0715361" />
         </inertial>
 
         <collision>
@@ -491,9 +515,12 @@
             <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
-                    ixx="${foot_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${foot_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${foot_mass / 12.0 * (width*width + width*width)}"/>
+                    ixx="0.00855883"
+                    ixy="0.00185339"
+                    ixz="-0.00166213"
+                    iyy="0.00855883"
+                    iyz="0.00254464"
+                    izz="0.00715736" />
         </inertial>
         <collision>
             <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
