@@ -9,7 +9,8 @@
 
     <xacro:arg name="max_effort_rotary" default="20475" /> <!-- = 25 A -->
     <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
-    <xacro:property name="max_effort_value" value="$(arg max_effort_value)" />
+    <xacro:property name="max_effort_rotary" value="$(arg max_effort_rotary)" />
+    <xacro:property name="max_effort_linear" value="$(arg max_effort_linear)" />
 
     <xacro:arg name="k_velocity_value" default="20000.0" />
     <xacro:property name="k_velocity_value" value="$(arg k_velocity_value)" />
@@ -31,8 +32,6 @@
     <xacro:property name="foot_height_backward" value="${0.059}"/>
     <xacro:property name="foot_mass" value="0.847"/>
     <!-- mass = Passive ankle + foot -->
-    <xacro:property name="ankle_mass" value="0"/>
-    <!-- ankle mass has been included in the foot mass -->
 
     <xacro:property name="ankle_plate_height" value="0.07"/>
 
@@ -45,7 +44,7 @@
     <xacro:property name="hip_aa_frame_width" value="0.1395"/>
     <xacro:property name="hip_aa_mass" value="1.407"/>
     <!-- mass = Moving hip -->
-    <xacro:property name="hip_aa_mass_front" value="0"/>
+    <xacro:property name="hip_aa_mass_front" value="0.4"/>
     <!-- hip_aa_mass_front has been included in the hip_aa_mass -->
 
 
@@ -260,15 +259,6 @@
             <material name="blue"/>
         </visual>
 
-        <inertial>
-            <origin xyz="0 ${-hip_aa_frame_height/2} 0" rpy="0 0 0"/>
-            <mass value="${hip_aa_mass}"/>
-            <inertia
-                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
-        </inertial>
-
         <collision>
             <origin xyz="0 ${-hip_aa_frame_height/2} 0" rpy="0 0 0"/>
             <geometry>
@@ -280,11 +270,11 @@
     <link name="hip_aa_frame_left_front">
         <inertial>
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
-            <mass value="${hip_aa_mass_front}"/>
+            <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="${hip_aa_mass_front / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass_front / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass_front / 12.0 * (width*width + width*width)}"/>
+                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
 
         <collision>
@@ -359,15 +349,6 @@
             <material name="blue"/>
         </visual>
 
-        <inertial>
-            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
-            <mass value="${foot_mass}"/>
-            <inertia
-                    ixx="${ankle_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${ankle_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${ankle_mass / 12.0 * (width*width + width*width)}"/>
-        </inertial>
-
         <collision>
             <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
             <geometry>
@@ -405,15 +386,6 @@
             <material name="blue"/>
         </visual>
 
-        <inertial>
-            <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
-            <mass value="${hip_aa_mass}"/>
-            <inertia
-                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
-        </inertial>
-
         <collision>
             <origin xyz="0 ${hip_aa_frame_height/2} 0" rpy="0 0 0"/>
             <geometry>
@@ -425,11 +397,11 @@
     <link name="hip_aa_frame_right_front">
         <inertial>
             <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
-            <mass value="${hip_aa_mass_front}"/>
+            <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="${hip_aa_mass_front / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${hip_aa_mass_front / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${hip_aa_mass_front / 12.0 * (width*width + width*width)}"/>
+                    ixx="${hip_aa_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
+                    iyy="${hip_aa_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
+                    izz="${hip_aa_mass / 12.0 * (width*width + width*width)}"/>
         </inertial>
 
         <collision>
@@ -504,15 +476,6 @@
             </geometry>
             <material name="blue"/>
         </visual>
-
-        <inertial>
-            <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
-            <mass value="${ankle_mass}"/>
-            <inertia
-                    ixx="${ankle_mass / 12.0 * (width*width + lower_leg_height*lower_leg_height)}" ixy="0.0" ixz="0.0"
-                    iyy="${ankle_mass / 12.0 * (lower_leg_height*lower_leg_height + width*width)}" iyz="0.0"
-                    izz="${ankle_mass / 12.0 * (width*width + width*width)}"/>
-        </inertial>
 
         <collision>
             <origin xyz="0 0 ${-ankle_plate_height/2}" rpy="0 0 0"/>
