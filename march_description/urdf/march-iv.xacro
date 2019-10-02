@@ -301,12 +301,12 @@
             <origin xyz="${hip_base_com_x} ${hip_base_com_y} ${hip_base_com_z}" rpy="0 0 0"/>
             <mass value="${hip_base_mass}"/>
             <inertia
-                    ixx="hip_base_Ixx"
-                    ixy="hip_base_Ixy"
-                    ixz="hip_base_Ixz"
-                    iyy="hip_base_Iyy"
-                    iyz="hip_base_Iyz"
-                    izz="hip_base_Izz" />
+                    ixx="${hip_base_Ixx}"
+                    ixy="${hip_base_Ixy}"
+                    ixz="${hip_base_Ixz}"
+                    iyy="${hip_base_Iyy}"
+                    iyz="${hip_base_Iyz}"
+                    izz="${hip_base_Izz}" />
         </inertial>
 
         <collision>
@@ -340,12 +340,12 @@
             <origin xyz="${hip_aa_com_x} ${-hip_aa_com_y} ${hip_aa_com_z}" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="hip_aa_Ixx"
-                    ixy="-hip_aa_Ixy"
-                    ixz="hip_aa_Ixz"
-                    iyy="hip_aa_Iyy"
-                    iyz="-hip_aa_Iyz"
-                    izz="hip_aa_Izz" />
+                    ixx="${hip_aa_Ixx}"
+                    ixy="${-hip_aa_Ixy}"
+                    ixz="${hip_aa_Ixz}"
+                    iyy="${hip_aa_Iyy}"
+                    iyz="${-hip_aa_Iyz}"
+                    izz="${hip_aa_Izz}" />
         </inertial>
 
         <collision>
@@ -370,12 +370,12 @@
             <origin xyz="${upper_leg_com_x} ${-upper_leg_com_y} ${upper_leg_com_z}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
-                    ixx="upper_leg_Ixx"
-                    ixy="-upper_leg_Ixy"
-                    ixz="upper_leg_Ixz"
-                    iyy="upper_leg_Iyy"
-                    iyz="-upper_leg_Iyz"
-                    izz="upper_leg_Izz" />
+                    ixx="${upper_leg_Ixx}"
+                    ixy="${-upper_leg_Ixy}"
+                    ixz="${upper_leg_Ixz}"
+                    iyy="${upper_leg_Iyy}"
+                    iyz="${-upper_leg_Iyz}"
+                    izz="${upper_leg_Izz}" />
         </inertial>
 
         <collision>
@@ -400,12 +400,12 @@
             <origin xyz="${lower_leg_com_x} ${-lower_leg_com_y} ${lower_leg_com_z}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
-                    ixx="lower_leg_Ixx"
-                    ixy="-lower_leg_Ixy"
-                    ixz="lower_leg_Ixz"
-                    iyy="lower_leg_Iyy"
-                    iyz="-lower_leg_Iyz"
-                    izz="lower_leg_Izz" />
+                    ixx="${lower_leg_Ixx}"
+                    ixy="${-lower_leg_Ixy}"
+                    ixz="${lower_leg_Ixz}"
+                    iyy="${lower_leg_Iyy}"
+                    iyz="${-lower_leg_Iyz}"
+                    izz="${lower_leg_Izz}" />
         </inertial>
 
         <collision>
@@ -440,12 +440,12 @@
             <origin xyz="${foot_com_x} ${-foot_com_y} ${foot_com_z}" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
-                    ixx="foot_Ixx"
-                    ixy="-foot_Ixy"
-                    ixz="foot_Ixz"
-                    iyy="foot_Iyy"
-                    iyz="-foot_Iyz"
-                    izz="foot_Izz" />
+                    ixx="${foot_Ixx}"
+                    ixy="${-foot_Ixy}"
+                    ixz="${foot_Ixz}"
+                    iyy="${foot_Iyy}"
+                    iyz="${-foot_Iyz}"
+                    izz="${foot_Izz}" />
         </inertial>
 
         <collision>
@@ -479,12 +479,12 @@
             <origin xyz="${hip_aa_com_x} ${hip_aa_com_y} ${hip_aa_com_z}" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
-                    ixx="hip_aa_Ixx"
-                    ixy="hip_aa_Ixy"
-                    ixz="hip_aa_Ixz"
-                    iyy="hip_aa_Iyy"
-                    iyz="hip_aa_Iyz"
-                    izz="hip_aa_Izz" />
+                    ixx="${hip_aa_Ixx}"
+                    ixy="${hip_aa_Ixy}"
+                    ixz="${hip_aa_Ixz}"
+                    iyy="${hip_aa_Iyy}"
+                    iyz="${hip_aa_Iyz}"
+                    izz="${hip_aa_Izz}" />
         </inertial>
 
         <collision>
@@ -509,12 +509,12 @@
             <origin xyz="${upper_leg_com_x} ${upper_leg_com_y} ${upper_leg_com_z}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
-                    ixx="upper_leg_Ixx"
-                    ixy="upper_leg_Ixy"
-                    ixz="upper_leg_Ixz"
-                    iyy="upper_leg_Iyy"
-                    iyz="upper_leg_Iyz"
-                    izz="upper_leg_Izz" />
+                    ixx="${upper_leg_Ixx}"
+                    ixy="${upper_leg_Ixy}"
+                    ixz="${upper_leg_Ixz}"
+                    iyy="${upper_leg_Iyy}"
+                    iyz="${upper_leg_Iyz}"
+                    izz="${upper_leg_Izz}" />
         </inertial>
 
         <collision>
@@ -540,12 +540,12 @@
             <origin xyz="${lower_leg_com_x} ${lower_leg_com_y} ${lower_leg_com_z}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
-                    ixx="lower_leg_Ixx"
-                    ixy="lower_leg_Ixy"
-                    ixz="lower_leg_Ixz"
-                    iyy="lower_leg_Iyy"
-                    iyz="lower_leg_Iyz"
-                    izz="lower_leg_Izz" />
+                    ixx="${lower_leg_Ixx}"
+                    ixy="${lower_leg_Ixy}"
+                    ixz="${lower_leg_Ixz}"
+                    iyy="${lower_leg_Iyy}"
+                    iyz="${lower_leg_Iyz}"
+                    izz="${lower_leg_Izz}" />
         </inertial>
 
         <collision>
@@ -580,12 +580,12 @@
             <origin xyz="${foot_com_x} ${foot_com_y} ${foot_com_z}" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
-                    ixx="foot_Ixx"
-                    ixy="foot_Ixy"
-                    ixz="foot_Ixz"
-                    iyy="foot_Iyy"
-                    iyz="foot_Iyz"
-                    izz="foot_Izz" />
+                    ixx="${foot_Ixx}"
+                    ixy="${foot_Ixy}"
+                    ixz="${foot_Ixz}"
+                    iyy="${foot_Iyy}"
+                    iyz="${foot_Iyz}"
+                    izz="${foot_Izz}" />
         </inertial>
         <collision>
             <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
