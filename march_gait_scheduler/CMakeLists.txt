@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_gait_scheduler)
-add_definitions(-std=c++11 -Wall -g)
+
+add_compile_options(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
     actionlib
@@ -80,7 +81,7 @@ if (CATKIN_ENABLE_TESTING)
         test/EndTimeTest.cpp
         test/AcceptanceTest.cpp
         test/CallbackCounter.cpp
-        )
+    )
 
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} ${PROJECT_NAME})
 
@@ -89,6 +90,6 @@ if (CATKIN_ENABLE_TESTING)
         add_code_coverage(
             NAME ${PROJECT_NAME}_coverage
             DEPENDS tests
-            )
+        )
     endif()
 endif ()
