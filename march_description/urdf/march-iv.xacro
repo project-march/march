@@ -44,7 +44,7 @@
     <xacro:property name="foot_mass" value="0.847"/>
     <!-- mass = Passive ankle + foot -->
 
-    <!-- Com of the parts -->
+    <!-- Center of Mass (CoM) of the parts -->
     <!-- CoM has been determined in Catia, see https://confluence.projectmarch.nl:8443/display/51/URDF+description -->
     <!-- The Catia locations were defined in a global coordinate system with the origin at the center of the
          rotation axis of the two HFE joints. Here, the joints were all set at zero degrees. Hence, we need some
