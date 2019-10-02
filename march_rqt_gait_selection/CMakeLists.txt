@@ -15,15 +15,11 @@ install(FILES plugin.xml
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-install(DIRECTORY resource
+install(DIRECTORY launch resource
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-install(DIRECTORY launch
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-)
-
-install(PROGRAMS scripts/rqt_gait_selection
+catkin_python_install(PROGRAMS scripts/rqt_gait_selection
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

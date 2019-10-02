@@ -32,8 +32,8 @@ include_directories(
 )
 
 add_library(${PROJECT_NAME}
-    include/march_sound_scheduler/ScheduledSound.h
-    include/march_sound_scheduler/Scheduler.h
+    include/${PROJECT_NAME}/ScheduledSound.h
+    include/${PROJECT_NAME}/Scheduler.h
     src/ScheduledSound.cpp
     src/Scheduler.cpp
 )
@@ -53,6 +53,6 @@ install(TARGETS ${PROJECT_NAME}
 install(TARGETS ${PROJECT_NAME}_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-install(DIRECTORY launch/
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
+install(DIRECTORY launch sound
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
