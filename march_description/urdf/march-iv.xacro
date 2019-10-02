@@ -20,32 +20,57 @@
     <!-- Masses determined in https://confluence.projectmarch.nl:8443/display/41TECH/Weights+of+the+Exoskeleton -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
-    <xacro:property name="upper_leg_height" value="${0.385}"/>
+    <xacro:property name="hip_base_height" value="0.160"/>
+    <xacro:property name="hip_base_mass" value="6.089"/>
+    <!-- mass = Hip base + HAA actuators -->
+
+    <xacro:property name="hip_aa_frame_height" value="0.170"/>
+    <xacro:property name="hip_aa_frame_width" value="0.1395"/>
+    <xacro:property name="hip_aa_mass" value="1.407"/>
+    <!-- mass = Moving hip -->
+
+    <xacro:property name="upper_leg_height" value="0.385"/>
     <xacro:property name="upper_leg_mass" value="7.238"/>
     <!-- mass = KFE joint + HFE joint + Upper leg -->
 
-    <xacro:property name="lower_leg_height" value="${0.385}"/>
+    <xacro:property name="lower_leg_height" value="0.385"/>
     <xacro:property name="lower_leg_mass" value="2.944"/>
     <!-- mass = Ankle actuator + Lower leg -->
+
+    <xacro:property name="ankle_plate_height" value="0.12"/>
 
     <xacro:property name="foot_height_forward" value="${0.184}"/>
     <xacro:property name="foot_height_backward" value="${0.059}"/>
     <xacro:property name="foot_mass" value="0.847"/>
     <!-- mass = Passive ankle + foot -->
 
-    <xacro:property name="ankle_plate_height" value="0.07"/>
+    <!-- Com of the parts -->
+    <!-- CoM has been determined in Catia, see https://confluence.projectmarch.nl:8443/display/51/URDF+description -->
+    <!-- The Catia locations were defined in a global coordinate system with the origin at the center of the
+         rotation axis of the two HFE joints. Here, the joints were all set at zero degrees. Hence, we need some
+         translations to transfer it to the reference frame of each of the parts. Not that in the Catia x axis is
+         the URDF y axis and the Catia y axis is the negative URDF x axis. The given CoM are for the right leg,
+         the y coordinate will be inverted for the left leg. -->
+    <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.124786}"/>
+    <xacro:property name="hip_base_com_y" value="0.00000911124"/>
+    <xacro:property name="hip_base_com_z" value="0.152163"/>
 
-    <xacro:property name="hip_height" value="0.420"/>
-    <xacro:property name="hip_base_height" value="0.160"/>
-    <xacro:property name="hip_base_mass" value="6.089"/>
-    <!-- mass = Hip base + HAA actuators -->
+    <xacro:property name="hip_aa_com_x" value="${-hip_aa_frame_width + 0.0669488}"/>
+    <xacro:property name="hip_aa_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.210566}"/>
+    <xacro:property name="hip_aa_com_z" value="-0.000250494"/>
 
-    <xacro:property name="hip_aa_frame_height" value="0.130"/>
-    <xacro:property name="hip_aa_frame_width" value="0.1395"/>
-    <xacro:property name="hip_aa_mass" value="1.407"/>
-    <!-- mass = Moving hip -->
-    <xacro:property name="hip_aa_mass_front" value="0.4"/>
-    <!-- hip_aa_mass_front has been included in the hip_aa_mass -->
+    <xacro:property name="upper_leg_com_x" value="-0.00219961"/>
+    <xacro:property name="upper_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.221535}"/>
+    <xacro:property name="upper_leg_com_z" value="-0.184207"/>
+
+    <xacro:property name="lower_leg_com_x" value="-0.00434063"/>
+    <xacro:property name="lower_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.184583}"/>
+    <xacro:property name="lower_leg_com_z" value="${upper_leg_height - 0.511661}"/>
+
+    <xacro:property name="foot_com_x" value="-0.0450791"/>
+    <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.147081}"/>
+    <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.844751}"/>
+
 
 
     <!-- Joint properties -->
@@ -233,7 +258,7 @@
         </visual>
 
         <inertial>
-            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <origin xyz="${hip_base_com_x} ${hip_base_com_y} ${hip_base_com_z}" rpy="0 0 0"/>
             <mass value="${hip_base_mass}"/>
             <inertia
                     ixx="0.0745937"
@@ -272,7 +297,7 @@
 
     <link name="hip_aa_frame_left_front">
         <inertial>
-            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <origin xyz="${hip_aa_com_x} ${-hip_aa_com_y} ${hip_aa_com_z}" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
                     ixx="0.0165504"
@@ -302,7 +327,7 @@
         </visual>
 
         <inertial>
-            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
+            <origin xyz="${upper_leg_com_x} ${-upper_leg_com_y} ${upper_leg_com_z}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
                     ixx="0.11867"
@@ -332,7 +357,7 @@
         </visual>
 
         <inertial>
-            <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
+            <origin xyz="${lower_leg_com_x} ${-lower_leg_com_y} ${lower_leg_com_z}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
                     ixx="0.108683"
@@ -372,7 +397,7 @@
     <!-- Foot Left -->
     <link name="foot_left">
         <inertial>
-            <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
+            <origin xyz="${foot_com_x} ${-foot_com_y} ${foot_com_z}" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
                     ixx="0.00855883"
@@ -411,7 +436,7 @@
 
     <link name="hip_aa_frame_right_front">
         <inertial>
-            <origin xyz="${-hip_aa_frame_width/2} 0 0" rpy="0 0 0"/>
+            <origin xyz="${hip_aa_com_x} ${hip_aa_com_y} ${hip_aa_com_z}" rpy="0 0 0"/>
             <mass value="${hip_aa_mass}"/>
             <inertia
                     ixx="0.0165504"
@@ -441,7 +466,7 @@
         </visual>
 
         <inertial>
-            <origin xyz="0 0 ${-upper_leg_height/2}" rpy="0 0 0"/>
+            <origin xyz="${upper_leg_com_x} ${upper_leg_com_y} ${upper_leg_com_z}" rpy="0 0 0"/>
             <mass value="${upper_leg_mass}"/>
             <inertia
                     ixx="0.11867"
@@ -472,7 +497,7 @@
         </visual>
 
         <inertial>
-            <origin xyz="0 0 ${-lower_leg_height/2}" rpy="0 0 0"/>
+            <origin xyz="${lower_leg_com_x} ${lower_leg_com_y} ${lower_leg_com_z}" rpy="0 0 0"/>
             <mass value="${lower_leg_mass}"/>
             <inertia
                     ixx="0.108683"
@@ -512,7 +537,7 @@
     <!-- Foot Right -->
     <link name="foot_right">
         <inertial>
-            <origin xyz="${(-foot_height_forward+foot_height_backward)/2} 0 0" rpy="0 0 0"/>
+            <origin xyz="${foot_com_x} ${foot_com_y} ${foot_com_z}" rpy="0 0 0"/>
             <mass value="${foot_mass}"/>
             <inertia
                     ixx="0.00855883"
