@@ -19,7 +19,7 @@ install(DIRECTORY launch resource
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-catkin_python_install(PROGRAMS scripts/rqt_gait_selection
+catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
