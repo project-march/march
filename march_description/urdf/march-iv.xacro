@@ -48,7 +48,7 @@
     <!-- CoM has been determined in Catia, see https://confluence.projectmarch.nl:8443/display/51/URDF+description -->
     <!-- The Catia locations were defined in a global coordinate system with the origin at the center of the
          rotation axis of the two HFE joints. Here, the joints were all set at zero degrees. Hence, we need some
-         translations to transfer it to the reference frame of each of the parts. Not that in the Catia x axis is
+         translations to transfer it to the reference frame of each of the parts. Note that in the Catia x axis is
          the URDF y axis and the Catia y axis is the negative URDF x axis. The given CoM are for the right leg,
          the y coordinate will be inverted for the left leg. -->
     <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.124786}"/>
