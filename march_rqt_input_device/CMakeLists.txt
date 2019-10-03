@@ -15,7 +15,7 @@ install(FILES plugin.xml
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-install(DIRECTORY resource launch
+install(DIRECTORY launch resource
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 

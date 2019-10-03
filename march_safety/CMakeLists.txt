@@ -72,7 +72,7 @@ if (CATKIN_ENABLE_TESTING)
     endif()
 
     add_rostest_gtest(${PROJECT_NAME}-test
-        test/march_safety.test
+        test/${PROJECT_NAME}.test
         test/TestTemperatureError.cpp
         test/TestNoTemperatureError.cpp
         test/TestTemperatureParameterized.cpp
@@ -80,17 +80,17 @@ if (CATKIN_ENABLE_TESTING)
     target_link_libraries(${PROJECT_NAME}-test ${catkin_LIBRARIES} ${PROJECT_NAME} gtest gmock)
 
     add_rostest_gtest(${PROJECT_NAME}-test-connection-lost
-        test/march_safety_connection_lost.test
+        test/${PROJECT_NAME}_connection_lost.test
         test/TestConnectionLost.cpp
     )
 
     add_rostest_gtest(${PROJECT_NAME}-test-connection-never-started
-        test/march_safety_connection_never_started.test
+        test/${PROJECT_NAME}_connection_never_started.test
         test/TestConnectionNeverStarted.cpp
     )
 
     add_rostest_gtest(${PROJECT_NAME}-test-connection-not-lost
-        test/march_safety_connection_not_lost.test
+        test/${PROJECT_NAME}_connection_not_lost.test
         test/TestConnectionNotLost.cpp
     )
     target_link_libraries(${PROJECT_NAME}-test-connection-lost ${catkin_LIBRARIES} ${PROJECT_NAME} gtest gmock)
@@ -105,4 +105,3 @@ if (CATKIN_ENABLE_TESTING)
         )
     endif()
 endif ()
-
