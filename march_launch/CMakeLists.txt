@@ -23,7 +23,7 @@ install(DIRECTORY launch resource rqt_config rqt_multiplot
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-install(PROGRAMS scripts/git_branch_check scripts/rqt_software_check
+install(PROGRAMS scripts/march_git_branch_check scripts/march_rqt_software_check
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
