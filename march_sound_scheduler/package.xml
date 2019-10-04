@@ -2,7 +2,7 @@
 <package format="2">
     <name>march_sound_scheduler</name>
     <version>0.0.0</version>
-    <description>Schedule and play sound with the ros sound_play package</description>
+    <description>Schedules and plays sound with the ros sound_play package</description>
     <maintainer email="software@projectmarch.nl">Project March</maintainer>
     <license>TODO</license>
 
@@ -18,7 +18,4 @@
     <build_export_depend>roscpp</build_export_depend>
 
     <exec_depend>roscpp</exec_depend>
-
-    <export>
-    </export>
 </package>
