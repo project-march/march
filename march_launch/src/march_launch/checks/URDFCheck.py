@@ -32,8 +32,8 @@ class URDFCheck(LaunchCheck):
                 upper = str(round(joint.safety_controller.soft_upper_limit, 4))
                 velocity = str(round(joint.limit.velocity, 4))
                 effort = str(round(joint.limit.effort, 4))
-                msg = joint.name + ": (" + lower + ", " + upper + ") max velocity: " \
-                      + velocity + " rad/s max effort " + effort + " IU"
+                msg = joint.name + ": (" + lower + ", " + upper + ") max velocity: " + \
+                    velocity + " rad/s max effort " + effort + " IU"
                 self.log(msg, Color.Info)
 
         self.stop_launch_process()

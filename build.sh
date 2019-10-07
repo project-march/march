@@ -38,6 +38,9 @@ catkin build --no-deps --verbose march_gait_selection --no-notify --catkin-make-
 catkin build --no-deps --verbose march_gait_scheduler --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_gait_scheduler"
 catkin build --no-deps --verbose march_sound_scheduler --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_sound_scheduler"
 catkin build --no-deps --verbose march_safety --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_safety"
+catkin build --no-deps --verbose march_rqt_gait_selection --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_safety"
+catkin build --no-deps --verbose march_rqt_input_device --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_safety"
+catkin build --no-deps --verbose march_rqt_training_log --no-notify --catkin-make-args roslint || build_failed "Roslint failed in march_safety"
 
 # Run all tests in the workspace, including roslaunch-checks if they exist
 catkin build --summarize --catkin-make-args run_tests && catkin_test_results build/ --verbose || build_failed "Tests failed"

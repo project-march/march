@@ -24,4 +24,4 @@ install(PROGRAMS scripts/${PROJECT_NAME}
 )
 
 file(GLOB_RECURSE lintfiles "src/*.py")
-roslint_python()
+roslint_python(${lintfiles})
