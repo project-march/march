@@ -10,8 +10,6 @@
 
     <buildtool_depend>catkin</buildtool_depend>
     <build_depend>march_description</build_depend>
-    <build_depend>march_simulation</build_depend>
-    <build_depend>march_state_machine</build_depend>
     <build_depend>rosserial_python</build_depend>
     <build_depend>rostest</build_depend>
     <build_depend>roslint</build_depend>
@@ -26,9 +24,6 @@
     <build_export_depend>rviz</build_export_depend>
     <build_export_depend>rqt_gui</build_export_depend>
     <build_export_depend>march_description</build_export_depend>
-    <build_export_depend>march_simulation</build_export_depend>
-    <build_export_depend>march_safety</build_export_depend>
-    <build_export_depend>march_state_machine</build_export_depend>
 
     <export>
         <rqt_gui plugin="${prefix}/plugin.xml"/>

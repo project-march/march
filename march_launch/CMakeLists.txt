@@ -3,8 +3,6 @@ project(march_launch)
 
 find_package(catkin REQUIRED COMPONENTS
     march_description
-    march_simulation
-    march_state_machine
     roslint
     rosserial_python
     rostest
