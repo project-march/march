@@ -23,10 +23,11 @@ env:
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
-    - DOWNSTREAM_WORKSPACE='.travis.rosinstall'
+    - DOWNSTREAM_WORKSPACE=dependencies.rosinstall
+    - NOT_TEST_DOWNSTREAM=true
   matrix:
-    - ROS_DISTRO="kinetic"
-    - ROS_DISTRO="melodic"
+    - ROS_DISTRO=kinetic
+    - ROS_DISTRO=melodic
 
 # clone and run industrial_ci
 install:
