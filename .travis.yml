@@ -23,7 +23,7 @@ env:
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
-    - UPSTREAM_WORKSPACE='dependencies.rosinstall'
+    - DOWNSTREAM_WORKSPACE='dependencies.rosinstall'
   matrix:
     - ROS_DISTRO="kinetic"
     - ROS_DISTRO="melodic"
