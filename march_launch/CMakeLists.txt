@@ -2,12 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(march_launch)
 
 find_package(catkin REQUIRED COMPONENTS
-    march_description
     roslint
-    rosserial_python
-    rostest
-    rqt_gui
-    rqt_gui_py
 )
 
 catkin_python_setup()
@@ -27,6 +22,3 @@ install(PROGRAMS scripts/march_git_branch_check scripts/march_rqt_software_check
 
 file(GLOB_RECURSE lintfiles "src/*.py")
 roslint_python(${lintfiles})
-
-if (CATKIN_ENABLE_TESTING)
-endif ()

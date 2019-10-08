@@ -1,13 +1,12 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_safety)
+
 add_compile_options(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
-    code_coverage
     march_shared_resources
     roscpp
     roslint
-    rostest
     sensor_msgs
     std_msgs
     urdf
@@ -17,6 +16,11 @@ catkin_package(
     INCLUDE_DIRS include
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
+    march_shared_resources
+    roscpp
+    sensor_msgs
+    std_msgs
+    urdf
 )
 
 # Roslinter
@@ -65,6 +69,8 @@ install(DIRECTORY launch
 
 # Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
+    find_package(code_coverage REQUIRED)
+    find_package(rostest REQUIRED)
 
     if(ENABLE_COVERAGE_TESTING)
         include(CodeCoverage)

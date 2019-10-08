@@ -9,24 +9,15 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <build_depend>march_shared_resources</build_depend>
-  <build_depend>rospy</build_depend>
-  <build_depend>std_msgs</build_depend>
-  <build_depend>roslint</build_depend>
-  <build_depend>urdfdom_py</build_depend>
-  <build_depend>rospy_message_converter</build_depend>
+  <depend>march_shared_resources</depend>
+  <depend>std_msgs</depend>
 
-  <build_export_depend>rospy</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend>
+  <build_depend>roslint</build_depend>
 
   <exec_depend>rospy</exec_depend>
-  <exec_depend>smach</exec_depend>
-  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>rospy_message_converter</exec_depend>
+  <exec_depend>urdfdom_py</exec_depend>
 
   <test_depend>rostest</test_depend>
   <test_depend>rosunit</test_depend>
-
-  <export>
-
-  </export>
 </package>

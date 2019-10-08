@@ -3,11 +3,9 @@ project(march_sound_scheduler)
 add_compile_options(-std=c++11 -Wall -g)
 
 find_package(catkin REQUIRED COMPONENTS
-    code_coverage
     march_shared_resources
     roscpp
     roslint
-    rostest
     sound_play
 )
 
@@ -15,6 +13,9 @@ catkin_package(
     INCLUDE_DIRS include
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
+    march_shared_resources
+    roscpp
+    sound_play
 )
 
 set(ROSLINT_CPP_OPTS "--filter=-build/include,-build/header_guard,-runtime/references" "--linelength=120")

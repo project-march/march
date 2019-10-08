@@ -3,9 +3,6 @@ project(march_rqt_training_log)
 
 find_package(catkin REQUIRED COMPONENTS
     roslint
-    rospy
-    rqt_gui
-    rqt_gui_py
 )
 
 catkin_python_setup()
