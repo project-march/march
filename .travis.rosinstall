@@ -17,4 +17,4 @@
 - git:
     local-name: march-iv
     uri: https://github.com/project-march/march-iv
-    version: develop
+    version: fix/PM-57-use-colcon
