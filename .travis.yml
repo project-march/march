@@ -6,6 +6,11 @@ language: generic # optional, just removes the language badge
 services:
   - docker
 
+notifications:
+  slack:
+    secure: n8eup/26IVzzxg8wP55EL4wJvkEOAYMEt/ByltUtOAnrp+NipZiNPIheY062mXYRnc7iKI/7X7WVkSCcIlggalT06q1SoC1FBJn061oLz+s8eoXzUJhX08FCv3ZRVmNnbS45TCq9Xo3Oq+M/siPxeCwej8dOv61aqJJuLLsyRQpFPIyV5tw07ElZKWAMrzd4dIwzIiKJm0MaIyTpPcKKURX3wMzHSffgih+dm0wyNjtpL7jHpCvGTo7JAqQgDmMNoOWUquQw3cozbMEOWsl/4sU1U5716Dvnr8Ug9gqdehbYdwkq/6xDlsEGV/jUOy8810GCRADrR23FLm+He63PuWO2EUnwO4bHCqYRfQ+65qkRu1T29j63Z72sYx7lkQO4UVjad36M3mT7ipg86QzsC1ianXDD7mQC/XAw4INncrp1uBoROHiTUda3ri3JpmQTNcElmesfVnJnVrXXIwwxXchOptyTLDF+LaecQC5pKmQqK/NyWzestCWR/F8Yw8gp+AlVfV19dvnYScmxew+Y0wo855A7Sn/11MtdDzEdeTFXc35JvhFyT4sbi0AHpoZOatt+8/WfT2Lu9eoAnNjjYlNK7//OssZpF6uo+Mhw0isSnuJQpM9TNkrR1J9B+8IGvq7n2fKtkuh2tu5JgkeodRfMIj9sp2KvueQAl5sYkrI=
+  email: false
+
 # include the following block if the C/C++ build artifacts should get cached by Travis,
 # CCACHE_DIR needs to get set as well to actually fill the cache
 cache:
