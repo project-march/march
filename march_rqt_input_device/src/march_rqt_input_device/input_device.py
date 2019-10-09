@@ -1,5 +1,6 @@
 import os
 import rospy
+import std_msgs.msg
 import rospkg
 import threading
 
@@ -237,23 +238,32 @@ class InputDevicePlugin(Plugin):
 
     def publish_gait(self, string):
         rospy.logdebug("Mock Input Device published gait: " + string)
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.GAIT, string))
+        header = std_msgs.msg.Header()
+        header.stamp = rospy.Time.now()
+        self.instruction_gait_pub.publish(GaitInstruction(header, GaitInstruction.GAIT, string))
 
     def publish_stop(self):
         rospy.logdebug("Mock Input Device published stop")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.STOP, ""))
+        header = std_msgs.msg.Header()
+        header.stamp = rospy.Time.now()
+        self.instruction_gait_pub.publish(GaitInstruction(header, GaitInstruction.STOP, ""))
 
     def publish_continue(self):
         rospy.logdebug("Mock Input Device published continue")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.CONTINUE, ""))
+        header = std_msgs.msg.Header()
+        header.stamp = rospy.Time.now()
+        self.instruction_gait_pub.publish(GaitInstruction(header, GaitInstruction.CONTINUE, ""))
 
     def publish_pause(self):
         rospy.logdebug("Mock Input Device published pause")
-        self.instruction_gait_pub.publish(GaitInstruction(GaitInstruction.PAUSE, ""))
+        header = std_msgs.msg.Header()
+        header.stamp = rospy.Time.now()
+        self.instruction_gait_pub.publish(GaitInstruction(header, GaitInstruction.PAUSE, ""))
 
     def publish_error(self):
         rospy.logdebug("Mock Input Device published error")
         self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
+
 
     # def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure
