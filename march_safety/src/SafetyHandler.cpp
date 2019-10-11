@@ -14,6 +14,7 @@ void SafetyHandler::publishErrorMessage(const std::string& message, int8_t error
 {
   march_shared_resources::Error error_msg;
   std::ostringstream message_stream;
+  error_msg.header.stamp = ros::Time::now();
   error_msg.error_message = message;
   error_msg.type = error_type;
   error_publisher->publish(error_msg);
@@ -22,6 +23,7 @@ void SafetyHandler::publishErrorMessage(const std::string& message, int8_t error
 void SafetyHandler::publishStopMessage() const
 {
   march_shared_resources::GaitInstruction gait_instruction_msg;
+  gait_instruction_msg.header.stamp = ros::Time::now();
   gait_instruction_msg.type = march_shared_resources::GaitInstruction::STOP;
   gait_instruction_publisher->publish(gait_instruction_msg);
 }
@@ -29,6 +31,7 @@ void SafetyHandler::publishStopMessage() const
 void SafetyHandler::publishErrorSound(int8_t error_type) const
 {
   march_shared_resources::Sound sound;
+  sound.header.stamp = ros::Time::now();
   sound.time = ros::Time::now();
   if (error_type == march_shared_resources::Error::FATAL)
   {
