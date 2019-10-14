@@ -189,7 +189,8 @@ class InputDevicePlugin(Plugin):
         # Position in the array determines position on screen.
         march_button_layout = [
             [home_sit_button, home_stand_button, gait_walk_button, gait_walk_small_button, gait_sit_button],
-            [gait_stand_button, gait_single_step_normal_button, gait_sofa_sit_button, gait_sofa_stand_button, gait_side_step_left_small_button],
+            [gait_stand_button, gait_single_step_normal_button,
+             gait_sofa_sit_button, gait_sofa_stand_button, gait_side_step_left_small_button],
             [gait_single_step_small_button, gait_side_step_left_button, gait_side_step_right_button,
              gait_stairs_up_button, gait_side_step_right_small_button],
             [gait_stairs_down_button, gait_single_high_step_button, gait_slope_up_button,
@@ -238,24 +239,30 @@ class InputDevicePlugin(Plugin):
 
     def publish_gait(self, string):
         rospy.logdebug("Mock Input Device published gait: " + string)
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.GAIT, string))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.GAIT,
+                                                          string))
 
     def publish_stop(self):
         rospy.logdebug("Mock Input Device published stop")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.STOP, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.STOP,
+                                                          ""))
 
     def publish_continue(self):
         rospy.logdebug("Mock Input Device published continue")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.CONTINUE, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.CONTINUE, ""))
 
     def publish_pause(self):
         rospy.logdebug("Mock Input Device published pause")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.PAUSE, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.PAUSE,
+                                                          ""))
 
     def publish_error(self):
         rospy.logdebug("Mock Input Device published error")
         self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
-
 
     # def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure

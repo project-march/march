@@ -20,12 +20,14 @@ from python_qt_binding.QtWidgets import QHBoxLayout
 from python_qt_binding.QtWidgets import QGridLayout
 from python_qt_binding.QtWidgets import QPlainTextEdit
 
+
 class Color(Enum):
     Debug = "#009100"
     Info = "#000000"
     Warning = "#b27300"
     Error = "#FF0000"
     Fatal = "#FF0000"
+
 
 class GaitSelectionPlugin(Plugin):
 
@@ -104,11 +106,13 @@ class GaitSelectionPlugin(Plugin):
         self.log("--------------------------------------", Color.Info)
 
     def log(self, msg, level):
-        self._widget.findChild(QPlainTextEdit, "Log").appendHtml("<p style='color:" + str(level.value) + "'>" + msg + "</p>")
+        self._widget \
+            .findChild(QPlainTextEdit, "Log") \
+            .appendHtml("<p style='color:" + str(level.value) + "'>" + msg + "</p>")
         scrollbar = self._widget.findChild(QPlainTextEdit, "Log").verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
 
-    def refresh(self, notify = False):
+    def refresh(self, notify=False):
         if notify:
             self.log("Refreshing gait directory", Color.Debug)
         rospy.logdebug("Refreshing ui with %s", str(self.get_directory_structure().message))
@@ -116,17 +120,24 @@ class GaitSelectionPlugin(Plugin):
         try:
             gait_version_map = ast.literal_eval(self.get_version_map().message)
         except ValueError:
-            self.log("Gait selection map is not valid" + str(self.get_version_map().message), Color.Error)
-            rospy.logerr("Gait selection map is not valid" + str(self.get_version_map().message))
+            self.log("Gait selection map is not valid" +
+                     str(self.get_version_map().message), Color.Error)
+            rospy.logerr("Gait selection map is not valid" +
+                         str(self.get_version_map().message))
             return
         try:
             gait_directory_structure = ast.literal_eval(self.get_directory_structure().message)
         except ValueError:
-            self.log("Gait directory structure is not valid " + str(self.get_directory_structure().message), Color.Error)
-            rospy.logerr("Gait directory structure is not valid " + str(self.get_directory_structure().message))
+            self.log("Gait directory structure is not valid " +
+                     str(self.get_directory_structure().message), Color.Error)
+            rospy.logerr("Gait directory structure is not valid " +
+                         str(self.get_directory_structure().message))
             return
 
-        gaits = self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").findChildren(QGroupBox, "Gait")
+        gaits = self._widget.Gaits \
+                            .findChild(QWidget, "scrollArea") \
+                            .findChild(QWidget, "content") \
+                            .findChildren(QGroupBox, "Gait")
         for gait in gaits:
             gait.deleteLater()
 
@@ -139,7 +150,11 @@ class GaitSelectionPlugin(Plugin):
             except KeyError:
                 selection_map = None
             gait_group_box = self.create_gait(gait_name, gait, selection_map)
-            self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").layout().addWidget(gait_group_box)
+            self._widget.Gaits \
+                        .findChild(QWidget, "scrollArea") \
+                        .findChild(QWidget, "content") \
+                        .layout() \
+                        .addWidget(gait_group_box)
 
     def create_gait(self, name, gait, selections):
         gait_group_box = QGroupBox()
@@ -186,9 +201,12 @@ class GaitSelectionPlugin(Plugin):
         dropdown.setCurrentIndex(index)
         return dropdown
 
-    def set_gait_selection_map(self, notify = False):
+    def set_gait_selection_map(self, notify=False):
         gait_selection_map = {}
-        gaits = self._widget.Gaits.findChild(QWidget, "scrollArea").findChild(QWidget, "content").findChildren(QGroupBox, "Gait")
+        gaits = self._widget.Gaits \
+                            .findChild(QWidget, "scrollArea") \
+                            .findChild(QWidget, "content") \
+                            .findChildren(QGroupBox, "Gait")
         for gait in gaits:
             gait_name = str(gait.title())
             gait_selection_map[gait_name] = {}
