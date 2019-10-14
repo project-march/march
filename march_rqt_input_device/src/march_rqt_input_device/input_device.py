@@ -239,24 +239,30 @@ class InputDevicePlugin(Plugin):
 
     def publish_gait(self, string):
         rospy.logdebug("Mock Input Device published gait: " + string)
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.GAIT, string))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.GAIT,
+                                                          string))
 
     def publish_stop(self):
         rospy.logdebug("Mock Input Device published stop")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.STOP, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.STOP,
+                                                          ""))
 
     def publish_continue(self):
         rospy.logdebug("Mock Input Device published continue")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.CONTINUE, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.CONTINUE, ""))
 
     def publish_pause(self):
         rospy.logdebug("Mock Input Device published pause")
-        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp = rospy.Time.now()), GaitInstruction.PAUSE, ""))
+        self.instruction_gait_pub.publish(GaitInstruction(std_msgs.msg.Header(stamp=rospy.Time.now()),
+                                                          GaitInstruction.PAUSE,
+                                                          ""))
 
     def publish_error(self):
         rospy.logdebug("Mock Input Device published error")
         self.error_pub.publish(Error("Fake error thrown by the develop input device.", Error.FATAL))
-
 
     # def trigger_configuration(self):
     # Comment in to signal that the plugin has a way to configure
