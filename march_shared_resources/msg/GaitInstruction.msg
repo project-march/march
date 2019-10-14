@@ -1,4 +1,5 @@
 # The type of instruction.
+Header header
 int16 type
 
 # All possible instruction types.
