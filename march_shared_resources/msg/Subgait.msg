@@ -1,3 +1,4 @@
+# used in Gait.action
 string name
 string version
 string description
