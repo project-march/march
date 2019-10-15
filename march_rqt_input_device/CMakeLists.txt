@@ -3,9 +3,6 @@ project(march_rqt_input_device)
 
 find_package(catkin REQUIRED COMPONENTS
     roslint
-    rospy
-    rqt_gui
-    rqt_gui_py
 )
 
 catkin_python_setup()

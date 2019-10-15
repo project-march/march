@@ -9,6 +9,7 @@ from python_qt_binding import loadUi
 from python_qt_binding.QtGui import QKeySequence
 from python_qt_binding.QtWidgets import QWidget, QShortcut
 
+
 class TrainingLogPlugin(Plugin):
 
     def __init__(self, context):
@@ -87,4 +88,3 @@ class TrainingLogPlugin(Plugin):
     def hideLabel(self, hide):
         if hide:
             self._widget.SuccessLabel.hide()
-

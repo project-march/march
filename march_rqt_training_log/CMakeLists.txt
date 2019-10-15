@@ -3,9 +3,6 @@ project(march_rqt_training_log)
 
 find_package(catkin REQUIRED COMPONENTS
     roslint
-    rospy
-    rqt_gui
-    rqt_gui_py
 )
 
 catkin_python_setup()
@@ -24,4 +21,4 @@ install(PROGRAMS scripts/${PROJECT_NAME}
 )
 
 file(GLOB_RECURSE lintfiles "src/*.py")
-roslint_python()
+roslint_python(${lintfiles})

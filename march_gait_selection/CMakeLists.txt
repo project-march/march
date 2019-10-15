@@ -4,17 +4,14 @@ project(march_gait_selection)
 find_package(catkin REQUIRED COMPONENTS
     march_shared_resources
     roslint
-    rospy
-    rospy_message_converter
     std_msgs
-    urdfdom_py
 )
 
 catkin_python_setup()
 
 catkin_package(
     CATKIN_DEPENDS
-    rospy
+    march_shared_resources
     std_msgs
 )
 

@@ -1,3 +1,4 @@
+Header header
 bool high_voltage_enabled
 
 # The current consumed by the power distribution board.

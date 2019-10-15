@@ -59,10 +59,14 @@ class SoftwareCheckPlugin(Plugin):
 
         self.check_runner = CheckRunner(self.log)
 
-        self._widget.Checks.findChild(QPushButton, "GitBranch").clicked.connect(lambda: self.run_test("GitBranch"))
-        self._widget.Checks.findChild(QPushButton, "GaitFileDirectory").clicked.connect(lambda: self.run_test("GaitFileDirectory"))
-        self._widget.Checks.findChild(QPushButton, "URDF").clicked.connect(lambda: self.run_test("URDF"))
-        self._widget.Checks.findChild(QPushButton, "SlaveCount").clicked.connect(lambda: self.run_test("SlaveCount"))
+        self._widget.Checks.findChild(QPushButton, "GitBranch") \
+                           .clicked.connect(lambda: self.run_test("GitBranch"))
+        self._widget.Checks.findChild(QPushButton, "GaitFileDirectory") \
+                           .clicked.connect(lambda: self.run_test("GaitFileDirectory"))
+        self._widget.Checks.findChild(QPushButton, "URDF") \
+                           .clicked.connect(lambda: self.run_test("URDF"))
+        self._widget.Checks.findChild(QPushButton, "SlaveCount") \
+                           .clicked.connect(lambda: self.run_test("SlaveCount"))
 
     def log(self, msg, level):
         self._widget.findChild(QPlainTextEdit, "Log").appendHtml(

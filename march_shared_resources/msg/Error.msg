@@ -1,4 +1,5 @@
 # Readable message that describes the error
+Header header
 string error_message
 
 # The type of the error, the type is used to determine how to handle the error

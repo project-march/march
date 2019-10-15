@@ -6,13 +6,11 @@ add_compile_options(-std=c++11 -Wall -g)
 find_package(catkin REQUIRED COMPONENTS
     actionlib
     actionlib_msgs
-    code_coverage
     control_msgs
     dynamic_reconfigure
     march_shared_resources
     roscpp
     roslint
-    rostest
     trajectory_msgs
 )
 
@@ -24,6 +22,13 @@ catkin_package(
     INCLUDE_DIRS include
     LIBRARIES ${PROJECT_NAME}
     CATKIN_DEPENDS
+    actionlib
+    actionlib_msgs
+    control_msgs
+    dynamic_reconfigure
+    march_shared_resources
+    roscpp
+    trajectory_msgs
 )
 
 # Roslinter
@@ -67,6 +72,8 @@ install(DIRECTORY launch
 
 ## Add gtest based cpp test target and link libraries
 if (CATKIN_ENABLE_TESTING)
+    find_package(code_coverage REQUIRED)
+    find_package(rostest REQUIRED)
 
     if(ENABLE_COVERAGE_TESTING)
         include(CodeCoverage)

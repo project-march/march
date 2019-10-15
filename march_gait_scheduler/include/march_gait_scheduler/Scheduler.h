@@ -8,8 +8,6 @@
 #include <ros/ros.h>
 #include <trajectory_msgs/JointTrajectory.h>
 
-#include <march_gait_scheduler/SchedulerConfig.h>
-
 class Scheduler
 {
   const march_shared_resources::GaitGoal* lastGaitGoal = nullptr;

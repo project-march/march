@@ -1,3 +1,4 @@
+Header header
 string[] joint_names
 string[] status_word
 string[] detailed_error
