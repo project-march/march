@@ -1,0 +1,41 @@
+# This config uses industrial_ci (https://github.com/ros-industrial/industrial_ci.git).
+# For troubleshooting, see readme (https://github.com/ros-industrial/industrial_ci/blob/master/README.rst)
+
+language: generic # optional, just removes the language badge
+
+services:
+  - docker
+
+notifications:
+  slack:
+    secure: dN+sNePHYq1PMm+E9S6Dk4UobyKS4r+fs0Xr8378UGt189HYV0al4DXPF95mnbQXknd9SbMA/qAWM7HRIt5plS4DjuR/7I5yrZnlnl1P6GPKtyhsCWrwgAyFWK5m+6bewzf/8pUg2YYGODGPBDReFqfli6c4Web1g/XW3M/DaVa4L7TqlKsmDEbYFDmooT8a1WFuxcYMSdgr3LGF2FBoPQVuBxYLYQX2xJ93KeniSzvsY5YMtBvMd5NP2C2/TWmJEMCvkLRbmFsl/eo8Nf4W9rNVt08kErQoRuABYO433ipZ+0zyFgzz2VVm0hxfVsSKUEt+uOarO/xP1z7mAnhrPeNWoM7Kw57djqEoqVRbr9EdKf5fg+UKLFWmlTvGagtzU4PB2/0Zq4sw/cdyXDDdMXwxjokpN9swvCM1faIWcG3A7M9mscIW/32hTmstqLtHG/1w0nNtg/N0Y16NOzCk98G2qiuCK+x031/TQDs0PE4JmilftW2nNhg5834dmMYsqKelLn5tVsXWKWMnQuZx22a7JQNQst9/Pt09+HuEzHfpUIZimjd8UoSIWlLJfocqM63ymUKY/t6TlTlLSkLexAAR/mzhyNQxZoYLHyxyJI8EjXu5KEVWH4Tw34oM2AcGE4bvg43LAajUQ/iz/7sxGcKN048uTzGF4uAz1Vutksk=
+  email: false
+
+# include the following block if the C/C++ build artifacts should get cached by Travis,
+# CCACHE_DIR needs to get set as well to actually fill the cache
+cache:
+  directories:
+    - $HOME/.ccache
+
+git:
+  quiet: true # optional, silences the cloning of the target repository
+
+# configure the build environment(s)
+# https://github.com/ros-industrial/industrial_ci/blob/master/doc/index.rst#variables-you-can-configure
+env:
+  global:
+    - ROS_REPO=ros
+    - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
+    - BUILDER=colcon
+    - CATKIN_LINT=pedantic
+    - DOWNSTREAM_WORKSPACE=dependencies.rosinstall
+    - AFTER_SCRIPT='builder_run_build "$target_ws/install" "$target_ws" --cmake-target-skip-unavailable --cmake-target roslint'
+  matrix:
+    - ROS_DISTRO=kinetic
+    - ROS_DISTRO=melodic
+
+# clone and run industrial_ci
+install:
+  - git clone --quiet --depth 1 https://github.com/ros-industrial/industrial_ci.git .industrial_ci -b master
+script:
+  - .industrial_ci/travis.sh

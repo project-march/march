@@ -22,8 +22,8 @@ devel_isolated/
 /cfg/*.py
 
 # Ignore generated docs
-*.dox
 *.wikidoc
+docs/build/*
 
 # eclipse stuff
 .project
@@ -38,6 +38,8 @@ srv/_*.py
 qtcreator-*
 *.user
 
+.idea/*
+*/cmake-build-debug/*
 /planning/cfg
 /planning/docs
 /planning/src
@@ -49,3 +51,7 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+
+install/*
+
+venv/

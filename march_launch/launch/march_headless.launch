@@ -1,0 +1,36 @@
+<launch>
+    <arg name="hardware_interface" default="true"/>
+    <arg name="bag_prefix" default="log"/>
+
+    <group if="$(arg hardware_interface)">
+        <rosparam>
+            march:
+                launch_settings:
+                    exoskeleton:
+                        hardware_interface: true
+        </rosparam>
+    </group>
+
+    <rosparam>
+        march:
+            launch_settings:
+                rqt_launch_menu: false
+                run_configuration: exoskeleton
+                input_device:
+                    real: true
+                    wireless: false
+    </rosparam>
+
+
+    <node
+            pkg="rosbag"
+            name="record"
+            type="record"
+            output="screen"
+            args="-a -o $(arg bag_prefix)"
+    />
+
+    <include file="$(find march_state_machine)/launch/march_state_machine.launch">
+        <arg name="state_machine_viewer" value="false" />
+    </include>
+</launch>

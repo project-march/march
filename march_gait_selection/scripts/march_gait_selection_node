@@ -1,0 +1,5 @@
+#!/usr/bin/env python
+import march_gait_selection.GaitSelectionNode
+
+if __name__ == '__main__':
+    march_gait_selection.GaitSelectionNode.main()
