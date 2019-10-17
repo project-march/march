@@ -1,9 +1,7 @@
-Master: [![Build Status](https://travis-ci.org/project-march/march-iv.svg?branch=master)](https://travis-ci.org/project-march/march-iv)
+# March
+The main repository of the MARCH exoskeleton.
 
-Develop: [![Build Status](https://travis-ci.org/project-march/march-iv.svg?branch=develop)](https://travis-ci.org/project-march/march-iv)
-
-# march-iv
-The main repository of the MARCH IV exoskeleton.
-
-## Contribute ##
-Check the [wiki](https://github.com/project-march/march-iv/wiki) to see how you can contribute!
+| Branch | Build Status |
+| ------ |:------------:|
+| Master | [![Build Status](https://api.travis-ci.com/project-march/march.svg?branch=master)](https://travis-ci.com/project-march/march) |
+| Develop | [![Build Status](https://api.travis-ci.com/project-march/march.svg?branch=develop)](https://travis-ci.com/project-march/march) |
