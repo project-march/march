@@ -10,7 +10,7 @@ def TemperatureCallback(data, joint):
 def TrajectoryStateCallback(data):
     rospy.loginfo('received trajectory state'+ str(data.desired))
 
-def TrajectoryStateCallback(data):
+def ImcStateCallback(data):
     rospy.loginfo('received IMC message current is '+ str(data.current))
     
 def main():

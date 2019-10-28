@@ -105,7 +105,7 @@ catkin_python_setup()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES march_data_collector
-  CATKIN_DEPENDS common_msgs rospy sensor_msgs std_msgs
+  CATKIN_DEPENDS rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
@@ -159,10 +159,13 @@ include_directories(
 
 # Mark executable scripts (Python etc.) for installation
 # in contrast to setup.py, you can choose the destination
- install(PROGRAMS
+install(PROGRAMS
    scripts/${PROJECT_NAME}
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
+install(DIRECTORY launch
+        DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+        )
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
