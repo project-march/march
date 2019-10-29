@@ -5,7 +5,7 @@ from control_msgs.msg import JointTrajectoryControllerState
 from march_shared_resources.msg import ImcErrorState
 
 def TemperatureCallback(data, joint):
-    rospy.logdebug("Temperature" + joint + " is " + str(data.temperature))
+    rospy.logdebug('Temperature' + joint + ' is ' + str(data.temperature))
 
 def TrajectoryStateCallback(data):
     rospy.logdebug('received trajectory state'+ str(data.desired))
@@ -15,7 +15,7 @@ def ImcStateCallback(data):
     
 def main():
     rospy.init_node('data_collector', anonymous=True)
-    joint_names = rospy.get_param("/march/joint_names")
+    joint_names = rospy.get_param('/march/joint_names')
     TemperatureSubscriber = [rospy.Subscriber('/march/temperature/'+joint, Temperature, TemperatureCallback, (joint)) for joint in joint_names]
 
     TrajectoryStateSubscriber = rospy.Subscriber('/march/controller/trajectory/state',JointTrajectoryControllerState, TrajectoryStateCallback)
