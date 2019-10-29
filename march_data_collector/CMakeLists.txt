@@ -106,7 +106,7 @@ catkin_python_setup()
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES march_data_collector
-  CATKIN_DEPENDS rospy sensor_msgs std_msgs control_msgs
+  CATKIN_DEPENDS control_msgs rospy sensor_msgs std_msgs
 #  DEPENDS system_lib
 )
 
