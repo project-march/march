@@ -2,7 +2,7 @@
 <package format="2">
   <name>march_data_collector</name>
   <version>0.0.0</version>
-  <description>This package contains a node that collects data for further distribution</description>
+  <description>Node that collects data for further processing</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
