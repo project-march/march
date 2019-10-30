@@ -12,7 +12,6 @@ InputDeviceSafety::InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_h
   this->safety_handler = safety_handler;
   this->time_last_alive = ros::Time(0);
   this->time_last_send_error = ros::Time(0);
-  ROS_INFO("subscribing to alive");
   this->subscriber_input_device_alive = n->subscribe<std_msgs::Time>(
       "/march/input_device/alive", 1000, &InputDeviceSafety::inputDeviceAliveCallback, this);
 }
@@ -22,7 +21,7 @@ void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& m
   this->time_last_alive = msg->data;
   if (this->time_last_alive.toSec() == 0)
   {
-    ROS_INFO("Safety node started listing to the input device alive topic");
+    ROS_INFO("Safety node started listening to the input device alive topic");
   }
 }
 

@@ -31,7 +31,7 @@ void doneCallback(const actionlib::SimpleClientGoalState& state,
   {
     scheduleGaitActionServer->setSucceeded();
     ROS_WARN("Gait trajectory execution DONE, this should only happen when GAIT_SUCCEEDED_OFFSET is 0");
-    ROS_INFO("Schedule gait action SUCCEEDED");
+    ROS_DEBUG("Schedule gait action SUCCEEDED");
   }
   else
   {
