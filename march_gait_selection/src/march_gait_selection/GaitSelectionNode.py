@@ -23,7 +23,9 @@ class PerformGaitAction(object):
                                                           execute_cb=self.target_gait_callback,
                                                           auto_start=False)
         self.action_server.start()
+
         self.schedule_gait_client = actionlib.SimpleActionClient("march/gait/schedule", GaitAction)
+        self.schedule_gait_client.wait_for_server()
 
     def target_gait_callback(self, goal):
         rospy.logdebug("Trying to schedule subgait %s/%s", goal.name, goal.subgait_name)
@@ -99,30 +101,29 @@ def main():
     gait_directory = rospy.get_param("/march/gait_file_directory", "gait")
 
     gait_selection = GaitSelection(gait_package, gait_directory)
-    perform_gait_server = PerformGaitAction(gait_selection)
 
     # Use lambdas to process service calls inline
     get_gait_version_map_service = rospy.Service('march/gait_selection/get_version_map', Trigger,
                                                  lambda msg: [True,
-                                                              str(perform_gait_server.gait_selection.gait_version_map)])
+                                                              str(gait_selection.gait_version_map)])
 
     get_all_gait_files_service = rospy.Service('march/gait_selection/get_directory_structure', Trigger,
                                                lambda msg: [True,
-                                                            str(perform_gait_server.gait_selection.scan_directory())])
+                                                            str(gait_selection.scan_directory())])
 
     set_selected_version_service = rospy.Service('march/gait_selection/set_version', StringTrigger,
                                                  lambda msg: set_selected_version_callback(
-                                                     msg, perform_gait_server.gait_selection))
+                                                     msg, gait_selection))
 
     set_gait_version_map_service = rospy.Service('march/gait_selection/set_version_map', StringTrigger,
                                                  lambda msg: set_gait_version_map(
-                                                    msg, perform_gait_server.gait_selection))
+                                                    msg, gait_selection))
 
     update_default_versions_service = rospy.Service('march/gait_selection/update_default_versions', Trigger,
                                                     lambda msg: update_default_versions(
                                                      gait_package, gait_directory, gait_selection.gait_version_map))
 
-    perform_gait_server.schedule_gait_client.wait_for_server()
+    perform_gait_server = PerformGaitAction(gait_selection)
 
     rate = rospy.Rate(10)
     rospy.spin()
