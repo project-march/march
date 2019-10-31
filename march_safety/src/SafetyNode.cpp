@@ -1,20 +1,20 @@
 // Copyright 2018 Project March.
-
-#include "ros/ros.h"
-#include "std_msgs/Float64.h"
-#include "std_msgs/Empty.h"
-#include "sensor_msgs/Temperature.h"
 #include <sstream>
 #include <vector>
 
-#include <march_shared_resources/Error.h>
-#include <march_shared_resources/Sound.h>
-#include <march_shared_resources/GaitInstruction.h>
-
-#include <march_safety/InputDeviceSafety.h>
-#include <march_safety/TemperatureSafety.h>
-#include <march_safety/SafetyHandler.h>
+#include <ros/ros.h>
+#include <std_msgs/Float64.h>
+#include <std_msgs/Empty.h>
+#include <sensor_msgs/Temperature.h>
 #include <urdf/model.h>
+
+#include "march_shared_resources/Error.h"
+#include "march_shared_resources/Sound.h"
+#include "march_shared_resources/GaitInstruction.h"
+
+#include "march_safety/InputDeviceSafety.h"
+#include "march_safety/TemperatureSafety.h"
+#include "march_safety/SafetyHandler.h"
 
 int main(int argc, char** argv)
 {
@@ -22,32 +22,28 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(200);
 
+  ROS_DEBUG("Trying to get parameter /march/joint_names");
+  while (ros::ok() && !n.hasParam("/march/joint_names"))
+  {
+    ros::Duration(0.5).sleep();
+    ROS_DEBUG("Waiting on /march/joint_names to be available");
+  }
+
+  std::vector<std::string> joint_names;
+  n.getParam("/march/joint_names", joint_names);
+  ROS_DEBUG("Got joint names");
+
   // Create an error publisher to notify the system (state machine) if something is wrong
   ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("/march/error", 1000);
   ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
   ros::Publisher gait_instruction_publisher =
       n.advertise<march_shared_resources::GaitInstruction>("/march/input_device/instruction", 1000);
 
-  SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher, &gait_instruction_publisher);
+  SafetyHandler safety_handler = SafetyHandler(&n, &error_publisher, &sound_publisher, &gait_instruction_publisher);
 
   std::vector<std::unique_ptr<SafetyType>> safety_list;
-  int count = 0;
-  while (!n.hasParam("/march/joint_names"))
-  {
-    ros::Duration(0.5).sleep();
-    count++;
-    if (count > 10)
-    {
-      ROS_ERROR("Failed to read the joint_names from the parameter server.");
-      throw std::runtime_error("Failed to read the joint_names from the parameter server.");
-    }
-  }
-
-  std::vector<std::string> joint_names;
-  n.getParam("/march/joint_names", joint_names);
-
-  safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safetyHandler, joint_names)));
-  safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safetyHandler)));
+  safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safety_handler, joint_names)));
+  safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safety_handler)));
 
   while (ros::ok())
   {

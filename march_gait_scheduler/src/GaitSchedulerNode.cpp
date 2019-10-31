@@ -1,6 +1,6 @@
 // Copyright 2018 Project March.
 
-#include "ros/ros.h"
+#include <ros/ros.h>
 #include <control_msgs/FollowJointTrajectoryAction.h>
 #include <ros/package.h>
 #include <std_msgs/Float64.h>
@@ -9,16 +9,15 @@
 #include <actionlib/server/simple_action_server.h>
 #include <dynamic_reconfigure/server.h>
 
-#include <march_shared_resources/GaitAction.h>
-#include <march_shared_resources/GaitGoal.h>
-#include <march_gait_scheduler/Scheduler.h>
-#include <march_gait_scheduler/SchedulerConfig.h>
+#include "march_shared_resources/GaitAction.h"
+#include "march_shared_resources/GaitGoal.h"
+#include "march_gait_scheduler/Scheduler.h"
+#include "march_gait_scheduler/SchedulerConfig.h"
 
 typedef actionlib::SimpleActionServer<march_shared_resources::GaitAction> ScheduleGaitActionServer;
-ScheduleGaitActionServer* scheduleGaitActionServer;
+ScheduleGaitActionServer* scheduleGaitActionServer = nullptr;
 actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>* followJointTrajectoryAction;
-ros::Publisher trajectory_publisher;
-Scheduler* scheduler;
+Scheduler* scheduler = nullptr;
 
 void doneCallback(const actionlib::SimpleClientGoalState& state,
                   const control_msgs::FollowJointTrajectoryResultConstPtr& result)
@@ -32,17 +31,12 @@ void doneCallback(const actionlib::SimpleClientGoalState& state,
   {
     scheduleGaitActionServer->setSucceeded();
     ROS_WARN("Gait trajectory execution DONE, this should only happen when GAIT_SUCCEEDED_OFFSET is 0");
-    ROS_INFO("Schedule gait action SUCCEEDED");
+    ROS_DEBUG("Schedule gait action SUCCEEDED");
   }
   else
   {
     scheduleGaitActionServer->setAborted();
     ROS_WARN("Schedule gait action FAILED, FollowJointTrajectory error_code is %d ", result->error_code);
-
-      trajectory_msgs::JointTrajectory empty_trajectory;
-      empty_trajectory.points.clear();
-      empty_trajectory.joint_names.clear();
-      trajectory_publisher.publish(empty_trajectory);
   }
 }
 
@@ -116,33 +110,30 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "gait_scheduler_node");
   ros::NodeHandle n;
 
+  const std::string follow_joint_trajectory_topic = "/march/controller/trajectory/follow_joint_trajectory";
+
   scheduler = new Scheduler();
 
+  scheduleGaitActionServer = new ScheduleGaitActionServer(n, "march/gait/schedule", &scheduleGaitCallback, false);
+
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
-      "/march/controller/trajectory/follow_joint_trajectory", true);
+      follow_joint_trajectory_topic, true);
 
   ROS_DEBUG("Wait on joint trajectory action server");
-  bool isConnected = followJointTrajectoryAction->waitForServer(ros::Duration(10));
-  if (isConnected)
+  while (ros::ok() && !followJointTrajectoryAction->waitForServer(ros::Duration(5.0)))
   {
-    ROS_INFO("Connected to joint trajectory action server");
+    ROS_INFO_STREAM("Waiting for " << follow_joint_trajectory_topic << " to come up");
   }
-  else
-  {
-    ROS_ERROR("Not connected to joint trajectory action server");
-  }
-
-  std::string controller_name;
-  n.getParam(ros::this_node::getName() + std::string("/controller_name"), controller_name);
-  trajectory_publisher = n.advertise<trajectory_msgs::JointTrajectory>("/" + controller_name + "/command", 1000);
+  ROS_DEBUG("Connected to joint trajectory action server");
 
   dynamic_reconfigure::Server<march_gait_scheduler::SchedulerConfig> server;
   server.setCallback(boost::bind(&schedulerConfigCallback, _1, _2));
 
-  scheduleGaitActionServer = new ScheduleGaitActionServer(n, "march/gait/schedule", &scheduleGaitCallback, false);
   scheduleGaitActionServer->start();
 
   ros::spin();
 
+  delete scheduler;
+  delete followJointTrajectoryAction;
   return 0;
 }

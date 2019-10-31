@@ -52,7 +52,7 @@ protected:
       "/march/controller/trajectory/follow_joint_trajectory/goal", timeout_duration);
   ros::spinOnce();
 
-   EXPECT_EQ(0, callbackCounter.count);
+  EXPECT_EQ(0, callbackCounter.count);
 }
 
 TEST_F(AcceptanceTest, ScheduleOneGait)
