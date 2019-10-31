@@ -117,8 +117,8 @@ int main(int argc, char** argv)
 
   schedule_gait_action_server = new ScheduleGaitActionServer(n, "march/gait/schedule", &scheduleGaitCallback, false);
 
-  follow_joint_trajectory_action = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
-      follow_joint_trajectory_topic, true);
+  follow_joint_trajectory_action =
+      new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(follow_joint_trajectory_topic, true);
 
   ROS_DEBUG("Wait on joint trajectory action server");
   while (ros::ok() && !follow_joint_trajectory_action->waitForServer(ros::Duration(5.0)))
