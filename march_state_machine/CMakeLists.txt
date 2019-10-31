@@ -10,8 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 catkin_python_setup()
 
-catkin_package(
-    CATKIN_DEPENDS
+catkin_package(CATKIN_DEPENDS
     controller_manager_msgs
     march_shared_resources
     std_msgs
