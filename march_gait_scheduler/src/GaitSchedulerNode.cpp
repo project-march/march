@@ -110,15 +110,20 @@ int main(int argc, char** argv)
   ros::init(argc, argv, "gait_scheduler_node");
   ros::NodeHandle n;
 
+  const std::string follow_joint_trajectory_topic = "/march/controller/trajectory/follow_joint_trajectory";
+
   scheduler = new Scheduler();
 
   scheduleGaitActionServer = new ScheduleGaitActionServer(n, "march/gait/schedule", &scheduleGaitCallback, false);
 
   followJointTrajectoryAction = new actionlib::SimpleActionClient<control_msgs::FollowJointTrajectoryAction>(
-      "/march/controller/trajectory/follow_joint_trajectory", true);
+      follow_joint_trajectory_topic, true);
 
   ROS_DEBUG("Wait on joint trajectory action server");
-  followJointTrajectoryAction->waitForServer();
+  while (ros::ok() && !followJointTrajectoryAction->waitForServer(ros::Duration(5.0)))
+  {
+    ROS_INFO_STREAM("Waiting for " << follow_joint_trajectory_topic << " to come up");
+  }
   ROS_DEBUG("Connected to joint trajectory action server");
 
   dynamic_reconfigure::Server<march_gait_scheduler::SchedulerConfig> server;
