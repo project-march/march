@@ -46,8 +46,8 @@ int main(int argc, char** argv)
 
   SafetyHandler safety_handler = SafetyHandler(&n, &error_publisher, &sound_publisher, &gait_instruction_publisher);
 
-  safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safetyHandler, joint_names)));
-  safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safetyHandler)));
+  safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safety_handler, joint_names)));
+  safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safety_handler)));
 
   while (ros::ok())
   {

@@ -14,7 +14,7 @@ int main(int argc, char** argv)
 
   ros::Publisher sound_pub = n.advertise<sound_play::SoundRequest>("/robotsound", 0);
 
-  while (0 == sound_sub.getNumSubscribers())
+  while (0 == sound_pub.getNumSubscribers())
   {
     ROS_DEBUG("Waiting on sound play topic");
     ros::Duration(0.1).sleep();
