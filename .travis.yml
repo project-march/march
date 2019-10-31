@@ -28,9 +28,10 @@ env:
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
+    - CLANG_FORMAT_CHECK=file
     - DOWNSTREAM_WORKSPACE=dependencies.rosinstall
     - AFTER_SCRIPT='builder_run_build "$target_ws/install" "$target_ws" --cmake-target-skip-unavailable --cmake-target roslint'
-  matrix:
+  jobs:
     - ROS_DISTRO=kinetic
     - ROS_DISTRO=melodic
 
