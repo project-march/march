@@ -22,14 +22,6 @@ int main(int argc, char** argv)
   ros::NodeHandle n;
   ros::Rate rate(200);
 
-  // Create an error publisher to notify the system (state machine) if something is wrong
-  ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("/march/error", 1000);
-  ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
-  ros::Publisher gait_instruction_publisher =
-      n.advertise<march_shared_resources::GaitInstruction>("/march/input_device/instruction", 1000);
-
-  SafetyHandler safetyHandler = SafetyHandler(&n, &error_publisher, &sound_publisher, &gait_instruction_publisher);
-
   std::vector<std::unique_ptr<SafetyType>> safety_list;
   int count = 0;
   while (!n.hasParam("/march/joint_names"))
@@ -45,6 +37,14 @@ int main(int argc, char** argv)
 
   std::vector<std::string> joint_names;
   n.getParam("/march/joint_names", joint_names);
+
+  // Create an error publisher to notify the system (state machine) if something is wrong
+  ros::Publisher error_publisher = n.advertise<march_shared_resources::Error>("/march/error", 1000);
+  ros::Publisher sound_publisher = n.advertise<march_shared_resources::Sound>("/march/sound/schedule", 1000);
+  ros::Publisher gait_instruction_publisher =
+      n.advertise<march_shared_resources::GaitInstruction>("/march/input_device/instruction", 1000);
+
+  SafetyHandler safety_handler = SafetyHandler(&n, &error_publisher, &sound_publisher, &gait_instruction_publisher);
 
   safety_list.push_back(std::unique_ptr<SafetyType>(new TemperatureSafety(&n, &safetyHandler, joint_names)));
   safety_list.push_back(std::unique_ptr<SafetyType>(new InputDeviceSafety(&n, &safetyHandler)));
