@@ -15,11 +15,11 @@ class WaitForRosControlState(smach.State):
     def execute(self, userdata):
         found = False
         end = rospy.get_rostime() + self.timeout
-        rospy.loginfo("trying to find controller manager")
-        rospy.wait_for_service('march/controller_manager/list_controllers', 5)
+        rospy.logdebug("trying to find controller manager")
         list_controllers = rospy.ServiceProxy(
             '/march/controller_manager/list_controllers', ListControllers)
-        rospy.loginfo("controller manager found")
+        list_controllers.wait_for_service()
+        rospy.logdebug("controller manager found")
 
         req = ListControllersRequest()
         while not found:
@@ -31,7 +31,7 @@ class WaitForRosControlState(smach.State):
                 for c in controller_list.controller:
                     if c.type == "effort_controllers/JointTrajectoryController" or \
                             c.type == "position_controllers/JointTrajectoryController":
-                        rospy.loginfo("found gazebo ros control")
+                        rospy.logdebug("found gazebo ros control")
                         found = True
                         return 'succeeded'
             except rospy.ServiceException, e:
