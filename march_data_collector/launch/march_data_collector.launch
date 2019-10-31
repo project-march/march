@@ -1,0 +1,3 @@
+<launch>
+    <node name="march_data_collector" pkg="march_data_collector" type="march_data_collector" output="screen"/>
+</launch>
