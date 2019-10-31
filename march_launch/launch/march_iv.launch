@@ -5,7 +5,7 @@
             pkg="rosbag"
             name="record"
             type="record"
-            output="screen"
+            output="log"
             args="-a -q -o $(arg bag_prefix)"
     />
 
