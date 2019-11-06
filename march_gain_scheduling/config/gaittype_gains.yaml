@@ -1,0 +1,28 @@
+gaittypes:
+  sit_gains:
+    left_ankle: {p: 10001, i: 0, d: 10}
+    left_hip_aa: {p: 10001, i: 0, d: 10}
+    left_hip_fe: {p: 10001, i: 0, d: 10}
+    left_knee: {p: 10001, i: 0, d: 10}
+    right_ankle: {p: 10001, i: 0, d: 10}
+    right_hip_aa: {p: 10001, i: 0, d: 10}
+    right_hip_fe: {p: 10001, i: 0, d: 10}
+    right_knee: {p: 10001, i: 0, d: 10}
+  walk_gains:
+    left_ankle: {p: 10001, i: 0, d: 10}
+    left_hip_aa: {p: 10001, i: 0, d: 10}
+    left_hip_fe: {p: 10001, i: 0, d: 10}
+    left_knee: {p: 10001, i: 0, d: 10}
+    right_ankle: {p: 10001, i: 0, d: 10}
+    right_hip_aa: {p: 10001, i: 0, d: 10}
+    right_hip_fe: {p: 10001, i: 0, d: 10}
+    right_knee: {p: 10001, i: 0, d: 10}
+  stand_gains:
+    left_ankle: {p: 10001, i: 0, d: 10}
+    left_hip_aa: {p: 10001, i: 0, d: 10}
+    left_hip_fe: {p: 10001, i: 0, d: 10}
+    left_knee: {p: 10001, i: 0, d: 10}
+    right_ankle: {p: 10001, i: 0, d: 10}
+    right_hip_aa: {p: 10001, i: 0, d: 10}
+    right_hip_fe: {p: 10001, i: 0, d: 10}
+    right_knee: {p: 10001, i: 0, d: 10}
