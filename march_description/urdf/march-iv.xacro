@@ -164,13 +164,13 @@
     <!-- Parts -->
     <!-- Hip-->
     <link name="hip_base">
-        <visual>
+        <vcolisual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
             </geometry>
             <material name="blue"/>
-        </visual>
+        </vcolisual>
 
         <inertial>
             <origin xyz="${hip_base_com_x} ${hip_base_com_y} ${hip_base_com_z}" rpy="0 0 0"/>

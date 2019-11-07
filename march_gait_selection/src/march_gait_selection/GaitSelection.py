@@ -278,7 +278,17 @@ class GaitSelection(object):
         first_new_point_accelerations = set(zip(new_trajectory.joint_names, new_trajectory.points[0].accelerations))
         first_new_point_effort = set(zip(new_trajectory.joint_names, new_trajectory.points[0].effort))
 
-        return last_old_point_positions == first_new_point_positions and \
+        if last_old_point_positions == first_new_point_positions and \
             last_old_point_velocities == first_new_point_velocities and \
             last_old_point_accelerations == first_new_point_accelerations and \
-            last_old_point_effort == first_new_point_effort
+            last_old_point_effort == first_new_point_effort:
+            return true
+        else:
+            if last_old_point_velocities != first_new_point_velocities:
+                velocitiy_difference = last_old_point_velocities.difference(first_new_point_velocities)
+                print("Velocities end old subgait do not match start new subgait for the following joints: \n"
+                      "The values for the end of the old gait are: \n "
+                      + str(last_old_point_velocities.difference(first_new_point_velocities)) +
+                      "The values for the start of the new subgait are: \n"
+                      + str(first_new_point_velocities.difference(last_old_point_velocities)))
+
