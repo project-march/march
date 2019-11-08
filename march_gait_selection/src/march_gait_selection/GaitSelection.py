@@ -278,48 +278,21 @@ class GaitSelection(object):
         first_new_point_accelerations = set(zip(new_trajectory.joint_names, new_trajectory.points[0].accelerations))
         first_new_point_effort = set(zip(new_trajectory.joint_names, new_trajectory.points[0].effort))
 
-        if (last_old_point_positions == first_new_point_positions and
-                last_old_point_velocities == first_new_point_velocities and
-                last_old_point_accelerations == first_new_point_accelerations and
-                last_old_point_effort == first_new_point_effort):
-
+        def match(old_points, new_points, type_str):
+            if old_points != new_points:
+                msg = type_str + " end old subgait does not match start new subgait: \n"
+                msg = msg + type_str + " for old subgait \n"
+                for joint in sorted(old_points.difference(new_points)):
+                    msg = msg + str(joint) + '\n'
+                msg = msg + type_str + " for new subgait"
+                for joint in sorted(new_points.difference(old_points)):
+                    msg = msg + '\n' + str(joint)
+                rospy.loginfo(msg)
+                return False
             return True
 
-        else:
-            if last_old_point_positions != first_new_point_positions:
-                rospy.loginfo("Positions end old subgait do not match start new subgait: ")
-                rospy.loginfo("Values for old subgait")
-                for joint in last_old_point_positions.difference(first_new_point_positions):
-                    rospy.loginfo(str(joint))
-                rospy.loginfo("Values for new subgait")
-                for joint in first_new_point_positions.difference(last_old_point_positions):
-                    rospy.loginfo(str(joint))
+        return (match(last_old_point_positions, first_new_point_positions, "Positions") and
+                match(last_old_point_velocities, first_new_point_velocities, "Velocities") and
+                match(last_old_point_accelerations, first_new_point_accelerations, "Accelerations") and
+                match(last_old_point_effort, first_new_point_effort, "Efforts"))
 
-            if last_old_point_velocities != first_new_point_velocities:
-                rospy.loginfo("Velocities end old subgait do not match start new subgait:")
-                rospy.loginfo("Values for old subgait")
-                for joint in last_old_point_velocities.difference(first_new_point_velocities):
-                    rospy.loginfo(str(joint))
-                rospy.loginfo("Values for new subgait")
-                for joint in first_new_point_velocities.difference(last_old_point_velocities):
-                    rospy.loginfo(str(joint))
-
-            if last_old_point_accelerations != first_new_point_accelerations:
-                rospy.loginfo("Accelerations end old subgait do not match start new subgait:")
-                rospy.loginfo("Values for old subgait")
-                for joint in last_old_point_accelerations.difference(first_new_point_accelerations):
-                    rospy.loginfo(str(joint))
-                rospy.loginfo("Values for new subgait")
-                for joint in first_new_point_accelerations.difference(last_old_point_accelerations):
-                    rospy.loginfo(str(joint))
-
-            if last_old_point_effort != first_new_point_effort:
-                rospy.loginfo("Effort end old subgait does not match start new subgait: ")
-                rospy.loginfo("Values for old subgait")
-                for joint in last_old_point_effort.difference(first_new_point_effort):
-                    rospy.loginfo(str(joint))
-                rospy.loginfo("Values for new subgait")
-                for joint in first_new_point_effort.difference(last_old_point_effort):
-                    rospy.loginfo(str(joint))
-
-            return False
