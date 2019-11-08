@@ -20,7 +20,6 @@ def ImcStateCallback(data):
 def main():
     rospy.init_node('data_collector', anonymous=True)
     joint_names = rospy.get_param('/march/joint_names')
-
     TemperatureSubscriber = [rospy.Subscriber('/march/temperature/'+joint, Temperature, TemperatureCallback,
                                               (joint)) for joint in joint_names]
 
