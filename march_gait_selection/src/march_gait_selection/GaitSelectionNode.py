@@ -98,8 +98,8 @@ def update_default_versions(gait_package, gait_directory,  gait_version_map):
 
 def main():
     rospy.init_node("gait_selection")
-    gait_package = rospy.get_param("/march/gait_file_package", "march_gait_files")
-    gait_directory = rospy.get_param("/march/gait_file_directory", "gait")
+    gait_package = rospy.get_param(rospy.get_name() + "/gait_package", "march_gait_files")
+    gait_directory = rospy.get_param(rospy.get_name() + "/gait_directory", "gait")
 
     gait_selection = GaitSelection(gait_package, gait_directory)
 
