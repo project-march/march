@@ -46,10 +46,10 @@ class LaunchState(smach.State):
     # @return The outcome of this state: `succeeded` or `failed`.
     def execute(self, userdata):
         if not self.should_execute_launch_file():
-            rospy.loginfo("Do not launch " + self.launch_file_name)
+            rospy.logdebug("Do not launch " + self.launch_file_name)
             return 'succeeded'
 
-        rospy.loginfo(
+        rospy.logdebug(
             "Launch " + self.package_name + " " + self.launch_file_name)
         return self.execute_launch_file()
 
@@ -106,5 +106,5 @@ class LaunchState(smach.State):
         if return_state is None:
             return 'succeeded'
         else:
-            rospy.loginfo("Process terminated")
+            rospy.logwarn("Process terminated")
             return 'failed'

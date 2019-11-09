@@ -100,7 +100,7 @@ class LaunchMenuPlugin(Plugin):
 
     @staticmethod
     def publish_to_parameter_server(dictionary):
-        rospy.loginfo("Uploading the following launch_settings to the parameter server: " + str(dictionary))
+        rospy.logdebug("Uploading the following launch_settings to the parameter server: " + str(dictionary))
         for key, value in dictionary.iteritems():
             if key[0] == '~':
                 rospy.set_param(key[1:], value)

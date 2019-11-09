@@ -44,7 +44,7 @@ class GaitSelection(object):
             rospy.logwarn("No urdf found, cannot filter out unused joints. "
                           "The gait selection will publish gaits with all joints.")
         except socket.error:
-            rospy.loginfo("Could not connect to parameter server.")
+            rospy.logerr("Could not connect to parameter server.")
 
         rospy.loginfo("GaitSelection initialized with gait_directory %s/%s.", package, directory)
         rospy.logdebug("GaitSelection initialized with gait_version_map %s.", str(self.gait_version_map))
