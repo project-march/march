@@ -11,14 +11,10 @@ TemperatureSafety::TemperatureSafety(ros::NodeHandle* n, SafetyHandler* safety_h
                                      std::vector<std::string> joint_names)
   : n_(n), safety_handler_(safety_handler), joint_names_(joint_names)
 {
-  ros::param::get("~default_temperature_threshold",
-                     this->default_temperature_threshold_);
-  ros::param::get("~temperature_thresholds_warning",
-                     this->warning_temperature_thresholds_map_);
-  ros::param::get("~temperature_thresholds_non_fatal",
-                     this->non_fatal_temperature_thresholds_map_);
-  ros::param::get("~temperature_thresholds_fatal",
-                     this->fatal_temperature_thresholds_map_);
+  ros::param::get("~default_temperature_threshold", this->default_temperature_threshold_);
+  ros::param::get("~temperature_thresholds_warning", this->warning_temperature_thresholds_map_);
+  ros::param::get("~temperature_thresholds_non_fatal", this->non_fatal_temperature_thresholds_map_);
+  ros::param::get("~temperature_thresholds_fatal", this->fatal_temperature_thresholds_map_);
   double send_errors_interval_param;
   ros::param::get("~send_errors_interval", send_errors_interval_param);
   this->send_errors_interval_ = send_errors_interval_param;
