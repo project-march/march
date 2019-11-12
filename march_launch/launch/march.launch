@@ -1,8 +1,8 @@
 <launch>
-    <arg name="configuration" default="simulation" doc="Configuration on launching the 'simulation' or 'exoskeleton'."/>
+    <arg name="configuration" default="exoskeleton" doc="Configuration on launching the 'simulation' or 'exoskeleton'."/>
     <arg name="headless" default="false" doc="Launches no GUI when true."/>
     <arg name="hardware_interface" default="true" doc="Launches the hardware interface when config is 'exoskeleton."/>
-    <arg name="rviz" default="true" doc="Launches RViz."/>
+    <arg name="rviz" default="false" doc="Launches RViz."/>
     <arg name="state_machine_viewer" default="false" doc="Launches the SMACH viewer."/>
     <arg name="rqt_input" default="true" doc="Launches the march rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
