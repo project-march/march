@@ -1,5 +1,5 @@
 <launch>
     <node name="safety_node" pkg="march_safety" type="march_safety_node" output="screen" required="true">
-        <rosparam command="load" file="$(dirname)/safety_settings.yaml"/>
+        <rosparam command="load" file="$(find march_safety)/launch/safety_settings.yaml"/>
     </node>
 </launch>

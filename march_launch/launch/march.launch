@@ -41,7 +41,7 @@
     </group>
 
     <group if="$(eval configuration == 'exoskeleton')">
-        <include file="$(dirname)/serial_connection.launch">
+        <include file="$(find march_launch)/launch/serial_connection.launch">
             <arg name="wireless" value="$(arg wireless)"/>
         </include>
         <include file="$(find march_hardware_interface)/launch/hardware.launch" if="$(arg hardware_interface)">

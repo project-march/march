@@ -2,7 +2,7 @@
     <arg name="hardware_interface" default="true" doc="Launches the hardware_interface."/>
     <arg name="wireless" default="false" doc="Enables wireless connection to the input device."/>
 
-    <include file="$(dirname)/march.launch" pass_all_args="true">
+    <include file="$(find march_launch)/launch/march.launch" pass_all_args="true">
         <arg name="configuration" value="exoskeleton"/>
         <arg name="headless" value="true"/>
     </include>
