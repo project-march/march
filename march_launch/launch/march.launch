@@ -45,7 +45,7 @@
             <arg name="wireless" value="$(arg wireless)"/>
         </include>
         <include file="$(find march_hardware_interface)/launch/hardware.launch" if="$(arg hardware_interface)">
-            <arg name="config" value="march4"/>
+            <arg name="robot" value="march4"/>
         </include>
     </group>
 
