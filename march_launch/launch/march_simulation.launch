@@ -1,11 +1,10 @@
 <launch>
-    <arg name="rviz" default="false" doc="Launches RViz."/>
+    <arg name="rviz" default="true" doc="Launches RViz."/>
     <arg name="rqt_input" default="true" doc="Launches the rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
     <arg name="rosbag" default="false" doc="Enables rosbag record node."/>
 
     <include file="$(find march_launch)/launch/march.launch" pass_all_args="true">
         <arg name="configuration" value="simulation"/>
-        <arg name="rosbag" value="false"/>
     </include>
 </launch>

@@ -24,7 +24,7 @@
 
     <group ns="march">
         <include file="$(find march_state_machine)/launch/state_machine.launch">
-            <arg name="state_machine_viewer" default="$(eval not headless and state_machine_viewer)"/>
+            <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
         </include>
 
         <include file="$(find march_safety)/launch/march_safety.launch"/>
