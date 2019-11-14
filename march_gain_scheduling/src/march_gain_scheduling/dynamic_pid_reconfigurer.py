@@ -30,10 +30,10 @@ class DynamicPIDReconfigurer:
                                                        "d": d_value})
                 rospy.logdebug("Config set to {0}, {1}, {2}".format(p_value, i_value, d_value))
 
-    # Method that pulls the PID values from the gaittype_gains.yaml config file
+    # Method that pulls the PID values from the gains_per_gait_type.yaml config file
     def look_up_table(self, i):
-        if rospy.has_param("~gaittypes/" + self._gait_name + "_gains/"):
-            gains = rospy.get_param("~gaittypes/" + self._gait_name + "_gains/" + self._joint_list[i])
+        if rospy.has_param("~gait_types/" + self._gait_name + "_gains/"):
+            gains = rospy.get_param("~gait_types/" + self._gait_name + "_gains/" + self._joint_list[i])
             return gains['p'], gains['i'], gains['d']
         else:
             return None, None, None
