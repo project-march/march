@@ -11,14 +11,14 @@ class DynamicPIDReconfigurer:
         self._clients = []
         for i in range(len(self._joint_list)):
             self._clients.append(Client("/march/controller/trajectory/gains/" + self._joint_list[i], timeout=30))
-        rospy.Subscriber("march/gait/perform/goal", GaitNameActionGoal, callback=self.gait_selection_callback)
+        rospy.Subscriber("/march/gait/schedule/goal", GaitNameActionGoal, callback=self.gait_selection_callback)
 
     def gait_selection_callback(self, data):
-        rospy.logdebug("This is the gait name: %s", data.goal.name)
+        rospy.logdebug("This is the gait name: %s", data.goal.current_subgait.gait_type)
         if self._gait_name != data.goal.name:
             rospy.logdebug("The selected gait: {0} is not the same as the previous gait: {1}".format(
-                data.goal.name, self._gait_name))
-            self._gait_name = data.goal.name
+                data.goal.current_subgait.gait_type, self._gait_name))
+            self._gait_name = data.goal.current_subgait.gait_type
             self.client_update()
 
     def client_update(self):
