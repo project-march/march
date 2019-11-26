@@ -84,13 +84,13 @@ class Subgait(object):
 
         timestamps = self.get_unique_timestamps()
 
-        for joint in self.joints:
+        for joint in self:
             joint_trajectory_msg.joint_names.append(joint.name)
 
         for timestamp in timestamps:
             joint_trajectory_point = trajectory_msg.JointTrajectoryPoint()
             joint_trajectory_point.time_from_start = rospy.Duration(timestamp)
-            for joint in self.joints:
+            for joint in self:
                 interpolated_setpoint = joint.get_interpolated_setpoint(timestamp)
 
                 if interpolated_setpoint.time != timestamp:
@@ -108,7 +108,7 @@ class Subgait(object):
         for timestamp in timestamps:
             user_defined_setpoint = Setpoint()
             user_defined_setpoint.time_from_start = rospy.Duration.from_sec(timestamp)
-            for joint in self.joints:
+            for joint in self:
                 for setpoint in joint.setpoints:
                     if setpoint.time == timestamp:
                         user_defined_setpoint.joint_names.append(joint.name)
@@ -117,15 +117,21 @@ class Subgait(object):
 
     def get_unique_timestamps(self):
         timestamps = []
-        for joint in self.joints:
+        for joint in self:
             for setpoint in joint.setpoints:
                 timestamps.append(setpoint.time)
 
         return sorted(set(timestamps))
 
     def get_joint(self, name):
-        for i in range(0, len(self.joints)):
-            if self.joints[i].name == name:
-                return self.joints[i]
+        for i in range(0, len(self)):
+            if self[i].name == name:
+                return self[i]
         rospy.logerr('Joint with name ' + name + ' does not exist in gait ' + self.gait_name)
         return None
+
+    def __getitem__(self, index):
+        return self.joints[index]
+
+    def __len__(self):
+        return len(self.joints)
