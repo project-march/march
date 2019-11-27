@@ -2,7 +2,6 @@ import rospy
 import yaml
 
 from limits import Limits
-from setpoints import Setpoint
 from joint_trajectory import JointTrajectory
 
 from march_shared_resources import msg as march_msg
@@ -109,7 +108,7 @@ class Subgait(object):
         user_defined_setpoints = []
         timestamps = self.get_unique_timestamps()
         for timestamp in timestamps:
-            user_defined_setpoint = Setpoint()
+            user_defined_setpoint = march_msg.Setpoint()
             user_defined_setpoint.time_from_start = rospy.Duration.from_sec(timestamp)
             for joint in self.joints:
                 for setpoint in joint.setpoints:
