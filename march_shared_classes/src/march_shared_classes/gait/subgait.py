@@ -1,7 +1,10 @@
 import rospy
-from limits import Limits
-from joint_trajectory import JointTrajectory
 import yaml
+
+from limits import Limits
+from setpoints import Setpoint
+from joint_trajectory import JointTrajectory
+
 from march_shared_resources import msg as march_msg
 from trajectory_msgs import msg as trajectory_msg
 
