@@ -34,10 +34,10 @@ class JointTrajectory(object):
         position = []
         velocity = []
 
-        for i in range(0, len(self)):
-            time.append(self[i].time)
-            position.append(self[i].position)
-            velocity.append(self[i].velocity)
+        for setpoint in self.setpoints:
+            time.append(setpoint.time)
+            position.append(setpoint.position)
+            velocity.append(setpoint.velocity)
 
         return time, position, velocity
 
