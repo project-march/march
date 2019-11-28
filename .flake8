@@ -1,0 +1,23 @@
+[flake8]
+show-source = true
+max-line-length = 120
+exclude = .git, march_description, march_shared_resources
+application-package-names = march_shared_classes, march_shared_resources
+import-order-style = appnexus
+ignore =
+    # D100: Missing docstring in public module
+    D100,
+    # D102: Missing docstring in public class
+    D101,
+    # D102: Missing docstring in public method
+    D102,
+    # D103: Missing docstring in public function
+    D103,
+    # D104: Missing docstring in public package
+    D104,
+    # D105: Missing docstring in magic method
+    D105,
+    # D106: Missing docstring in public nested class
+    D106,
+    # D107: Missing docstring in __init__
+    D107,
