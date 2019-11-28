@@ -1,6 +1,6 @@
+import psutil
 import rospy
 import smach
-import psutil
 
 
 class ShutdownState(smach.State):

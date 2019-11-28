@@ -1,26 +1,26 @@
 import rospy
 import smach
-
-from march_state_machine import walk_sm
-from march_state_machine import sit_sm
-from march_state_machine import stand_sm
-from march_state_machine import single_step_small_sm
-from march_state_machine import single_step_normal_sm
-from march_state_machine import side_step_left_sm
-from march_state_machine import side_step_right_sm
-from march_state_machine import side_step_left_small_sm
-from march_state_machine import side_step_right_small_sm
-from march_state_machine import sofa_sit_sm
-from march_state_machine import sofa_stand_sm
-from march_state_machine import tilted_path_sm
-from march_state_machine import walk_small_sm
-from march_state_machine import rough_terrain_high_step_sm
-from march_state_machine import rough_terrain_middle_steps_sm
-from march_state_machine import ramp_door_slope_up_sm
-from march_state_machine import stairs_sm
-from march_state_machine.states.idle_state import IdleState
-from march_state_machine.states.gait_state import GaitState
 from std_srvs.srv import Empty, EmptyRequest
+
+from . import ramp_door_slope_up_sm
+from . import rough_terrain_high_step_sm
+from . import rough_terrain_middle_steps_sm
+from . import side_step_left_sm
+from . import side_step_left_small_sm
+from . import side_step_right_sm
+from . import side_step_right_small_sm
+from . import single_step_normal_sm
+from . import single_step_small_sm
+from . import sit_sm
+from . import sofa_sit_sm
+from . import sofa_stand_sm
+from . import stairs_sm
+from . import stand_sm
+from . import tilted_path_sm
+from . import walk_sm
+from . import walk_small_sm
+from .states.gait_state import GaitState
+from .states.idle_state import IdleState
 
 
 class HealthyStart(smach.State):
@@ -44,10 +44,7 @@ def create():
         smach.StateMachine.add('START', HealthyStart(),
                                transitions={'succeeded': 'UNKNOWN'})
         smach.StateMachine.add('UNKNOWN', IdleState(outcomes=['home_sit', 'home_stand', 'failed', 'preempted']),
-                               transitions={
-                                   'home_sit': 'HOME SIT',
-                                   'home_stand': 'HOME STAND',
-                               })
+                               transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND'})
 
         # Movement states
         smach.StateMachine.add('HOME SIT', GaitState('home', 'home_sit'),

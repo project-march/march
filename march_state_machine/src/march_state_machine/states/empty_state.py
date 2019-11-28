@@ -1,9 +1,11 @@
-import smach
 import time
+
+import smach
 
 
 class EmptyState(smach.State):
     """Empty State which succeeds after a timeout.
+
     Can be used as a placeholder to design the whole state machine without functionality.
     """
 

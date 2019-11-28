@@ -1,8 +1,18 @@
 [flake8]
-show-source = true
+#show-source = true
 max-line-length = 120
-exclude = .git, march_description, march_shared_resources
-application-package-names = march_shared_classes, march_shared_resources
+exclude = .git
+application-package-names =
+    march_description,
+    march_gain_scheduling,
+    march_gait_scheduler,
+    march_gait_selection,
+    march_launch,
+    march_safety,
+    march_shared_classes,
+    march_shared_resources,
+    march_sound_scheduler,
+    march_state_machine
 import-order-style = appnexus
 ignore =
     # D100: Missing docstring in public module
@@ -21,3 +31,9 @@ ignore =
     D106,
     # D107: Missing docstring in __init__
     D107,
+    # D401: First line should be in imperative mood
+    D401,
+    # W503: Line break before operator
+    W503,
+    # C815: Trailing comma in Python 3.5
+    C815

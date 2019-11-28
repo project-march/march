@@ -3,6 +3,7 @@ import rospy
 import smach
 
 from march_shared_resources.msg import GaitNameAction
+
 from . import DEFAULT_TIMEOUT_SECS
 
 
@@ -20,7 +21,7 @@ class WaitForGaitServerState(smach.State):
         end_time = rospy.Time.now() + self._timeout
         while not gait_client.wait_for_server(rospy.Duration(0.1)):
             if rospy.Time.now() > end_time:
-                rospy.logerr('Waiting for gait server timed out after {}s'.format(self._timeout.to_sec()))
+                rospy.logerr('Waiting for gait server timed out after {0}s'.format(self._timeout.to_sec()))
                 return 'failed'
             if self.preempt_requested():
                 self.service_preempt()

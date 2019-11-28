@@ -1,6 +1,7 @@
 import rospy
-from march_shared_resources.msg import GaitInstruction
 from std_msgs.msg import Bool
+
+from march_shared_resources.msg import GaitInstruction
 
 
 class ControlFlow:

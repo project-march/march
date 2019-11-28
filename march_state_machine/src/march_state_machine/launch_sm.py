@@ -1,6 +1,6 @@
 import smach
 
-from march_state_machine.states.wait_for_gait_server_state import WaitForGaitServerState
+from .states.wait_for_gait_server_state import WaitForGaitServerState
 
 
 def create():

@@ -1,5 +1,6 @@
-import smach_ros
 import rospy
+import smach_ros
+
 from march_shared_resources.msg import Error
 
 
@@ -16,8 +17,8 @@ class SafetyState(smach_ros.MonitorState):
 
     @staticmethod
     def error_callback(userdata, msg):
-        """
-        Callback method for messages published on the '/march/error' topic.
+        """Monitors messages published on the '/march/error' topic.
+
         :param userdata: Userdata passed to the state
         :param msg: Error message published on the topic
         :return: False if the error is fatal, True otherwise

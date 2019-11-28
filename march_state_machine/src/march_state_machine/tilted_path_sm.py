@@ -1,16 +1,15 @@
 import smach
 
-from march_state_machine import set_ankle_from_2_5_to_min5_sm
-from march_state_machine import tilted_path_first_starting_step_sm
-from march_state_machine import tilted_path_second_starting_step_sm
-from march_state_machine import set_ankle_from_min5_to_min10_sm
-from march_state_machine import tilted_path_middle_step_sm
-from march_state_machine import set_ankle_from_min10_to_min5_sm
-from march_state_machine import tilted_path_first_ending_step_sm
-from march_state_machine import tilted_path_second_ending_step_sm
-from march_state_machine import set_ankle_from_min5_to_2_5_sm
-
-from march_state_machine.states.idle_state import IdleState
+from . import set_ankle_from_2_5_to_min5_sm
+from . import set_ankle_from_min10_to_min5_sm
+from . import set_ankle_from_min5_to_2_5_sm
+from . import set_ankle_from_min5_to_min10_sm
+from . import tilted_path_first_ending_step_sm
+from . import tilted_path_first_starting_step_sm
+from . import tilted_path_middle_step_sm
+from . import tilted_path_second_ending_step_sm
+from . import tilted_path_second_starting_step_sm
+from .states.idle_state import IdleState
 
 
 def create():
@@ -66,8 +65,11 @@ def create():
         smach.StateMachine.add('STANDING TILTED PATH START ANKLES MIN5',
                                IdleState(outcomes=['gait_set_ankle_from_min5_to_min10', 'preempted']),
                                transitions={'gait_set_ankle_from_min5_to_min10': 'GAIT SET ANKLE FROM MIN5 TO MIN10'})
-        smach.StateMachine.add('STANDING TILTED PATH MIDDLE STEP', IdleState(
-            outcomes=['gait_tilted_path_middle_step', 'gait_set_ankle_from_min10_to_min5', 'preempted']),
+        smach.StateMachine.add('STANDING TILTED PATH MIDDLE STEP',
+                               IdleState(
+                                   outcomes=['gait_tilted_path_middle_step',
+                                             'gait_set_ankle_from_min10_to_min5',
+                                             'preempted']),
                                transitions={'gait_tilted_path_middle_step': 'GAIT TILTED PATH MIDDLE STEP',
                                             'gait_set_ankle_from_min10_to_min5': 'GAIT SET ANKLE FROM MIN10 TO MIN5'})
         smach.StateMachine.add('STANDING TILTED PATH START FIRST END STEP',
