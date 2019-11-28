@@ -1,8 +1,6 @@
-#!/usr/bin/env python
 import smach
 
-from march_state_machine.states.GaitState import GaitState
-from march_state_machine.states.StoppableState import StoppableState
+from march_state_machine.states.gait_state import GaitState
 
 
 def create():
@@ -10,15 +8,15 @@ def create():
     with sm_rough_terrain_middle_steps:
 
         smach.StateMachine.add('RIGHT_OPEN', GaitState("rough_terrain_middle_steps", "right_open"),
-                               transitions={'succeeded': 'LEFT SWING', 'preempted': 'preempted', 'aborted': 'failed'})
+                               transitions={'succeeded': 'LEFT SWING', 'aborted': 'failed'})
 
         smach.StateMachine.add('RIGHT SWING', GaitState("rough_terrain_middle_steps", "right_swing"),
-                               transitions={'succeeded': 'LEFT CLOSE', 'preempted': 'preempted', 'aborted': 'failed'})
+                               transitions={'succeeded': 'LEFT CLOSE', 'aborted': 'failed'})
 
         smach.StateMachine.add('LEFT SWING', GaitState("rough_terrain_middle_steps", "left_swing"),
-                               transitions={'succeeded': 'RIGHT SWING', 'preempted': 'preempted', 'aborted': 'failed'})
+                               transitions={'succeeded': 'RIGHT SWING', 'aborted': 'failed'})
 
         smach.StateMachine.add('LEFT CLOSE', GaitState("rough_terrain_middle_steps", "left_close"),
-                               transitions={'succeeded': 'succeeded', 'preempted': 'preempted', 'aborted': 'failed'})
+                               transitions={'succeeded': 'succeeded', 'aborted': 'failed'})
 
     return sm_rough_terrain_middle_steps
