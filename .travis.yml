@@ -30,7 +30,6 @@ env:
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
     - DOWNSTREAM_WORKSPACE=.rosinstall
-    - AFTER_BUILD_TARGET_WORKSPACE='builder_run_build "$target_ws/install" "$target_ws" --cmake-target-skip-unavailable --cmake-target roslint'
 
 jobs:
   include:
