@@ -1,5 +1,5 @@
-import smach_ros
 import rospy
+import smach_ros
 
 
 class FeedbackActionState(smach_ros.SimpleActionState):

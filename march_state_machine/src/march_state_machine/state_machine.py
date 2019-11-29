@@ -1,12 +1,13 @@
+from multiprocessing.pool import ThreadPool
+
 import rospy
 import smach
 import smach_ros
 
-from multiprocessing.pool import ThreadPool
-from march_state_machine import launch_sm, healthy_sm
-from march_state_machine.states.safety_state import SafetyState
-from march_state_machine.states.shutdown_state import ShutdownState
-from march_state_machine.states.empty_state import EmptyState
+from . import healthy_sm, launch_sm
+from .states.empty_state import EmptyState
+from .states.safety_state import SafetyState
+from .states.shutdown_state import ShutdownState
 
 
 def main():

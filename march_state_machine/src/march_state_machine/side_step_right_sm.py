@@ -1,13 +1,13 @@
 import smach
 
-from march_state_machine.states.gait_state import GaitState
+from .states.gait_state import GaitState
 
 
 def create():
     sm_side_step_right = smach.StateMachine(outcomes=['succeeded', 'preempted', 'failed'])
     with sm_side_step_right:
-        smach.StateMachine.add('RIGHT OPEN', GaitState("side_step_right", "right_open"),
+        smach.StateMachine.add('RIGHT OPEN', GaitState('side_step_right', 'right_open'),
                                transitions={'succeeded': 'LEFT CLOSE', 'aborted': 'failed'})
-        smach.StateMachine.add('LEFT CLOSE', GaitState("side_step_right", "left_close"),
+        smach.StateMachine.add('LEFT CLOSE', GaitState('side_step_right', 'left_close'),
                                transitions={'succeeded': 'succeeded', 'aborted': 'failed'})
     return sm_side_step_right

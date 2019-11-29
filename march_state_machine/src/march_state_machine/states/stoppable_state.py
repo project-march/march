@@ -1,6 +1,6 @@
+from feedback_action_state import FeedbackActionState
 import rospy
 
-from feedback_action_state import FeedbackActionState
 from march_shared_resources.msg import GaitNameAction, GaitNameGoal
 from march_state_machine.control_flow import control_flow
 

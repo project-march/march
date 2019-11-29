@@ -14,8 +14,6 @@
   <depend>controller_manager_msgs</depend>
   <depend>march_shared_resources</depend>
 
-  <build_depend>roslint</build_depend>
-
   <build_export_depend>smach_viewer</build_export_depend>
 
   <exec_depend>rospy</exec_depend>

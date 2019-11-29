@@ -1,13 +1,17 @@
-import smach
-import rospy
 import threading
+
+import rospy
+import smach
+
 from march_state_machine.control_flow import control_flow
 
 
 class IdleState(smach.State):
     """State in which the exoskeleton is not moving.
+
     Listens to instructions from the input device and reacts if they are known transitions.
     """
+
     def __init__(self, outcomes=None):
         if outcomes is None:
             outcomes = []
@@ -41,17 +45,17 @@ class IdleState(smach.State):
         return 'failed'
 
     def _stopped_cb(self):
-        rospy.logwarn('Idle state doesn\'t respond to stop')
+        rospy.logwarn('Idle state does not respond to stop')
         control_flow.reset_stop()
 
     def _gait_cb(self, gait):
         if gait in self.get_registered_outcomes():
-            rospy.loginfo('Accepted {}'.format(gait))
+            rospy.loginfo('Accepted {0}'.format(gait))
             self._result_gait = gait
             control_flow.gait_accepted()
             self._trigger_event.set()
         else:
-            rospy.logwarn('The {} is not a possible gait in the current state'.format(gait))
+            rospy.logwarn('The {0} is not a possible gait in the current state'.format(gait))
             control_flow.gait_rejected()
 
     def request_preempt(self):
