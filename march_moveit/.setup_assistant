@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: march_description
+    relative_path: urdf/march4.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/march.srdf
+  CONFIG:
+    author_name: Project March
+    author_email: software@projectmarch.nl
+    generated_timestamp: 1578049616

@@ -1,0 +1,13 @@
+controller_list:
+  - name: fake_right_leg_controller
+    joints:
+      - right_hip_aa
+      - right_hip_fe
+      - right_knee
+      - right_ankle
+  - name: fake_left_leg_controller
+    joints:
+      - left_hip_aa
+      - left_hip_fe
+      - left_knee
+      - left_ankle
