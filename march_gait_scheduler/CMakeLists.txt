@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_gait_scheduler)
 
-add_compile_options(-std=c++11 -Wall -g)
+add_compile_options(-std=c++11 -Wall -Wextra)
 
 find_package(catkin REQUIRED COMPONENTS
     actionlib
@@ -10,7 +10,6 @@ find_package(catkin REQUIRED COMPONENTS
     dynamic_reconfigure
     march_shared_resources
     roscpp
-    roslint
     trajectory_msgs
 )
 
@@ -30,15 +29,6 @@ catkin_package(
     roscpp
     trajectory_msgs
 )
-
-# Roslinter
-set(ROSLINT_CPP_OPTS "--linelength=120")
-
-file(GLOB_RECURSE lintfiles
-    "include/*.h"
-    "src/*.cpp"
-)
-roslint_cpp(${lintfiles})
 
 include_directories(
     include
@@ -64,9 +54,6 @@ install(TARGETS ${PROJECT_NAME}
 )
 install(TARGETS ${PROJECT_NAME}_node
     RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
-install(DIRECTORY launch
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 ## Add gtest based cpp test target and link libraries

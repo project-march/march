@@ -4,13 +4,16 @@
 trajectory_msgs::JointTrajectory Scheduler::setStartTimeGait(trajectory_msgs::JointTrajectory trajectory,
                                                              ros::Time time)
 {
-  trajectory.header.stamp = time;
+  if (!time.isZero())
+  {
+    trajectory.header.stamp = time;
+  }
   return trajectory;
 }
 
 ros::Time Scheduler::getEndTimeCurrentGait()
 {
-  if (this->last_gait_goal_ != nullptr && this->last_gait_goal_ != NULL)
+  if (this->last_gait_goal_ != nullptr)
   {
     ros::Time end_time = this->start_last_gait_;
     end_time += this->last_gait_goal_->current_subgait.duration;
@@ -26,9 +29,15 @@ ros::Time Scheduler::getStartTime(ros::Duration offset)
 
   if (current_time > end_current_gait)
   {
-    if (offset.toNSec() >= 0)
+    if (offset > ros::Duration(0, 0))
     {
       return current_time + offset;
+    }
+    else if (offset.isZero())
+    {
+      // Return zero time when gait can be scheduled right now,
+      // so that it doesn't drop the first trajectory point.
+      return ros::Time(0, 0);
     }
     else
     {
@@ -72,7 +81,7 @@ control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleGait(const march_shar
   control_msgs::FollowJointTrajectoryGoal trajectory_msg;
   trajectory_msg.trajectory = trajectory;
 
-  this->start_last_gait_ = start_time;
+  this->start_last_gait_ = start_time.isZero() ? ros::Time::now() : start_time;
   this->last_gait_goal_ = gait_goal;
 
   return trajectory_msg;
