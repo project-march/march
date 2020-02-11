@@ -54,4 +54,7 @@
     <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
   </include>
 
+  <node name="march_move_group" pkg="march_moveit" type="move_group.py" output="screen">
+  </node>
+
 </launch>

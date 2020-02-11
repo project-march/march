@@ -29,6 +29,10 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
+      - left_hip_aa
+      - left_hip_fe
+      - left_knee
+      - left_ankle
       - right_hip_aa
       - right_hip_fe
       - right_knee
@@ -42,3 +46,7 @@ controller_list:
       - left_hip_fe
       - left_knee
       - left_ankle
+      - right_hip_aa
+      - right_hip_fe
+      - right_knee
+      - right_ankle

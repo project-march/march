@@ -42,6 +42,8 @@
 
         <node name="gait_scheduler_node" pkg="march_gait_scheduler" type="march_gait_scheduler_node" output="screen" required="true"/>
 
+<!--        <node name="march_data_collector" pkg="march_data_collector" type="march_data_collector" output="screen"/>-->
+
         <include file="$(find march_rqt_input_device)/launch/march_rqt_input_device.launch" if="$(eval not headless and rqt_input)">
             <arg name="ping_safety_node" value="true"/>
         </include>

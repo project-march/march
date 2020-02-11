@@ -20,7 +20,6 @@ class DataCollectorNode(object):
     def __init__(self, com_calculator, cp_calculators):
         self._com_calculator = com_calculator
         self._cp_calculators = cp_calculators
-
         joint_names = rospy.get_param('/march/joint_names')
 
         self._imu_broadcaster = tf2_ros.TransformBroadcaster()
