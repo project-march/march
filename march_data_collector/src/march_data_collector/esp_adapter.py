@@ -71,16 +71,16 @@ class ESPAdapter:
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
         for joint in joint_names:
-            self.configure_source('sourceTemperature_' + joint, '/march/temperature/' + joint, Temperature,
+            self.configure_source('source_temperature_' + joint, '/march/temperature/' + joint, Temperature,
                                   self.temperature_callback)
 
-        self.configure_source('sourceJoint', '/march/controller/trajectory/state', JointTrajectoryControllerState,
+        self.configure_source('source_joint', '/march/controller/trajectory/state', JointTrajectoryControllerState,
                               self.trajectory_state_callback)
-        self.configure_source('sourceIMU', '/march/imu', Imu, self.imu_callback)
+        self.configure_source('source_imu', '/march/imu', Imu, self.imu_callback)
 
-        self.configure_source('sourceIMC', '/march/imc_states', ImcErrorState, self.imc_state_callback)
-        self.configure_source('sourceGait', '/march/gait/schedule/goal', GaitNameActionGoal, self.gait_callback)
-        self.configure_source('sourceCom', '/march/com_marker', Marker, self.com_callback)
+        self.configure_source('source_imc', '/march/imc_states', ImcErrorState, self.imc_state_callback)
+        self.configure_source('source_gait', '/march/gait/schedule/goal', GaitNameActionGoal, self.gait_callback)
+        self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
 
     def pub_err_cb_func(self, failure, code, _):
         if failure == pubsubApi.pubsubFail_APIFAIL and code == pubsubApi.pubsubCode_CLIENTEVENTSQUEUED:
