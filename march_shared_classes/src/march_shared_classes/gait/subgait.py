@@ -136,7 +136,7 @@ class Subgait(object):
 
         return joint_trajectory_msg
 
-    def to_setpoints(self):
+    def _to_setpoints_msg(self):
         """Define setpoints that correspond with the given timestamps."""
         timestamps = self.get_unique_timestamps()
 
@@ -158,10 +158,12 @@ class Subgait(object):
         """Convert class attribute values back to ROS msg (necessary for publisher)."""
         subgait_msg = march_msg.Subgait()
 
+        subgait_msg.name = self.subgait_name
         subgait_msg.gait_type = self.gait_type
         subgait_msg.trajectory = self._to_joint_trajectory_msg()
-        subgait_msg.setpoints = self.to_setpoints()
-        subgait_msg.description = str(self.description)
+        subgait_msg.setpoints = self._to_setpoints_msg()
+        subgait_msg.description = self.description
+        subgait_msg.version = self.version
         subgait_msg.duration = rospy.Duration.from_sec(self.duration)
 
         return subgait_msg
