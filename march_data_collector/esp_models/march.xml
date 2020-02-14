@@ -22,6 +22,17 @@
                 <field-selection name="temperature_left_knee" source="r_temperature_left_knee" />
                 <field-selection name="temperature_right_knee" source="r_temperature_right_knee" />
               </output>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">temperature.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-join>
             <window-join name="join_temperature_ankle">
               <join type="inner">
@@ -328,6 +339,17 @@
                   <field key="false" name="version" type="string" />
                 </fields>
               </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">gait.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_imc">
               <schema>
@@ -339,6 +361,17 @@
                   <field key="false" name="motor_voltage" type="array(dbl)" />
                 </fields>
               </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">imc.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-source>
             <window-aggregate name='aggregate_imu'>
               <schema>
@@ -385,6 +418,17 @@
                   <field key="false" name="linear_acceleration" type="array(dbl)" />
                 </fields>
               </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">imu.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_joint">
               <schema>
@@ -398,6 +442,17 @@
                   <field key="false" name="desired_velocities" type="array(dbl)" />
                 </fields>
               </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">joint.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_temperature_left_ankle">
               <schema>
@@ -490,6 +545,17 @@
                   <field key="false" name="com_z" type="double" />
                 </fields>
               </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">com.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
             </window-source>
           </windows>
           <edges>
