@@ -127,8 +127,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="r_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="r_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="r_temperature_left_hip_fe" />
@@ -150,8 +153,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
@@ -176,8 +182,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
@@ -204,8 +213,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
@@ -235,8 +247,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
@@ -269,8 +284,11 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
+                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
                 <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
@@ -501,8 +519,11 @@
                   <field key="false" name="time" type="stamp" />
                   <field key="false" name="actual_positions" type="array(dbl)" />
                   <field key="false" name="actual_velocities" type="array(dbl)" />
+                  <field key="false" name="actual_accelerations" type="array(dbl)" />
+                  <field key="false" name="actual_jerks" type="array(dbl)" />
                   <field key="false" name="desired_positions" type="array(dbl)" />
                   <field key="false" name="desired_velocities" type="array(dbl)" />
+                  <field key="false" name="error_positions" type="array(dbl)" />
                 </fields>
               </schema>
               <connectors>

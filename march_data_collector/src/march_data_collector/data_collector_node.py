@@ -29,7 +29,6 @@ class DataCollectorNode(object):
         self.position_memory = []
         self.time_memory = []
         self.joint_values = JointValues()
-        self.joint_values.joint_names = rospy.get_param('/march/joint_names')
 
         self.joint_values_publisher = rospy.Publisher('/march/joint_values', JointValues, queue_size=1)
 
@@ -79,16 +78,15 @@ class DataCollectorNode(object):
             self.position_memory.pop(0)
             self.time_memory.pop(0)
         if len(self.position_memory) > self.differentiation_order:
-            velocity = numpy.gradient(self.position_memory, self.time_memory, edge_order=self.differntiation_order,
+            velocity = numpy.gradient(self.position_memory, self.time_memory, edge_order=self.differentiation_order,
                                       axis=0)
-            acceleration = numpy.gradient(velocity, self.time_memory, edge_order=self.differntiation_order, axis=0)
-            jerk = numpy.gradient(acceleration, self.time_memory, edge_order=self.differntiation_order, axis=0)
+            acceleration = numpy.gradient(velocity, self.time_memory, edge_order=self.differentiation_order, axis=0)
+            jerk = numpy.gradient(acceleration, self.time_memory, edge_order=self.differentiation_order, axis=0)
 
-            self.joint_values.positions = self.position_memory[-1]
+            self.joint_values.positions = data.feedback
             self.joint_values.velocities = velocity[-1]
             self.joint_values.accelerations = acceleration[-1]
             self.joint_values.jerk = jerk[-1]
-            self.joint_values.header.stamp = data.header.stamp
 
             self.joint_values_publisher.publish(self.joint_values)
 

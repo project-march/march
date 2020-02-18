@@ -1,6 +1,4 @@
-Header header
-string[] joint_names
-float32[] positions
-float32[] velocities
-float32[] accelerations
-float32[] jerk
+control_msgs/FollowJointTrajectoryFeedback controller_output
+float64[] velocities
+float64[] accelerations
+float64[] jerks
