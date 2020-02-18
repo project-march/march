@@ -169,6 +169,7 @@
               <field-selection name="gait_name" source="r_gait_name" />
               <field-selection name="subgait_name" source="r_subgait_name" />
               <field-selection name="version" source="r_version" />
+              <field-selection name="gait_id" source="r_gait_id" />
             </output>
           </window-join>
             <window-join name="join_imc" >
@@ -198,6 +199,7 @@
               <field-selection name="gait_name" source="l_gait_name" />
               <field-selection name="subgait_name" source="l_subgait_name" />
               <field-selection name="version" source="l_version" />
+              <field-selection name="gait_id" source="l_gait_id" />
               <field-selection name="motor_current" source="r_motor_current" />
               <field-selection name="motor_voltage" source="r_motor_voltage" />
               </output>
@@ -229,6 +231,7 @@
                 <field-selection name="gait_name" source="l_gait_name" />
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
+                <field-selection name="gait_id" source="l_gait_id" />
                 <field-selection name="motor_current" source="l_motor_current" />
                 <field-selection name="motor_voltage" source="l_motor_voltage" />
                 <field-selection name="orientation" source="r_orientation" />
@@ -263,6 +266,7 @@
                 <field-selection name="gait_name" source="l_gait_name" />
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
+                <field-selection name="gait_id" source="l_gait_id" />
                 <field-selection name="motor_current" source="l_motor_current" />
                 <field-selection name="motor_voltage" source="l_motor_voltage" />
                 <field-selection name="orientation" source="l_orientation" />
@@ -300,6 +304,7 @@
                 <field-selection name="gait_name" source="l_gait_name" />
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
+                <field-selection name="gait_id" source="l_gait_id" />
                 <field-selection name="motor_current" source="l_motor_current" />
                 <field-selection name="motor_voltage" source="l_motor_voltage" />
                 <field-selection name="orientation" source="l_orientation" />
@@ -327,6 +332,21 @@
                 </connector>
               </connectors>
             </window-join>
+            <window-aggregate name='aggregate_over_gait'>
+            <schema>
+              <fields>
+                <field key="true" name="gait_id" type="int64" />
+                <field key="false" name="time" type="stamp" />
+                <field key="false" name="start_time" type="stamp"/>
+                <field key="false" name="gait" type="string" />
+              </fields>
+            </schema>
+            <output>
+              <field-expr>ESP_aLast(time) </field-expr>
+              <field-expr>ESP_aMin(time) </field-expr>
+              <field-expr>ESP_aLast(gait_name) </field-expr>
+            </output>
+          </window-aggregate>
             <window-aggregate name='aggregate_temperature'>
               <schema>
                 <fields>
@@ -373,6 +393,7 @@
               <schema>
                 <fields>
                   <field key="true" name="dummy_key" type="int64" />
+                  <field key="false" name="gait_id" type="int64" />
                   <field key="false" name="time" type="stamp" />
                   <field key="false" name="gait_name" type="string" />
                   <field key="false" name="subgait_name" type="string" />
@@ -380,6 +401,7 @@
                 </fields>
               </schema>
               <output>
+                <field-expr>ESP_aLast(SEQUENCE)</field-expr>
                 <field-expr>ESP_aLast(time)</field-expr>
                 <field-expr>ESP_aLast(gait_name)</field-expr>
                 <field-expr>ESP_aLast(subgait_name)</field-expr>
@@ -692,6 +714,8 @@
             <edge role="right" source="join_temperature_hip_fe" target="join_temperature_hip" />
             <edge role="left" source="join_temperature_hip" target="join_temperature_all" />
             <edge role="right" source="join_temperature_ankle_knee" target="join_temperature_all" />
+
+            <edge source="join_ps" target="aggregate_over_gait" />
           </edges>
         </contquery>
       </contqueries>
