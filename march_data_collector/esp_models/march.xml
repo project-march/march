@@ -153,86 +153,10 @@
                 <field-selection name="dummy_key" source="l_dummy_key" />
                 <field-selection name="actual_positions" source="l_actual_positions" />
                 <field-selection name="actual_velocities" source="l_actual_velocities" />
-                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
-                <field-selection name="actual_jerks" source="l_actual_jerks" />
                 <field-selection name="desired_positions" source="l_desired_positions" />
                 <field-selection name="desired_velocities" source="l_desired_velocities" />
-                <field-selection name="error_positions" source="l_error_positions" />
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
-                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
-                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
-                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
-                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
-                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
-                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
-                <field-selection name="gait_name" source="r_gait_name" />
-                <field-selection name="subgait_name" source="r_subgait_name" />
-                <field-selection name="version" source="r_version" />
-              </output>
-            </window-join>
-            <window-join name="join_imc" >
-              <join type="leftouter" no-regenerates='true'>
-                <conditions>
-                  <fields left="dummy_key" right="dummy_key" />
-                </conditions>
-              </join>
-              <output>
-                <field-selection name="time" source="l_time" />
-                <field-selection name="dummy_key" source="l_dummy_key" />
-                <field-selection name="actual_positions" source="l_actual_positions" />
-                <field-selection name="actual_velocities" source="l_actual_velocities" />
-                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
-                <field-selection name="actual_jerks" source="l_actual_jerks" />
-                <field-selection name="desired_positions" source="l_desired_positions" />
-                <field-selection name="desired_velocities" source="l_desired_velocities" />
-                <field-selection name="error_positions" source="l_error_positions" />
-                <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
-                <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
-                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
-                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
-                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
-                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
-                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
-                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
-                <field-selection name="gait_name" source="l_gait_name" />
-                <field-selection name="subgait_name" source="l_subgait_name" />
-                <field-selection name="version" source="l_version" />
-                <field-selection name="motor_current" source="r_motor_current" />
-                <field-selection name="motor_voltage" source="r_motor_voltage" />
-              </output>
-            </window-join>
-            <window-join name="join_imu" >
-              <join type="leftouter" no-regenerates='true'>
-                <conditions>
-                  <fields left="dummy_key" right="dummy_key" />
-                </conditions>
-              </join>
-              <output>
-                <field-selection name="time" source="l_time" />
-                <field-selection name="dummy_key" source="l_dummy_key" />
-                <field-selection name="actual_positions" source="l_actual_positions" />
-                <field-selection name="actual_velocities" source="l_actual_velocities" />
-                <field-selection name="actual_accelerations" source="l_actual_accelerations" />
-                <field-selection name="actual_jerks" source="l_actual_jerks" />
-                <field-selection name="desired_positions" source="l_desired_positions" />
-                <field-selection name="desired_velocities" source="l_desired_velocities" />
-                <field-selection name="error_positions" source="l_error_positions" />
-                <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
-                <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
-                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
-                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
-                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
-                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
-                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
-                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
-                <field-selection name="gait_name" source="l_gait_name" />
-                <field-selection name="subgait_name" source="l_subgait_name" />
-                <field-selection name="version" source="l_version" />
-                <field-selection name="motor_current" source="l_motor_current" />
-                <field-selection name="motor_voltage" source="l_motor_voltage" />
-                <field-selection name="orientation" source="r_orientation" />
-                <field-selection name="rotational_velocity" source="r_rotational_velocity" />
                 <field-selection name="linear_acceleration" source="r_linear_acceleration" />
               </output>
             </window-join>

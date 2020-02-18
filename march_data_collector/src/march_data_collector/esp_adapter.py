@@ -176,13 +176,13 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         actual_positions_str = list_to_str(data.controller_output.actual.positions)
-        actual_velocity_str = list_to_str(data.velocitites)
-        acutal_acceleration_str = list_to_str(data.acceleration)
+        actual_velocity_str = list_to_str(data.velocities)
+        acutal_acceleration_str = list_to_str(data.accelerations)
         acutal_jerk_str = list_to_str(data.jerks)
         desired_positions_str = list_to_str(data.controller_output.desired.positions)
         desired_velocity_str = list_to_str(data.controller_output.desired.velocities)
         position_error_str = list_to_str(data.controller_output.error.positions)
-        timestr = get_time_str(data.header.stamp)
+        timestr = get_time_str(data.controller_output.header.stamp)
 
         csv = ','.join([timestr, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
                         desired_positions_str, desired_velocity_str, position_error_str])

@@ -22,7 +22,7 @@ from .cp_calculator import CPCalculator
 
 class DataCollectorNode(object):
     def __init__(self, com_calculator, cp_calculators):
-        self.differentiation_order = 3
+        self.differentiation_order = 2
         self._com_calculator = com_calculator
         self._cp_calculators = cp_calculators
 
@@ -83,10 +83,10 @@ class DataCollectorNode(object):
             acceleration = numpy.gradient(velocity, self.time_memory, edge_order=self.differentiation_order, axis=0)
             jerk = numpy.gradient(acceleration, self.time_memory, edge_order=self.differentiation_order, axis=0)
 
-            self.joint_values.positions = data.feedback
+            self.joint_values.controller_output = data
             self.joint_values.velocities = velocity[-1]
             self.joint_values.accelerations = acceleration[-1]
-            self.joint_values.jerk = jerk[-1]
+            self.joint_values.jerks = jerk[-1]
 
             self.joint_values_publisher.publish(self.joint_values)
 
