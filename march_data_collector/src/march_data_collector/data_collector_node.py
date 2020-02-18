@@ -1,11 +1,11 @@
 import errno
 from math import pi
-import numpy
 import socket
 import sys
 
 from control_msgs.msg import JointTrajectoryControllerState
 from geometry_msgs.msg import TransformStamped
+import numpy
 import rospy
 from sensor_msgs.msg import Imu
 from tf.transformations import quaternion_from_euler, quaternion_multiply
@@ -79,9 +79,10 @@ class DataCollectorNode(object):
             self.position_memory.pop(0)
             self.time_memory.pop(0)
         if len(self.position_memory) > self.differentiation_order:
-            velocity = numpy.gradient(self.position_memory, self.time_memory, edge_order = 2, axis=0)
-            acceleration = numpy.gradient(velocity, self.time_memory, edge_order = 2, axis=0)
-            jerk = numpy.gradient(acceleration, self.time_memory, edge_order = 2, axis=0)
+            velocity = numpy.gradient(self.position_memory, self.time_memory, edge_order=self.differntiation_order,
+                                      axis=0)
+            acceleration = numpy.gradient(velocity, self.time_memory, edge_order=self.differntiation_order, axis=0)
+            jerk = numpy.gradient(acceleration, self.time_memory, edge_order=self.differntiation_order, axis=0)
 
             self.joint_values.positions = self.position_memory[-1]
             self.joint_values.velocities = velocity[-1]
