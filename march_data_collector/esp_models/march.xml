@@ -222,8 +222,6 @@
                 <field-selection name="orientation" source="r_orientation" />
                 <field-selection name="rotational_velocity" source="r_rotational_velocity" />
                 <field-selection name="linear_acceleration" source="r_linear_acceleration" />
-                <field-selection name="motor_current" source="l_motor_current" />
-                <field-selection name="motor_voltage" source="l_motor_voltage" />
               </output>
             </window-join>
             <window-join name="join_com" >
@@ -258,6 +256,46 @@
                 <field-selection name="com_x" source="r_com_x" />
                 <field-selection name="com_y" source="r_com_y" />
                 <field-selection name="com_z" source="r_com_z" />
+              </output>
+            </window-join>
+            <window-join name="join_ps" >
+              <join type="leftouter" no-regenerates='true'>
+                <conditions>
+                  <fields left="dummy_key" right="dummy_key" />
+                </conditions>
+              </join>
+              <output>
+                <field-selection name="time" source="l_time" />
+                <field-selection name="dummy_key" source="l_dummy_key" />
+                <field-selection name="actual_positions" source="l_actual_positions" />
+                <field-selection name="actual_velocities" source="l_actual_velocities" />
+                <field-selection name="desired_positions" source="l_desired_positions" />
+                <field-selection name="desired_velocities" source="l_desired_velocities" />
+                <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
+                <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
+                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
+                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
+                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
+                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
+                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
+                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
+                <field-selection name="gait_name" source="l_gait_name" />
+                <field-selection name="subgait_name" source="l_subgait_name" />
+                <field-selection name="version" source="l_version" />
+                <field-selection name="motor_current" source="l_motor_current" />
+                <field-selection name="motor_voltage" source="l_motor_voltage" />
+                <field-selection name="orientation" source="l_orientation" />
+                <field-selection name="rotational_velocity" source="l_rotational_velocity" />
+                <field-selection name="linear_acceleration" source="l_linear_acceleration" />
+                <field-selection name="com_x" source="l_com_x" />
+                <field-selection name="com_y" source="l_com_y" />
+                <field-selection name="com_z" source="l_com_z" />
+                <field-selection name="total_force_left" source="r_total_force_left" />
+                <field-selection name="total_force_right" source="r_total_force_right" />
+                <field-selection name="pressure_left" source="r_pressure_left" />
+                <field-selection name="pressure_right" source="r_pressure_right" />
+                <field-selection name="cop_left" source="r_cop_left" />
+                <field-selection name="cop_right" source="r_cop_right" />
               </output>
               <connectors>
                 <connector class="fs" name="sub" type="subscribe">
@@ -334,6 +372,7 @@
               <schema>
                 <fields>
                   <field key="true" name="SEQUENCE" type="int64" />
+                  <field key="false" name="dummy_key" type="int64" />
                   <field key="false" name="time" type="stamp" />
                   <field key="false" name="gait_name" type="string" />
                   <field key="false" name="subgait_name" type="string" />
@@ -406,6 +445,29 @@
                 <field-expr>ESP_aLast(com_x)</field-expr>
                 <field-expr>ESP_aLast(com_y)</field-expr>
                 <field-expr>ESP_aLast(com_z)</field-expr>
+              </output>
+            </window-aggregate>
+            <window-aggregate name='aggregate_ps'>
+              <schema>
+                <fields>
+                  <field key="true" name="dummy_key" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+                  <field key="false" name="total_force_left" type="double" />
+                  <field key="false" name="total_force_right" type="double" />
+                  <field key="false" name="pressure_left" type="array(dbl)" />
+                  <field key="false" name="pressure_right" type="array(dbl)" />
+                  <field key="false" name="cop_left" type="array(dbl)" />
+                  <field key="false" name="cop_right" type="array(dbl)" />
+                </fields>
+              </schema>
+              <output>
+                <field-expr>ESP_aLast(time)</field-expr>
+                <field-expr>ESP_aLast(total_force_left)</field-expr>
+                <field-expr>ESP_aLast(total_force_right)</field-expr>
+                <field-expr>ESP_aLast(pressure_left)</field-expr>
+                <field-expr>ESP_aLast(pressure_right)</field-expr>
+                <field-expr>ESP_aLast(cop_left)</field-expr>
+                <field-expr>ESP_aLast(cop_right)</field-expr>
               </output>
             </window-aggregate>
             <window-source autogen-key="true" insert-only="true" name="source_imu">
@@ -525,10 +587,11 @@
                 </fields>
               </schema>
             </window-source>
-            <window-source autogen-key="true" insert-only="true" name="sourcePS">
+            <window-source autogen-key="true" insert-only="true" name="source_ps">
               <schema>
                 <fields>
                   <field key="true" name="SEQUENCE" type="int64" />
+                  <field key="false" name="dummy_key" type="int64" />
                   <field key="false" name="time" type="stamp" />
                   <field key="false" name="total_force_left" type="double" />
                   <field key="false" name="total_force_right" type="double" />
@@ -574,32 +637,12 @@
             </window-source>
           </windows>
           <edges>
-            <edge source="sourcePS" target="copyWindow" />
-            <edge role="left" source="sourceTemperature_left_ankle" target="joinTemperature_ankle" />
-            <edge role="right" source="sourceTemperature_right_ankle" target="joinTemperature_ankle" />
-            <edge role="left" source="sourceTemperature_left_hip_aa" target="joinTemperature_hip_aa" />
-            <edge role="right" source="sourceTemperature_right_hip_aa" target="joinTemperature_hip_aa" />
-            <edge role="left" source="sourceTemperature_left_hip_fe" target="joinTemperature_hip_fe" />
-            <edge role="right" source="sourceTemperature_right_hip_fe" target="joinTemperature_hip_fe" />
-            <edge role="left" source="sourceTemperature_left_knee" target="joinTemperature_knee" />
-            <edge role="right" source="sourceTemperature_right_knee" target="joinTemperature_knee" />
-            <edge role="left" source="joinTemperature_ankle" target="joinTemperature_ankle_knee" />
-            <edge role="right" source="joinTemperature_knee" target="joinTemperature_ankle_knee" />
-            <edge role="left" source="joinTemperature_hip_aa" target="joinTemperature_hip" />
-            <edge role="right" source="joinTemperature_hip_fe" target="joinTemperature_hip" />
-            <edge role="left" source="joinTemperature_hip" target="joinTemperature" />
-            <edge role="right" source="joinTemperature_ankle_knee" target="joinTemperature" />
-            <edge role="left" source="sourceJoint" target="joinWindow2" />
-            <edge role="right" source="sourceIMU" target="joinWindow2" />
-            <edge role="left" source="sourceIMC" target="joinWindow3" />
-            <edge role="right" source="joinWindow2" target="joinWindow3" />
-            <edge role="left" source="sourceGait" target="joinWindow4" />
-            <edge role="right" source="sourceCom" target="joinWindow4" />
             <edge source="source_imc" target="aggregate_imc" />
             <edge source="source_imu" target="aggregate_imu" />
             <edge source="source_gait" target="aggregate_gait" />
             <edge source="join_temperature_all" target="aggregate_temperature" />
             <edge source="source_com" target="aggregate_com" />
+            <edge source="source_ps" target="aggregate_ps" />
 
             <edge role="left" source="source_joint" target="join_temperature" />
             <edge role="right" source="aggregate_temperature" target="join_temperature" />
@@ -611,6 +654,8 @@
             <edge role="right" source="aggregate_imu" target="join_imu" />
             <edge role="left" source="join_imu" target="join_com" />
             <edge role="right" source="aggregate_com" target="join_com" />
+            <edge role="left" source="join_com" target="join_ps" />
+            <edge role="right" source="aggregate_ps" target="join_ps" />
 
             <edge role="left" source="source_temperature_left_ankle" target="join_temperature_ankle" />
             <edge role="right" source="source_temperature_right_ankle" target="join_temperature_ankle" />
