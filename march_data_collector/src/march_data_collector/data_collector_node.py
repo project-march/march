@@ -22,13 +22,16 @@ from .cp_calculator import CPCalculator
 
 class DataCollectorNode(object):
     def __init__(self, com_calculator, cp_calculators):
+        self.differentiation_order = 3
         self._com_calculator = com_calculator
         self._cp_calculators = cp_calculators
 
         self.position_memory = []
         self.time_memory = []
-        self.joint_values = JointValues
+        self.joint_values = JointValues()
         self.joint_values.joint_names = rospy.get_param('/march/joint_names')
+
+        self.joint_values_publisher = rospy.Publisher('/march/joint_values', JointValues, queue_size=1)
 
         self._imu_broadcaster = tf2_ros.TransformBroadcaster()
         self._com_marker_publisher = rospy.Publisher('/march/com_marker', Marker, queue_size=1)
@@ -72,19 +75,21 @@ class DataCollectorNode(object):
 
         self.position_memory.append(data.actual.positions)
         self.time_memory.append(data.header.stamp.secs + data.header.stamp.nsecs * 10**(-9))
-        if len(self.position_memory) > 5:
+        if len(self.position_memory) > self.differentiation_order + 1:
             self.position_memory.pop(0)
             self.time_memory.pop(0)
-        if len(self.position_memory) > 2:
+        if len(self.position_memory) > self.differentiation_order:
             velocity = numpy.gradient(self.position_memory, self.time_memory, edge_order = 2, axis=0)
             acceleration = numpy.gradient(velocity, self.time_memory, edge_order = 2, axis=0)
             jerk = numpy.gradient(acceleration, self.time_memory, edge_order = 2, axis=0)
+
             self.joint_values.positions = self.position_memory[-1]
             self.joint_values.velocities = velocity[-1]
             self.joint_values.accelerations = acceleration[-1]
             self.joint_values.jerk = jerk[-1]
-            self.joint_values.header.stamp = rospy.Time.now()
-            self.joint_publisher.publish(self.joint_values)
+            self.joint_values.header.stamp = data.header.stamp
+
+            self.joint_values_publisher.publish(self.joint_values)
 
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
