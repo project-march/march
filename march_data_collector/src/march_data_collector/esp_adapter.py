@@ -14,7 +14,7 @@ import rospy
 from sensor_msgs.msg import Imu, Temperature
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import GaitNameActionGoal, ImcErrorState
+from march_shared_resources.msg import GaitNameActionGoal, ImcErrorState, PressureSole
 
 
 try:
@@ -78,6 +78,7 @@ class ESPAdapter:
                               self.trajectory_state_callback)
         self.configure_source('source_imu', '/march/imu', Imu, self.imu_callback)
 
+        self.configure_source('source_ps', '/march/pressure_soles', PressureSole, self.pressure_sole_callback)
         self.configure_source('source_imc', '/march/imc_states', ImcErrorState, self.imc_state_callback)
         self.configure_source('source_gait', '/march/gait/schedule/goal', GaitNameActionGoal, self.gait_callback)
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
@@ -230,6 +231,20 @@ class ESPAdapter:
                         str(data.pose.position.z)])
         self.send_to_esp(csv, source)
 
+    def pressure_sole_callback(self, data, source):
+        """Callback for pressure sole data. Converts ROS message to csv string to send to the source window.
+
+        :param data: ROS message
+        :param source: the name of the source window in the ESP engine
+        """
+        pressure_left = list_to_str(data.pressure_left)
+        pressure_right = list_to_str(data.pressure_left)
+        cop_left = list_to_str(data.cop_left)
+        cop_right = list_to_str(data.cop_right)
+        csv = ','.join([get_time_str(data.pressure_soles_time), str(data.total_force_left), str(data.total_force_right),
+                        pressure_left, pressure_right, cop_left, cop_right])
+        self.send_to_esp(csv, source)
+
 
 def get_time_str(timestamp):
     """Creates str to use in csv string for source window based on timestamp.
@@ -238,6 +253,10 @@ def get_time_str(timestamp):
     """
     time = timestamp.secs + timestamp.nsecs * 10**(-9)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
+
+
+def list_to_str(ls):
+    return '[' + ';'.join([str(value) for value in ls]) + ']'
 
 
 def quaternion_to_str(quaternion):

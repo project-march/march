@@ -222,6 +222,8 @@
                 <field-selection name="orientation" source="r_orientation" />
                 <field-selection name="rotational_velocity" source="r_rotational_velocity" />
                 <field-selection name="linear_acceleration" source="r_linear_acceleration" />
+                <field-selection name="motor_current" source="l_motor_current" />
+                <field-selection name="motor_voltage" source="l_motor_voltage" />
               </output>
             </window-join>
             <window-join name="join_com" >
@@ -332,7 +334,6 @@
               <schema>
                 <fields>
                   <field key="true" name="SEQUENCE" type="int64" />
-                  <field key="false" name="dummy_key" type="int64" />
                   <field key="false" name="time" type="stamp" />
                   <field key="false" name="gait_name" type="string" />
                   <field key="false" name="subgait_name" type="string" />
@@ -524,6 +525,20 @@
                 </fields>
               </schema>
             </window-source>
+            <window-source autogen-key="true" insert-only="true" name="sourcePS">
+              <schema>
+                <fields>
+                  <field key="true" name="SEQUENCE" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+                  <field key="false" name="total_force_left" type="double" />
+                  <field key="false" name="total_force_right" type="double" />
+                  <field key="false" name="pressure_left" type="array(dbl)" />
+                  <field key="false" name="pressure_right" type="array(dbl)" />
+                  <field key="false" name="cop_left" type="array(dbl)" />
+                  <field key="false" name="cop_right" type="array(dbl)" />
+                </fields>
+              </schema>
+            </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_temperature_right_knee">
               <schema>
                 <fields>
@@ -559,6 +574,27 @@
             </window-source>
           </windows>
           <edges>
+            <edge source="sourcePS" target="copyWindow" />
+            <edge role="left" source="sourceTemperature_left_ankle" target="joinTemperature_ankle" />
+            <edge role="right" source="sourceTemperature_right_ankle" target="joinTemperature_ankle" />
+            <edge role="left" source="sourceTemperature_left_hip_aa" target="joinTemperature_hip_aa" />
+            <edge role="right" source="sourceTemperature_right_hip_aa" target="joinTemperature_hip_aa" />
+            <edge role="left" source="sourceTemperature_left_hip_fe" target="joinTemperature_hip_fe" />
+            <edge role="right" source="sourceTemperature_right_hip_fe" target="joinTemperature_hip_fe" />
+            <edge role="left" source="sourceTemperature_left_knee" target="joinTemperature_knee" />
+            <edge role="right" source="sourceTemperature_right_knee" target="joinTemperature_knee" />
+            <edge role="left" source="joinTemperature_ankle" target="joinTemperature_ankle_knee" />
+            <edge role="right" source="joinTemperature_knee" target="joinTemperature_ankle_knee" />
+            <edge role="left" source="joinTemperature_hip_aa" target="joinTemperature_hip" />
+            <edge role="right" source="joinTemperature_hip_fe" target="joinTemperature_hip" />
+            <edge role="left" source="joinTemperature_hip" target="joinTemperature" />
+            <edge role="right" source="joinTemperature_ankle_knee" target="joinTemperature" />
+            <edge role="left" source="sourceJoint" target="joinWindow2" />
+            <edge role="right" source="sourceIMU" target="joinWindow2" />
+            <edge role="left" source="sourceIMC" target="joinWindow3" />
+            <edge role="right" source="joinWindow2" target="joinWindow3" />
+            <edge role="left" source="sourceGait" target="joinWindow4" />
+            <edge role="right" source="sourceCom" target="joinWindow4" />
             <edge source="source_imc" target="aggregate_imc" />
             <edge source="source_imu" target="aggregate_imu" />
             <edge source="source_gait" target="aggregate_gait" />
