@@ -9,12 +9,11 @@ import logging
 import os
 import sys
 
-from control_msgs.msg import JointTrajectoryControllerState
 import rospy
 from sensor_msgs.msg import Imu, Temperature
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import GaitNameActionGoal, ImcErrorState, JointValues, PressureSole
+from march_shared_resources.msg import GaitActionGoal, ImcErrorState, JointValues, PressureSole
 
 
 try:
@@ -74,13 +73,11 @@ class ESPAdapter:
             self.configure_source('source_temperature_' + joint, '/march/temperature/' + joint, Temperature,
                                   self.temperature_callback)
 
-        # self.configure_source('source_joint', '/march/controller/trajectory/state', JointTrajectoryControllerState,
-                              # self.trajectory_state_callback)
         self.configure_source('source_imu', '/march/imu', Imu, self.imu_callback)
 
         self.configure_source('source_ps', '/march/pressure_soles', PressureSole, self.pressure_sole_callback)
         self.configure_source('source_imc', '/march/imc_states', ImcErrorState, self.imc_state_callback)
-        self.configure_source('source_gait', '/march/gait/schedule/goal', GaitNameActionGoal, self.gait_callback)
+        self.configure_source('source_gait', '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
         self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
 
