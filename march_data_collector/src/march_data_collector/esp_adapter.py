@@ -13,8 +13,8 @@ import rospy
 from sensor_msgs.msg import Imu, Temperature
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import GaitActionGoal, ImcErrorState, JointValues, PressureSole
-
+from march_shared_resources.msg import GaitActionGoal, GaitActionResult, ImcErrorState, JointValues, PressureSole
+from march_shared_resources.srv import CurrentStates
 
 try:
     sys.path.append(os.environ['DFESP_HOME'] + '/lib')
@@ -66,6 +66,11 @@ class ESPAdapter:
                                  'killing ESP adapter')
                     rospy.loginfo('Possible continious queries are:\n' + str(convert_stringv(queries_ptr, True)))
             sys.exit()
+
+
+        self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentStates, persistent=True)
+
+        self._gait_finished = rospy.Subscriber('march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
 
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
@@ -155,6 +160,10 @@ class ESPAdapter:
         ret = pubsubApi.PublisherInject(pub, event_block)
         modelingApi.EventBlockDestroy(event_block)
         return ret == 1
+
+    def gait_finished_callback(self, _):
+        rospy.sleep(0.1)
+        rospy.loginfo(self.get_gait())
 
     def temperature_callback(self, data, source):
         """Callback for temperature data. Converts ROS message to csv string to send to the source window.
