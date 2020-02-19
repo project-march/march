@@ -2,7 +2,7 @@ import rospy
 import smach
 from std_srvs.srv import Empty, EmptyRequest
 
-from march_shared_resources.srv import CurrentStates, PossibleGaits
+from march_shared_resources.srv import CurrentState, PossibleGaits
 
 from .gaits import slope_down_sm
 from .gaits import tilted_path_sideways_end_sm
@@ -34,7 +34,7 @@ class HealthyStateMachine(smach.StateMachine):
 
         rospy.Service('state_machine/get_possible_gaits', PossibleGaits, self.get_possible_gaits)
 
-        rospy.Service('state_machine/current_states', CurrentStates, self.get_current_states)
+        rospy.Service('state_machine/current_states', CurrentState, self.get_current_states)
 
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])

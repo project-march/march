@@ -339,12 +339,16 @@
                 <field key="false" name="time" type="stamp" />
                 <field key="false" name="start_time" type="stamp"/>
                 <field key="false" name="gait" type="string" />
+                <field key="false" name="sub_gait" type="string" />
+                <field key="false" name="version" type="string" />
               </fields>
             </schema>
             <output>
               <field-expr>ESP_aLast(time) </field-expr>
               <field-expr>ESP_aMin(time) </field-expr>
               <field-expr>ESP_aLast(gait_name) </field-expr>
+              <field-expr>ESP_aLast(subgait_name) </field-expr>
+              <field-expr>ESP_aLast(version) </field-expr>
             </output>
           </window-aggregate>
             <window-aggregate name='aggregate_temperature'>

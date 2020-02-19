@@ -14,7 +14,7 @@ from sensor_msgs.msg import Imu, Temperature
 from visualization_msgs.msg import Marker
 
 from march_shared_resources.msg import GaitActionGoal, GaitActionResult, ImcErrorState, JointValues, PressureSole
-from march_shared_resources.srv import CurrentStates
+from march_shared_resources.srv import CurrentState
 
 try:
     sys.path.append(os.environ['DFESP_HOME'] + '/lib')
@@ -67,10 +67,7 @@ class ESPAdapter:
                     rospy.loginfo('Possible continious queries are:\n' + str(convert_stringv(queries_ptr, True)))
             sys.exit()
 
-
-        self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentStates, persistent=True)
-
-        self._gait_finished = rospy.Subscriber('march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
+        self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
 
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
@@ -83,6 +80,7 @@ class ESPAdapter:
         self.configure_source('source_ps', '/march/pressure_soles', PressureSole, self.pressure_sole_callback)
         self.configure_source('source_imc', '/march/imc_states', ImcErrorState, self.imc_state_callback)
         self.configure_source('source_gait', '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
+        self.configure_source('source_gait', 'march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
         self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
 
@@ -161,9 +159,17 @@ class ESPAdapter:
         modelingApi.EventBlockDestroy(event_block)
         return ret == 1
 
-    def gait_finished_callback(self, _):
+    def gait_finished_callback(self, data, source):
+        """Callback for stopped gait. If the current state is an idle state send this to ESP a gait.
+
+        :param data: ROS message
+        :param source: the name of the source window in the ESP engine
+        """
         rospy.sleep(0.1)
-        rospy.loginfo(self.get_gait())
+        state = self.get_gait().current_state
+        if not ('GAIT' in state or 'HOME' in state):
+            csv = ','.join([get_time_str(data.header.stamp), 'idle', state.lower(), ' '])
+            self.send_to_esp(csv, source)
 
     def temperature_callback(self, data, source):
         """Callback for temperature data. Converts ROS message to csv string to send to the source window.
