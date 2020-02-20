@@ -341,6 +341,12 @@
                 <field key="false" name="gait" type="string" />
                 <field key="false" name="sub_gait" type="string" />
                 <field key="false" name="version" type="string" />
+                <field key="false" name="mean_jerk" type="array(dbl)"/>
+                <field key="false" name="max_jerk" type="array(dbl)"/>
+                <field key="false" name="min_jerk" type="array(dbl)"/>
+                <field key="false" name="mean_error_positions" type="array(dbl)"/>
+                <field key="false" name="max_error_positions" type="array(dbl)"/>
+                <field key="false" name="min_error_positions" type="array(dbl)"/>
               </fields>
             </schema>
             <output>
@@ -349,6 +355,12 @@
               <field-expr>ESP_aLast(gait_name) </field-expr>
               <field-expr>ESP_aLast(subgait_name) </field-expr>
               <field-expr>ESP_aLast(version) </field-expr>
+              <field-expr>ESP_aAve(actual_jerks)</field-expr>
+              <field-expr>ESP_aMax(actual_jerks)</field-expr>
+              <field-expr>ESP_aMin(actual_jerks)</field-expr>
+              <field-expr>ESP_aAve(actual_jerks)</field-expr>
+              <field-expr>ESP_aMax(actual_jerks)</field-expr>
+              <field-expr>ESP_aMin(actual_jerks)</field-expr>
             </output>
           </window-aggregate>
             <window-aggregate name='aggregate_temperature'>
