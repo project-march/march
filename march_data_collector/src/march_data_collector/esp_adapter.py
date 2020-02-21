@@ -84,6 +84,10 @@ class ESPAdapter:
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
         self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
 
+        msg = GaitActionResult()
+        msg.header.stamp = rospy.Time.now()
+        self.gait_finished_callback(msg, "source_gait")
+
     def pub_err_cb_func(self, failure, code, _):
         if failure == pubsubApi.pubsubFail_APIFAIL and code == pubsubApi.pubsubCode_CLIENTEVENTSQUEUED:
             return
@@ -187,34 +191,34 @@ class ESPAdapter:
         :param data: ROS message
         :param source: the name of the source window in the ESP engine
         """
-        actual_positions_str = list_to_str(data.controller_output.actual.positions)
-        actual_velocity_str = list_to_str(data.velocities)
-        acutal_acceleration_str = list_to_str(data.accelerations)
-        acutal_jerk_str = list_to_str(data.jerks)
-        desired_positions_str = list_to_str(data.controller_output.desired.positions)
-        desired_velocity_str = list_to_str(data.controller_output.desired.velocities)
-        position_error_str = list_to_str(data.controller_output.error.positions)
+        actual_positions_str = list_to_str2(data.controller_output.actual.positions)
+        actual_velocity_str = list_to_str2(data.velocities)
+        acutal_acceleration_str = list_to_str2(data.accelerations)
+        acutal_jerk_str = list_to_str2(data.jerks)
+        desired_positions_str = list_to_str2(data.controller_output.desired.positions)
+        desired_velocity_str = list_to_str2(data.controller_output.desired.velocities)
+        position_error_str = list_to_str2(data.controller_output.error.positions)
         timestr = get_time_str(data.controller_output.header.stamp)
 
         csv = ','.join([timestr, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
                         desired_positions_str, desired_velocity_str, position_error_str])
         self.send_to_esp(csv, source)
 
-    def trajectory_state_callback(self, data, source):
-        """Callback for trajectory_state data. Converts ROS message to csv string to send to the source window.
-
-        :param data: ROS message
-        :param source: the name of the source window in the ESP engine
-        """
-        actual_positions_str = '[' + ';'.join([str(value) for value in data.actual.positions]) + ']'
-        actual_velocity_str = '[' + ';'.join([str(value) for value in data.actual.velocities]) + ']'
-        desired_positions_str = '[' + ';'.join([str(value) for value in data.desired.positions]) + ']'
-        desired_velocity_str = '[' + ';'.join([str(value) for value in data.desired.velocities]) + ']'
-        timestr = get_time_str(data.header.stamp)
-
-        csv = ','.join([timestr, actual_positions_str, actual_velocity_str, desired_positions_str,
-                        desired_velocity_str])
-        self.send_to_esp(csv, source)
+    # def trajectory_state_callback(self, data, source):
+    #     """Callback for trajectory_state data. Converts ROS message to csv string to send to the source window.
+    #
+    #     :param data: ROS message
+    #     :param source: the name of the source window in the ESP engine
+    #     """
+    #     actual_positions_str = '[' + ';'.join([str(value) for value in data.actual.positions]) + ']'
+    #     actual_velocity_str = '[' + ';'.join([str(value) for value in data.actual.velocities]) + ']'
+    #     desired_positions_str = '[' + ';'.join([str(value) for value in data.desired.positions]) + ']'
+    #     desired_velocity_str = '[' + ';'.join([str(value) for value in data.desired.velocities]) + ']'
+    #     timestr = get_time_str(data.header.stamp)
+    #
+    #     csv = ','.join([timestr, actual_positions_str, actual_velocity_str, desired_positions_str,
+    #                     desired_velocity_str])
+    #     self.send_to_esp(csv, source)
 
     def imu_callback(self, data, source):
         """Callback for imu data. Converts ROS message to csv string to send to the source window.
@@ -236,8 +240,8 @@ class ESPAdapter:
         :param data: ROS message
         :param source: the name of the source window in the ESP engine
         """
-        motor_current_str = '[' + ';'.join([str(value) for value in data.motor_current]) + ']'
-        motor_voltage_str = '[' + ';'.join([str(value) for value in data.motor_voltage]) + ']'
+        motor_current_str = ','.join([str(value) for value in data.motor_current])
+        motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
         timestr = get_time_str(data.header.stamp)
 
         csv = ','.join([timestr, motor_voltage_str, motor_current_str])
@@ -289,6 +293,9 @@ def get_time_str(timestamp):
 
 def list_to_str(ls):
     return '[' + ';'.join([str(value) for value in ls]) + ']'
+
+def list_to_str2(ls):
+    return ','.join([str(value) for value in ls])
 
 
 def quaternion_to_str(quaternion):
