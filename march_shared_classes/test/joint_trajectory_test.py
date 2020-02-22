@@ -95,7 +95,8 @@ class JointTrajectoryTest(unittest.TestCase):
         mid_index = len(interpolated_list[1]) / 2
         self.assertTrue(abs(interpolated_list[2][mid_index] - self.setpoints[1].velocity) <= 0.1,
                         msg='Interpolated midpoint velocity {inter_v} was too far from actual midpoint velocity '
-                            '{actual_v}'.format(inter_v=interpolated_list[2][mid_index], actual_v=self.setpoints[1].velocity))
+                            '{actual_v}'.format(inter_v=interpolated_list[2][mid_index],
+                                                actual_v=self.setpoints[1].velocity))
 
     # get_interpolated_setpoint tests
     def test_get_interpolated_setpoints_invalid_time(self):
