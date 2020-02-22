@@ -11,6 +11,7 @@ import sys
 
 import rospy
 from sensor_msgs.msg import Imu, Temperature
+from tf.transformations import euler_from_quaternion
 from visualization_msgs.msg import Marker
 
 from march_shared_resources.msg import GaitActionGoal, GaitActionResult, ImcErrorState, JointValues, PressureSole
@@ -181,8 +182,8 @@ class ESPAdapter:
         :param data: ROS message
         :param source: the name of the source window in the ESP engine
         """
-        timestr = get_time_str(data.header.stamp)
-        csv = timestr + ',' + str(data.temperature)
+        time_str = get_time_str(data.header.stamp)
+        csv = time_str + ',' + str(data.temperature)
         self.send_to_esp(csv, source)
 
     def joint_values_callback(self, data, source):
@@ -198,9 +199,9 @@ class ESPAdapter:
         desired_positions_str = list_to_str2(data.controller_output.desired.positions)
         desired_velocity_str = list_to_str2(data.controller_output.desired.velocities)
         position_error_str = list_to_str2(data.controller_output.error.positions)
-        timestr = get_time_str(data.controller_output.header.stamp)
+        time_str = get_time_str(data.controller_output.header.stamp)
 
-        csv = ','.join([timestr, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
+        csv = ','.join([time_str, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
                         desired_positions_str, desired_velocity_str, position_error_str])
         self.send_to_esp(csv, source)
 
@@ -214,9 +215,9 @@ class ESPAdapter:
     #     actual_velocity_str = '[' + ';'.join([str(value) for value in data.actual.velocities]) + ']'
     #     desired_positions_str = '[' + ';'.join([str(value) for value in data.desired.positions]) + ']'
     #     desired_velocity_str = '[' + ';'.join([str(value) for value in data.desired.velocities]) + ']'
-    #     timestr = get_time_str(data.header.stamp)
+    #     time_str = get_time_str(data.header.stamp)
     #
-    #     csv = ','.join([timestr, actual_positions_str, actual_velocity_str, desired_positions_str,
+    #     csv = ','.join([time_str, actual_positions_str, actual_velocity_str, desired_positions_str,
     #                     desired_velocity_str])
     #     self.send_to_esp(csv, source)
 
@@ -226,12 +227,15 @@ class ESPAdapter:
         :param data: ROS message
         :param source: the name of the source window in the ESP engine
         """
-        orientation_str = quaternion_to_str(data.orientation)
+        orientation = [data.orientation.x, data.orientation.y, data.orientation.z, data.orientation.w]
+        orientation_str = list_to_str2(euler_from_quaternion(orientation))
+        # orientation_str = quaternion_to_str(data.orientation)
+
         angular_velocity_str = vector_to_str(data.angular_velocity)
         linear_acceleration_str = vector_to_str(data.linear_acceleration)
-        timestr = get_time_str(data.header.stamp)
+        time_str = get_time_str(data.header.stamp)
 
-        csv = ','.join([timestr, orientation_str, angular_velocity_str, linear_acceleration_str])
+        csv = ','.join([time_str, orientation_str, angular_velocity_str, linear_acceleration_str])
         self.send_to_esp(csv, source)
 
     def imc_state_callback(self, data, source):
@@ -242,9 +246,9 @@ class ESPAdapter:
         """
         motor_current_str = ','.join([str(value) for value in data.motor_current])
         motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
-        timestr = get_time_str(data.header.stamp)
+        time_str = get_time_str(data.header.stamp)
 
-        csv = ','.join([timestr, motor_voltage_str, motor_current_str])
+        csv = ','.join([time_str, motor_voltage_str, motor_current_str])
         self.send_to_esp(csv, source)
 
     def gait_callback(self, data, source):
@@ -254,7 +258,7 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         csv = ','.join([get_time_str(data.header.stamp), data.goal.name, data.goal.current_subgait.name,
-                       data.goal.current_subgait.version])
+                        data.goal.current_subgait.version])
         self.send_to_esp(csv, source)
 
     def com_callback(self, data, source):
@@ -287,12 +291,13 @@ def get_time_str(timestamp):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = timestamp.secs + timestamp.nsecs * 10**(-9)
+    time = timestamp.secs + timestamp.nsecs * 10 ** (-9)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
 def list_to_str(ls):
     return '[' + ';'.join([str(value) for value in ls]) + ']'
+
 
 def list_to_str2(ls):
     return ','.join([str(value) for value in ls])

@@ -470,9 +470,15 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
-                <field-selection name="orientation" source="r_orientation" />
-                <field-selection name="rotational_velocity" source="r_rotational_velocity" />
-                <field-selection name="linear_acceleration" source="r_linear_acceleration" />
+                <field-selection name="roll" source="r_roll" />
+                <field-selection name="pitch" source="r_yaw" />
+                <field-selection name="yaw" source="r_yaw" />
+                <field-selection name="rotational_velocity_x" source="r_rotational_velocity_x" />
+                <field-selection name="rotational_velocity_y" source="r_rotational_velocity_y" />
+                <field-selection name="rotational_velocity_z" source="r_rotational_velocity_z" />
+                <field-selection name="linear_acceleration_x" source="r_linear_acceleration_x" />
+                <field-selection name="linear_acceleration_y" source="r_linear_acceleration_y" />
+                <field-selection name="linear_acceleration_z" source="r_linear_acceleration_z" />
               </output>
             </window-join>
             <window-join name="join_com" >
@@ -569,9 +575,15 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
-                <field-selection name="orientation" source="l_orientation" />
-                <field-selection name="rotational_velocity" source="l_rotational_velocity" />
-                <field-selection name="linear_acceleration" source="l_linear_acceleration" />
+                <field-selection name="roll" source="l_roll" />
+                <field-selection name="pitch" source="l_yaw" />
+                <field-selection name="yaw" source="l_yaw" />
+                <field-selection name="rotational_velocity_x" source="l_rotational_velocity_x" />
+                <field-selection name="rotational_velocity_y" source="l_rotational_velocity_y" />
+                <field-selection name="rotational_velocity_z" source="l_rotational_velocity_z" />
+                <field-selection name="linear_acceleration_x" source="l_linear_acceleration_x" />
+                <field-selection name="linear_acceleration_y" source="l_linear_acceleration_y" />
+                <field-selection name="linear_acceleration_z" source="l_linear_acceleration_z" />
                 <field-selection name="com_x" source="r_com_x" />
                 <field-selection name="com_y" source="r_com_y" />
                 <field-selection name="com_z" source="r_com_z" />
@@ -671,9 +683,15 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
-                <field-selection name="orientation" source="l_orientation" />
-                <field-selection name="rotational_velocity" source="l_rotational_velocity" />
-                <field-selection name="linear_acceleration" source="l_linear_acceleration" />
+                <field-selection name="roll" source="l_roll" />
+                <field-selection name="pitch" source="l_yaw" />
+                <field-selection name="yaw" source="l_yaw" />
+                <field-selection name="rotational_velocity_x" source="l_rotational_velocity_x" />
+                <field-selection name="rotational_velocity_y" source="l_rotational_velocity_y" />
+                <field-selection name="rotational_velocity_z" source="l_rotational_velocity_z" />
+                <field-selection name="linear_acceleration_x" source="l_linear_acceleration_x" />
+                <field-selection name="linear_acceleration_y" source="l_linear_acceleration_y" />
+                <field-selection name="linear_acceleration_z" source="l_linear_acceleration_z" />
                 <field-selection name="com_x" source="l_com_x" />
                 <field-selection name="com_y" source="l_com_y" />
                 <field-selection name="com_z" source="l_com_z" />
@@ -983,16 +1001,28 @@
                 <fields>
                   <field key="true" name="dummy_key" type="int64" />
                   <field key="false" name="time" type="stamp" />
-                  <field key="false" name="orientation" type="array(dbl)" />
-                  <field key="false" name="rotational_velocity" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration" type="array(dbl)" />
+                  <field key="false" name="roll" type="double" />
+                  <field key="false" name="pitch" type="double" />
+                  <field key="false" name="yaw" type="double" />
+                  <field key="false" name="rotational_velocity_x" type="double" />
+                  <field key="false" name="rotational_velocity_y" type="double" />
+                  <field key="false" name="rotational_velocity_z" type="double" />
+                  <field key="false" name="linear_acceleration_x" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_y" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_z" type="array(dbl)" />
                 </fields>
               </schema>
               <output>
                 <field-expr>ESP_aLast(time)</field-expr>
-                <field-expr>ESP_aLast(orientation)</field-expr>
-                <field-expr>ESP_aLast(rotational_velocity)</field-expr>
-                <field-expr>ESP_aLast(linear_acceleration)</field-expr>
+                <field-expr>ESP_aLast(roll)</field-expr>
+                <field-expr>ESP_aLast(pitch)</field-expr>
+                <field-expr>ESP_aLast(yaw)</field-expr>
+                <field-expr>ESP_aLast(rotational_velocity_x)</field-expr>
+                <field-expr>ESP_aLast(rotational_velocity_y)</field-expr>
+                <field-expr>ESP_aLast(rotational_velocity_z)</field-expr>
+                <field-expr>ESP_aLast(linear_acceleration_x)</field-expr>
+                <field-expr>ESP_aLast(linear_acceleration_y)</field-expr>
+                <field-expr>ESP_aLast(linear_acceleration_z)</field-expr>
               </output>
             </window-aggregate>
             <window-aggregate name='aggregate_com'>
@@ -1041,9 +1071,15 @@
                   <field key="true" name="SEQUENCE" type="int64" />
                   <field key="false" name="dummy_key" type="int64" />
                   <field key="false" name="time" type="stamp" />
-                  <field key="false" name="orientation" type="array(dbl)" />
-                  <field key="false" name="rotational_velocity" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration" type="array(dbl)" />
+                  <field key="false" name="roll" type="double" />
+                  <field key="false" name="pitch" type="double" />
+                  <field key="false" name="yaw" type="double" />
+                  <field key="false" name="rotational_velocity_x" type="double" />
+                  <field key="false" name="rotational_velocity_y" type="double" />
+                  <field key="false" name="rotational_velocity_z" type="double" />
+                  <field key="false" name="linear_acceleration_x" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_y" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_z" type="array(dbl)" />
                 </fields>
               </schema>
               <connectors>
