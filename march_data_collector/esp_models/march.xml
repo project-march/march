@@ -699,8 +699,10 @@
                 <field-selection name="total_force_right" source="r_total_force_right" />
                 <field-selection name="pressure_left" source="r_pressure_left" />
                 <field-selection name="pressure_right" source="r_pressure_right" />
-                <field-selection name="cop_left" source="r_cop_left" />
-                <field-selection name="cop_right" source="r_cop_right" />
+                <field-selection name="cop_left_x" source="r_cop_left_x" />
+                <field-selection name="cop_left_y" source="r_cop_left_y" />
+                <field-selection name="cop_right_x" source="r_cop_right_x" />
+                <field-selection name="cop_right_y" source="r_cop_right_y" />
               </output>
               <connectors>
                 <connector class="fs" name="sub" type="subscribe">
@@ -1007,9 +1009,9 @@
                   <field key="false" name="rotational_velocity_x" type="double" />
                   <field key="false" name="rotational_velocity_y" type="double" />
                   <field key="false" name="rotational_velocity_z" type="double" />
-                  <field key="false" name="linear_acceleration_x" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration_y" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration_z" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_x" type="double" />
+                  <field key="false" name="linear_acceleration_y" type="double" />
+                  <field key="false" name="linear_acceleration_z" type="double" />
                 </fields>
               </schema>
               <output>
@@ -1051,8 +1053,10 @@
                   <field key="false" name="total_force_right" type="double" />
                   <field key="false" name="pressure_left" type="array(dbl)" />
                   <field key="false" name="pressure_right" type="array(dbl)" />
-                  <field key="false" name="cop_left" type="array(dbl)" />
-                  <field key="false" name="cop_right" type="array(dbl)" />
+                  <field key="false" name="cop_left_x" type="double" />
+                  <field key="false" name="cop_left_y" type="double" />
+                  <field key="false" name="cop_right_x" type="double" />
+                  <field key="false" name="cop_right_y" type="double" />
                 </fields>
               </schema>
               <output>
@@ -1061,8 +1065,10 @@
                 <field-expr>ESP_aLast(total_force_right)</field-expr>
                 <field-expr>ESP_aLast(pressure_left)</field-expr>
                 <field-expr>ESP_aLast(pressure_right)</field-expr>
-                <field-expr>ESP_aLast(cop_left)</field-expr>
-                <field-expr>ESP_aLast(cop_right)</field-expr>
+                <field-expr>ESP_aLast(cop_left_x)</field-expr>
+                <field-expr>ESP_aLast(cop_left_y)</field-expr>
+                <field-expr>ESP_aLast(cop_right_x)</field-expr>
+                <field-expr>ESP_aLast(cop_right_y)</field-expr>
               </output>
             </window-aggregate>
             <window-source autogen-key="true" insert-only="true" name="source_imu">
@@ -1077,9 +1083,9 @@
                   <field key="false" name="rotational_velocity_x" type="double" />
                   <field key="false" name="rotational_velocity_y" type="double" />
                   <field key="false" name="rotational_velocity_z" type="double" />
-                  <field key="false" name="linear_acceleration_x" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration_y" type="array(dbl)" />
-                  <field key="false" name="linear_acceleration_z" type="array(dbl)" />
+                  <field key="false" name="linear_acceleration_x" type="double" />
+                  <field key="false" name="linear_acceleration_y" type="double" />
+                  <field key="false" name="linear_acceleration_z" type="double" />
                 </fields>
               </schema>
               <connectors>
@@ -1256,8 +1262,10 @@
                   <field key="false" name="total_force_right" type="double" />
                   <field key="false" name="pressure_left" type="array(dbl)" />
                   <field key="false" name="pressure_right" type="array(dbl)" />
-                  <field key="false" name="cop_left" type="array(dbl)" />
-                  <field key="false" name="cop_right" type="array(dbl)" />
+                  <field key="false" name="cop_left_x" type="double" />
+                  <field key="false" name="cop_left_y" type="double" />
+                  <field key="false" name="cop_right_x" type="double" />
+                  <field key="false" name="cop_right_y" type="double" />
                 </fields>
               </schema>
             </window-source>
