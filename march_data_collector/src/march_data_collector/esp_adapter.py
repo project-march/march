@@ -70,8 +70,7 @@ class ESPAdapter:
 
         if rospy.get_param('~logfile'):
             def mock_get_gait():
-                """Mocks the get_gait ROS service to retrieve Idle states, because that service is not available when working
-                with a logfile
+                """Mocks the get_gait ROS service when not available.
 
                 :return: mock CurrentState msg
                 """
@@ -99,7 +98,7 @@ class ESPAdapter:
 
         msg = GaitActionResult()
         msg.header.stamp = rospy.Time.now()
-        self.gait_finished_callback(msg, "source_gait")
+        self.gait_finished_callback(msg, 'source_gait')
 
     def configure_source(self, source, topic, msg_type, callback):
         """Configures a connection between a ROS topic and a source window in an event stream processing engine.
@@ -167,7 +166,7 @@ class ESPAdapter:
         ret = pubsubApi.PublisherInject(pub, event_block)
         modelingApi.EventBlockDestroy(event_block)
         if ret != 1:
-            rospy.logwarn("Unsuccesfull inject into ESP server for source window {source} and event {event}".format(
+            rospy.logwarn('Unsuccesfull inject into ESP server for source window {source} and event {event}'.format(
                 source=source, event=csv))
 
     def gait_finished_callback(self, data, source):
