@@ -10,7 +10,7 @@ import os
 import sys
 
 import rospy
-from sensor_msgs.msg import Imu, Temperature
+from sensor_msgs.msg import Imu, JointState, Temperature
 from tf.transformations import euler_from_quaternion
 from visualization_msgs.msg import Marker
 
@@ -95,6 +95,7 @@ class ESPAdapter:
         self.configure_source('source_gait', 'march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
         self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
+        self.configure_source('source_effort', '/march/joint_states', JointState, self.joint_states_callback)
 
         msg = GaitActionResult()
         msg.header.stamp = rospy.Time.now()
@@ -191,6 +192,11 @@ class ESPAdapter:
         csv = time_str + ',' + str(data.temperature)
         self.send_to_esp(csv, source)
 
+    def joint_states_callback(self, data, source):
+        effort_str = list_to_str(data.effort)
+        csv = ','.join([get_time_str(data.header.stamp), effort_str])
+        self.send_to_esp(csv, source)
+
     def joint_values_callback(self, data, source):
         """Callback for trajectory_state data. Converts ROS message to csv string to send to the source window.
 
@@ -201,16 +207,13 @@ class ESPAdapter:
         actual_velocity_str = list_to_str(data.velocities)
         acutal_acceleration_str = list_to_str(data.accelerations)
         acutal_jerk_str = list_to_str(data.jerks)
-        actual_effort_str = list_to_str(data.actual.effort)
         desired_positions_str = list_to_str(data.controller_output.desired.positions)
         desired_velocity_str = list_to_str(data.controller_output.desired.velocities)
-        desired_effort_str = list_to_str(data.desired.effort)
         position_error_str = list_to_str(data.controller_output.error.positions)
         time_str = get_time_str(data.controller_output.header.stamp)
 
         csv = ','.join([time_str, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
-                        actual_effort_str, desired_positions_str, desired_velocity_str, desired_effort_str,
-                        position_error_str])
+                        desired_positions_str, desired_velocity_str, position_error_str])
         self.send_to_esp(csv, source)
 
     def imu_callback(self, data, source):
