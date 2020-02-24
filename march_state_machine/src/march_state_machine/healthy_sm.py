@@ -92,6 +92,23 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
+        # Joint test
+        self.add_state('GAIT JOINT TEST BOTH LEGS', StepStateMachine('joint_test_both_legs',['both_knees','both_hips',
+                                                                                             'both_legs_straight',
+                                                                                             'both_ankles',
+                                                                                             'both_hips_aa']),
+                       'STANDING')
+        self.add_state('GAIT JOINT TEST LEFT LEG', StepStateMachine('joint_test_left_leg',['left_knee','left_hip',
+                                                                                           'left_leg_straight',
+                                                                                           'left_ankle',
+                                                                                           'left_hip_aa']),
+                       'STANDING')
+        self.add_state('GAIT JOINT TEST RIGHT LEG', StepStateMachine('joint_test_left_leg',['right_knee','right_hip',
+                                                                                           'right_leg_straight',
+                                                                                           'right_ankle',
+                                                                                           'right_hip_aa']),
+                       'STANDING')
+
         self.add('SITTING', IdleState(outcomes=['gait_stand', 'preempted']),
                  transitions={'gait_stand': 'GAIT STAND'})
         self.add('STANDING', IdleState(outcomes=['gait_sit', 'gait_walk', 'gait_walk_small', 'gait_single_step_small',
@@ -108,6 +125,9 @@ class HealthyStateMachine(smach.StateMachine):
                                                  'gait_tilted_path_straight_start',
                                                  'gait_tilted_path_first_start',
                                                  'gait_tilted_path_first_end',
+                                                 'gait_joint_test_both_legs',
+                                                 'gait_joint_test_left_leg',
+                                                 'gait_joint_test_right_leg',
                                                  'preempted']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
@@ -131,7 +151,10 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_ramp_door_slope_down': 'GAIT RD SLOPE DOWN',
                               'gait_tilted_path_straight_start': 'GAIT TP STRAIGHT',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
-                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
+                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
+                              'gait_joint_test_both_legs': 'GAIT JOINT TEST BOTH LEGS',
+                              'gait_joint_test_left_leg': 'GAIT JOINT TEST LEFT LEG',
+                              'gait_joint_test_right_leg': 'GAIT JOINT TEST RIGHT LEG'})
         self.close()
 
     def add_state(self, label, state, succeeded):
