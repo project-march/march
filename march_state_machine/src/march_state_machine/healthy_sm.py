@@ -103,7 +103,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                                                            'left_ankle',
                                                                                            'left_hip_aa']),
                        'STANDING')
-        self.add_state('GAIT JOINT TEST RIGHT LEG', StepStateMachine('joint_test_left_leg',['right_knee','right_hip',
+        self.add_state('GAIT JOINT TEST RIGHT LEG', StepStateMachine('joint_test_right_leg',['right_knee','right_hip',
                                                                                            'right_leg_straight',
                                                                                            'right_ankle',
                                                                                            'right_hip_aa']),
