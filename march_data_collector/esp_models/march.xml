@@ -26,7 +26,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">temperature.csv</property>
+                    <property name="fsname">data/temperature_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -708,7 +708,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">output.csv</property>
+                    <property name="fsname">data/output_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -954,7 +954,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">gait.csv</property>
+                    <property name="fsname">data/gait_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -990,7 +990,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">imc.csv</property>
+                    <property name="fsname">data/imc_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -1092,7 +1092,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">imu.csv</property>
+                    <property name="fsname">data/imu_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -1174,7 +1174,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">joint.csv</property>
+                    <property name="fsname">data/joint_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -1294,7 +1294,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">com.csv</property>
+                    <property name="fsname">data/com_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
