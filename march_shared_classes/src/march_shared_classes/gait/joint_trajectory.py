@@ -93,7 +93,7 @@ class JointTrajectory(object):
         position = BPoly.from_derivatives(time, yi)
         velocity = position.derivative()
         indices = np.linspace(0, self.duration, self.duration * 100)
-        return [indices, position(indices), derivative(indices)]
+        return [indices, position(indices), velocity(indices)]
 
     def get_interpolated_setpoint(self, time):
         # If we have a setpoint this exact time there is no need to interpolate.
