@@ -1191,7 +1191,20 @@
                       p1 = parameter(1);
                       private integer p2
                       p2 = parameter(2);
-                      return (p1>0 & p2<0);]]>
+                      if p1 > 0 then
+                        begin
+                        if p2 < 0 then
+                          return 1
+                         else
+                           return 0
+                         end
+                       else
+                        begin
+                        if p2 < 0 then
+                          return 0
+                         else
+                           return 0
+                         end]]>
                   </udf>
                 </udfs>
               </expr-initialize>
