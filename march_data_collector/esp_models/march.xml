@@ -321,6 +321,7 @@
               <field-selection name="subgait_name" source="r_subgait_name" />
               <field-selection name="version" source="r_version" />
               <field-selection name="gait_id" source="r_gait_id" />
+              <field-selection name="gait_start_time" source="r_time" />
             </output>
           </window-join>
             <window-join name="join_imc" >
@@ -427,6 +428,7 @@
               <field-selection name="subgait_name" source="l_subgait_name" />
               <field-selection name="version" source="l_version" />
               <field-selection name="gait_id" source="l_gait_id" />
+              <field-selection name="gait_start_time" source="l_gait_start_time" />
 
               <field-selection name="motor_current_left_ankle" source="r_motor_current_left_ankle" />
               <field-selection name="motor_current_left_hip_aa" source="r_motor_current_left_hip_aa" />
@@ -551,7 +553,7 @@
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
                 <field-selection name="gait_id" source="l_gait_id" />
-                <field-selection name="gait_id" source="l_gait_id" />
+                <field-selection name="gait_start_time" source="l_gait_start_time" />
 
                 <field-selection name="motor_current_left_ankle" source="l_motor_current_left_ankle" />
                 <field-selection name="motor_current_left_hip_aa" source="l_motor_current_left_hip_aa" />
@@ -686,7 +688,7 @@
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
                 <field-selection name="gait_id" source="l_gait_id" />
-                <field-selection name="gait_id" source="l_gait_id" />
+                <field-selection name="gait_start_time" source="l_gait_start_time" />
 
                 <field-selection name="motor_current_left_ankle" source="l_motor_current_left_ankle" />
                 <field-selection name="motor_current_left_hip_aa" source="l_motor_current_left_hip_aa" />
@@ -706,7 +708,7 @@
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
 
-                <field-selection name="roll" source="r_roll" />
+                <field-selection name="roll" source="l_roll" />
                 <field-selection name="pitch" source="l_yaw" />
                 <field-selection name="yaw" source="l_yaw" />
                 <field-selection name="rotational_velocity_x" source="l_rotational_velocity_x" />
@@ -825,7 +827,7 @@
                 <field-selection name="subgait_name" source="l_subgait_name" />
                 <field-selection name="version" source="l_version" />
                 <field-selection name="gait_id" source="l_gait_id" />
-                <field-selection name="gait_id" source="l_gait_id" />
+                <field-selection name="gait_start_time" source="l_gait_start_time" />
 
                 <field-selection name="motor_current_left_ankle" source="l_motor_current_left_ankle" />
                 <field-selection name="motor_current_left_hip_aa" source="l_motor_current_left_hip_aa" />
@@ -950,7 +952,7 @@
             </schema>
             <output>
               <field-expr>ESP_aLast(time) </field-expr>
-              <field-expr>ESP_aMin(time) </field-expr>
+              <field-expr>ESP_aLast(gait_start_time) </field-expr>
               <field-expr>ESP_aLast(gait_name) </field-expr>
               <field-expr>ESP_aLast(subgait_name) </field-expr>
               <field-expr>ESP_aLast(version) </field-expr>
@@ -1014,6 +1016,78 @@
               <field-expr>ESP_aMin(actual_jerk_right_knee)</field-expr>
             </output>
           </window-aggregate>
+            <window-aggregate name='aggregate_error'>
+            <schema>
+              <fields>
+<!--                <field key="true" name="dummy_key" type="int64" />-->
+                <field key="true" name="SEQUENCE" type="int64" />
+                <field key="false" name="current_error_left_ankle" type="double" />
+                <field key="false" name="current_error_left_hip_aa" type="double" />
+                <field key="false" name="current_error_left_hip_fe" type="double" />
+                <field key="false" name="current_error_left_knee" type="double" />
+                <field key="false" name="current_error_right_ankle" type="double" />
+                <field key="false" name="current_error_right_hip_aa" type="double" />
+                <field key="false" name="current_error_right_hip_fe" type="double" />
+                <field key="false" name="current_error_right_knee" type="double" />
+
+                <field key="false" name="previous_error_left_ankle" type="double" />
+                <field key="false" name="previous_error_left_hip_aa" type="double" />
+                <field key="false" name="previous_error_left_hip_fe" type="double" />
+                <field key="false" name="previous_error_left_knee" type="double" />
+                <field key="false" name="previous_error_right_ankle" type="double" />
+                <field key="false" name="previous_error_right_hip_aa" type="double" />
+                <field key="false" name="previous_error_right_hip_fe" type="double" />
+                <field key="false" name="previous_error_right_knee" type="double" />
+              </fields>
+            </schema>
+            <output>
+<!--              <field-expr>ESP_aLast(SEQUENCE) </field-expr>-->
+              <field-expr>ESP_aLast(error_position_left_ankle) </field-expr>
+              <field-expr>ESP_aLast(error_position_left_hip_aa) </field-expr>
+              <field-expr>ESP_aLast(error_position_left_hip_fe) </field-expr>
+              <field-expr>ESP_aLast(error_position_left_knee) </field-expr>
+              <field-expr>ESP_aLast(error_position_right_ankle) </field-expr>
+              <field-expr>ESP_aLast(error_position_right_hip_aa) </field-expr>
+              <field-expr>ESP_aLast(error_position_right_hip_fe) </field-expr>
+              <field-expr>ESP_aLast(error_position_right_knee) </field-expr>
+
+              <field-expr>ESP_aLag(error_position_left_ankle, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_left_hip_aa, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_left_hip_fe, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_left_knee, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_right_ankle, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_right_hip_aa, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_right_hip_fe, 1) </field-expr>
+              <field-expr>ESP_aLag(error_position_right_knee, 1) </field-expr>
+            </output>
+          </window-aggregate>
+            <window-compute name='compute_different'>
+              <expr-initialize>
+                <udfs>
+                  <udf name='is_changed' type='double'>
+                    <![CDATA[private integer p1
+                      p1 = parameter(1);
+                      return (p1+2) * 2;]]>
+                  </udf>
+                  <udf name='func2' type='double'>
+                    <![CDATA[private integer p
+                      p = parameter(1);
+                      return (p+5) * 3;]]>
+                  </udf>
+                </udfs>
+              </expr-initialize>
+              <schema>
+                <fields>
+                  <field name='SEQUENCE' type='int64' key='true'/>
+                  <field name='twice' type='double'/>
+                  <field name='three' type='double'/>
+                </fields>
+              </schema>
+              <output>
+                <field-expr>is_changed(SEQUENCE)</field-expr>
+                <field-expr>func2(SEQUENCE)</field-expr>
+              </output>
+            </window-compute>
             <window-aggregate name='aggregate_temperature'>
               <schema>
                 <fields>
@@ -1486,6 +1560,8 @@
             </window-source>
           </windows>
           <edges>
+            <edge source="source_joint" target="aggregate_error" />
+            <edge source="aggregate_error" target="compute_different"/>
             <edge source="source_imc" target="aggregate_imc" />
             <edge source="source_imu" target="aggregate_imu" />
             <edge source="source_gait" target="aggregate_gait" />
