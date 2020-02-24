@@ -91,7 +91,7 @@ class JointTrajectory(object):
         # We do a cubic spline here, just like the ros joint_trajectory_action_controller,
         # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
         position = BPoly.from_derivatives(time, yi)
-        derivative = position.derivative()
+        velocity = position.derivative()
         indices = np.linspace(0, self.duration, self.duration * 100)
         return [indices, position(indices), derivative(indices)]
 
