@@ -201,13 +201,16 @@ class ESPAdapter:
         actual_velocity_str = list_to_str(data.velocities)
         acutal_acceleration_str = list_to_str(data.accelerations)
         acutal_jerk_str = list_to_str(data.jerks)
+        actual_effort_str = list_to_str(data.actual.effort)
         desired_positions_str = list_to_str(data.controller_output.desired.positions)
         desired_velocity_str = list_to_str(data.controller_output.desired.velocities)
+        desired_effort_str = list_to_str(data.desired.effort)
         position_error_str = list_to_str(data.controller_output.error.positions)
         time_str = get_time_str(data.controller_output.header.stamp)
 
         csv = ','.join([time_str, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
-                        desired_positions_str, desired_velocity_str, position_error_str])
+                        actual_effort_str, desired_positions_str, desired_velocity_str, desired_effort_str,
+                        position_error_str])
         self.send_to_esp(csv, source)
 
     def imu_callback(self, data, source):
