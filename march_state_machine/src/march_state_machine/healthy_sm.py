@@ -169,4 +169,6 @@ class HealthyStateMachine(smach.StateMachine):
         return {'gaits': gaits}
 
     def get_current_states(self, _req):
-        return self.get_active_states()
+        state = self.get_active_states()[0]
+        state_type = str(type(self[state]))
+        return (state_type, state)

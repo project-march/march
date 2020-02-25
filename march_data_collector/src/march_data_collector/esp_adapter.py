@@ -68,7 +68,11 @@ class ESPAdapter:
                     rospy.loginfo('Possible continious queries are:\n' + str(convert_stringv(queries_ptr, True)))
             sys.exit()
 
-        if rospy.get_param('~logfile'):
+        try:
+            self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
+        except rospy.service.ServiceException:
+            rospy.loginfo('Service get current state not available using mock isntead.')
+
             def mock_get_gait():
                 """Mocks the get_gait ROS service when not available.
 
@@ -76,10 +80,9 @@ class ESPAdapter:
                 """
                 msg = CurrentState()
                 msg.current_state = 'UNKNOWN'
+                msg.type = 'IDLE'
                 return msg
             self.get_gait = mock_get_gait
-        else:
-            self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
 
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
@@ -166,7 +169,7 @@ class ESPAdapter:
         ret = pubsubApi.PublisherInject(pub, event_block)
         modelingApi.EventBlockDestroy(event_block)
         if ret != 1:
-            rospy.logwarn('Unsuccesfull inject into ESP server for source window {source} and event {event}'.format(
+            rospy.logwarn('Unsuccesful inject into ESP server for source window {source} and event {event}'.format(
                 source=source, event=csv))
 
     def gait_finished_callback(self, data, source):
@@ -175,10 +178,10 @@ class ESPAdapter:
         :param data: ROS message
         :param source: the name of the source window in the ESP engine
         """
-        rospy.sleep(0.1)
-        state = self.get_gait().current_state
-        if not ('GAIT' in state or 'HOME' in state):
-            csv = ','.join([get_time_str(data.header.stamp), 'idle', state.lower(), ' '])
+        rospy.sleep(0.03)
+        state = self.get_gait()
+        if 'idle' in state.state_type:
+            csv = ','.join([get_time_str(data.header.stamp), 'idle', state.current_state.lower(), ' '])
             self.send_to_esp(csv, source)
 
     def temperature_callback(self, data, source):
@@ -287,7 +290,7 @@ def get_time_str(timestamp):
 def list_to_array_str(ls):
     """Converts a list to an array formatted string for source window.
 
-    :param data: list
+    :type ls: list
     """
     return '[' + ';'.join([str(value) for value in ls]) + ']'
 
@@ -295,7 +298,7 @@ def list_to_array_str(ls):
 def list_to_str(ls):
     """Converts a list to a csv string for source window.
 
-    :param data: list
+    :type ls: list
     """
     return ','.join([str(value) for value in ls])
 
@@ -303,13 +306,13 @@ def list_to_str(ls):
 def vector_to_str(vector):
     """Converts geometry_msgs/Vector3 to string to use in csv string for source window.
 
-    :param data: geometry_msgs/Vector3
+    :type vector: geometry_msgs/Vector3
     """
     return '{x},{y},{z}'.format(x=vector.x, y=vector.y, z=vector.z)
 
 
 def convert_stringv(stringv, free):
-    """Converts a stringV object (finteger pointer, which points to a string vector via de API) to a list.
+    """Converts a stringV object (integer pointer, which points to a string vector via de API) to a list.
 
     :param data: stringV object from the modelingApi to convert
     :param free: whether to free the object afterwards
