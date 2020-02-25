@@ -117,88 +117,180 @@
               </output>
             </window-join>
             <window-join name="join_effort" >
-            <join type="leftouter" no-regenerates='true'>
-              <conditions>
-                <fields left="dummy_key" right="dummy_key" />
-              </conditions>
-            </join>
-            <output>
-              <field-selection name="time" source="l_time" />
-              <field-selection name="dummy_key" source="l_dummy_key" />
+              <join type="leftouter" no-regenerates='true'>
+                <conditions>
+                  <fields left="dummy_key" right="dummy_key" />
+                </conditions>
+              </join>
+              <output>
+                <field-selection name="time" source="l_time" />
+                <field-selection name="dummy_key" source="l_dummy_key" />
 
-              <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
-              <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
-              <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
-              <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
-              <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
-              <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
-              <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
-              <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
+                <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
+                <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
+                <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
+                <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
+                <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
+                <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
+                <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
+                <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
 
-              <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
-              <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
-              <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
-              <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
-              <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
-              <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
-              <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
-              <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
+                <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
+                <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
+                <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
+                <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
+                <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
+                <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
+                <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
+                <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
 
-              <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
-              <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
-              <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
-              <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
-              <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
-              <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
-              <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
-              <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
+                <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
+                <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
+                <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
+                <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
+                <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
+                <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
+                <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
+                <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
 
-              <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
-              <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
-              <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
-              <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
-              <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
-              <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
-              <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
-              <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
+                <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
+                <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
+                <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
+                <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
+                <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
+                <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
+                <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
+                <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
-              <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
-              <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
-              <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
-              <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
-              <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
-              <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
-              <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
-              <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
+                <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
+                <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
+                <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
+                <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
+                <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
+                <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
+                <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
+                <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
 
-              <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
-              <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
-              <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
-              <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
-              <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
-              <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
-              <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
-              <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
+                <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
+                <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
+                <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
+                <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
+                <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
+                <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
+                <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
+                <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
 
-              <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
-              <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
-              <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
-              <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
-              <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
-              <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
-              <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
-              <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+                <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
+                <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
+                <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
+                <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
+                <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
+                <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
+                <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
+                <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
 
-              <field-selection name="effort_command_left_ankle" source="r_effort_command_left_ankle" />
-              <field-selection name="effort_command_left_hip_aa" source="r_effort_command_left_hip_aa" />
-              <field-selection name="effort_command_left_hip_fe" source="r_effort_command_left_hip_fe" />
-              <field-selection name="effort_command_left_knee" source="r_effort_command_left_knee" />
-              <field-selection name="effort_command_right_ankle" source="r_effort_command_right_ankle" />
-              <field-selection name="effort_command_right_hip_aa" source="r_effort_command_right_hip_aa" />
-              <field-selection name="effort_command_right_hip_fe" source="r_effort_command_right_hip_fe" />
-              <field-selection name="effort_command_right_knee" source="r_effort_command_right_knee" />
-            </output>
-          </window-join>
+                <field-selection name="actual_effort_left_ankle" source="r_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="r_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="r_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="r_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="r_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="r_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="r_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="r_actual_effort_right_knee" />
+              </output>
+            </window-join>
+            <window-join name="join_effort_command" >
+              <join type="leftouter" no-regenerates='true'>
+                <conditions>
+                  <fields left="dummy_key" right="dummy_key" />
+                </conditions>
+              </join>
+              <output>
+                <field-selection name="time" source="l_time" />
+                <field-selection name="dummy_key" source="l_dummy_key" />
+
+                <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
+                <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
+                <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
+                <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
+                <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
+                <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
+                <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
+                <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
+
+                <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
+                <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
+                <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
+                <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
+                <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
+                <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
+                <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
+                <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
+
+                <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
+                <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
+                <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
+                <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
+                <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
+                <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
+                <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
+                <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
+
+                <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
+                <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
+                <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
+                <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
+                <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
+                <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
+                <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
+                <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
+
+                <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
+                <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
+                <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
+                <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
+                <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
+                <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
+                <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
+                <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
+
+                <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
+                <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
+                <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
+                <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
+                <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
+                <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
+                <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
+                <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
+
+                <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
+                <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
+                <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
+                <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
+                <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
+                <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
+                <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
+                <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
+                <field-selection name="effort_command_left_ankle" source="r_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="r_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="r_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="r_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="r_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="r_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="r_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="r_effort_command_right_knee" />
+              </output>
+            </window-join>
             <window-join name="join_temperature" >
               <join type="leftouter" no-regenerates='true'>
                 <conditions>
@@ -245,6 +337,42 @@
                 <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
                 <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
+                <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
+                <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
+                <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
+                <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
+                <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
+                <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
+                <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
+                <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
+
+                <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
+                <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
+                <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
+                <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
+                <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
+                <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
+                <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
+                <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
+
+                <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
+                <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
+                <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
+                <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
+                <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
+                <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
+                <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
+                <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
                 <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
                 <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
                 <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
@@ -253,6 +381,62 @@
                 <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
                 <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
                 <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
+
+                <field-selection name="temperature_left_ankle" source="r_temperature_left_ankle" />
+                <field-selection name="temperature_left_hip_aa" source="r_temperature_left_hip_aa" />
+                <field-selection name="temperature_left_hip_fe" source="r_temperature_left_hip_fe" />
+                <field-selection name="temperature_left_knee" source="r_temperature_left_knee" />
+                <field-selection name="temperature_right_ankle" source="r_temperature_right_ankle" />
+                <field-selection name="temperature_right_hip_aa" source="r_temperature_right_hip_aa" />
+                <field-selection name="temperature_right_hip_fe" source="r_temperature_right_hip_fe" />
+                <field-selection name="temperature_right_knee" source="r_temperature_right_knee" />
+              </output>
+            </window-join>
+            <window-join name="join_gait" >
+              <join type="leftouter" no-regenerates='true'>
+                <conditions>
+                  <fields left="dummy_key" right="dummy_key" />
+                </conditions>
+              </join>
+              <output>
+                <field-selection name="time" source="l_time" />
+                <field-selection name="dummy_key" source="l_dummy_key" />
+
+                <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
+                <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
+                <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
+                <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
+                <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
+                <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
+                <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
+                <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
+
+                <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
+                <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
+                <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
+                <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
+                <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
+                <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
+                <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
+                <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
+
+                <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
+                <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
+                <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
+                <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
+                <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
+                <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
+                <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
+                <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
+
+                <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
+                <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
+                <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
+                <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
+                <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
+                <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
+                <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
+                <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
                 <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
                 <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
@@ -281,230 +465,165 @@
                 <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
                 <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
 
-                <field-selection name="temperature_left_ankle" source="r_temperature_left_ankle" />
-                <field-selection name="temperature_left_hip_aa" source="r_temperature_left_hip_aa" />
-                <field-selection name="temperature_left_hip_fe" source="r_temperature_left_hip_fe" />
-                <field-selection name="temperature_left_knee" source="r_temperature_left_knee" />
-                <field-selection name="temperature_right_ankle" source="r_temperature_right_ankle" />
-                <field-selection name="temperature_right_hip_aa" source="r_temperature_right_hip_aa" />
-                <field-selection name="temperature_right_hip_fe" source="r_temperature_right_hip_fe" />
-                <field-selection name="temperature_right_knee" source="r_temperature_right_knee" />
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
+                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
+
+                <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
+                <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
+                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
+                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
+                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
+                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
+                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
+                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
+
+                <field-selection name="gait_name" source="r_gait_name" />
+                <field-selection name="subgait_name" source="r_subgait_name" />
+                <field-selection name="version" source="r_version" />
+                <field-selection name="gait_id" source="r_gait_id" />
+                <field-selection name="gait_start_time" source="r_time" />
               </output>
             </window-join>
-            <window-join name="join_gait" >
-            <join type="leftouter" no-regenerates='true'>
-              <conditions>
-                <fields left="dummy_key" right="dummy_key" />
-              </conditions>
-            </join>
-            <output>
-              <field-selection name="time" source="l_time" />
-              <field-selection name="dummy_key" source="l_dummy_key" />
-
-              <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
-              <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
-              <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
-              <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
-              <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
-              <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
-              <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
-              <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
-
-              <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
-              <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
-              <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
-              <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
-              <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
-              <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
-              <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
-              <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
-
-              <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
-              <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
-              <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
-              <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
-              <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
-              <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
-              <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
-              <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
-
-              <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
-              <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
-              <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
-              <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
-              <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
-              <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
-              <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
-              <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
-
-              <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
-              <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
-              <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
-              <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
-              <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
-              <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
-              <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
-              <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
-
-              <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
-              <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
-              <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
-              <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
-              <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
-              <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
-              <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
-              <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
-
-              <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
-              <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
-              <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
-              <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
-              <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
-              <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
-              <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
-              <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
-
-              <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
-              <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
-              <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
-              <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
-              <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
-              <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
-              <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
-              <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
-
-              <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
-              <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
-              <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
-              <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
-              <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
-              <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
-              <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
-              <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
-
-              <field-selection name="gait_name" source="r_gait_name" />
-              <field-selection name="subgait_name" source="r_subgait_name" />
-              <field-selection name="version" source="r_version" />
-              <field-selection name="gait_id" source="r_gait_id" />
-              <field-selection name="gait_start_time" source="r_time" />
-            </output>
-          </window-join>
             <window-join name="join_imc" >
-            <join type="leftouter" no-regenerates='true'>
-              <conditions>
-                <fields left="dummy_key" right="dummy_key" />
-              </conditions>
-            </join>
-            <output>
-              <field-selection name="time" source="l_time" />
-              <field-selection name="dummy_key" source="l_dummy_key" />
+              <join type="leftouter" no-regenerates='true'>
+                <conditions>
+                  <fields left="dummy_key" right="dummy_key" />
+                </conditions>
+              </join>
+              <output>
+                <field-selection name="time" source="l_time" />
+                <field-selection name="dummy_key" source="l_dummy_key" />
 
-              <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
-              <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
-              <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
-              <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
-              <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
-              <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
-              <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
-              <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
+                <field-selection name="actual_position_left_ankle" source="l_actual_position_left_ankle" />
+                <field-selection name="actual_position_left_hip_aa" source="l_actual_position_left_hip_aa" />
+                <field-selection name="actual_position_left_hip_fe" source="l_actual_position_left_hip_fe" />
+                <field-selection name="actual_position_left_knee" source="l_actual_position_left_knee" />
+                <field-selection name="actual_position_right_ankle" source="l_actual_position_right_ankle" />
+                <field-selection name="actual_position_right_hip_aa" source="l_actual_position_right_hip_aa" />
+                <field-selection name="actual_position_right_hip_fe" source="l_actual_position_right_hip_fe" />
+                <field-selection name="actual_position_right_knee" source="l_actual_position_right_knee" />
 
-              <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
-              <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
-              <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
-              <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
-              <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
-              <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
-              <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
-              <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
+                <field-selection name="actual_velocity_left_ankle" source="l_actual_velocity_left_ankle" />
+                <field-selection name="actual_velocity_left_hip_aa" source="l_actual_velocity_left_hip_aa" />
+                <field-selection name="actual_velocity_left_hip_fe" source="l_actual_velocity_left_hip_fe" />
+                <field-selection name="actual_velocity_left_knee" source="l_actual_velocity_left_knee" />
+                <field-selection name="actual_velocity_right_ankle" source="l_actual_velocity_right_ankle" />
+                <field-selection name="actual_velocity_right_hip_aa" source="l_actual_velocity_right_hip_aa" />
+                <field-selection name="actual_velocity_right_hip_fe" source="l_actual_velocity_right_hip_fe" />
+                <field-selection name="actual_velocity_right_knee" source="l_actual_velocity_right_knee" />
 
-              <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
-              <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
-              <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
-              <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
-              <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
-              <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
-              <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
-              <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
+                <field-selection name="actual_acceleration_left_ankle" source="l_actual_acceleration_left_ankle" />
+                <field-selection name="actual_acceleration_left_hip_aa" source="l_actual_acceleration_left_hip_aa" />
+                <field-selection name="actual_acceleration_left_hip_fe" source="l_actual_acceleration_left_hip_fe" />
+                <field-selection name="actual_acceleration_left_knee" source="l_actual_acceleration_left_knee" />
+                <field-selection name="actual_acceleration_right_ankle" source="l_actual_acceleration_right_ankle" />
+                <field-selection name="actual_acceleration_right_hip_aa" source="l_actual_acceleration_right_hip_aa" />
+                <field-selection name="actual_acceleration_right_hip_fe" source="l_actual_acceleration_right_hip_fe" />
+                <field-selection name="actual_acceleration_right_knee" source="l_actual_acceleration_right_knee" />
 
-              <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
-              <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
-              <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
-              <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
-              <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
-              <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
-              <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
-              <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
+                <field-selection name="actual_jerk_left_ankle" source="l_actual_jerk_left_ankle" />
+                <field-selection name="actual_jerk_left_hip_aa" source="l_actual_jerk_left_hip_aa" />
+                <field-selection name="actual_jerk_left_hip_fe" source="l_actual_jerk_left_hip_fe" />
+                <field-selection name="actual_jerk_left_knee" source="l_actual_jerk_left_knee" />
+                <field-selection name="actual_jerk_right_ankle" source="l_actual_jerk_right_ankle" />
+                <field-selection name="actual_jerk_right_hip_aa" source="l_actual_jerk_right_hip_aa" />
+                <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
+                <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
-              <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
-              <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
-              <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
-              <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
-              <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
-              <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
-              <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
-              <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
+                <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
+                <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
+                <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
+                <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
+                <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
+                <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
+                <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
+                <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
 
-              <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
-              <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
-              <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
-              <field-selection name="desired_position_left_knee" source="l_desired_position_left_knee" />
-              <field-selection name="desired_position_right_ankle" source="l_desired_position_right_ankle" />
-              <field-selection name="desired_position_right_hip_aa" source="l_desired_position_right_hip_aa" />
-              <field-selection name="desired_position_right_hip_fe" source="l_desired_position_right_hip_fe" />
-              <field-selection name="desired_position_right_knee" source="l_desired_position_right_knee" />
+                <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
+                <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
+                <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
+                <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
+                <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
+                <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
+                <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
+                <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
 
-              <field-selection name="desired_velocity_left_ankle" source="l_desired_velocity_left_ankle" />
-              <field-selection name="desired_velocity_left_hip_aa" source="l_desired_velocity_left_hip_aa" />
-              <field-selection name="desired_velocity_left_hip_fe" source="l_desired_velocity_left_hip_fe" />
-              <field-selection name="desired_velocity_left_knee" source="l_desired_velocity_left_knee" />
-              <field-selection name="desired_velocity_right_ankle" source="l_desired_velocity_right_ankle" />
-              <field-selection name="desired_velocity_right_hip_aa" source="l_desired_velocity_right_hip_aa" />
-              <field-selection name="desired_velocity_right_hip_fe" source="l_desired_velocity_right_hip_fe" />
-              <field-selection name="desired_velocity_right_knee" source="l_desired_velocity_right_knee" />
+                <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
+                <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
+                <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
+                <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
+                <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
+                <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
+                <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
+                <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
 
-              <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
-              <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
-              <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
-              <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
-              <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
-              <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
-              <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
-              <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
 
-              <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
-              <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
-              <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
-              <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
-              <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
-              <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
-              <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
-              <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
+                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
 
-              <field-selection name="gait_name" source="l_gait_name" />
-              <field-selection name="subgait_name" source="l_subgait_name" />
-              <field-selection name="version" source="l_version" />
-              <field-selection name="gait_id" source="l_gait_id" />
-              <field-selection name="gait_start_time" source="l_gait_start_time" />
+                <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
+                <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
+                <field-selection name="temperature_left_hip_fe" source="l_temperature_left_hip_fe" />
+                <field-selection name="temperature_left_knee" source="l_temperature_left_knee" />
+                <field-selection name="temperature_right_ankle" source="l_temperature_right_ankle" />
+                <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa" />
+                <field-selection name="temperature_right_hip_fe" source="l_temperature_right_hip_fe" />
+                <field-selection name="temperature_right_knee" source="l_temperature_right_knee" />
 
-              <field-selection name="motor_current_left_ankle" source="r_motor_current_left_ankle" />
-              <field-selection name="motor_current_left_hip_aa" source="r_motor_current_left_hip_aa" />
-              <field-selection name="motor_current_left_hip_fe" source="r_motor_current_left_hip_fe" />
-              <field-selection name="motor_current_left_knee" source="r_motor_current_left_knee" />
-              <field-selection name="motor_current_right_ankle" source="r_motor_current_right_ankle" />
-              <field-selection name="motor_current_right_hip_aa" source="r_motor_current_right_hip_aa" />
-              <field-selection name="motor_current_right_hip_fe" source="r_motor_current_right_hip_fe" />
-              <field-selection name="motor_current_right_knee" source="r_motor_current_right_knee" />
+                <field-selection name="gait_name" source="l_gait_name" />
+                <field-selection name="subgait_name" source="l_subgait_name" />
+                <field-selection name="version" source="l_version" />
+                <field-selection name="gait_id" source="l_gait_id" />
+                <field-selection name="gait_start_time" source="l_gait_start_time" />
 
-              <field-selection name="motor_voltage_left_ankle" source="r_motor_voltage_left_ankle" />
-              <field-selection name="motor_voltage_left_hip_aa" source="r_motor_voltage_left_hip_aa" />
-              <field-selection name="motor_voltage_left_hip_fe" source="r_motor_voltage_left_hip_fe" />
-              <field-selection name="motor_voltage_left_knee" source="r_motor_voltage_left_knee" />
-              <field-selection name="motor_voltage_right_ankle" source="r_motor_voltage_right_ankle" />
-              <field-selection name="motor_voltage_right_hip_aa" source="r_motor_voltage_right_hip_aa" />
-              <field-selection name="motor_voltage_right_hip_fe" source="r_motor_voltage_right_hip_fe" />
-              <field-selection name="motor_voltage_right_knee" source="r_motor_voltage_right_knee" />
+                <field-selection name="motor_current_left_ankle" source="r_motor_current_left_ankle" />
+                <field-selection name="motor_current_left_hip_aa" source="r_motor_current_left_hip_aa" />
+                <field-selection name="motor_current_left_hip_fe" source="r_motor_current_left_hip_fe" />
+                <field-selection name="motor_current_left_knee" source="r_motor_current_left_knee" />
+                <field-selection name="motor_current_right_ankle" source="r_motor_current_right_ankle" />
+                <field-selection name="motor_current_right_hip_aa" source="r_motor_current_right_hip_aa" />
+                <field-selection name="motor_current_right_hip_fe" source="r_motor_current_right_hip_fe" />
+                <field-selection name="motor_current_right_knee" source="r_motor_current_right_knee" />
+
+                <field-selection name="motor_voltage_left_ankle" source="r_motor_voltage_left_ankle" />
+                <field-selection name="motor_voltage_left_hip_aa" source="r_motor_voltage_left_hip_aa" />
+                <field-selection name="motor_voltage_left_hip_fe" source="r_motor_voltage_left_hip_fe" />
+                <field-selection name="motor_voltage_left_knee" source="r_motor_voltage_left_knee" />
+                <field-selection name="motor_voltage_right_ankle" source="r_motor_voltage_right_ankle" />
+                <field-selection name="motor_voltage_right_hip_aa" source="r_motor_voltage_right_hip_aa" />
+                <field-selection name="motor_voltage_right_hip_fe" source="r_motor_voltage_right_hip_fe" />
+                <field-selection name="motor_voltage_right_knee" source="r_motor_voltage_right_knee" />
               </output>
-          </window-join>
+            </window-join>
             <window-join name="join_imu" >
               <join type="leftouter" no-regenerates='true'>
                 <conditions>
@@ -551,15 +670,6 @@
                 <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
                 <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
-                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
-                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
-                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
-                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
-                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
-                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
-                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
-                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
-
                 <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
                 <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
                 <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
@@ -586,6 +696,24 @@
                 <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
                 <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
                 <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
+                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
 
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
@@ -677,15 +805,6 @@
                 <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
                 <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
-                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
-                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
-                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
-                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
-                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
-                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
-                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
-                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
-
                 <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
                 <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
                 <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
@@ -712,6 +831,24 @@
                 <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
                 <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
                 <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
+                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
 
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
@@ -807,15 +944,6 @@
                 <field-selection name="actual_jerk_right_hip_fe" source="l_actual_jerk_right_hip_fe" />
                 <field-selection name="actual_jerk_right_knee" source="l_actual_jerk_right_knee" />
 
-                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
-                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
-                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
-                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
-                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
-                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
-                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
-                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
-
                 <field-selection name="desired_position_left_ankle" source="l_desired_position_left_ankle" />
                 <field-selection name="desired_position_left_hip_aa" source="l_desired_position_left_hip_aa" />
                 <field-selection name="desired_position_left_hip_fe" source="l_desired_position_left_hip_fe" />
@@ -842,6 +970,24 @@
                 <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
                 <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
                 <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
+
+                <field-selection name="actual_effort_left_ankle" source="l_actual_effort_left_ankle" />
+                <field-selection name="actual_effort_left_hip_aa" source="l_actual_effort_left_hip_aa" />
+                <field-selection name="actual_effort_left_hip_fe" source="l_actual_effort_left_hip_fe" />
+                <field-selection name="actual_effort_left_knee" source="l_actual_effort_left_knee" />
+                <field-selection name="actual_effort_right_ankle" source="l_actual_effort_right_ankle" />
+                <field-selection name="actual_effort_right_hip_aa" source="l_actual_effort_right_hip_aa" />
+                <field-selection name="actual_effort_right_hip_fe" source="l_actual_effort_right_hip_fe" />
+                <field-selection name="actual_effort_right_knee" source="l_actual_effort_right_knee" />
+
+                <field-selection name="effort_command_left_ankle" source="l_effort_command_left_ankle" />
+                <field-selection name="effort_command_left_hip_aa" source="l_effort_command_left_hip_aa" />
+                <field-selection name="effort_command_left_hip_fe" source="l_effort_command_left_hip_fe" />
+                <field-selection name="effort_command_left_knee" source="l_effort_command_left_knee" />
+                <field-selection name="effort_command_right_ankle" source="l_effort_command_right_ankle" />
+                <field-selection name="effort_command_right_hip_aa" source="l_effort_command_right_hip_aa" />
+                <field-selection name="effort_command_right_hip_fe" source="l_effort_command_right_hip_fe" />
+                <field-selection name="effort_command_right_knee" source="l_effort_command_right_knee" />
 
                 <field-selection name="temperature_left_ankle" source="l_temperature_left_ankle" />
                 <field-selection name="temperature_left_hip_aa" source="l_temperature_left_hip_aa" />
@@ -912,353 +1058,193 @@
               </connectors>
             </window-join>
             <window-aggregate name='aggregate_over_gait'>
-            <schema>
-              <fields>
-                <field key="true" name="gait_id" type="int64" />
-                <field key="false" name="time" type="stamp" />
-                <field key="false" name="start_time" type="stamp"/>
-                <field key="false" name="gait" type="string" />
-                <field key="false" name="subgait" type="string" />
-                <field key="false" name="version" type="string" />
-
-                <field key="false" name="max_pressure_left" type="double" />
-                <field key="false" name="max_pressure_right" type="double" />
-
-                <field key="false" name="mean_jerk_left_ankle" type="double"/>
-                <field key="false" name="mean_jerk_left_hip_aa" type="double"/>
-                <field key="false" name="mean_jerk_left_hip_fe" type="double"/>
-                <field key="false" name="mean_jerk_left_knee" type="double"/>
-                <field key="false" name="mean_jerk_right_ankle" type="double"/>
-                <field key="false" name="mean_jerk_right_hip_aa" type="double"/>
-                <field key="false" name="mean_jerk_right_hip_fe" type="double"/>
-                <field key="false" name="mean_jerk_right_knee" type="double"/>
-
-                <field key="false" name="max_jerk_left_ankle" type="double"/>
-                <field key="false" name="max_jerk_left_hip_aa" type="double"/>
-                <field key="false" name="max_jerk_left_hip_fe" type="double"/>
-                <field key="false" name="max_jerk_left_knee" type="double"/>
-                <field key="false" name="max_jerk_right_ankle" type="double"/>
-                <field key="false" name="max_jerk_right_hip_aa" type="double"/>
-                <field key="false" name="max_jerk_right_hip_fe" type="double"/>
-                <field key="false" name="max_jerk_right_knee" type="double"/>
-
-                <field key="false" name="min_jerk_left_ankle" type="double"/>
-                <field key="false" name="min_jerk_left_hip_aa" type="double"/>
-                <field key="false" name="min_jerk_left_hip_fe" type="double"/>
-                <field key="false" name="min_jerk_left_knee" type="double"/>
-                <field key="false" name="min_jerk_right_ankle" type="double"/>
-                <field key="false" name="min_jerk_right_hip_aa" type="double"/>
-                <field key="false" name="min_jerk_right_hip_fe" type="double"/>
-                <field key="false" name="min_jerk_right_knee" type="double"/>
-
-                <field key="false" name="mean_error_left_ankle" type="double"/>
-                <field key="false" name="mean_error_left_hip_aa" type="double"/>
-                <field key="false" name="mean_error_left_hip_fe" type="double"/>
-                <field key="false" name="mean_error_left_knee" type="double"/>
-                <field key="false" name="mean_error_right_ankle" type="double"/>
-                <field key="false" name="mean_error_right_hip_aa" type="double"/>
-                <field key="false" name="mean_error_right_hip_fe" type="double"/>
-                <field key="false" name="mean_error_right_knee" type="double"/>
-
-                <field key="false" name="max_error_left_ankle" type="double"/>
-                <field key="false" name="max_error_left_hip_aa" type="double"/>
-                <field key="false" name="max_error_left_hip_fe" type="double"/>
-                <field key="false" name="max_error_left_knee" type="double"/>
-                <field key="false" name="max_error_right_ankle" type="double"/>
-                <field key="false" name="max_error_right_hip_aa" type="double"/>
-                <field key="false" name="max_error_right_hip_fe" type="double"/>
-                <field key="false" name="max_error_right_knee" type="double"/>
-
-                <field key="false" name="min_error_left_ankle" type="double"/>
-                <field key="false" name="min_error_left_hip_aa" type="double"/>
-                <field key="false" name="min_error_left_hip_fe" type="double"/>
-                <field key="false" name="min_error_left_knee" type="double"/>
-                <field key="false" name="min_error_right_ankle" type="double"/>
-                <field key="false" name="min_error_right_hip_aa" type="double"/>
-                <field key="false" name="min_error_right_hip_fe" type="double"/>
-                <field key="false" name="min_error_right_knee" type="double"/>
-              </fields>
-            </schema>
-            <output>
-              <field-expr>ESP_aLast(time) </field-expr>
-              <field-expr>ESP_aLast(gait_start_time) </field-expr>
-              <field-expr>ESP_aLast(gait_name) </field-expr>
-              <field-expr>ESP_aLast(subgait_name) </field-expr>
-              <field-expr>ESP_aLast(version) </field-expr>
-
-              <field-expr>ESP_aMax(total_force_left)</field-expr>
-              <field-expr>ESP_aMax(total_force_right)</field-expr>
-
-              <field-expr>ESP_aAve(actual_jerk_left_ankle)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_left_hip_aa)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_left_hip_fe)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_left_knee)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_right_ankle)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_right_hip_aa)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_right_hip_fe)</field-expr>
-              <field-expr>ESP_aAve(actual_jerk_right_knee)</field-expr>
-
-              <field-expr>ESP_aMax(actual_jerk_left_ankle)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_left_hip_aa)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_left_hip_fe)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_left_knee)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_right_ankle)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_right_hip_aa)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_right_hip_fe)</field-expr>
-              <field-expr>ESP_aMax(actual_jerk_right_knee)</field-expr>
-
-              <field-expr>ESP_aMin(actual_jerk_left_ankle)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_left_hip_aa)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_left_hip_fe)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_left_knee)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_right_ankle)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_right_hip_aa)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_right_hip_fe)</field-expr>
-              <field-expr>ESP_aMin(actual_jerk_right_knee)</field-expr>
-
-              <field-expr>ESP_aAve(error_position_left_ankle)</field-expr>
-              <field-expr>ESP_aAve(error_position_left_hip_aa)</field-expr>
-              <field-expr>ESP_aAve(error_position_left_hip_fe)</field-expr>
-              <field-expr>ESP_aAve(error_position_left_knee)</field-expr>
-              <field-expr>ESP_aAve(error_position_right_ankle)</field-expr>
-              <field-expr>ESP_aAve(error_position_right_hip_aa)</field-expr>
-              <field-expr>ESP_aAve(error_position_right_hip_fe)</field-expr>
-              <field-expr>ESP_aAve(error_position_right_knee)</field-expr>
-
-              <field-expr>ESP_aMax(error_position_left_ankle)</field-expr>
-              <field-expr>ESP_aMax(error_position_left_hip_aa)</field-expr>
-              <field-expr>ESP_aMax(error_position_left_hip_fe)</field-expr>
-              <field-expr>ESP_aMax(error_position_left_knee)</field-expr>
-              <field-expr>ESP_aMax(error_position_right_ankle)</field-expr>
-              <field-expr>ESP_aMax(error_position_right_hip_aa)</field-expr>
-              <field-expr>ESP_aMax(error_position_right_hip_fe)</field-expr>
-              <field-expr>ESP_aMax(error_position_right_knee)</field-expr>
-
-
-              <field-expr>ESP_aMin(error_position_left_ankle)</field-expr>
-              <field-expr>ESP_aMin(error_position_left_hip_aa)</field-expr>
-              <field-expr>ESP_aMin(error_position_left_hip_fe)</field-expr>
-              <field-expr>ESP_aMin(error_position_left_knee)</field-expr>
-              <field-expr>ESP_aMin(error_position_right_ankle)</field-expr>
-              <field-expr>ESP_aMin(error_position_right_hip_aa)</field-expr>
-              <field-expr>ESP_aMin(error_position_right_hip_fe)</field-expr>
-              <field-expr>ESP_aMin(error_position_right_knee)</field-expr>
-            </output>
-          </window-aggregate>
-            <window-copy name="copy_joint" >
-              <retention type='bycount_sliding'>1000</retention>
-            </window-copy>
-            <window-compute name="compute_joint">
-              <expr-initialize>
-                <udfs>
-                  <udf name='subtract_one' type='double'>
-                    <![CDATA[private integer p1
-                      p1 = parameter(1);
-                      return (p1+1) ;]]>
-                  </udf>
-                </udfs>
-              </expr-initialize>
               <schema>
                 <fields>
-                  <field name='SEQUENCE' type='int64' key='true'/>
-                  <field name='new_SEQUENCE' type='int64'/>
-                  <field name='previous_error_left_ankle' type='double'/>
-                  <field name='previous_error_left_hip_aa' type='double'/>
-                  <field name='previous_error_left_hip_fe' type='double'/>
-                  <field name='previous_error_left_knee' type='double'/>
-                  <field name='previous_error_right_ankle' type='double'/>
-                  <field name='previous_error_right_hip_aa' type='double'/>
-                  <field name='previous_error_right_hip_fe' type='double'/>
-                  <field name='previous_error_right_knee' type='double'/>
+                  <field key="true" name="gait_id" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+                  <field key="false" name="start_time" type="stamp"/>
+                  <field key="false" name="gait" type="string" />
+                  <field key="false" name="subgait" type="string" />
+                  <field key="false" name="version" type="string" />
+
+                  <field key="false" name="max_pressure_left" type="double" />
+                  <field key="false" name="max_pressure_right" type="double" />
+
+                  <field key="false" name="mean_jerk_left_ankle" type="double"/>
+                  <field key="false" name="mean_jerk_left_hip_aa" type="double"/>
+                  <field key="false" name="mean_jerk_left_hip_fe" type="double"/>
+                  <field key="false" name="mean_jerk_left_knee" type="double"/>
+                  <field key="false" name="mean_jerk_right_ankle" type="double"/>
+                  <field key="false" name="mean_jerk_right_hip_aa" type="double"/>
+                  <field key="false" name="mean_jerk_right_hip_fe" type="double"/>
+                  <field key="false" name="mean_jerk_right_knee" type="double"/>
+
+                  <field key="false" name="max_jerk_left_ankle" type="double"/>
+                  <field key="false" name="max_jerk_left_hip_aa" type="double"/>
+                  <field key="false" name="max_jerk_left_hip_fe" type="double"/>
+                  <field key="false" name="max_jerk_left_knee" type="double"/>
+                  <field key="false" name="max_jerk_right_ankle" type="double"/>
+                  <field key="false" name="max_jerk_right_hip_aa" type="double"/>
+                  <field key="false" name="max_jerk_right_hip_fe" type="double"/>
+                  <field key="false" name="max_jerk_right_knee" type="double"/>
+
+                  <field key="false" name="min_jerk_left_ankle" type="double"/>
+                  <field key="false" name="min_jerk_left_hip_aa" type="double"/>
+                  <field key="false" name="min_jerk_left_hip_fe" type="double"/>
+                  <field key="false" name="min_jerk_left_knee" type="double"/>
+                  <field key="false" name="min_jerk_right_ankle" type="double"/>
+                  <field key="false" name="min_jerk_right_hip_aa" type="double"/>
+                  <field key="false" name="min_jerk_right_hip_fe" type="double"/>
+                  <field key="false" name="min_jerk_right_knee" type="double"/>
+
+                  <field key="false" name="mean_error_left_ankle" type="double"/>
+                  <field key="false" name="mean_error_left_hip_aa" type="double"/>
+                  <field key="false" name="mean_error_left_hip_fe" type="double"/>
+                  <field key="false" name="mean_error_left_knee" type="double"/>
+                  <field key="false" name="mean_error_right_ankle" type="double"/>
+                  <field key="false" name="mean_error_right_hip_aa" type="double"/>
+                  <field key="false" name="mean_error_right_hip_fe" type="double"/>
+                  <field key="false" name="mean_error_right_knee" type="double"/>
+
+                  <field key="false" name="max_error_left_ankle" type="double"/>
+                  <field key="false" name="max_error_left_hip_aa" type="double"/>
+                  <field key="false" name="max_error_left_hip_fe" type="double"/>
+                  <field key="false" name="max_error_left_knee" type="double"/>
+                  <field key="false" name="max_error_right_ankle" type="double"/>
+                  <field key="false" name="max_error_right_hip_aa" type="double"/>
+                  <field key="false" name="max_error_right_hip_fe" type="double"/>
+                  <field key="false" name="max_error_right_knee" type="double"/>
+
+                  <field key="false" name="min_error_left_ankle" type="double"/>
+                  <field key="false" name="min_error_left_hip_aa" type="double"/>
+                  <field key="false" name="min_error_left_hip_fe" type="double"/>
+                  <field key="false" name="min_error_left_knee" type="double"/>
+                  <field key="false" name="min_error_right_ankle" type="double"/>
+                  <field key="false" name="min_error_right_hip_aa" type="double"/>
+                  <field key="false" name="min_error_right_hip_fe" type="double"/>
+                  <field key="false" name="min_error_right_knee" type="double"/>
                 </fields>
               </schema>
               <output>
-                <field-expr>subtract_one(SEQUENCE)</field-expr>
-                <field-expr>error_position_left_ankle</field-expr>
-                <field-expr>error_position_left_hip_aa</field-expr>
-                <field-expr>error_position_left_hip_fe</field-expr>
-                <field-expr>error_position_left_knee</field-expr>
-                <field-expr>error_position_right_ankle</field-expr>
-                <field-expr>error_position_right_hip_aa</field-expr>
-                <field-expr>error_position_right_hip_fe</field-expr>
-                <field-expr>error_position_right_knee</field-expr>
+                <field-expr>ESP_aLast(time) </field-expr>
+                <field-expr>ESP_aLast(gait_start_time) </field-expr>
+                <field-expr>ESP_aLast(gait_name) </field-expr>
+                <field-expr>ESP_aLast(subgait_name) </field-expr>
+                <field-expr>ESP_aLast(version) </field-expr>
+
+                <field-expr>ESP_aMax(total_force_left)</field-expr>
+                <field-expr>ESP_aMax(total_force_right)</field-expr>
+
+                <field-expr>ESP_aAve(actual_jerk_left_ankle)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_left_hip_aa)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_left_hip_fe)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_left_knee)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_right_ankle)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_right_hip_aa)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_right_hip_fe)</field-expr>
+                <field-expr>ESP_aAve(actual_jerk_right_knee)</field-expr>
+
+                <field-expr>ESP_aMax(actual_jerk_left_ankle)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_left_hip_aa)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_left_hip_fe)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_left_knee)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_right_ankle)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_right_hip_aa)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_right_hip_fe)</field-expr>
+                <field-expr>ESP_aMax(actual_jerk_right_knee)</field-expr>
+
+                <field-expr>ESP_aMin(actual_jerk_left_ankle)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_left_hip_aa)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_left_hip_fe)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_left_knee)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_right_ankle)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_right_hip_aa)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_right_hip_fe)</field-expr>
+                <field-expr>ESP_aMin(actual_jerk_right_knee)</field-expr>
+
+                <field-expr>ESP_aAve(error_position_left_ankle)</field-expr>
+                <field-expr>ESP_aAve(error_position_left_hip_aa)</field-expr>
+                <field-expr>ESP_aAve(error_position_left_hip_fe)</field-expr>
+                <field-expr>ESP_aAve(error_position_left_knee)</field-expr>
+                <field-expr>ESP_aAve(error_position_right_ankle)</field-expr>
+                <field-expr>ESP_aAve(error_position_right_hip_aa)</field-expr>
+                <field-expr>ESP_aAve(error_position_right_hip_fe)</field-expr>
+                <field-expr>ESP_aAve(error_position_right_knee)</field-expr>
+
+                <field-expr>ESP_aMax(error_position_left_ankle)</field-expr>
+                <field-expr>ESP_aMax(error_position_left_hip_aa)</field-expr>
+                <field-expr>ESP_aMax(error_position_left_hip_fe)</field-expr>
+                <field-expr>ESP_aMax(error_position_left_knee)</field-expr>
+                <field-expr>ESP_aMax(error_position_right_ankle)</field-expr>
+                <field-expr>ESP_aMax(error_position_right_hip_aa)</field-expr>
+                <field-expr>ESP_aMax(error_position_right_hip_fe)</field-expr>
+                <field-expr>ESP_aMax(error_position_right_knee)</field-expr>
+
+
+                <field-expr>ESP_aMin(error_position_left_ankle)</field-expr>
+                <field-expr>ESP_aMin(error_position_left_hip_aa)</field-expr>
+                <field-expr>ESP_aMin(error_position_left_hip_fe)</field-expr>
+                <field-expr>ESP_aMin(error_position_left_knee)</field-expr>
+                <field-expr>ESP_aMin(error_position_right_ankle)</field-expr>
+                <field-expr>ESP_aMin(error_position_right_hip_aa)</field-expr>
+                <field-expr>ESP_aMin(error_position_right_hip_fe)</field-expr>
+                <field-expr>ESP_aMin(error_position_right_knee)</field-expr>
               </output>
-            </window-compute>
-            <window-join name="join_error" >
-              <join type="inner" no-regenerates='true'>
-                <conditions>
-                  <fields left="SEQUENCE" right="new_SEQUENCE" />
-                </conditions>
-              </join>
-              <output>
-                <field-selection name="time" source="l_time" />
-                <field-selection name="dummy_key" source="l_dummy_key" />
-
-                <field-selection name="error_position_left_ankle" source="l_error_position_left_ankle" />
-                <field-selection name="error_position_left_hip_aa" source="l_error_position_left_hip_aa" />
-                <field-selection name="error_position_left_hip_fe" source="l_error_position_left_hip_fe" />
-                <field-selection name="error_position_left_knee" source="l_error_position_left_knee" />
-                <field-selection name="error_position_right_ankle" source="l_error_position_right_ankle" />
-                <field-selection name="error_position_right_hip_aa" source="l_error_position_right_hip_aa" />
-                <field-selection name="error_position_right_hip_fe" source="l_error_position_right_hip_fe" />
-                <field-selection name="error_position_right_knee" source="l_error_position_right_knee" />
-
-                <field-selection name="previous_error_left_ankle" source="r_previous_error_left_ankle" />
-                <field-selection name="previous_error_left_hip_aa" source="r_previous_error_left_hip_aa" />
-                <field-selection name="previous_error_left_hip_fe" source="r_previous_error_left_hip_fe" />
-                <field-selection name="previous_error_left_knee" source="r_previous_error_left_knee" />
-                <field-selection name="previous_error_right_ankle" source="r_previous_error_right_ankle" />
-                <field-selection name="previous_error_right_hip_aa" source="r_previous_error_right_hip_aa" />
-                <field-selection name="previous_error_right_hip_fe" source="r_previous_error_right_hip_fe" />
-                <field-selection name="previous_error_right_knee" source="r_previous_error_right_knee" />
-              </output>
-            </window-join>
-
-<!--            <window-aggregate name='aggregate_error'>-->
-<!--            <schema>-->
-<!--              <fields>-->
-<!--                <field key="true" name="dummy_key" type="int64" />-->
-<!--                <field key="false" name="SEQUENCE" type="int64" />-->
-
-<!--                <field key="false" name="test" type="int64" />-->
-
-<!--                <field key="false" name="min_error_left_ankle" type="double"/>-->
-<!--                <field key="false" name="min_error_left_hip_aa" type="double"/>-->
-<!--                <field key="false" name="min_error_left_hip_fe" type="double"/>-->
-<!--                <field key="false" name="min_error_left_knee" type="double"/>-->
-<!--                <field key="false" name="min_error_right_ankle" type="double"/>-->
-<!--                <field key="false" name="min_error_right_hip_aa" type="double"/>-->
-<!--                <field key="false" name="min_error_right_hip_fe" type="double"/>-->
-<!--                <field key="false" name="min_error_right_knee" type="double"/>-->
-
-<!--                <field key="false" name="current_error_left_ankle" type="double" />-->
-<!--                <field key="false" name="current_error_left_hip_aa" type="double" />-->
-<!--                <field key="false" name="current_error_left_hip_fe" type="double" />-->
-<!--                <field key="false" name="current_error_left_knee" type="double" />-->
-<!--                <field key="false" name="current_error_right_ankle" type="double" />-->
-<!--                <field key="false" name="current_error_right_hip_aa" type="double" />-->
-<!--                <field key="false" name="current_error_right_hip_fe" type="double" />-->
-<!--                <field key="false" name="current_error_right_knee" type="double" />-->
-
-<!--                <field key="false" name="previous_error_left_ankle" type="double" />-->
-<!--                <field key="false" name="previous_error_left_hip_aa" type="double" />-->
-<!--                <field key="false" name="previous_error_left_hip_fe" type="double" />-->
-<!--                <field key="false" name="previous_error_left_knee" type="double" />-->
-<!--                <field key="false" name="previous_error_right_ankle" type="double" />-->
-<!--                <field key="false" name="previous_error_right_hip_aa" type="double" />-->
-<!--                <field key="false" name="previous_error_right_hip_fe" type="double" />-->
-<!--                <field key="false" name="previous_error_right_knee" type="double" />-->
-<!--              </fields>-->
-<!--            </schema>-->
-<!--            <output>-->
-<!--              <field-expr>ESP_aLast(SEQUENCE) </field-expr>-->
-<!--              <field-expr>ESP_aAve(SEQUENCE)</field-expr>-->
-
-
-<!--              <field-expr>ESP_aMin(error_position_left_ankle)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_left_hip_aa)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_left_hip_fe)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_left_knee)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_right_ankle)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_right_hip_aa)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_right_hip_fe)</field-expr>-->
-<!--              <field-expr>ESP_aMin(error_position_right_knee)</field-expr>-->
-
-<!--              <field-expr>ESP_aLast(error_position_left_ankle) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_left_hip_aa) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_left_hip_fe) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_left_knee) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_right_ankle) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_right_hip_aa) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_right_hip_fe) </field-expr>-->
-<!--              <field-expr>ESP_aLast(error_position_right_knee) </field-expr>-->
-
-<!--              <field-expr>ESP_aLag(error_position_left_ankle, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_left_hip_aa, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_left_hip_fe, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_left_knee, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_right_ankle, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_right_hip_aa, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_right_hip_fe, 1) </field-expr>-->
-<!--              <field-expr>ESP_aLag(error_position_right_knee, 1) </field-expr>-->
-<!--            </output>-->
-<!--          </window-aggregate>-->
-            <window-compute name='compute_different'>
-              <expr-initialize>
-                <udfs>
-                  <udf name='is_changed' type='double'>
-                    <![CDATA[private integer p1
-                      p1 = parameter(1);
-                      private integer p2
-                      p2 = parameter(2);
-                      if p1 > 0 then
-                        begin
-                        if p2 < 0 then
-                          return 1
-                         else
-                           return 0
-                         end
-                       else
-                        begin
-                        if p2 < 0 then
-                          return 0
-                         else
-                           return 0
-                         end]]>
-                  </udf>
-                </udfs>
-              </expr-initialize>
-              <schema>
-                <fields>
-                  <field name='SEQUENCE' type='int64' key='true'/>
-                  <field name="sign_change_left_ankle" type="double"/>
-                  <field name="sign_change_left_hip_aa" type="double"/>
-                  <field name="sign_change_left_hip_fe" type="double"/>
-                  <field name="sign_change_left_knee" type="double"/>
-                  <field name="sign_change_right_ankle" type="double"/>
-                  <field name="sign_change_right_hip_aa" type="double"/>
-                  <field name="sign_change_right_hip_fe" type="double"/>
-                  <field name="sign_change_right_knee" type="double"/>
-                </fields>
-              </schema>
-              <output>
-                <field-expr>is_changed(error_position_left_ankle, previous_error_left_ankle)</field-expr>
-                <field-expr>is_changed(error_position_left_hip_aa, previous_error_left_hip_aa)</field-expr>
-                <field-expr>is_changed(error_position_left_hip_fe, previous_error_left_hip_fe)</field-expr>
-                <field-expr>is_changed(error_position_left_knee, previous_error_left_knee)</field-expr>
-                <field-expr>is_changed(error_position_right_ankle, previous_error_right_ankle)</field-expr>
-                <field-expr>is_changed(error_position_right_hip_aa, previous_error_right_hip_aa)</field-expr>
-                <field-expr>is_changed(error_position_right_hip_fe, previous_error_right_hip_fe)</field-expr>
-                <field-expr>is_changed(error_position_right_knee, previous_error_right_knee)</field-expr>
-              </output>
-            </window-compute>
+            </window-aggregate>
             <window-aggregate name='aggregate_effort'>
-            <schema>
-              <fields>
-                <field key="true" name="dummy_key" type="int64" />
-                <field key="false" name="time" type="stamp" />
-                <field key="false" name="effort_command_left_ankle" type="double" />
-                <field key="false" name="effort_command_left_hip_aa" type="double" />
-                <field key="false" name="effort_command_left_hip_fe" type="double" />
-                <field key="false" name="effort_command_left_knee" type="double" />
-                <field key="false" name="effort_command_right_hip_aa" type="double" />
-                <field key="false" name="effort_command_right_ankle" type="double" />
-                <field key="false" name="effort_command_right_hip_fe" type="double" />
-                <field key="false" name="effort_command_right_knee" type="double" />
-              </fields>
-            </schema>
-            <output>
-              <field-expr>ESP_aLast(time)</field-expr>
-              <field-expr>ESP_aLast(effort_command_left_ankle)</field-expr>
-              <field-expr>ESP_aLast(effort_command_left_hip_aa)</field-expr>
-              <field-expr>ESP_aLast(effort_command_left_hip_fe)</field-expr>
-              <field-expr>ESP_aLast(effort_command_left_knee)</field-expr>
-              <field-expr>ESP_aLast(effort_command_right_ankle)</field-expr>
-              <field-expr>ESP_aLast(effort_command_right_hip_aa)</field-expr>
-              <field-expr>ESP_aLast(effort_command_right_hip_fe)</field-expr>
-              <field-expr>ESP_aLast(effort_command_right_knee)</field-expr>
-            </output>
-          </window-aggregate>
+              <schema>
+                <fields>
+                  <field key="true" name="dummy_key" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+                  <field key="false" name="actual_effort_left_ankle" type="double" />
+                  <field key="false" name="actual_effort_left_hip_aa" type="double" />
+                  <field key="false" name="actual_effort_left_hip_fe" type="double" />
+                  <field key="false" name="actual_effort_left_knee" type="double" />
+                  <field key="false" name="actual_effort_right_hip_aa" type="double" />
+                  <field key="false" name="actual_effort_right_ankle" type="double" />
+                  <field key="false" name="actual_effort_right_hip_fe" type="double" />
+                  <field key="false" name="actual_effort_right_knee" type="double" />
+                </fields>
+              </schema>
+              <output>
+                <field-expr>ESP_aLast(time)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_left_ankle)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_left_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_left_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_left_knee)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_right_ankle)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_right_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_right_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(actual_effort_right_knee)</field-expr>
+              </output>
+            </window-aggregate>
+            <window-aggregate name='aggregate_effort_command'>
+              <schema>
+                <fields>
+                  <field key="true" name="dummy_key" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+                  <field key="false" name="effort_command_left_ankle" type="double" />
+                  <field key="false" name="effort_command_left_hip_aa" type="double" />
+                  <field key="false" name="effort_command_left_hip_fe" type="double" />
+                  <field key="false" name="effort_command_left_knee" type="double" />
+                  <field key="false" name="effort_command_right_hip_aa" type="double" />
+                  <field key="false" name="effort_command_right_ankle" type="double" />
+                  <field key="false" name="effort_command_right_hip_fe" type="double" />
+                  <field key="false" name="effort_command_right_knee" type="double" />
+                </fields>
+              </schema>
+              <output>
+                <field-expr>ESP_aLast(time)</field-expr>
+                <field-expr>ESP_aLast(effort_command_left_ankle)</field-expr>
+                <field-expr>ESP_aLast(effort_command_left_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(effort_command_left_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(effort_command_left_knee)</field-expr>
+                <field-expr>ESP_aLast(effort_command_right_ankle)</field-expr>
+                <field-expr>ESP_aLast(effort_command_right_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(effort_command_right_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(effort_command_right_knee)</field-expr>
+              </output>
+            </window-aggregate>
             <window-aggregate name='aggregate_temperature'>
               <schema>
                 <fields>
@@ -1523,7 +1509,7 @@
                   <field key="false" name="actual_position_right_hip_aa" type="double" />
                   <field key="false" name="actual_position_right_hip_fe" type="double" />
                   <field key="false" name="actual_position_right_knee" type="double" />
-                  
+
                   <field key="false" name="actual_velocity_left_ankle" type="double" />
                   <field key="false" name="actual_velocity_left_hip_aa" type="double" />
                   <field key="false" name="actual_velocity_left_hip_fe" type="double" />
@@ -1568,7 +1554,7 @@
                   <field key="false" name="desired_velocity_right_hip_aa" type="double" />
                   <field key="false" name="desired_velocity_right_hip_fe" type="double" />
                   <field key="false" name="desired_velocity_right_knee" type="double" />
-                  
+
                   <field key="false" name="error_position_left_ankle" type="double" />
                   <field key="false" name="error_position_left_hip_aa" type="double" />
                   <field key="false" name="error_position_left_hip_fe" type="double" />
@@ -1602,34 +1588,63 @@
               </schema>
             </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_effort">
-            <schema>
-              <fields>
-                <field key="true" name="SEQUENCE" type="int64" />
-                <field key="false" name="dummy_key" type="int64" />
-                <field key="false" name="time" type="stamp" />
+              <schema>
+                <fields>
+                  <field key="true" name="SEQUENCE" type="int64" />
+                  <field key="false" name="dummy_key" type="int64" />
+                  <field key="false" name="time" type="stamp" />
 
-                <field key="false" name="effort_command_left_ankle" type="double" />
-                <field key="false" name="effort_command_left_hip_aa" type="double" />
-                <field key="false" name="effort_command_left_hip_fe" type="double" />
-                <field key="false" name="effort_command_left_knee" type="double" />
-                <field key="false" name="effort_command_right_ankle" type="double" />
-                <field key="false" name="effort_command_right_hip_aa" type="double" />
-                <field key="false" name="effort_command_right_hip_fe" type="double" />
-                <field key="false" name="effort_command_right_knee" type="double" />
-              </fields>
-            </schema>
-            <connectors>
-              <connector class="fs" name="sub" type="subscribe">
-                <properties>
-                  <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                  <property name="fsname">data/joint_@NOW@.csv</property>
-                  <property name="fstype">csv</property>
-                  <property name="snapshot">true</property>
-                  <property name="header">full</property>
-                </properties>
-              </connector>
-            </connectors>
-          </window-source>
+                  <field key="false" name="actual_effort_left_ankle" type="double" />
+                  <field key="false" name="actual_effort_left_hip_aa" type="double" />
+                  <field key="false" name="actual_effort_left_hip_fe" type="double" />
+                  <field key="false" name="actual_effort_left_knee" type="double" />
+                  <field key="false" name="actual_effort_right_ankle" type="double" />
+                  <field key="false" name="actual_effort_right_hip_aa" type="double" />
+                  <field key="false" name="actual_effort_right_hip_fe" type="double" />
+                  <field key="false" name="actual_effort_right_knee" type="double" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">data/joint_@NOW@.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
+            <window-source autogen-key="true" insert-only="true" name="source_effort_command">
+              <schema>
+                <fields>
+                  <field key="true" name="SEQUENCE" type="int64" />
+                  <field key="false" name="dummy_key" type="int64" />
+                  <field key="false" name="time" type="stamp" />
+
+                  <field key="false" name="effort_command_left_ankle" type="double" />
+                  <field key="false" name="effort_command_left_hip_aa" type="double" />
+                  <field key="false" name="effort_command_left_hip_fe" type="double" />
+                  <field key="false" name="effort_command_left_knee" type="double" />
+                  <field key="false" name="effort_command_right_ankle" type="double" />
+                  <field key="false" name="effort_command_right_hip_aa" type="double" />
+                  <field key="false" name="effort_command_right_hip_fe" type="double" />
+                  <field key="false" name="effort_command_right_knee" type="double" />
+                </fields>
+              </schema>
+              <connectors>
+                <connector class="fs" name="sub" type="subscribe">
+                  <properties>
+                    <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
+                    <property name="fsname">data/joint_@NOW@.csv</property>
+                    <property name="fstype">csv</property>
+                    <property name="snapshot">true</property>
+                    <property name="header">full</property>
+                  </properties>
+                </connector>
+              </connectors>
+            </window-source>
             <window-source autogen-key="true" insert-only="true" name="source_temperature_left_ankle">
               <schema>
                 <fields>
@@ -1752,9 +1767,8 @@
             </window-source>
           </windows>
           <edges>
-<!--            <edge source="source_joint" target="aggregate_error" />-->
-<!--            <edge source="aggregate_error" target="compute_different"/>-->
             <edge source="source_effort" target="aggregate_effort" />
+            <edge source="source_effort_command" target="aggregate_effort_command" />
             <edge source="source_imc" target="aggregate_imc" />
             <edge source="source_imu" target="aggregate_imu" />
             <edge source="source_gait" target="aggregate_gait" />
@@ -1764,7 +1778,9 @@
 
             <edge role="left" source="source_joint" target="join_effort" />
             <edge role="right" source="aggregate_effort" target="join_effort" />
-            <edge role="left" source="join_effort" target="join_temperature" />
+            <edge role="left" source="join_effort" target="join_effort_command" />
+            <edge role="right" source="aggregate_effort_command" target="join_effort_command" />
+            <edge role="left" source="join_effort_command" target="join_temperature" />
             <edge role="right" source="aggregate_temperature" target="join_temperature" />
             <edge role="left" source="join_temperature" target="join_gait" />
             <edge role="right" source="aggregate_gait" target="join_gait" />
@@ -1793,11 +1809,6 @@
             <edge role="right" source="join_temperature_ankle_knee" target="join_temperature_all" />
 
             <edge source="join_ps" target="aggregate_over_gait" />
-            <edge source="source_joint" target="copy_joint" />
-            <edge source="copy_joint" target="compute_joint" />
-            <edge role="left" source="source_joint" target="join_error" />
-            <edge role="right" source="compute_joint" target="join_error" />
-            <edge source="join_error" target="compute_different" />
           </edges>
         </contquery>
       </contqueries>
