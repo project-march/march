@@ -14,7 +14,7 @@ from sensor_msgs.msg import Imu, JointState, Temperature
 from tf.transformations import euler_from_quaternion
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import GaitActionGoal, GaitActionResult, ImcErrorState, JointValues, PressureSole
+from march_shared_resources.msg import AfterLimitJointCommand, GaitActionGoal, GaitActionResult, ImcErrorState, JointValues, PressureSole
 from march_shared_resources.srv import CurrentState
 
 try:
@@ -96,6 +96,7 @@ class ESPAdapter:
         self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
         self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
         self.configure_source('source_effort', '/march/joint_states', JointState, self.joint_states_callback)
+        self.configure_source('source_effort_command', '/march/controller/after_limit_joint_command', AfterLimitJointCommand, self.joint_command_callback)
 
         msg = GaitActionResult()
         msg.header.stamp = rospy.Time.now()
@@ -181,6 +182,16 @@ class ESPAdapter:
         if not ('GAIT' in state or 'HOME' in state):
             csv = ','.join([get_time_str(data.header.stamp), 'idle', state.lower(), ' '])
             self.send_to_esp(csv, source)
+
+    def joint_command_callback(self, data, source):
+        """Callback for after_limit_joint_command data. Converts ROS message to csv string to send to the source window.
+
+        :param data: ROS temperature message
+        :param source: the name of the source window in the ESP engine
+        """
+        time_str = get_time_str(data.header.stamp)
+        csv = time_str + ',' + list_to_str(data.effort_command)
+        self.send_to_esp(csv, source)
 
     def temperature_callback(self, data, source):
         """Callback for temperature data. Converts ROS message to csv string to send to the source window.
