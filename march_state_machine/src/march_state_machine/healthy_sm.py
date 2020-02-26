@@ -171,4 +171,4 @@ class HealthyStateMachine(smach.StateMachine):
     def get_current_states(self, _req):
         state = self.get_active_states()[0]
         state_type = str(type(self[state]))
-        return (state_type, state)
+        return state_type, state

@@ -69,9 +69,10 @@ class ESPAdapter:
             sys.exit()
 
         try:
+            rospy.wait_for_service('march/state_machine/current_states', timeout=5.0)
             self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
-        except rospy.service.ServiceException:
-            rospy.loginfo('Service get current state not available using mock isntead.')
+        except rospy.exceptions.ROSException:
+            rospy.loginfo('Service get current state not available using mock instead.')
 
             def mock_get_gait():
                 """Mocks the get_gait ROS service when not available.
@@ -80,7 +81,7 @@ class ESPAdapter:
                 """
                 msg = CurrentState()
                 msg.current_state = 'UNKNOWN'
-                msg.type = 'IDLE'
+                msg.state_type = 'idle'
                 return msg
             self.get_gait = mock_get_gait
 
@@ -169,7 +170,7 @@ class ESPAdapter:
         ret = pubsubApi.PublisherInject(pub, event_block)
         modelingApi.EventBlockDestroy(event_block)
         if ret != 1:
-            rospy.logwarn('Unsuccesful inject into ESP server for source window {source} and event {event}'.format(
+            rospy.logwarn('Unsuccessful inject into ESP server for source window {source} and event {event}'.format(
                 source=source, event=csv))
 
     def gait_finished_callback(self, data, source):
