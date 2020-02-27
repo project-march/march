@@ -12,5 +12,6 @@
 
     <include file="$(dirname)/march.launch" pass_all_args="true">
         <arg name="configuration" value="simulation"/>
+        <arg name="gain_scheduling" value="false"/>
     </include>
 </launch>

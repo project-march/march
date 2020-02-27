@@ -2,7 +2,7 @@
     <arg name="configuration" default="exoskeleton" doc="Configuration on launching the 'simulation' or 'exoskeleton'."/>
     <arg name="headless" default="false" doc="Launches no GUI when true."/>
     <arg name="hardware_interface" default="true" doc="Launches the hardware interface when config is 'exoskeleton."/>
-    <arg name="gain_scheduling" default="false" doc="Whether to use gain scheduling, which changes PID values based on executed gait."/>
+    <arg name="gain_scheduling" default="true" doc="Whether to use gain scheduling, which changes PID values based on executed gait."/>
     <arg name="gain_tuning" default="groundgait" doc="The configuration to use for gain scheduling. Only used when 'gain_scheduling' is true."/>
 
     <arg name="rviz" default="false" doc="Launches RViz."/>
