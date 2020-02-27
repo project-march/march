@@ -293,7 +293,7 @@ def list_to_array_str(ls):
 
     :type ls: list
     """
-    return '[' + ';'.join([str(value) for value in ls]) + ']'
+    return '[' + ';'.join(str(value) for value in ls) + ']'
 
 
 def list_to_str(ls):
@@ -301,7 +301,7 @@ def list_to_str(ls):
 
     :type ls: list
     """
-    return ','.join([str(value) for value in ls])
+    return ','.join(str(value) for value in ls)
 
 
 def vector_to_str(vector):
