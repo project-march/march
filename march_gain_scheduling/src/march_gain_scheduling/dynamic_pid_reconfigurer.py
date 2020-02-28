@@ -11,7 +11,10 @@ class DynamicPIDReconfigurer:
         self._gait_type = 'default'
         self._joint_list = joint_list
         self._max_time_step = max_time_step
-        self.current_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
+        self.current_gains = []
+        for joint_index in range(len(self._joint_list)):
+            gains = rospy.get_param('/march/controller/trajectory/gains/' + self._joint_list[joint_index])
+            self.current_gains.append([gains['p'], gains['i'], gains['d']])
         self.interpolation_done = True
         self.last_update_time = None
         self._clients = []
@@ -64,9 +67,6 @@ class DynamicPIDReconfigurer:
 
     # Method that pulls the PID values from the gains_per_gait_type.yaml config file
     def look_up_table(self, joint_index):
-        if (self._gait_type == 'default'):
-            gains = rospy.get_param('/march/controller/trajectory/gains/' + self._joint_list[joint_index])
-            return [gains['p'], gains['i'], gains['d']]
         if rospy.has_param('~gait_types/' + self._gait_type):
             gains = rospy.get_param('~gait_types/' + self._gait_type + '/' + self._joint_list[joint_index])
             return [gains['p'], gains['i'], gains['d']]
