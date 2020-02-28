@@ -63,7 +63,7 @@ class DynamicPIDReconfigurer:
     # Method that pulls the PID values from the gains_per_gait_type.yaml config file
     def look_up_table(self, joint_index):
         if (self._gait_type == 'default'):
-            gains = rospy.get_param('~controller/trajectory/gains/' + self._joint_list[joint_index])
+            gains = rospy.get_param('/march/controller/trajectory/gains/' + self._joint_list[joint_index])
             return [gains['p'], gains['i'], gains['d']]
         if rospy.has_param('~gait_types/' + self._gait_type):
             gains = rospy.get_param('~gait_types/' + self._gait_type + '/' + self._joint_list[joint_index])
