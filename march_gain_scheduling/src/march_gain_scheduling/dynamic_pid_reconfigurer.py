@@ -31,6 +31,7 @@ class DynamicPIDReconfigurer:
             self._gait_type = data.goal.current_subgait.gait_type
             self.interpolation_done = False
             rate = rospy.Rate(10)
+            self.last_update_time = rospy.get_time()
             while not self.interpolation_done:
                 rate.sleep()
                 self.client_update()
