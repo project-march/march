@@ -8,7 +8,7 @@ from .one_step_linear_interpolation import interpolate
 
 class DynamicPIDReconfigurer:
     def __init__(self, joint_list=None, max_time_step=0.1):
-        self._gait_type = 'default'
+        self._gait_type = None
         self._joint_list = joint_list
         self._max_time_step = max_time_step
         self.current_gains = []
