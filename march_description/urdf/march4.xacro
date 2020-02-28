@@ -43,7 +43,7 @@
     <xacro:property name="k_position_value_kfe" value="$(arg k_position_value_kfe)" />
     <xacro:property name="k_position_value_haa" value="$(arg k_position_value_haa)" />
     <xacro:property name="k_position_value_adpf" value="$(arg k_position_value_adpf)" />
-z
+
     <!-- Constants for robot dimensions -->
     <!-- Masses determined in https://confluence.projectmarch.nl:8443/display/41TECH/Weights+of+the+Exoskeleton -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
