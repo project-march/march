@@ -13,7 +13,7 @@ class DynamicPIDReconfigurer:
         self._max_time_step = max_time_step
         self.current_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
         self.interpolation_done = True
-        self.last_update_time = 0
+        self.last_update_time = None
         self._clients = []
         for i in range(len(self._joint_list)):
             self._clients.append(Client('/march/controller/trajectory/gains/' + self._joint_list[i], timeout=30))
