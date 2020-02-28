@@ -7,8 +7,8 @@ from .one_step_linear_interpolation import interpolate
 
 
 class DynamicPIDReconfigurer:
-    def __init__(self, gait_type='walk_like', joint_list=None, max_time_step=0.1):
-        self._gait_type = gait_type
+    def __init__(self, joint_list=None, max_time_step=0.1):
+        self._gait_type = 'default'
         self._joint_list = joint_list
         self._max_time_step = max_time_step
         self.current_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
@@ -22,13 +22,13 @@ class DynamicPIDReconfigurer:
 
     def gait_selection_callback(self, data):
         rospy.logdebug('This is the gait name: %s', data.goal.current_subgait.gait_type)
+        if self._gait_type is None or self._gait_type == '':
+            self._gait_type = 'walk_like'
+            rospy.logwarn('The gait has no gait type, default is set to walk_like')
         if self._gait_type != data.goal.current_subgait.gait_type or not self.interpolation_done:
             rospy.logdebug('The selected gait: {0} is not the same as the previous gait: {1}'.format(
                 data.goal.current_subgait.gait_type, self._gait_type))
             self._gait_type = data.goal.current_subgait.gait_type
-            if self._gait_type is None or self._gait_type == '':
-                self._gait_type = 'walk_like'
-                rospy.logwarn('The gait has no gait type, default is set to walk_like')
             self.interpolation_done = False
             rate = rospy.Rate(10)
             while not self.interpolation_done:
@@ -62,6 +62,9 @@ class DynamicPIDReconfigurer:
 
     # Method that pulls the PID values from the gains_per_gait_type.yaml config file
     def look_up_table(self, joint_index):
+        if (self._gait_type == 'default'):
+            gains = rospy.get_param('~controller/trajectory/gains/' + self._joint_list[joint_index])
+            return [gains['p'], gains['i'], gains['d']]
         if rospy.has_param('~gait_types/' + self._gait_type):
             gains = rospy.get_param('~gait_types/' + self._gait_type + '/' + self._joint_list[joint_index])
             return [gains['p'], gains['i'], gains['d']]
