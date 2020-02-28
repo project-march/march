@@ -22,13 +22,14 @@ class DynamicPIDReconfigurer:
 
     def gait_selection_callback(self, data):
         rospy.logdebug('This is the gait name: %s', data.goal.current_subgait.gait_type)
-        if self._gait_type is None or self._gait_type == '':
-            self._gait_type = 'walk_like'
+        new_gait_type = data.goal.current_subgait.gait_type
+        if new_gait_type is None or new_gait_type == '':
+            new_gait_type = 'walk_like'
             rospy.logwarn('The gait has no gait type, default is set to walk_like')
-        if self._gait_type != data.goal.current_subgait.gait_type or not self.interpolation_done:
+        if self._gait_type != new_gait_type or not self.interpolation_done:
             rospy.logdebug('The selected gait: {0} is not the same as the previous gait: {1}'.format(
-                data.goal.current_subgait.gait_type, self._gait_type))
-            self._gait_type = data.goal.current_subgait.gait_type
+                new_gait_type, self._gait_type))
+            self._gait_type = new_gait_type
             self.interpolation_done = False
             rate = rospy.Rate(10)
             self.last_update_time = rospy.get_time()
