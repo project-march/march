@@ -1608,7 +1608,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">data/joint_@NOW@.csv</property>
+                    <property name="fsname">data/effort_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
@@ -1637,7 +1637,7 @@
                 <connector class="fs" name="sub" type="subscribe">
                   <properties>
                     <property name="dateformat">%Y-%m-%d %H:%M:%S</property>
-                    <property name="fsname">data/joint_@NOW@.csv</property>
+                    <property name="fsname">data/effort_command_@NOW@.csv</property>
                     <property name="fstype">csv</property>
                     <property name="snapshot">true</property>
                     <property name="header">full</property>
