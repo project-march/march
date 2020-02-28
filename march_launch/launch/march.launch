@@ -23,6 +23,11 @@
     <arg name="rosbag" default="true" doc="Enables rosbag record node."/>
     <arg name="bag_prefix" default="log" doc="Prefix of the bag file. Only used if rosbag is true."/>
 
+    <arg name="esp" default="false" doc="Whether a connection to an ESP server should be established."/>
+    <arg name="pressure_soles" default="false" doc="Whether a connection with pressure_soles should be established." />
+    <arg name="moticon_ip" default="192.168.8.105" doc="The ip-adress with Moticon software running on it, defaults to
+            EMS switch laptop on standard router"/>
+
     <node
             if="$(arg rosbag)"
             pkg="rosbag"
@@ -76,5 +81,11 @@
 
     <include file="$(dirname)/serial_connection.launch" if="$(arg input-device)">
         <arg name="wireless" value="$(arg wireless)"/>
+    </include>
+
+    <include file="$(find march_data_collector)/launch/march_data_collector.launch">
+        <arg name="esp" value="$(arg esp)"/>
+        <arg name="pressure_soles" value="$(arg pressure_soles)"/>
+        <arg name="moticon_ip" value="$(arg moticon_ip)"/>
     </include>
 </launch>
