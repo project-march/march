@@ -34,8 +34,9 @@ class HealthyStateMachine(smach.StateMachine):
         super(HealthyStateMachine, self).__init__(outcomes=['succeeded', 'failed', 'preempted'])
 
         rospy.Service('state_machine/get_possible_gaits', PossibleGaits, self.get_possible_gaits)
-
         rospy.Service('state_machine/current_states', CurrentState, self.get_current_states)
+
+        self._custom_start_states = {}
 
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])
@@ -46,14 +47,13 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING')
 
         walking_state_machine = StateMachineWithTransition(['walk_small', 'walk', 'walk_large'])
+        walking_state_machine.add('walk', WalkStateMachine('walk', is_transition_active=True))
         walking_state_machine.add('walk_small', WalkStateMachine('walk_small', is_transition_active=True))
-        walking_state_machine.add('walk', WalkStateMachine('walk', is_transition_active=True), default_start=True)
         walking_state_machine.add('walk_large', WalkStateMachine('walk_large', is_transition_active=True))
 
-        self.add_state('GAIT WALK', walking_state_machine, 'STANDING')
-
-        self.add_state('GAIT WALK SMALL', WalkStateMachine('walk_small'), 'STANDING')
-        self.add_state('GAIT WALK LARGE', WalkStateMachine('walk_large'), 'STANDING')
+        self.add_state('GAIT WALK', walking_state_machine, 'STANDING', custom_start_label='walk')
+        self.add_state('GAIT WALK SMALL', walking_state_machine, 'STANDING', custom_start_label='walk_small')
+        self.add_state('GAIT WALK LARGE', walking_state_machine, 'STANDING', custom_start_label='walk_large')
 
         self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING')
         self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING')
@@ -143,7 +143,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
         self.close()
 
-    def add_state(self, label, state, succeeded):
+    def add_state(self, label, state, succeeded, custom_start_label=None):
         """Adds a state to the healthy state machine.
 
         The healthy state machine should be opened before using this method.
@@ -152,11 +152,16 @@ class HealthyStateMachine(smach.StateMachine):
         :param label: name of the state
         :type state: smach.State
         :param state: State (or statemachine to be added)
-        :type: succeeded: str
+        :type succeeded: str
         :param succeeded: name of the state that the given state should transition to once succeeded
+        :type custom_start_label: str
+        :param custom_start_label: name of the start state within the given state machine
         """
         self.assert_opened()
         self.add(label, state, transitions={'succeeded': succeeded, 'failed': 'UNKNOWN'})
+
+        if custom_start_label is not None:
+            self._custom_start_states[label] = custom_start_label
 
     def get_possible_gaits(self, _req):
         """Returns the possible gaits from the current state.
@@ -179,3 +184,10 @@ class HealthyStateMachine(smach.StateMachine):
         state = self.get_active_states()[0]
         state_type = str(type(self[state]))
         return state_type, state
+
+    def _update_once(self):
+        if self._current_label in self._custom_start_states:
+            if isinstance(self._current_state, StateMachineWithTransition):
+                self._current_state.initial_state_label = self._custom_start_states[self._current_label]
+
+        return super(HealthyStateMachine, self)._update_once()
