@@ -33,13 +33,13 @@ class DynamicPIDReconfigurer:
             needed_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
             rate = rospy.Rate(10)
 
-            rospy.loginfo('Beginning PID interpolation for gait type: {}'.format(self._gait_type))
-            begin_interpolation_time = rospy.get_time()
+            rospy.loginfo('Beginning PID interpolation for gait type: {0}'.format(self._gait_type))
+            begin_time = rospy.get_time()
             while not self.interpolation_done:
                 self.client_update(needed_gains)
                 rate.sleep()
-            end_interpolation_time = rospy.get_time()
-            rospy.loginfo('PID interpolation finished in {}s'.format(end_interpolation_time - begin_interpolation_time))
+            end_time = rospy.get_time()
+            rospy.loginfo('PID interpolation finished in {0}s'.format(end_time - begin_time))
 
     def client_update(self, needed_gains):
         self.interpolation_done = True
