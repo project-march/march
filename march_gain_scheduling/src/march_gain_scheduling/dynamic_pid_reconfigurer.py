@@ -39,8 +39,7 @@ class DynamicPIDReconfigurer:
             while not self.interpolation_done:
                 self.client_update(needed_gains)
                 rate.sleep()
-            end_time = rospy.get_time()
-            rospy.loginfo('PID interpolation finished in {0}s'.format(end_time - begin_time))
+            rospy.loginfo('PID interpolation finished in {0}s'.format(rospy.get_time() - begin_time))
 
     def client_update(self, needed_gains):
         self.interpolation_done = True
