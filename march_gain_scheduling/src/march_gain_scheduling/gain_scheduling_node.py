@@ -8,7 +8,7 @@ def main():
 
     while not rospy.is_shutdown() and not rospy.has_param('/march/joint_names'):
         rospy.sleep(0.5)
-        rospy.logdebug("Waiting on /march/joint_names to be available")
+        rospy.logdebug('Waiting on /march/joint_names to be available')
 
     if rospy.is_shutdown():
         return
