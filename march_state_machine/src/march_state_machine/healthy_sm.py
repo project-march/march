@@ -113,7 +113,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                  'gait_side_step_right', 'gait_side_step_left_small',
                                                  'gait_side_step_right_small', 'gait_sofa_sit',
                                                  'gait_stairs_up', 'gait_stairs_down',
-                                                 'gait_stairs_up_single_step','gait_stairs_down_single_step',
+                                                 'gait_stairs_up_single_step', 'gait_stairs_down_single_step',
                                                  'gait_walk_small', 'gait_rough_terrain_high_step',
                                                  'gait_rough_terrain_middle_steps',
                                                  'gait_rough_terrain_first_middle_step',
