@@ -158,8 +158,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_right_straight_start': 'GAIT TP RIGHT STRAIGHT',
                               'gait_tilted_path_right_flexed_knee_step': 'GAIT TP RIGHT FLEXED KNEE STEP',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
-                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
-                              'gait_tilted_path_flexed_knee_step': 'GAIT TP FLEXED KNEE STEP'})
+                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
         self.close()
 
     def add_state(self, label, state, succeeded):
