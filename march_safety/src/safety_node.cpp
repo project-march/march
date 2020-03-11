@@ -45,9 +45,11 @@ int main(int argc, char** argv)
   {
     rate.sleep();
     ros::spinOnce();
+
+    const ros::Time now = ros::Time::now();
     for (auto& i : safety_list)
     {
-      i->update();
+      i->update(now);
     }
   }
 
