@@ -21,7 +21,7 @@ void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& m
 
 void InputDeviceSafety::update(const ros::Time& now)
 {
-  if (this->time_last_alive_.toSec() == 0)
+  if (this->time_last_alive_.isZero())
   {
     ROS_INFO_THROTTLE(5, "No input device connected yet");
     return;
@@ -46,7 +46,7 @@ void InputDeviceSafety::update(const ros::Time& now)
 
   if (!this->is_connected_)
   {
-    ROS_INFO_THROTTLE(5.0, "No input device connected");
+    ROS_INFO_DELAYED_THROTTLE(5.0, "No input device connected");
   }
 
   // Check if the alive msg is not timestamped with a future time.
