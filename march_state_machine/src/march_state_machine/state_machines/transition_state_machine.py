@@ -71,12 +71,6 @@ class StateMachineWithTransition(smach.StateMachine):
 
         return super(StateMachineWithTransition, self).execute(parent_ud)
 
-    def _update_once(self):
-        if self.initial_state_label not in self._transition_sequence:
-            return 'succeeded'
-
-        return super(StateMachineWithTransition, self)._update_once()
-
     @property
     def initial_state_label(self):
         return self._initial_state_label

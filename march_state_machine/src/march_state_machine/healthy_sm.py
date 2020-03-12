@@ -37,6 +37,7 @@ class HealthyStateMachine(smach.StateMachine):
         rospy.Service('state_machine/current_states', CurrentState, self.get_current_states)
 
         self._custom_start_states = {}
+        self.register_transition_cb(self.set_start_state_cb)
 
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])
@@ -185,9 +186,7 @@ class HealthyStateMachine(smach.StateMachine):
         state_type = str(type(self[state]))
         return state_type, state
 
-    def _update_once(self):
+    def set_start_state_cb(self, *args):
         if self._current_label in self._custom_start_states:
             if isinstance(self._current_state, StateMachineWithTransition):
                 self._current_state.initial_state_label = self._custom_start_states[self._current_label]
-
-        return super(HealthyStateMachine, self)._update_once()
