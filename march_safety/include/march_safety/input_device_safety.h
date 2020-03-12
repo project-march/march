@@ -21,8 +21,6 @@ public:
 private:
   void inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg);
 
-  void sendError(const ros::Time& now, const std::string& message);
-
   SafetyHandler* safety_handler_;
 
   ros::Subscriber subscriber_input_device_alive_;
@@ -30,9 +28,6 @@ private:
   ros::Duration connection_timeout_;
   ros::Time time_last_alive_;
   bool is_connected_;
-
-  ros::Time time_last_send_error_;
-  int send_errors_interval_;
 };
 
 #endif  // MARCH_SAFETY_INPUT_DEVICE_SAFETY_H
