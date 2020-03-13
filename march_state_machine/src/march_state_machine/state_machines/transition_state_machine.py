@@ -10,6 +10,7 @@ from march_state_machine.states.transition_state import TransitionState
 class StateMachineWithTransition(smach.StateMachine):
     def __init__(self, transition_sequence, outcomes=None):
         self._default_outcomes = ['succeeded', 'preempted', 'failed']
+        self._transition_sequence = transition_sequence
 
         if outcomes is not None:
             self._default_outcomes = outcomes
@@ -21,16 +22,13 @@ class StateMachineWithTransition(smach.StateMachine):
             smach.StateMachine.add('transition', TransitionState(transition_sequence),
                                    transitions={'aborted': 'failed'})
 
-    def add(self, label, state, transitions=None, remapping=None, default_start=False):
+    def add(self, label, state, transitions=None, remapping=None):
         """Override the add-function to set the necessary values in the transition state within this state machine."""
         if transitions is None:
             transitions = {'succeeded': 'succeeded', 'failed': 'failed', 'transition': 'transition'}
 
         self._states['transition'].add_outcome(label)
         self._transitions['transition'][label] = label
-
-        if default_start:
-            self._initial_state_label = label
 
         self.open()
         result = super(StateMachineWithTransition, self).add(label, state, transitions, remapping)
@@ -53,12 +51,36 @@ class StateMachineWithTransition(smach.StateMachine):
                     rospy.logwarn('State {lb} does not have a valid gait file, '
                                   'removing state from transition state machine'.format(lb=label))
 
-                    self._states.pop(label)
                     self._states['transition'].remove_outcome(label)
-                    self._transitions['transition'].pop(label)
 
-            return super(StateMachineWithTransition, self).execute(parent_ud)
+                    if label in self._states:
+                        self._states.pop(label)
 
-        except rospy.ROSException and ValueError:
+                    if label in self._transitions['transition']:
+                        self._transitions['transition'].pop(label)
+
+                    if label in self._transition_sequence:
+                        self._transition_sequence.remove(label)
+
+        except rospy.ROSException:
             rospy.logwarn('Transition state could not verify the transitions, do not use rocker-switch buttons!')
-            return super(StateMachineWithTransition, self).execute(parent_ud)
+        except ValueError:
+            pass
+
+        if self.initial_state_label not in self._transition_sequence:
+            return 'succeeded'
+
+        return super(StateMachineWithTransition, self).execute(parent_ud)
+
+    @property
+    def initial_state_label(self):
+        return self._initial_state_label
+
+    @initial_state_label.setter
+    def initial_state_label(self, label):
+        if label not in self._transition_sequence:
+            rospy.logwarn('Requested starting label {label} is not in transition sequence {sequence}'
+                          .format(label=label, sequence=self._transition_sequence))
+            self._initial_state_label = None
+        else:
+            self._initial_state_label = label
