@@ -18,11 +18,11 @@ gait_types:
     right_hip_fe: {p: 135, i: 0, d: 10}
     right_knee: {p: 80, i: 0, d: 10}
   stairs_like:
-    left_ankle: {p: 160, i: 0, d: 6}
-    left_hip_aa: {p: 290, i: 0, d: 5}
-    left_hip_fe: {p: 80, i: 0, d: 10}
-    left_knee: {p: 50, i: 0, d: 10}
-    right_ankle: {p: 140, i: 0, d: 5}
-    right_hip_aa: {p: 290, i: 0, d: 5}
-    right_hip_fe: {p: 80, i: 0, d: 10}
-    right_knee: {p: 50, i: 0, d: 10}
+    left_ankle: {p: 130, i: 0, d: 5}
+    left_hip_aa: {p: 330, i: 0, d: 5}
+    left_hip_fe: {p: 135, i: 0, d: 10}
+    left_knee: {p: 80, i: 0, d: 10}
+    right_ankle: {p: 130, i: 0, d: 5}
+    right_hip_aa: {p: 330, i: 0, d: 5}
+    right_hip_fe: {p: 135, i: 0, d: 10}
+    right_knee: {p: 80, i: 0, d: 10}
