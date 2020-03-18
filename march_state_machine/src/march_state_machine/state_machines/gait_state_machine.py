@@ -1,4 +1,6 @@
+import rospy
 import smach
+from std_msgs.msg import String
 
 from march_state_machine.control_flow import control_flow
 from march_state_machine.states.gait_state import GaitState
@@ -9,8 +11,12 @@ class GaitStateMachine(smach.StateMachine):
     """A march gait implemented as a smach.StateMachine."""
 
     def __init__(self, gait_name):
-        super(GaitStateMachine, self).__init__(outcomes=['succeeded', 'preempted', 'failed'])
+        super(GaitStateMachine, self).__init__(outcomes=['succeeded', 'preempted', 'failed'], input_keys=['sounds'],
+                                               output_keys=['sounds'])
         self._gait_name = gait_name
+        self._gait_publisher = rospy.Publisher('/march/gait/current', String, queue_size=10)
+
+        self.register_start_cb(self._start_cb)
         self.register_termination_cb(self._termination_cb)
 
     def add_subgait(self, subgait_name, succeeded='succeeded', stopped=None):
@@ -46,6 +52,17 @@ class GaitStateMachine(smach.StateMachine):
             smach.StateMachine.add(subgait_name, GaitState(self._gait_name, subgait_name),
                                    transitions={'succeeded': succeeded, 'aborted': 'failed'})
 
+    def execute(self, ud=smach.UserData()):
+        self._gait_publisher.publish(self._gait_name)
+        return super(GaitStateMachine, self).execute(ud)
+
     @staticmethod
-    def _termination_cb(_userdata, _terminal_states, _outcome):
+    def _start_cb(userdata, _initial_states):
+        if userdata.sounds:
+            userdata.sounds.play('gait_start')
+
+    @staticmethod
+    def _termination_cb(userdata, _terminal_states, _outcome):
+        if userdata.sounds:
+            userdata.sounds.play('gait_end')
         control_flow.gait_finished()

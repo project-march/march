@@ -62,6 +62,9 @@ class JointTrajectory(object):
         :returns:
             True if ending and starting point are identical else False
         """
+        if not self._validate_boundary_points():
+            return False
+
         from_setpoint = self.setpoints[-1]
         to_setpoint = joint.setpoints[0]
 
@@ -69,6 +72,28 @@ class JointTrajectory(object):
             return True
 
         return False
+
+    def _validate_boundary_points(self):
+        """Validate the starting and ending of this joint are at t = 0 and t = duration, or that their speed is zero.
+
+        :returns:
+            False if the starting/ending point is (not at 0/duration) and (has nonzero speed), True otherwise
+        """
+        return (self.setpoints[0].time == 0 or self.setpoints[0].velocity == 0) and \
+               (self.setpoints[-1].time == round(self.duration, Setpoint.digits) or self.setpoints[-1].velocity == 0)
+
+    def interpolate_setpoints(self):
+        time, position, velocity = self.get_setpoints_unzipped()
+        yi = []
+        for i in range(0, len(time)):
+            yi.append([position[i], velocity[i]])
+
+        # We do a cubic spline here, just like the ros joint_trajectory_action_controller,
+        # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
+        position = BPoly.from_derivatives(time, yi)
+        velocity = position.derivative()
+        indices = np.linspace(0, self.duration, self.duration * 100)
+        return [indices, position(indices), velocity(indices)]
 
     def get_interpolated_setpoint(self, time):
         # If we have a setpoint this exact time there is no need to interpolate.
@@ -80,21 +105,10 @@ class JointTrajectory(object):
         for i in range(0, len(interpolated_setpoints[0])):
             if interpolated_setpoints[0][i] > time:
                 position = interpolated_setpoints[1][i - 1]
-                velocity = ((interpolated_setpoints[1][i - 1] - interpolated_setpoints[1][i - 2])
-                            / (interpolated_setpoints[0][i - 1] - interpolated_setpoints[0][i - 2]))
+                velocity = interpolated_setpoints[2][i - 1]
                 return self.setpoint_class(time, position, velocity)
         rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
         return self.setpoint_class(0, 0, 0)
-
-    def interpolate_setpoints(self):
-        time, position, velocity = self.get_setpoints_unzipped()
-        yi = []
-        for i in range(0, len(time)):
-            yi.append([position[i], velocity[i]])
-
-        bpoly = BPoly.from_derivatives(time, yi)
-        indices = np.linspace(0, self.duration, self.duration * 100)
-        return [indices, bpoly(indices)]
 
     def __getitem__(self, index):
         return self.setpoints[index]

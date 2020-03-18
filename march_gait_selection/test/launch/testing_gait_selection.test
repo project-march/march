@@ -1,0 +1,5 @@
+<launch>
+    <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
+
+    <test test-name=" test_gait_selection" pkg="march_gait_selection" type="run_tests"/>
+</launch>

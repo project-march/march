@@ -89,7 +89,10 @@ class Subgait(object):
 
             limits = Limits(urdf_joint.safety_controller.soft_lower_limit,
                             urdf_joint.safety_controller.soft_upper_limit,
-                            urdf_joint.limit.velocity)
+                            urdf_joint.limit.velocity,
+                            urdf_joint.limit.effort,
+                            urdf_joint.safety_controller.k_position,
+                            urdf_joint.safety_controller.k_velocity)
 
             joint_list.append(cls.joint_class.from_dict(subgait_dict, joint_name, limits, duration, *args))
 
@@ -136,7 +139,7 @@ class Subgait(object):
 
         return joint_trajectory_msg
 
-    def to_setpoints(self):
+    def _to_setpoints_msg(self):
         """Define setpoints that correspond with the given timestamps."""
         timestamps = self.get_unique_timestamps()
 
@@ -161,8 +164,9 @@ class Subgait(object):
         subgait_msg.name = self.subgait_name
         subgait_msg.gait_type = self.gait_type
         subgait_msg.trajectory = self._to_joint_trajectory_msg()
-        subgait_msg.setpoints = self.to_setpoints()
-        subgait_msg.description = str(self.description)
+        subgait_msg.setpoints = self._to_setpoints_msg()
+        subgait_msg.description = self.description
+        subgait_msg.version = self.version
         subgait_msg.duration = rospy.Duration.from_sec(self.duration)
 
         return subgait_msg

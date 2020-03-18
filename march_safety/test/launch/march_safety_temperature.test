@@ -1,0 +1,26 @@
+<launch>
+    <rosparam>
+        /march/joint_names: [test_joint1, test_joint2, test_joint3]
+    </rosparam>
+
+    <node name="march_safety_node" pkg="march_safety" type="march_safety_node" output="screen">
+        <rosparam>
+            default_temperature_threshold: 40
+            ros_timeout: 3
+        </rosparam>
+        <rosparam param="temperature_thresholds_warning">
+            test_joint1: 60
+            test_joint2: 70
+        </rosparam>
+        <rosparam param="temperature_thresholds_non_fatal">
+            test_joint1: 70
+            test_joint2: 80
+        </rosparam>
+        <rosparam param="temperature_thresholds_fatal">
+            test_joint1: 80
+            test_joint2: 90
+        </rosparam>
+    </node>
+
+    <test test-name="march_safety_test" pkg="march_safety" type="march_safety_temperature_test" retry="3" time-limit="90.0"/>
+</launch>

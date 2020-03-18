@@ -11,4 +11,6 @@
   <depend>march_shared_resources</depend>
 
   <exec_depend>rospy</exec_depend>
+  <exec_depend>python-scipy</exec_depend>
+  <exec_depend>march_description</exec_depend>
 </package>
