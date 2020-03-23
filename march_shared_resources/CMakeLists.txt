@@ -18,7 +18,7 @@ add_message_files(
     GaitInstructionResponse.msg
     Graph.msg
     HighVoltageNet.msg
-    ImcErrorState.msg
+    ImcState.msg
     JointValues.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
