@@ -29,6 +29,7 @@ add_message_files(
 
 add_service_files(
     FILES
+    ContainsGait.srv
     CurrentState.srv
     PossibleGaits.srv
     StringTrigger.srv
