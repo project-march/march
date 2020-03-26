@@ -3,7 +3,6 @@ import smach
 from std_msgs.msg import String
 
 from march_shared_resources.srv import ContainsGait
-
 from march_state_machine.control_flow import control_flow
 from march_state_machine.states.gait_state import GaitState
 from march_state_machine.states.stoppable_state import StoppableState

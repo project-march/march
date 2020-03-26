@@ -4,7 +4,7 @@ import rospy
 from std_srvs.srv import Trigger
 
 from march_shared_classes.exceptions.gait_exceptions import GaitError
-from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, ContainsGaitRequest, StringTrigger
+from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, StringTrigger
 
 from .gait_selection import GaitSelection
 from .perform_gait_action import PerformGaitAction
