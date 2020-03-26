@@ -9,7 +9,7 @@ from march_state_machine.states.transition_state import TransitionState
 
 class StateMachineWithTransition(smach.StateMachine):
     def __init__(self, transition_sequence, outcomes=None):
-        self._default_outcomes = ['succeeded', 'preempted', 'failed']
+        self._default_outcomes = ['succeeded', 'preempted', 'failed', 'rejected']
         self._transition_sequence = transition_sequence
 
         if outcomes is not None:
