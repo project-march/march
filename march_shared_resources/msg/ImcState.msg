@@ -7,6 +7,6 @@ string[] state
 string[] detailed_error_description
 string[] motion_error_description
 float32[] motor_current
-float32[] motor_voltage
+float32[] IMC_voltage
 int32[] absolute_encoder_value
 int32[] incremental_encoder_value
