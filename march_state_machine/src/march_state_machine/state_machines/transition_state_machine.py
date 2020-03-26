@@ -68,7 +68,7 @@ class StateMachineWithTransition(smach.StateMachine):
             pass
 
         if self.initial_state_label not in self._transition_sequence:
-            return 'succeeded'
+            return 'rejected'
 
         return super(StateMachineWithTransition, self).execute(parent_ud)
 
