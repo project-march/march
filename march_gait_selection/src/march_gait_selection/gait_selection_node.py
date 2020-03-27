@@ -41,12 +41,11 @@ def contains_gait(request, gait_selection):
     :return: True when the gait and subgait are loaded
     """
     gait = gait_selection[request.gait]
-    if gait is not None:
-        for subgait in request.subgaits:
-            if gait[subgait] is None:
-                return ContainsGaitResponse(False)
-    else:
+    if gait is None:
         return ContainsGaitResponse(False)
+    for subgait in request.subgaits:
+        if gait[subgait] is None:
+            return ContainsGaitResponse(False)
 
     return ContainsGaitResponse(True)
 
