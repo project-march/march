@@ -1,0 +1,4 @@
+string gait
+string[] subgaits
+---
+bool contains
