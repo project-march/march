@@ -184,7 +184,29 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         rospy.sleep(0.03)
-        state = self.get_gait()
+        try:
+            state = self.get_gait()
+        except (rospy.ServiceException, rospy.exceptions.TransportTerminated) as e:
+            rospy.loginfo(e)
+            # probably the state-machine restarted, therefore try to reconnect the service, else use mock
+            try:
+                self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
+                state = self.get_gait()
+            except rospy.exceptions.ROSException:
+                rospy.loginfo('Service get current state not available using mock instead.')
+
+                def mock_get_gait():
+                    """Mocks the get_gait ROS service when not available.
+
+                    :return: mock CurrentState msg
+                    """
+                    msg = CurrentState()
+                    msg.current_state = 'UNKNOWN'
+                    msg.state_type = 'idle'
+                    return msg
+                self.get_gait = mock_get_gait
+                state = self.get_gait()
+
         if 'idle' in state.state_type:
             csv = ','.join([get_time_str(data.header.stamp), 'idle', state.current_state.lower(), ' '])
             self.send_to_esp(csv, source)
@@ -247,7 +269,6 @@ class ESPAdapter:
         time_str = get_time_str(data.header.stamp)
 
         csv = ','.join([time_str, orientation_str, angular_velocity_str, linear_acceleration_str])
-        rospy.loginfo(csv)
         self.send_to_esp(csv, source)
 
     def imc_state_callback(self, data, source):
