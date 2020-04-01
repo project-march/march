@@ -9,6 +9,7 @@ import logging
 import os
 import sys
 
+from control_msgs import PidState
 import rospy
 from sensor_msgs.msg import Imu, JointState, Temperature
 from tf.transformations import euler_from_quaternion
@@ -88,25 +89,30 @@ class ESPAdapter:
 
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
-        for joint in joint_names:
-            self.configure_source('source_temperature_' + joint, '/march/temperature/' + joint, Temperature,
-                                  self.temperature_callback)
+        # for joint in joint_names:
+        #     self.configure_source('source_temperature_' + joint, '/march/temperature/' + joint, Temperature,
+        #                           self.temperature_callback)
+        #
+        # for joint in joint_names:
+        #     self.configure_source('source_pid_state_' + joint, '/march/controller/trajectory/gains/' + joint + '/state', PidState
+        #                           self.pid_state_callback)
 
-        self.configure_source('source_imu', '/march/imu', Imu, self.imu_callback)
+        # self.configure_source('source_imu', '/march/imu', Imu, self.imu_callback)
+        #
+        # self.configure_source('source_ps', '/march/pressure_soles', PressureSole, self.pressure_sole_callback)
+        # self.configure_source('source_imc', '/march/imc_states', ImcState, self.imc_state_callback)
+        # self.configure_source('source_gait', '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
+        # self.configure_source('source_gait', 'march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
+        # self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
+        # self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
+        # self.configure_source('source_effort', '/march/joint_states', JointState, self.joint_states_callback)
+        # self.configure_source('source_effort_command', '/march/controller/after_limit_joint_command',
+        #                       AfterLimitJointCommand, self.joint_command_callback)
 
-        self.configure_source('source_ps', '/march/pressure_soles', PressureSole, self.pressure_sole_callback)
-        self.configure_source('source_imc', '/march/imc_states', ImcState, self.imc_state_callback)
-        self.configure_source('source_gait', '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
-        self.configure_source('source_gait', 'march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
-        self.configure_source('source_com', '/march/com_marker', Marker, self.com_callback)
-        self.configure_source('source_joint', '/march/joint_values', JointValues, self.joint_values_callback)
-        self.configure_source('source_effort', '/march/joint_states', JointState, self.joint_states_callback)
-        self.configure_source('source_effort_command', '/march/controller/after_limit_joint_command',
-                              AfterLimitJointCommand, self.joint_command_callback)
 
-        msg = GaitActionResult()
-        msg.header.stamp = rospy.Time.now()
-        self.gait_finished_callback(msg, 'source_gait')
+        # msg = GaitActionResult()
+        # msg.header.stamp = rospy.Time.now()
+        # self.gait_finished_callback(msg, 'source_gait')
 
     def configure_source(self, source, topic, msg_type, callback):
         """Configures a connection between a ROS topic and a source window in an event stream processing engine.
@@ -160,7 +166,7 @@ class ESPAdapter:
         :param csv: the csv string containing all data to send to the message
         :param source: the name of the source window in the ESP engine
         """
-        csv = 'i, n, 1, 1,' + csv
+        csv = 'i, n,' + csv
         try:
             pub, schemaptr = self.esp_publishers[source]
         except KeyError:
@@ -209,7 +215,7 @@ class ESPAdapter:
 
         if 'idle' in state.state_type:
             csv = ','.join([get_time_str(data.header.stamp), 'idle', state.current_state.lower(), ' '])
-            self.send_to_esp(csv, source)
+            self.send_to_esp("1, 1, " + csv, source)
 
     def joint_command_callback(self, data, source):
         """Callback for after_limit_joint_command data. Converts ROS message to csv string to send to the source window.
@@ -219,7 +225,7 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         csv = time_str + ',' + list_to_str(data.effort_command)
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def temperature_callback(self, data, source):
         """Callback for temperature data. Converts ROS message to csv string to send to the source window.
@@ -229,12 +235,12 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         csv = time_str + ',' + str(data.temperature)
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def joint_states_callback(self, data, source):
         effort_str = list_to_str(data.effort)
         csv = ','.join([get_time_str(data.header.stamp), effort_str])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def joint_values_callback(self, data, source):
         """Callback for trajectory_state data. Converts ROS message to csv string to send to the source window.
@@ -253,7 +259,7 @@ class ESPAdapter:
 
         csv = ','.join([time_str, actual_positions_str, actual_velocity_str, acutal_acceleration_str, acutal_jerk_str,
                         desired_positions_str, desired_velocity_str, position_error_str])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def imu_callback(self, data, source):
         """Callback for imu data. Converts ROS message to csv string to send to the source window.
@@ -269,7 +275,21 @@ class ESPAdapter:
         time_str = get_time_str(data.header.stamp)
 
         csv = ','.join([time_str, orientation_str, angular_velocity_str, linear_acceleration_str])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
+
+    def pid_state_callback(self, data, source):
+        """Callback for controller data. Converts ROS message to csv string to send to the source window.
+
+        :param data: ROS temperature message
+        :param source: the name of the source window in the ESP engine
+        """
+        time_str = get_time_str(data.header.stamp)
+        csv = ", ".join(str(data.p_error), str(data.i_error), str(data.d_error), str(data.p_term), str(data.i_term),
+                        str(data.d_term), str(data.output))
+        csv = time_str + ',' + csv
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
+
+
 
     def imc_state_callback(self, data, source):
         """Callback for IMotionCube data. Converts ROS message to csv string to send to the source window.
@@ -284,7 +304,7 @@ class ESPAdapter:
         time_str = get_time_str(data.header.stamp)
 
         csv = ','.join([time_str, motor_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def gait_callback(self, data, source):
         """Callback for gait data. Converts ROS message to csv string to send to the source window.
@@ -294,7 +314,7 @@ class ESPAdapter:
         """
         csv = ','.join([get_time_str(data.header.stamp), data.goal.name, data.goal.current_subgait.name,
                         data.goal.current_subgait.version])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def com_callback(self, data, source):
         """Callback for center of mass data. Converts ROS message to csv string to send to the source window.
@@ -304,7 +324,7 @@ class ESPAdapter:
         """
         csv = ','.join([get_time_str(data.header.stamp), str(data.pose.position.x), str(data.pose.position.y),
                         str(data.pose.position.z)])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
     def pressure_sole_callback(self, data, source):
         """Callback for pressure sole data. Converts ROS message to csv string to send to the source window.
@@ -318,7 +338,7 @@ class ESPAdapter:
         cop_right = list_to_str(data.cop_right)
         csv = ','.join([get_time_str(data.pressure_soles_time), str(data.total_force_left), str(data.total_force_right),
                         pressure_left, pressure_right, cop_left, cop_right])
-        self.send_to_esp(csv, source)
+        self.send_to_esp("{0}, 1, {1}".format(data.header.seq, csv), source)
 
 
 def get_time_str(timestamp):
@@ -327,6 +347,7 @@ def get_time_str(timestamp):
     :param data: ROS timestamp message std_msgs/stamp
     """
     time = timestamp.secs + timestamp.nsecs * 10 ** (-9)
+    rospy.loginfo(datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f'))
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
