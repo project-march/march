@@ -25,7 +25,7 @@ git:
 env:
   global:
     - ROS_REPO=ros
-    - ADDITIONAL_DEBS=python-lxml
+    - ADDITIONAL_DEBS='python-lxml python-pyqtgraph'
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
