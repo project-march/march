@@ -13,7 +13,6 @@ import tf2_ros
 from urdf_parser_py.urdf import URDF
 from visualization_msgs.msg import Marker
 
-
 from march_shared_resources.msg import JointValues, PressureSole
 
 
@@ -104,23 +103,26 @@ class DataCollectorNode(object):
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
 
-            z_diff = -1000
-            old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
-            for foot in self.feet:
-                trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
-                z_diff = max(z_diff, old_z - trans.transform.translation.z)
+            z_diff = float("-inf")
+            try:
+                old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
+                for foot in self.feet:
+                    trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
+                    z_diff = max(z_diff, old_z - trans.transform.translation.z)
 
-            self.transfrom_imu.header.stamp = rospy.Time.now()
-            self.transfrom_imu.transform.translation.z = z_diff
+                self.transfrom_imu.header.stamp = rospy.Time.now()
+                self.transfrom_imu.transform.translation.z = z_diff
 
-            imu_rotation = quaternion_multiply([-data.orientation.x, -data.orientation.y, data.orientation.z,
-                                                data.orientation.w], quaternion_from_euler(0, -0.5 * pi, 0))
-            self.transfrom_imu.transform.rotation.x = imu_rotation[0]
-            self.transfrom_imu.transform.rotation.y = imu_rotation[1]
-            self.transfrom_imu.transform.rotation.z = imu_rotation[2]
-            self.transfrom_imu.transform.rotation.w = imu_rotation[3]
+                imu_rotation = quaternion_multiply([-data.orientation.x, -data.orientation.y, data.orientation.z,
+                                                    data.orientation.w], quaternion_from_euler(0, -0.5 * pi, 0))
+                self.transfrom_imu.transform.rotation.x = imu_rotation[0]
+                self.transfrom_imu.transform.rotation.y = imu_rotation[1]
+                self.transfrom_imu.transform.rotation.z = imu_rotation[2]
+                self.transfrom_imu.transform.rotation.w = imu_rotation[3]
 
-            self._imu_broadcaster.sendTransform(self.transfrom_imu)
+                self._imu_broadcaster.sendTransform(self.transfrom_imu)
+            except tf2_ros.TransformException as e:
+                rospy.logdebug('Cannot calculate imu transform, because tf frames are not available, {0}'.format(e))
 
     def send_udp(self, data):
         message = ' '.join([str(180 * val / pi) for val in data])
