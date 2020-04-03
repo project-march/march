@@ -98,8 +98,7 @@ class DataCollectorNode(object):
 
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
-            #get the biggest z difference one of the ankles
-            z_diff = -2;
+            z_diff = -1000;
             old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
             for foot in self.feet:
                 trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
@@ -172,7 +171,7 @@ def main():
     tf_buffer = tf2_ros.Buffer()
     tf2_ros.TransformListener(tf_buffer)
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
-    feet = ['ankle_plate_left', 'ankle_plate_right']
+    feet = ['foot_left', 'foot_right']
     cp_calculators = [CPCalculator(tf_buffer, foot) for foot in feet]
     data_collector_node = DataCollectorNode(robot, center_of_mass_calculator, cp_calculators, tf_buffer, feet)
     data_collector_node.run()
