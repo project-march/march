@@ -293,8 +293,7 @@ class ESPAdapter:
         time_str = get_time_str(data.header.stamp)
         csv = ', '.join([str(data.p_error), str(data.i_error), str(data.d_error), str(data.p_term), str(data.i_term),
                         str(data.d_term), str(data.output)])
-        csv = time_str + ',' + csv
-        self.send_to_esp('1, {0}'.format(csv), source)
+        self.send_to_esp('1, {0}, {1}'.format(time_str, csv), source)
 
     def imc_state_callback(self, data, source):
         """Callback for IMotionCube data. Converts ROS message to csv string to send to the source window.

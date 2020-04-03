@@ -4,8 +4,8 @@
     <meta id="studioUploadedBy">r.vanbeek</meta>
     <meta id="studioUploaded">1585655839005</meta>
     <meta id="studioModifiedBy">r.vanbeek</meta>
-    <meta id="studioModified">1585819045049</meta>
-    <meta id="layout">{"control_analysis":{"source_effort_command":{"x":-160,"y":-960},"source_gait_control":{"x":240,"y":-580},"source_imc":{"x":125,"y":-810},"source_pid_state_left_ankle":{"x":-600,"y":-990},"source_pid_state_left_hip_aa":{"x":-855,"y":-885},"source_pid_state_left_hip_fe":{"x":-850,"y":-780},"source_pid_state_left_knee":{"x":-845,"y":-675},"source_pid_state_right_ankle":{"x":-820,"y":-570},"source_pid_state_right_hip_aa":{"x":-795,"y":-455},"source_pid_state_right_hip_fe":{"x":-885,"y":-340},"source_pid_state_right_knee":{"x":-870,"y":-220}},"gait_analysis":{"aggregate_gait":{"x":-2305,"y":-1365},"source_com":{"x":-1405,"y":-1505},"source_gait":{"x":-2305,"y":-1510},"source_imu":{"x":-2080,"y":-1515},"source_joint":{"x":-1845,"y":-1510},"source_ps":{"x":-1620,"y":-1500}},"temperature_join":{"join_temperature_left_hip_aa":{"x":-505,"y":-245},"joint_temperature_left_hip_fe":{"x":-505,"y":-120},"joint_temperature_left_knee":{"x":-505,"y":0},"joint_temperature_right_ankle":{"x":-505,"y":115},"joint_temperature_right_hip_aa":{"x":-505,"y":240},"joint_temperature_right_hip_fe":{"x":-505,"y":365},"joint_temperature_right_knee":{"x":-505,"y":485},"source_temperature_left_ankle":{"x":-505,"y":-375},"source_temperature_left_hip_aa":{"x":-285,"y":-380},"source_temperature_left_hip_fe":{"x":-275,"y":-240},"source_temperature_left_knee":{"x":-280,"y":-135},"source_temperature_right_ankle":{"x":-275,"y":-10},"source_temperature_right_hip_aa":{"x":-275,"y":115},"source_temperature_right_hip_fe":{"x":-265,"y":230},"source_temperature_right_knee":{"x":-260,"y":365}}}</meta>
+    <meta id="studioModified">1585920208720</meta>
+    <meta id="layout">{"control_analysis":{"join_pid_state_left_hip_aa":{"x":-675,"y":-905},"join_pid_state_left_hip_fe":{"x":-675,"y":-760},"join_pid_state_left_knee":{"x":-675,"y":-640},"join_pid_state_right_ankle":{"x":-675,"y":-525},"join_pid_state_right_hip_aa":{"x":-675,"y":-410},"join_pid_state_right_hip_fe":{"x":-675,"y":-310},"join_pid_state_right_knee":{"x":-675,"y":-205},"source_effort_command":{"x":-160,"y":-960},"source_gait_control":{"x":240,"y":-580},"source_imc":{"x":125,"y":-810},"source_pid_state_left_ankle":{"x":-675,"y":-1045},"source_pid_state_left_hip_aa":{"x":-445,"y":-1045},"source_pid_state_left_hip_fe":{"x":-445,"y":-900},"source_pid_state_left_knee":{"x":-450,"y":-755},"source_pid_state_right_ankle":{"x":-455,"y":-630},"source_pid_state_right_hip_aa":{"x":-465,"y":-530},"source_pid_state_right_hip_fe":{"x":-460,"y":-410},"source_pid_state_right_knee":{"x":-465,"y":-310}},"gait_analysis":{"aggregate_gait":{"x":-2305,"y":-1365},"source_com":{"x":-1405,"y":-1505},"source_gait":{"x":-2305,"y":-1510},"source_imu":{"x":-2080,"y":-1515},"source_joint":{"x":-1845,"y":-1510},"source_ps":{"x":-1620,"y":-1500}},"temperature_join":{"join_temperature_left_hip_aa":{"x":-505,"y":-245},"joint_temperature_left_hip_fe":{"x":-505,"y":-120},"joint_temperature_left_knee":{"x":-505,"y":0},"joint_temperature_right_ankle":{"x":-505,"y":115},"joint_temperature_right_hip_aa":{"x":-505,"y":240},"joint_temperature_right_hip_fe":{"x":-505,"y":365},"joint_temperature_right_knee":{"x":-505,"y":485},"source_temperature_left_ankle":{"x":-505,"y":-375},"source_temperature_left_hip_aa":{"x":-285,"y":-380},"source_temperature_left_hip_fe":{"x":-275,"y":-240},"source_temperature_left_knee":{"x":-280,"y":-135},"source_temperature_right_ankle":{"x":-275,"y":-10},"source_temperature_right_hip_aa":{"x":-275,"y":115},"source_temperature_right_hip_fe":{"x":-265,"y":230},"source_temperature_right_knee":{"x":-260,"y":365}}}</meta>
   </metadata>
   <contqueries>
     <contquery name="temperature_join">
@@ -169,19 +169,6 @@
             <field-selection name="temperature_right_hip_aa" source="l_temperature_right_hip_aa"/>
             <field-selection name="temperature_right_hip_fe" source="r_temperature"/>
           </output>
-          <connectors>
-            <connector name="temperature_csv" class="fs">
-              <description><![CDATA[Outputs the temperature data in a csv file.]]></description>
-              <properties>
-                <property name="type"><![CDATA[sub]]></property>
-                <property name="dateformat"><![CDATA[%Y-%m-%d %H:%M:%S]]></property>
-                <property name="header"><![CDATA[full]]></property>
-                <property name="snapshot"><![CDATA[true]]></property>
-                <property name="fsname"><![CDATA[data/temperature_@NOW@.cs]]></property>
-                <property name="fstype"><![CDATA[csv]]></property>
-              </properties>
-            </connector>
-          </connectors>
         </window-join>
         <window-join pubsub="true" name="joint_temperature_right_knee">
           <description><![CDATA[Joins the temperature of the right_knee to the event stream]]></description>
@@ -572,7 +559,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the left_ankle.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -589,7 +575,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the left_hip_aa.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -606,7 +591,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the left_hip_fe.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -623,7 +607,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the left_knee.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -640,7 +623,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the right_ankle.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -657,7 +639,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the right_hip_aa.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -674,7 +655,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the right_hip_fe.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -691,7 +671,6 @@
           <description><![CDATA[Source window for the pid state of the controller for the right_knee.]]></description>
           <schema>
             <fields>
-              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="dummy_key" type="int64"/>
               <field name="time" type="stamp" key="true"/>
               <field name="p_error" type="double"/>
@@ -704,7 +683,351 @@
             </fields>
           </schema>
         </window-source>
+        <window-join pubsub="true" name="join_pid_state_left_hip_aa">
+          <description><![CDATA[Joins the pid state events of the left_hip_aa to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="left_ankle_p_error" source="l_p_error"/>
+            <field-selection name="left_ankle_i_error" source="l_i_error"/>
+            <field-selection name="left_ankle_d_error" source="l_d_error"/>
+            <field-selection name="left_ankle_p_term" source="l_p_term"/>
+            <field-selection name="left_ankle_i_term" source="l_i_term"/>
+            <field-selection name="left_ankle_d_term" source="l_d_term"/>
+            <field-selection name="left_ankle_output" source="l_output"/>
+            <field-selection name="left_hip_aa_p_error" source="l_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="l_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="r_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="r_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="r_d_term"/>
+            <field-selection name="left_hip_aa_output" source="r_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_left_hip_fe">
+          <description><![CDATA[Joins the pid state events of the left_hip_fe to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="left_hip_fe_p_error" source="l_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="l_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="l_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="l_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="l_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="l_d_term"/>
+            <field-selection name="left_hip_fe_output" source="l_output"/>
+            <field-selection name="left_ankle_p_error" source="r_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="r_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="r_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="r_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="r_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="r_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="r_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="r_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="r_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="r_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="r_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="r_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="r_left_hip_aa_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_left_knee">
+          <description><![CDATA[Joins the pid state events of the left_knee to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="left_hip_fe_p_error" source="l_left_hip_fe_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="l_left_hip_fe_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="l_left_hip_fe_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="l_left_hip_fe_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="l_left_hip_fe_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="l_left_hip_fe_d_term"/>
+            <field-selection name="left_hip_fe_output" source="l_left_hip_fe_output"/>
+            <field-selection name="left_ankle_p_error" source="l_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="l_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="l_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="l_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="l_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="l_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="l_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="l_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="l_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="l_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="l_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="l_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="l_left_hip_aa_output"/>
+            <field-selection name="left_knee_p_error" source="r_p_error"/>
+            <field-selection name="left_knee_i_error" source="r_i_error"/>
+            <field-selection name="left_knee_d_error" source="r_d_error"/>
+            <field-selection name="left_knee_p_term" source="r_p_term"/>
+            <field-selection name="left_knee_i_term" source="r_i_term"/>
+            <field-selection name="left_knee_d_term" source="r_d_term"/>
+            <field-selection name="left_knee_output" source="r_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_right_ankle">
+          <description><![CDATA[Joins the pid state events of the right_ankle to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="right_ankle_p_error" source="l_p_error"/>
+            <field-selection name="right_ankle_i_error" source="l_i_error"/>
+            <field-selection name="right_ankle_d_error" source="l_d_error"/>
+            <field-selection name="right_ankle_p_term" source="l_p_term"/>
+            <field-selection name="right_ankle_i_term" source="l_i_term"/>
+            <field-selection name="right_ankle_d_term" source="l_d_term"/>
+            <field-selection name="right_ankle_output" source="l_output"/>
+            <field-selection name="left_hip_fe_p_error" source="r_left_hip_fe_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="r_left_hip_fe_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="r_left_hip_fe_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="r_left_hip_fe_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="r_left_hip_fe_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="r_left_hip_fe_d_term"/>
+            <field-selection name="left_hip_fe_output" source="r_left_hip_fe_output"/>
+            <field-selection name="left_ankle_p_error" source="r_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="r_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="r_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="r_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="r_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="r_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="r_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="r_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="r_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="r_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="r_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="r_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="r_left_hip_aa_output"/>
+            <field-selection name="left_knee_p_error" source="r_left_knee_p_error"/>
+            <field-selection name="left_knee_i_error" source="r_left_knee_i_error"/>
+            <field-selection name="left_knee_d_error" source="r_left_knee_d_error"/>
+            <field-selection name="left_knee_p_term" source="r_left_knee_p_term"/>
+            <field-selection name="left_knee_i_term" source="r_left_knee_i_term"/>
+            <field-selection name="left_knee_d_term" source="r_left_knee_d_term"/>
+            <field-selection name="left_knee_output" source="r_left_knee_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_right_hip_aa">
+          <description><![CDATA[Joins the pid state events of the right_hip_aa to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="right_hip_aa_p_error" source="l_p_error"/>
+            <field-selection name="right_hip_aa_i_error" source="l_i_error"/>
+            <field-selection name="right_hip_aa_d_error" source="l_d_error"/>
+            <field-selection name="right_hip_aa_p_term" source="l_p_term"/>
+            <field-selection name="right_hip_aa_i_term" source="l_i_term"/>
+            <field-selection name="right_hip_aa_d_term" source="l_d_term"/>
+            <field-selection name="right_hip_aa_output" source="l_output"/>
+            <field-selection name="right_ankle_p_error" source="r_right_ankle_p_error"/>
+            <field-selection name="right_ankle_i_error" source="r_right_ankle_i_error"/>
+            <field-selection name="right_ankle_d_error" source="r_right_ankle_d_error"/>
+            <field-selection name="right_ankle_p_term" source="r_right_ankle_p_term"/>
+            <field-selection name="right_ankle_i_term" source="r_right_ankle_i_term"/>
+            <field-selection name="right_ankle_d_term" source="r_right_ankle_d_term"/>
+            <field-selection name="right_ankle_output" source="r_right_ankle_output"/>
+            <field-selection name="left_hip_fe_p_error" source="r_left_hip_fe_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="r_left_hip_fe_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="r_left_hip_fe_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="r_left_hip_fe_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="r_left_hip_fe_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="r_left_hip_fe_d_term"/>
+            <field-selection name="left_hip_fe_output" source="r_left_hip_fe_output"/>
+            <field-selection name="left_ankle_p_error" source="r_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="r_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="r_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="r_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="r_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="r_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="r_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="r_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="r_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="r_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="r_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="r_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="r_left_hip_aa_output"/>
+            <field-selection name="left_knee_p_error" source="r_left_knee_p_error"/>
+            <field-selection name="left_knee_i_error" source="r_left_knee_i_error"/>
+            <field-selection name="left_knee_d_error" source="r_left_knee_d_error"/>
+            <field-selection name="left_knee_p_term" source="r_left_knee_p_term"/>
+            <field-selection name="left_knee_i_term" source="r_left_knee_i_term"/>
+            <field-selection name="left_knee_d_term" source="r_left_knee_d_term"/>
+            <field-selection name="left_knee_output" source="r_left_knee_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_right_hip_fe">
+          <description><![CDATA[Joins the pid state events of the right_hip_fe to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="right_hip_aa_p_error" source="l_right_hip_aa_p_error"/>
+            <field-selection name="right_hip_aa_i_error" source="l_right_hip_aa_i_error"/>
+            <field-selection name="right_hip_aa_d_error" source="l_right_hip_aa_d_error"/>
+            <field-selection name="right_hip_aa_p_term" source="l_right_hip_aa_p_term"/>
+            <field-selection name="right_hip_aa_i_term" source="l_right_hip_aa_i_term"/>
+            <field-selection name="right_hip_aa_d_term" source="l_right_hip_aa_d_term"/>
+            <field-selection name="right_hip_aa_output" source="l_right_hip_aa_output"/>
+            <field-selection name="right_ankle_p_error" source="l_right_ankle_p_error"/>
+            <field-selection name="right_ankle_i_error" source="l_right_ankle_i_error"/>
+            <field-selection name="right_ankle_d_error" source="l_right_ankle_d_error"/>
+            <field-selection name="right_ankle_p_term" source="l_right_ankle_p_term"/>
+            <field-selection name="right_ankle_i_term" source="l_right_ankle_i_term"/>
+            <field-selection name="right_ankle_d_term" source="l_right_ankle_d_term"/>
+            <field-selection name="right_ankle_output" source="l_right_ankle_output"/>
+            <field-selection name="left_hip_fe_p_error" source="l_left_hip_fe_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="l_left_hip_fe_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="l_left_hip_fe_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="l_left_hip_fe_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="l_left_hip_fe_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="l_left_hip_fe_d_term"/>
+            <field-selection name="left_hip_fe_output" source="l_left_hip_fe_output"/>
+            <field-selection name="left_ankle_p_error" source="l_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="l_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="l_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="l_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="l_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="l_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="l_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="l_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="l_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="l_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="l_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="l_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="l_left_hip_aa_output"/>
+            <field-selection name="left_knee_p_error" source="l_left_knee_p_error"/>
+            <field-selection name="left_knee_i_error" source="l_left_knee_i_error"/>
+            <field-selection name="left_knee_d_error" source="l_left_knee_d_error"/>
+            <field-selection name="left_knee_p_term" source="l_left_knee_p_term"/>
+            <field-selection name="left_knee_i_term" source="l_left_knee_i_term"/>
+            <field-selection name="left_knee_d_term" source="l_left_knee_d_term"/>
+            <field-selection name="left_knee_output" source="l_left_knee_output"/>
+            <field-selection name="right_hip_fe_p_error" source="r_p_error"/>
+            <field-selection name="right_hip_fe_i_error" source="r_i_error"/>
+            <field-selection name="right_hip_fe_d_error" source="r_d_error"/>
+            <field-selection name="right_hip_fe_p_term" source="r_p_term"/>
+            <field-selection name="right_hip_fe_i_term" source="r_i_term"/>
+            <field-selection name="right_hip_fe_d_term" source="r_d_term"/>
+            <field-selection name="right_hip_fe_output" source="r_output"/>
+          </output>
+        </window-join>
+        <window-join pubsub="true" name="join_pid_state_right_knee">
+          <description><![CDATA[Joins the pid state events of the right_knee to the main pid state event stream.]]></description>
+          <join type="fullouter">
+            <conditions>
+              <fields left="time" right="time"/>
+            </conditions>
+          </join>
+          <output>
+            <field-selection name="dummy_key" source="l_dummy_key"/>
+            <field-selection name="right_hip_aa_p_error" source="l_right_hip_aa_p_error"/>
+            <field-selection name="right_hip_aa_i_error" source="l_right_hip_aa_i_error"/>
+            <field-selection name="right_hip_aa_d_error" source="l_right_hip_aa_d_error"/>
+            <field-selection name="right_hip_aa_p_term" source="l_right_hip_aa_p_term"/>
+            <field-selection name="right_hip_aa_i_term" source="l_right_hip_aa_i_term"/>
+            <field-selection name="right_hip_aa_d_term" source="l_right_hip_aa_d_term"/>
+            <field-selection name="right_hip_aa_output" source="l_right_hip_aa_output"/>
+            <field-selection name="right_ankle_p_error" source="l_right_ankle_p_error"/>
+            <field-selection name="right_ankle_i_error" source="l_right_ankle_i_error"/>
+            <field-selection name="right_ankle_d_error" source="l_right_ankle_d_error"/>
+            <field-selection name="right_ankle_p_term" source="l_right_ankle_p_term"/>
+            <field-selection name="right_ankle_i_term" source="l_right_ankle_i_term"/>
+            <field-selection name="right_ankle_d_term" source="l_right_ankle_d_term"/>
+            <field-selection name="right_ankle_output" source="l_right_ankle_output"/>
+            <field-selection name="left_hip_fe_p_error" source="l_left_hip_fe_p_error"/>
+            <field-selection name="left_hip_fe_i_error" source="l_left_hip_fe_i_error"/>
+            <field-selection name="left_hip_fe_d_error" source="l_left_hip_fe_d_error"/>
+            <field-selection name="left_hip_fe_p_term" source="l_left_hip_fe_p_term"/>
+            <field-selection name="left_hip_fe_i_term" source="l_left_hip_fe_i_term"/>
+            <field-selection name="left_hip_fe_d_term" source="l_left_hip_fe_d_term"/>
+            <field-selection name="left_hip_fe_output" source="l_left_hip_fe_output"/>
+            <field-selection name="left_ankle_p_error" source="l_left_ankle_p_error"/>
+            <field-selection name="left_ankle_i_error" source="l_left_ankle_i_error"/>
+            <field-selection name="left_ankle_d_error" source="l_left_ankle_d_error"/>
+            <field-selection name="left_ankle_p_term" source="l_left_ankle_p_term"/>
+            <field-selection name="left_ankle_i_term" source="l_left_ankle_i_term"/>
+            <field-selection name="left_ankle_d_term" source="l_left_ankle_d_term"/>
+            <field-selection name="left_ankle_output" source="l_left_ankle_output"/>
+            <field-selection name="left_hip_aa_p_error" source="l_left_hip_aa_p_error"/>
+            <field-selection name="left_hip_aa_i_error" source="l_left_hip_aa_i_error"/>
+            <field-selection name="left_hip_aa_p_term" source="l_left_hip_aa_p_term"/>
+            <field-selection name="left_hip_aa_i_term" source="l_left_hip_aa_i_term"/>
+            <field-selection name="left_hip_aa_d_term" source="l_left_hip_aa_d_term"/>
+            <field-selection name="left_hip_aa_output" source="l_left_hip_aa_output"/>
+            <field-selection name="left_knee_p_error" source="l_left_knee_p_error"/>
+            <field-selection name="left_knee_i_error" source="l_left_knee_i_error"/>
+            <field-selection name="left_knee_d_error" source="l_left_knee_d_error"/>
+            <field-selection name="left_knee_p_term" source="l_left_knee_p_term"/>
+            <field-selection name="left_knee_i_term" source="l_left_knee_i_term"/>
+            <field-selection name="left_knee_d_term" source="l_left_knee_d_term"/>
+            <field-selection name="left_knee_output" source="l_left_knee_output"/>
+            <field-selection name="right_hip_fe_p_error" source="l_right_hip_fe_p_error"/>
+            <field-selection name="right_hip_fe_i_error" source="l_right_hip_fe_i_error"/>
+            <field-selection name="right_hip_fe_d_error" source="l_right_hip_fe_d_error"/>
+            <field-selection name="right_hip_fe_p_term" source="l_right_hip_fe_p_term"/>
+            <field-selection name="right_hip_fe_i_term" source="l_right_hip_fe_i_term"/>
+            <field-selection name="right_hip_fe_d_term" source="l_right_hip_fe_d_term"/>
+            <field-selection name="right_hip_fe_output" source="l_right_hip_fe_output"/>
+            <field-selection name="right_knee_p_error" source="r_p_error"/>
+            <field-selection name="right_knee_i_error" source="r_i_error"/>
+            <field-selection name="right_knee_d_error" source="r_d_error"/>
+            <field-selection name="right_knee_p_term" source="r_p_term"/>
+            <field-selection name="right_knee_i_term" source="r_i_term"/>
+            <field-selection name="right_knee_d_term" source="r_d_term"/>
+            <field-selection name="right_knee_output" source="r_output"/>
+          </output>
+          <connectors>
+            <connector class="fs" name="pid_state_csv">
+              <description><![CDATA[Puts the pid state data in a csv file for all joints.]]></description>
+              <properties>
+                <property name="type"><![CDATA[sub]]></property>
+                <property name="dateformat"><![CDATA[%Y-%m-%d %H:%M:%S]]></property>
+                <property name="fsname"><![CDATA[data/pid_state_@NOW@.csv]]></property>
+                <property name="fstype"><![CDATA[csv]]></property>
+                <property name="snapshot"><![CDATA[true]]></property>
+                <property name="header"><![CDATA[full]]></property>
+              </properties>
+            </connector>
+          </connectors>
+        </window-join>
       </windows>
+      <edges>
+        <edge source="source_pid_state_left_ankle" target="join_pid_state_left_hip_aa" role="left"/>
+        <edge source="source_pid_state_left_hip_aa" target="join_pid_state_left_hip_aa" role="right"/>
+        <edge source="source_pid_state_left_hip_fe" target="join_pid_state_left_hip_fe" role="left"/>
+        <edge source="join_pid_state_left_hip_aa" target="join_pid_state_left_hip_fe" role="right"/>
+        <edge source="join_pid_state_left_hip_fe" target="join_pid_state_left_knee" role="left"/>
+        <edge source="source_pid_state_left_knee" target="join_pid_state_left_knee" role="right"/>
+        <edge source="source_pid_state_right_ankle" target="join_pid_state_right_ankle" role="left"/>
+        <edge source="join_pid_state_left_knee" target="join_pid_state_right_ankle" role="right"/>
+        <edge source="source_pid_state_right_hip_aa" target="join_pid_state_right_hip_aa" role="left"/>
+        <edge source="join_pid_state_right_ankle" target="join_pid_state_right_hip_aa" role="right"/>
+        <edge source="join_pid_state_right_hip_aa" target="join_pid_state_right_hip_fe" role="left"/>
+        <edge source="source_pid_state_right_hip_fe" target="join_pid_state_right_hip_fe" role="right"/>
+        <edge source="join_pid_state_right_hip_fe" target="join_pid_state_right_knee" role="left"/>
+        <edge source="source_pid_state_right_knee" target="join_pid_state_right_knee" role="right"/>
+      </edges>
     </contquery>
   </contqueries>
 </project>
