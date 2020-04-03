@@ -22,15 +22,12 @@ from .cp_calculator import CPCalculator
 
 
 class DataCollectorNode(object):
-    def __init__(self,robot, com_calculator, cp_calculators, tf_buffer, feet):
-        self.robot = robot
+    def __init__(self, com_calculator, cp_calculators, tf_buffer, feet):
         self.differentiation_order = 2
         self._com_calculator = com_calculator
         self._cp_calculators = cp_calculators
         self.tf_buffer = tf_buffer
         self.feet = feet
-
-        left_foot = robot.joint_map['left_foot_angle']
 
         self.position_memory = []
         self.time_memory = []
@@ -48,6 +45,14 @@ class DataCollectorNode(object):
         self._imu_subscriber = rospy.Subscriber('/march/imu', Imu, self.imu_callback)
 
         self.pressure_soles_on = rospy.get_param('~pressure_soles')
+
+        self.transfrom_imu = TransformStamped()
+
+        self.transfrom_imu.header.frame_id = 'world'
+        self.transfrom_imu.child_frame_id = 'imu_link'
+        self.transfrom_imu.transform.translation.x = 0.0
+        self.transfrom_imu.transform.translation.y = 0.0
+
         if self.pressure_soles_on:
             rospy.logdebug('will run with pressure soles')
             self.output_host = rospy.get_param('~moticon_ip')
@@ -98,28 +103,24 @@ class DataCollectorNode(object):
 
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
-            z_diff = -1000;
+
+            z_diff = -1000
             old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
             for foot in self.feet:
                 trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
                 z_diff = max(z_diff, old_z - trans.transform.translation.z)
-            transform = TransformStamped()
 
-            transform.header.stamp = rospy.Time.now()
-            transform.header.frame_id = 'world'
-            transform.child_frame_id = 'imu_link'
-            transform.transform.translation.x = 0.0
-            transform.transform.translation.y = 0.0
-            transform.transform.translation.z = z_diff
+            self.transfrom_imu.header.stamp = rospy.Time.now()
+            self.transfrom_imu.transform.translation.z = z_diff
 
             imu_rotation = quaternion_multiply([-data.orientation.x, -data.orientation.y, data.orientation.z,
                                                 data.orientation.w], quaternion_from_euler(0, -0.5 * pi, 0))
-            transform.transform.rotation.x = imu_rotation[0]
-            transform.transform.rotation.y = imu_rotation[1]
-            transform.transform.rotation.z = imu_rotation[2]
-            transform.transform.rotation.w = imu_rotation[3]
+            self.transfrom_imu.transform.rotation.x = imu_rotation[0]
+            self.transfrom_imu.transform.rotation.y = imu_rotation[1]
+            self.transfrom_imu.transform.rotation.z = imu_rotation[2]
+            self.transfrom_imu.transform.rotation.w = imu_rotation[3]
 
-            self._imu_broadcaster.sendTransform(transform)
+            self._imu_broadcaster.sendTransform(self.transfrom_imu)
 
     def send_udp(self, data):
         message = ' '.join([str(180 * val / pi) for val in data])
@@ -173,5 +174,5 @@ def main():
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
     feet = ['foot_left', 'foot_right']
     cp_calculators = [CPCalculator(tf_buffer, foot) for foot in feet]
-    data_collector_node = DataCollectorNode(robot, center_of_mass_calculator, cp_calculators, tf_buffer, feet)
+    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculators, tf_buffer, feet)
     data_collector_node.run()
