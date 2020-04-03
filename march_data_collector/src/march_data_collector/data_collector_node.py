@@ -103,7 +103,7 @@ class DataCollectorNode(object):
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
 
-            z_diff = float("-inf")
+            z_diff = float('-inf')
             try:
                 old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
                 for foot in self.feet:
