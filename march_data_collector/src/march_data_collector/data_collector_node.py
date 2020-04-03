@@ -13,6 +13,7 @@ import tf2_ros
 from urdf_parser_py.urdf import URDF
 from visualization_msgs.msg import Marker
 
+
 from march_shared_resources.msg import JointValues, PressureSole
 
 
@@ -21,10 +22,15 @@ from .cp_calculator import CPCalculator
 
 
 class DataCollectorNode(object):
-    def __init__(self, com_calculator, cp_calculators):
+    def __init__(self,robot, com_calculator, cp_calculators, tf_buffer, feet):
+        self.robot = robot
         self.differentiation_order = 2
         self._com_calculator = com_calculator
         self._cp_calculators = cp_calculators
+        self.tf_buffer = tf_buffer
+        self.feet = feet
+
+        left_foot = robot.joint_map['left_foot_angle']
 
         self.position_memory = []
         self.time_memory = []
@@ -92,6 +98,12 @@ class DataCollectorNode(object):
 
     def imu_callback(self, data):
         if data.header.frame_id == 'imu_link':
+            #get the biggest z difference one of the ankles
+            z_diff = -2;
+            old_z = self.tf_buffer.lookup_transform('world', 'imu_link', rospy.Time()).transform.translation.z
+            for foot in self.feet:
+                trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
+                z_diff = max(z_diff, old_z - trans.transform.translation.z)
             transform = TransformStamped()
 
             transform.header.stamp = rospy.Time.now()
@@ -99,7 +111,7 @@ class DataCollectorNode(object):
             transform.child_frame_id = 'imu_link'
             transform.transform.translation.x = 0.0
             transform.transform.translation.y = 0.0
-            transform.transform.translation.z = 0.0
+            transform.transform.translation.z = z_diff
 
             imu_rotation = quaternion_multiply([-data.orientation.x, -data.orientation.y, data.orientation.z,
                                                 data.orientation.w], quaternion_from_euler(0, -0.5 * pi, 0))
@@ -162,5 +174,5 @@ def main():
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
     feet = ['ankle_plate_left', 'ankle_plate_right']
     cp_calculators = [CPCalculator(tf_buffer, foot) for foot in feet]
-    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculators)
+    data_collector_node = DataCollectorNode(robot, center_of_mass_calculator, cp_calculators, tf_buffer, feet)
     data_collector_node.run()
