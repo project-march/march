@@ -21,6 +21,7 @@ class ControlFlow:
         self._stopped_cb = None
         self._gait_selected_cb = None
         self._gait_transition_cb = None
+        self._set_sm_to_unknown_cb = None
 
     def clear_callbacks(self):
         """Clears all currently registered callbacks."""
@@ -48,6 +49,9 @@ class ControlFlow:
         :param cb: Callback that will be called when a transition is selected
         """
         self._gait_transition_cb = cb
+
+    def set_state_machine_to_unknown(self, cb):
+        self._set_sm_to_unknown_cb = cb
 
     def get_transition_integer(self):
         """Used to return the transition in the integer-format."""
@@ -127,6 +131,10 @@ class ControlFlow:
             self._transition_index = GaitInstruction.DECREMENT_STEP_SIZE
             if callable(self._gait_transition_cb):
                 self._gait_transition_cb()
+
+        if msg.type == GaitInstruction.UNKNOWN:
+            if callable(self._set_sm_to_unknown_cb):
+                self._set_sm_to_unknown_cb()
 
 
 control_flow = ControlFlow()

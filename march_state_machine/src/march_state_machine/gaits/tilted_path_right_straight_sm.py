@@ -19,7 +19,7 @@ def create():
 
         smach.StateMachine.add('STANDING TP RIGHT STRAIGHT', IdleState(outcomes=['gait_tilted_path_right_single_step',
                                                                                  'gait_tilted_path_right_straight_end',
-                                                                                 'preempted']),
+                                                                                 'preempted', 'failed']),
                                transitions={'gait_tilted_path_right_single_step': 'GAIT TP RIGHT SINGLE STEP',
                                             'gait_tilted_path_right_straight_end': 'GAIT TP RIGHT STRAIGHT END'})
 

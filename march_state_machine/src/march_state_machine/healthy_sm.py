@@ -119,8 +119,8 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
-        self.add('SITTING', IdleState(outcomes=['gait_stand', 'preempted']),
-                 transitions={'gait_stand': 'GAIT STAND'})
+        self.add('SITTING', IdleState(outcomes=['gait_stand', 'preempted', 'failed']),
+                 transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
         self.add('STANDING', IdleState(outcomes=['gait_sit', 'gait_walk', 'gait_walk_small', 'gait_single_step_small',
                                                  'gait_walk_large', 'gait_single_step_normal', 'gait_side_step_left',
                                                  'gait_side_step_right', 'gait_side_step_left_small',
@@ -139,7 +139,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                  'gait_tilted_path_right_flexed_knee_step',
                                                  'gait_tilted_path_first_start',
                                                  'gait_tilted_path_first_end',
-                                                 'preempted']),
+                                                 'preempted', 'failed']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
                               'gait_walk_small': 'GAIT WALK SMALL',
@@ -167,7 +167,8 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_right_straight_start': 'GAIT TP RIGHT STRAIGHT',
                               'gait_tilted_path_right_flexed_knee_step': 'GAIT TP RIGHT FLEXED KNEE STEP',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
-                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
+                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
+                              'failed': 'UNKNOWN'})
         self.close()
 
     def add_state(self, label, state, succeeded, rejected=None, custom_start_label=None):

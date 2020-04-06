@@ -27,9 +27,11 @@ class IdleState(smach.State):
         self._result_gait = None
 
         control_flow.reset_gait()
+
         control_flow.set_stopped_callback(self._stopped_cb)
         control_flow.set_gait_transition_callback(self._transition_cb)
         control_flow.set_gait_selected_callback(self._gait_cb)
+        control_flow.set_state_machine_to_unknown(self._return_failed)
 
         self._trigger_event.wait()
         control_flow.clear_callbacks()
@@ -65,4 +67,9 @@ class IdleState(smach.State):
 
     def request_preempt(self):
         super(IdleState, self).request_preempt()
+        self._trigger_event.set()
+
+    def _return_failed(self):
+        rospy.logwarn('Current state is set to unknown.')
+        self._result_gait = None
         self._trigger_event.set()
