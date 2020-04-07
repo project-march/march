@@ -51,6 +51,8 @@ class ESPAdapter:
         self.esp_publishers = {}
         self.ros_subscribers = {}
 
+        self.control_analysis_join_frequency = 250
+
         basic_url = 'dfESP://localhost:9901'
         self.project = basic_url + '/project_march'
         stringv = pubsubApi.QueryMeta(self.project + '?get=windows_sourceonly')
@@ -231,8 +233,9 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         time_str = get_time_str(data.header.stamp)
-        csv = time_str + ',' + list_to_str(data.effort_command)
-        self.send_to_esp('{0}, 1, {1}'.format(data.header.seq, csv), source)
+        join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
+        self.send_to_esp('{0], {1}, {2}, {3}'.format(join_time_str,  data.header.seq, time_str,
+                                                     list_to_str(data.effort_command)), source)
 
     def temperature_callback(self, data, source):
         """Callback for temperature data. Converts ROS message to csv string to send to the source window.
@@ -291,9 +294,10 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         time_str = get_time_str(data.header.stamp)
+        join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
         csv = ', '.join([str(data.p_error), str(data.i_error), str(data.d_error), str(data.p_term), str(data.i_term),
                         str(data.d_term), str(data.output)])
-        self.send_to_esp('1, {0}, {1}'.format(time_str, csv), source)
+        self.send_to_esp('{0}, {1}, {2}'.format(time_str, join_time_str, csv), source)
 
     def imc_state_callback(self, data, source):
         """Callback for IMotionCube data. Converts ROS message to csv string to send to the source window.
@@ -306,9 +310,9 @@ class ESPAdapter:
         absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
         incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
         time_str = get_time_str(data.header.stamp)
-
+        join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
         csv = ','.join([time_str, motor_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
-        self.send_to_esp('{0}, 1, {1}'.format(data.header.seq, csv), source)
+        self.send_to_esp('{0}, {1}, 1, {2}'.format(join_time_str, data.header.seq, csv), source)
 
     def gait_callback(self, data, source):
         """Callback for gait data. Converts ROS message to csv string to send to the source window.
@@ -351,6 +355,14 @@ def get_time_str(timestamp):
     :param data: ROS timestamp message std_msgs/stamp
     """
     time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9), 3)
+    return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
+
+def get_join_time_str(timestamp, frequency):
+    """Creates str to use in csv string for source window based on timestamp.
+
+    :param data: ROS timestamp message std_msgs/stamp
+    """
+    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9) * frequency) / frequency
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
