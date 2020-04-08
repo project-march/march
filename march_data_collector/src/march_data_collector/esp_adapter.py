@@ -234,7 +234,7 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
-        self.send_to_esp('{0], {1}, {2}, {3}'.format(join_time_str,  data.header.seq, time_str,
+        self.send_to_esp('1, {0], {1}, {2}, {3}'.format(join_time_str,  data.header.seq, time_str,
                                                      list_to_str(data.effort_command)), source)
 
     def temperature_callback(self, data, source):
@@ -306,12 +306,12 @@ class ESPAdapter:
         :param source: the name of the source window in the ESP engine
         """
         motor_current_str = ','.join([str(value) for value in data.motor_current])
-        motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
+        imc_voltage_str = ','.join([str(value) for value in data.imc_voltage])
         absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
         incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
-        csv = ','.join([time_str, motor_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
+        csv = ','.join([time_str, imc_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
         self.send_to_esp('{0}, {1}, 1, {2}'.format(join_time_str, data.header.seq, csv), source)
 
     def gait_callback(self, data, source):
