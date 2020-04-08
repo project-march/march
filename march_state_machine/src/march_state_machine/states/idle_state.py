@@ -27,6 +27,8 @@ class IdleState(smach.State):
         self._result_gait = None
 
         control_flow.reset_gait()
+        control_flow.reset_stop()
+
         control_flow.set_stopped_callback(self._stopped_cb)
         control_flow.set_gait_transition_callback(self._transition_cb)
         control_flow.set_gait_selected_callback(self._gait_cb)
