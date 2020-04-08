@@ -50,7 +50,7 @@ class HealthyStateMachine(smach.StateMachine):
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])
         self.add('UNKNOWN', IdleState(outcomes=['home_sit', 'home_stand', 'failed', 'preempted']),
-                 transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND'})
+                 transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND', 'failed': 'UNKNOWN'})
 
         self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING', rejected='UNKNOWN')
         self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING', rejected='UNKNOWN')

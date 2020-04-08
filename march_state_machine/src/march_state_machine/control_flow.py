@@ -28,6 +28,7 @@ class ControlFlow:
         self._stopped_cb = None
         self._gait_selected_cb = None
         self._gait_transition_cb = None
+        self._set_sm_to_unknown_cb = None
 
     def set_stopped_callback(self, cb):
         """Sets the callback for when stop is pressed.
