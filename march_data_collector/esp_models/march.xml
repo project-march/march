@@ -622,6 +622,24 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="r_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="r_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="r_motor_voltage_right_knee" />
+
+                <field-selection name="absolute_encoder_left_ankle" source="r_absolute_encoder_left_ankle" />
+                <field-selection name="absolute_encoder_left_hip_aa" source="r_absolute_encoder_left_hip_aa" />
+                <field-selection name="absolute_encoder_left_hip_fe" source="r_absolute_encoder_left_hip_fe" />
+                <field-selection name="absolute_encoder_left_knee" source="r_absolute_encoder_left_knee" />
+                <field-selection name="absolute_encoder_right_ankle" source="r_absolute_encoder_right_ankle" />
+                <field-selection name="absolute_encoder_right_hip_aa" source="r_absolute_encoder_right_hip_aa" />
+                <field-selection name="absolute_encoder_right_hip_fe" source="r_absolute_encoder_right_hip_fe" />
+                <field-selection name="absolute_encoder_right_knee" source="r_absolute_encoder_right_knee" />
+
+                <field-selection name="incremental_encoder_left_ankle" source="r_incremental_encoder_left_ankle" />
+                <field-selection name="incremental_encoder_left_hip_aa" source="r_incremental_encoder_left_hip_aa" />
+                <field-selection name="incremental_encoder_left_hip_fe" source="r_incremental_encoder_left_hip_fe" />
+                <field-selection name="incremental_encoder_left_knee" source="r_incremental_encoder_left_knee" />
+                <field-selection name="incremental_encoder_right_ankle" source="r_incremental_encoder_right_ankle" />
+                <field-selection name="incremental_encoder_right_hip_aa" source="r_incremental_encoder_right_hip_aa" />
+                <field-selection name="incremental_encoder_right_hip_fe" source="r_incremental_encoder_right_hip_fe" />
+                <field-selection name="incremental_encoder_right_knee" source="r_motor_voltage_right_knee" />
               </output>
             </window-join>
             <window-join name="join_imu" >
@@ -747,6 +765,25 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
+
+                <field-selection name="absolute_encoder_left_ankle" source="l_absolute_encoder_left_ankle" />
+                <field-selection name="absolute_encoder_left_hip_aa" source="l_absolute_encoder_left_hip_aa" />
+                <field-selection name="absolute_encoder_left_hip_fe" source="l_absolute_encoder_left_hip_fe" />
+                <field-selection name="absolute_encoder_left_knee" source="l_absolute_encoder_left_knee" />
+                <field-selection name="absolute_encoder_right_ankle" source="l_absolute_encoder_right_ankle" />
+                <field-selection name="absolute_encoder_right_hip_aa" source="l_absolute_encoder_right_hip_aa" />
+                <field-selection name="absolute_encoder_right_hip_fe" source="l_absolute_encoder_right_hip_fe" />
+                <field-selection name="absolute_encoder_right_knee" source="l_absolute_encoder_right_knee" />
+
+                <field-selection name="incremental_encoder_left_ankle" source="l_incremental_encoder_left_ankle" />
+                <field-selection name="incremental_encoder_left_hip_aa" source="l_incremental_encoder_left_hip_aa" />
+                <field-selection name="incremental_encoder_left_hip_fe" source="l_incremental_encoder_left_hip_fe" />
+                <field-selection name="incremental_encoder_left_knee" source="l_incremental_encoder_left_knee" />
+                <field-selection name="incremental_encoder_right_ankle" source="l_incremental_encoder_right_ankle" />
+                <field-selection name="incremental_encoder_right_hip_aa" source="l_incremental_encoder_right_hip_aa" />
+                <field-selection name="incremental_encoder_right_hip_fe" source="l_incremental_encoder_right_hip_fe" />
+                <field-selection name="incremental_encoder_right_knee" source="l_incremental_encoder_right_knee" />
+
 
                 <field-selection name="roll" source="r_roll" />
                 <field-selection name="pitch" source="r_yaw" />
@@ -882,6 +919,24 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
+
+                <field-selection name="absolute_encoder_left_ankle" source="l_absolute_encoder_left_ankle" />
+                <field-selection name="absolute_encoder_left_hip_aa" source="l_absolute_encoder_left_hip_aa" />
+                <field-selection name="absolute_encoder_left_hip_fe" source="l_absolute_encoder_left_hip_fe" />
+                <field-selection name="absolute_encoder_left_knee" source="l_absolute_encoder_left_knee" />
+                <field-selection name="absolute_encoder_right_ankle" source="l_absolute_encoder_right_ankle" />
+                <field-selection name="absolute_encoder_right_hip_aa" source="l_absolute_encoder_right_hip_aa" />
+                <field-selection name="absolute_encoder_right_hip_fe" source="l_absolute_encoder_right_hip_fe" />
+                <field-selection name="absolute_encoder_right_knee" source="l_absolute_encoder_right_knee" />
+
+                <field-selection name="incremental_encoder_left_ankle" source="l_incremental_encoder_left_ankle" />
+                <field-selection name="incremental_encoder_left_hip_aa" source="l_incremental_encoder_left_hip_aa" />
+                <field-selection name="incremental_encoder_left_hip_fe" source="l_incremental_encoder_left_hip_fe" />
+                <field-selection name="incremental_encoder_left_knee" source="l_incremental_encoder_left_knee" />
+                <field-selection name="incremental_encoder_right_ankle" source="l_incremental_encoder_right_ankle" />
+                <field-selection name="incremental_encoder_right_hip_aa" source="l_incremental_encoder_right_hip_aa" />
+                <field-selection name="incremental_encoder_right_hip_fe" source="l_incremental_encoder_right_hip_fe" />
+                <field-selection name="incremental_encoder_right_knee" source="l_incremental_encoder_right_knee" />
 
                 <field-selection name="roll" source="l_roll" />
                 <field-selection name="pitch" source="l_yaw" />
@@ -1021,6 +1076,24 @@
                 <field-selection name="motor_voltage_right_hip_aa" source="l_motor_voltage_right_hip_aa" />
                 <field-selection name="motor_voltage_right_hip_fe" source="l_motor_voltage_right_hip_fe" />
                 <field-selection name="motor_voltage_right_knee" source="l_motor_voltage_right_knee" />
+
+                <field-selection name="absolute_encoder_left_ankle" source="l_absolute_encoder_left_ankle" />
+                <field-selection name="absolute_encoder_left_hip_aa" source="l_absolute_encoder_left_hip_aa" />
+                <field-selection name="absolute_encoder_left_hip_fe" source="l_absolute_encoder_left_hip_fe" />
+                <field-selection name="absolute_encoder_left_knee" source="l_absolute_encoder_left_knee" />
+                <field-selection name="absolute_encoder_right_ankle" source="l_absolute_encoder_right_ankle" />
+                <field-selection name="absolute_encoder_right_hip_aa" source="l_absolute_encoder_right_hip_aa" />
+                <field-selection name="absolute_encoder_right_hip_fe" source="l_absolute_encoder_right_hip_fe" />
+                <field-selection name="absolute_encoder_right_knee" source="l_absolute_encoder_right_knee" />
+
+                <field-selection name="incremental_encoder_left_ankle" source="l_incremental_encoder_left_ankle" />
+                <field-selection name="incremental_encoder_left_hip_aa" source="l_incremental_encoder_left_hip_aa" />
+                <field-selection name="incremental_encoder_left_hip_fe" source="l_incremental_encoder_left_hip_fe" />
+                <field-selection name="incremental_encoder_left_knee" source="l_incremental_encoder_left_knee" />
+                <field-selection name="incremental_encoder_right_ankle" source="l_incremental_encoder_right_ankle" />
+                <field-selection name="incremental_encoder_right_hip_aa" source="l_incremental_encoder_right_hip_aa" />
+                <field-selection name="incremental_encoder_right_hip_fe" source="l_incremental_encoder_right_hip_fe" />
+                <field-selection name="incremental_encoder_right_knee" source="l_incremental_encoder_right_knee" />
 
                 <field-selection name="roll" source="l_roll" />
                 <field-selection name="pitch" source="l_yaw" />
@@ -1285,6 +1358,7 @@
                   <field key="false" name="motor_current_right_ankle" type="double" />
                   <field key="false" name="motor_current_right_hip_fe" type="double" />
                   <field key="false" name="motor_current_right_knee" type="double" />
+
                   <field key="false" name="motor_voltage_left_ankle" type="double" />
                   <field key="false" name="motor_voltage_left_hip_aa" type="double" />
                   <field key="false" name="motor_voltage_left_hip_fe" type="double" />
@@ -1293,6 +1367,24 @@
                   <field key="false" name="motor_voltage_right_ankle" type="double" />
                   <field key="false" name="motor_voltage_right_hip_fe" type="double" />
                   <field key="false" name="motor_voltage_right_knee" type="double" />
+
+                  <field key="false" name="absolute_encoder_left_ankle" type="double" />
+                  <field key="false" name="absolute_encoder_left_hip_aa" type="double" />
+                  <field key="false" name="absolute_encoder_left_hip_fe" type="double" />
+                  <field key="false" name="absolute_encoder_left_knee" type="double" />
+                  <field key="false" name="absolute_encoder_right_hip_aa" type="double" />
+                  <field key="false" name="absolute_encoder_right_ankle" type="double" />
+                  <field key="false" name="absolute_encoder_right_hip_fe" type="double" />
+                  <field key="false" name="absolute_encoder_right_knee" type="double" />
+
+                  <field key="false" name="incremental_encoder_left_ankle" type="double" />
+                  <field key="false" name="incremental_encoder_left_hip_aa" type="double" />
+                  <field key="false" name="incremental_encoder_left_hip_fe" type="double" />
+                  <field key="false" name="incremental_encoder_left_knee" type="double" />
+                  <field key="false" name="incremental_encoder_right_hip_aa" type="double" />
+                  <field key="false" name="incremental_encoder_right_ankle" type="double" />
+                  <field key="false" name="incremental_encoder_right_hip_fe" type="double" />
+                  <field key="false" name="incremental_encoder_right_knee" type="double" />
                 </fields>
               </schema>
               <output>
@@ -1305,6 +1397,7 @@
                 <field-expr>ESP_aLast(motor_current_right_hip_aa)</field-expr>
                 <field-expr>ESP_aLast(motor_current_right_hip_fe)</field-expr>
                 <field-expr>ESP_aLast(motor_current_right_knee)</field-expr>
+
                 <field-expr>ESP_aLast(motor_voltage_left_ankle)</field-expr>
                 <field-expr>ESP_aLast(motor_voltage_left_hip_aa)</field-expr>
                 <field-expr>ESP_aLast(motor_voltage_left_hip_fe)</field-expr>
@@ -1313,6 +1406,24 @@
                 <field-expr>ESP_aLast(motor_voltage_right_hip_aa)</field-expr>
                 <field-expr>ESP_aLast(motor_voltage_right_hip_fe)</field-expr>
                 <field-expr>ESP_aLast(motor_voltage_right_knee)</field-expr>
+
+                <field-expr>ESP_aLast(absolute_encoder_left_ankle)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_left_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_left_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_left_knee)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_right_ankle)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_right_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_right_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(absolute_encoder_right_knee)</field-expr>
+
+                <field-expr>ESP_aLast(incremental_encoder_left_ankle)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_left_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_left_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_left_knee)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_right_ankle)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_right_hip_aa)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_right_hip_fe)</field-expr>
+                <field-expr>ESP_aLast(incremental_encoder_right_knee)</field-expr>
               </output>
             </window-aggregate>
             <window-aggregate name='aggregate_gait'>
@@ -1371,6 +1482,7 @@
                   <field key="false" name="motor_current_right_hip_aa" type="double"/>
                   <field key="false" name="motor_current_right_hip_fe" type="double"/>
                   <field key="false" name="motor_current_right_knee" type="double"/>
+
                   <field key="false" name="motor_voltage_left_ankle" type="double"/>
                   <field key="false" name="motor_voltage_left_hip_aa" type="double"/>
                   <field key="false" name="motor_voltage_left_hip_fe" type="double"/>
@@ -1379,6 +1491,24 @@
                   <field key="false" name="motor_voltage_right_hip_aa" type="double"/>
                   <field key="false" name="motor_voltage_right_hip_fe" type="double"/>
                   <field key="false" name="motor_voltage_right_knee" type="double"/>
+
+                  <field key="false" name="absolute_encoder_left_ankle" type="double"/>
+                  <field key="false" name="absolute_encoder_left_hip_aa" type="double"/>
+                  <field key="false" name="absolute_encoder_left_hip_fe" type="double"/>
+                  <field key="false" name="absolute_encoder_left_knee" type="double"/>
+                  <field key="false" name="absolute_encoder_right_ankle" type="double"/>
+                  <field key="false" name="absolute_encoder_right_hip_aa" type="double"/>
+                  <field key="false" name="absolute_encoder_right_hip_fe" type="double"/>
+                  <field key="false" name="absolute_encoder_right_knee" type="double"/>
+
+                  <field key="false" name="incremental_encoder_left_ankle" type="double"/>
+                  <field key="false" name="incremental_encoder_left_hip_aa" type="double"/>
+                  <field key="false" name="incremental_encoder_left_hip_fe" type="double"/>
+                  <field key="false" name="incremental_encoder_left_knee" type="double"/>
+                  <field key="false" name="incremental_encoder_right_ankle" type="double"/>
+                  <field key="false" name="incremental_encoder_right_hip_aa" type="double"/>
+                  <field key="false" name="incremental_encoder_right_hip_fe" type="double"/>
+                  <field key="false" name="incremental_encoder_right_knee" type="double"/>
                 </fields>
               </schema>
               <connectors>

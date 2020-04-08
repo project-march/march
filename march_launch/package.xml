@@ -10,11 +10,6 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
-    <build_depend>roslint</build_depend>
-
-    <exec_depend>rospy</exec_depend>
-    <exec_depend>rqt_gui</exec_depend>
-    <exec_depend>rqt_gui_py</exec_depend>
     <exec_depend>march_description</exec_depend>
     <exec_depend>march_gait_scheduler</exec_depend>
     <exec_depend>march_gain_scheduling</exec_depend>
@@ -24,8 +19,4 @@
     <exec_depend>xacro</exec_depend>
     <exec_depend>rosserial_python</exec_depend>
     <exec_depend>rviz</exec_depend>
-
-    <export>
-        <rqt_gui plugin="${prefix}/plugin.xml"/>
-    </export>
 </package>

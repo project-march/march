@@ -53,8 +53,8 @@ class HealthyStateMachine(smach.StateMachine):
         self.add('UNKNOWN', IdleState(outcomes=['home_sit', 'home_stand', 'failed', 'preempted']),
                  transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND'})
 
-        self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING')
-        self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING')
+        self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING', rejected='UNKNOWN')
+        self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING', rejected='UNKNOWN')
 
         walking_state_machine = StateMachineWithTransition(['walk_small', 'walk', 'walk_large'])
         walking_state_machine.add('walk', WalkStateMachine('walk', is_transition_active=True))
@@ -65,8 +65,9 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT WALK SMALL', walking_state_machine, 'STANDING', custom_start_label='walk_small')
         self.add_state('GAIT WALK LARGE', walking_state_machine, 'STANDING', custom_start_label='walk_large')
 
-        self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING')
-        self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING')
+        self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING', rejected='STANDING')
+        self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
+                       rejected='SITTING')
 
         self.add_state('GAIT SINGLE STEP SMALL', StepStateMachine('single_step_small'), 'STANDING')
         self.add_state('GAIT SINGLE STEP NORMAL', StepStateMachine('single_step_normal'), 'STANDING')
@@ -81,10 +82,12 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT SIDE STEP RIGHT', StepStateMachine('side_step_right'), 'STANDING')
         self.add_state('GAIT SIDE STEP RIGHT SMALL', StepStateMachine('side_step_right_small'), 'STANDING')
 
-        self.add_state('GAIT SOFA SIT', StepStateMachine('sofa_sit', ['sit_down', 'sit_home']), 'SOFA SITTING')
+        self.add_state('GAIT SOFA SIT', StepStateMachine('sofa_sit', ['sit_down', 'sit_home']), 'SOFA SITTING',
+                       rejected='STANDING')
         self.add('SOFA SITTING', IdleState(outcomes=['gait_sofa_stand', 'preempted']),
                  transitions={'gait_sofa_stand': 'GAIT SOFA STAND'})
-        self.add_state('GAIT SOFA STAND', StepStateMachine('sofa_stand', ['prepare_stand_up', 'stand_up']), 'STANDING')
+        self.add_state('GAIT SOFA STAND', StepStateMachine('sofa_stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
+                       rejected='SOFA SITTING')
 
         self.add_state('GAIT STAIRS UP', WalkStateMachine('stairs_up'), 'STANDING')
         self.add_state('GAIT STAIRS DOWN', WalkStateMachine('stairs_down'), 'STANDING')
@@ -171,7 +174,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
         self.close()
 
-    def add_state(self, label, state, succeeded, custom_start_label=None):
+    def add_state(self, label, state, succeeded, rejected=None, custom_start_label=None):
         """Adds a state to the healthy state machine.
 
         The healthy state machine should be opened before using this method.
@@ -179,14 +182,18 @@ class HealthyStateMachine(smach.StateMachine):
         :type label: str
         :param label: name of the state
         :type state: smach.State
-        :param state: State (or statemachine to be added)
+        :param state: State (or statemachine) to be added
         :type succeeded: str
         :param succeeded: name of the state that the given state should transition to once succeeded
+        :type rejected: str
+        :param rejected: name of the state that the given state should transition to once rejected
         :type custom_start_label: str
         :param custom_start_label: name of the start state within the given state machine
         """
         self.assert_opened()
-        self.add(label, state, transitions={'succeeded': succeeded, 'failed': 'UNKNOWN'})
+        if rejected is None:
+            rejected = succeeded
+        self.add(label, state, transitions={'succeeded': succeeded, 'failed': 'UNKNOWN', 'rejected': rejected})
 
         if custom_start_label is not None:
             self._custom_start_states[label] = custom_start_label
@@ -197,7 +204,7 @@ class HealthyStateMachine(smach.StateMachine):
         :type _req: march_shared_resources.srv.PossibleGaitsRequest
         :rtype march_shared_resources.srv.PossibleGaitsResponse
         """
-        non_gaits = ['succeeded', 'failed', 'preempted', 'aborted']
+        non_gaits = ['succeeded', 'failed', 'preempted', 'aborted', 'rejected']
         gaits = []
         if self.is_running():
             gaits = [k for k in self._current_transitions.keys() if k not in non_gaits]
