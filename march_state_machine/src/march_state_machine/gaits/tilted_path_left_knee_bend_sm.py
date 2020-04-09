@@ -13,8 +13,9 @@ def create():
                                transitions={'succeeded': 'STANDING TP LEFT STRAIGHT'})
 
         smach.StateMachine.add('GAIT TP LEFT SINGLE STEP', StepStateMachine('tilted_path_left_single_step',
-                               subgaits=['right_open', 'left_close']),
-                               transitions={'succeeded': 'STANDING TP LEFT STRAIGHT', 'rejected': 'STANDING TP LEFT STRAIGHT'})
+                                                                            subgaits=['right_open', 'left_close']),
+                               transitions={'succeeded': 'STANDING TP LEFT STRAIGHT',
+                                            'rejected': 'STANDING TP LEFT STRAIGHT'})
 
         smach.StateMachine.add('STANDING TP LEFT STRAIGHT', IdleState(outcomes=['gait_tilted_path_left_single_step',
                                                                                 'gait_tilted_path_left_straight_end',
@@ -23,6 +24,7 @@ def create():
                                             'gait_tilted_path_left_straight_end': 'GAIT TP LEFT STRAIGHT END'})
 
         smach.StateMachine.add('GAIT TP LEFT STRAIGHT END', StepStateMachine('tilted_path_left_straight_end',
-                                                                             subgaits=['left_open', 'right_close']))
+                                                                             subgaits=['left_open', 'right_close']),
+                               transitions={'rejected': 'STANDING TP LEFT STRAIGHT'})
 
     return sm_tilted_path_left_knee_bend
