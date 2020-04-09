@@ -5,7 +5,7 @@ from march_state_machine.states.idle_state import IdleState
 
 
 def create():
-    sm_tilted_path_left_knee_bend = smach.StateMachine(outcomes=['succeeded', 'preempted', 'failed'])
+    sm_tilted_path_left_knee_bend = smach.StateMachine(outcomes=['succeeded', 'preempted', 'failed', 'rejected'])
     sm_tilted_path_left_knee_bend .register_io_keys(['sounds'])
     with sm_tilted_path_left_knee_bend:
         smach.StateMachine.add('GAIT TP LEFT KNEE BEND', StepStateMachine('tilted_path_left_knee_bend',
