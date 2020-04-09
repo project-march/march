@@ -12,7 +12,8 @@ class IdleState(smach.State):
     Listens to instructions from the input device and reacts if they are known transitions.
     """
 
-    def __init__(self, outcomes):
+    def __init__(self, gait_outcomes):
+        outcomes = ['failed', 'preempted'] + gait_outcomes
         super(IdleState, self).__init__(outcomes)
 
         self._result_gait = None

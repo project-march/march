@@ -49,7 +49,7 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])
-        self.add('UNKNOWN', IdleState(outcomes=['home_sit', 'home_stand', 'failed', 'preempted']),
+        self.add('UNKNOWN', IdleState(gait_outcomes=['home_sit', 'home_stand']),
                  transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND', 'failed': 'UNKNOWN'})
 
         self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING', rejected='UNKNOWN')
@@ -83,8 +83,8 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.add_state('GAIT SOFA SIT', StepStateMachine('sofa_sit', ['sit_down', 'sit_home']), 'SOFA SITTING',
                        rejected='STANDING')
-        self.add('SOFA SITTING', IdleState(outcomes=['gait_sofa_stand', 'preempted']),
-                 transitions={'gait_sofa_stand': 'GAIT SOFA STAND'})
+        self.add('SOFA SITTING', IdleState(gait_outcomes=['gait_sofa_stand']),
+                 transitions={'gait_sofa_stand': 'GAIT SOFA STAND', 'failed': 'UNKNOWN'})
         self.add_state('GAIT SOFA STAND', StepStateMachine('sofa_stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
                        rejected='SOFA SITTING')
 
@@ -119,27 +119,27 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
-        self.add('SITTING', IdleState(outcomes=['gait_stand', 'preempted', 'failed']),
+        self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
-        self.add('STANDING', IdleState(outcomes=['gait_sit', 'gait_walk', 'gait_walk_small', 'gait_single_step_small',
-                                                 'gait_walk_large', 'gait_single_step_normal', 'gait_side_step_left',
-                                                 'gait_side_step_right', 'gait_side_step_left_small',
-                                                 'gait_side_step_right_small', 'gait_sofa_sit',
-                                                 'gait_stairs_up', 'gait_stairs_down',
-                                                 'gait_stairs_up_single_step', 'gait_stairs_down_single_step',
-                                                 'gait_walk_small', 'gait_rough_terrain_high_step',
-                                                 'gait_rough_terrain_middle_steps',
-                                                 'gait_rough_terrain_first_middle_step',
-                                                 'gait_rough_terrain_second_middle_step',
-                                                 'gait_rough_terrain_third_middle_step',
-                                                 'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
-                                                 'gait_tilted_path_left_straight_start',
-                                                 'gait_tilted_path_left_flexed_knee_step',
-                                                 'gait_tilted_path_right_straight_start',
-                                                 'gait_tilted_path_right_flexed_knee_step',
-                                                 'gait_tilted_path_first_start',
-                                                 'gait_tilted_path_first_end',
-                                                 'preempted', 'failed']),
+        self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small',
+                                                      'gait_single_step_small', 'gait_walk_large',
+                                                      'gait_single_step_normal', 'gait_side_step_left',
+                                                      'gait_side_step_right', 'gait_side_step_left_small',
+                                                      'gait_side_step_right_small', 'gait_sofa_sit',
+                                                      'gait_stairs_up', 'gait_stairs_down',
+                                                      'gait_stairs_up_single_step', 'gait_stairs_down_single_step',
+                                                      'gait_walk_small', 'gait_rough_terrain_high_step',
+                                                      'gait_rough_terrain_middle_steps',
+                                                      'gait_rough_terrain_first_middle_step',
+                                                      'gait_rough_terrain_second_middle_step',
+                                                      'gait_rough_terrain_third_middle_step',
+                                                      'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
+                                                      'gait_tilted_path_left_straight_start',
+                                                      'gait_tilted_path_left_flexed_knee_step',
+                                                      'gait_tilted_path_right_straight_start',
+                                                      'gait_tilted_path_right_flexed_knee_step',
+                                                      'gait_tilted_path_first_start',
+                                                      'gait_tilted_path_first_end']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
                               'gait_walk_small': 'GAIT WALK SMALL',
