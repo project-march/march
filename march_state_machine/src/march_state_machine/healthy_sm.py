@@ -123,8 +123,8 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
-        self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small', 
-                                                      'gait_single_step_small','gait_walk_large', 
+        self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small',
+                                                      'gait_single_step_small', 'gait_walk_large',
                                                       'gait_single_step_normal', 'gait_side_step_left',
                                                       'gait_side_step_right', 'gait_side_step_left_small',
                                                       'gait_side_step_right_small', 'gait_sofa_sit',
