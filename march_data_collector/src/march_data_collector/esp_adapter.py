@@ -234,7 +234,7 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
-        self.send_to_esp('1, {0], {1}, {2}, {3}'.format(join_time_str,  data.header.seq, time_str,
+        self.send_to_esp('1, {0}, {1}, {2}, {3}'.format(join_time_str,  data.header.seq, time_str,
                                                      list_to_str(data.effort_command)), source)
 
     def temperature_callback(self, data, source):
@@ -362,7 +362,8 @@ def get_join_time_str(timestamp, frequency):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9) * frequency) / frequency
+    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9) * frequency*2) / frequency /2
+    rospy.loginfo(time)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
