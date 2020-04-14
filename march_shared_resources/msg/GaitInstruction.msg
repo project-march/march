@@ -4,6 +4,7 @@ Header header
 int8 type
 
 # All possible instruction types.
+int8 UNKNOWN = -1
 int8 STOP = 0
 int8 GAIT = 1
 int8 PAUSE = 2
