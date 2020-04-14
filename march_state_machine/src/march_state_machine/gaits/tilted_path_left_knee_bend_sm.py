@@ -5,11 +5,11 @@ from march_state_machine.states.idle_state import IdleState
 
 
 def create():
-    sm_tilted_path_left_flexed_knee_step = smach.StateMachine(outcomes=['succeeded', 'preempted', 'failed', 'rejected'])
-    sm_tilted_path_left_flexed_knee_step.register_io_keys(['sounds'])
-    with sm_tilted_path_left_flexed_knee_step:
-        smach.StateMachine.add('GAIT TP LEFT FLEXED KNEE STEP', StepStateMachine('tilted_path_left_flexed_knee_step',
-                                                                                 subgaits=['right_open', 'left_close']),
+    sm_tilted_path_left_knee_bend = smach.StateMachine(outcomes=['succeeded', 'preempted', 'failed', 'rejected'])
+    sm_tilted_path_left_knee_bend.register_io_keys(['sounds'])
+    with sm_tilted_path_left_knee_bend:
+        smach.StateMachine.add('GAIT TP LEFT KNEE BEND', StepStateMachine('tilted_path_left_knee_bend',
+                                                                          subgaits=['right_open']),
                                transitions={'succeeded': 'STANDING TP LEFT STRAIGHT'})
 
         smach.StateMachine.add('GAIT TP LEFT SINGLE STEP', StepStateMachine('tilted_path_left_single_step',
@@ -27,4 +27,4 @@ def create():
                                                                              subgaits=['left_open', 'right_close']),
                                transitions={'rejected': 'STANDING TP LEFT STRAIGHT'})
 
-    return sm_tilted_path_left_flexed_knee_step
+    return sm_tilted_path_left_knee_bend

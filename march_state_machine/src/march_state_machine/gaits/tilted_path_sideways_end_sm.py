@@ -12,8 +12,7 @@ def create():
                                                                      subgaits=['left_open', 'right_close']),
                                transitions={'succeeded': 'STANDING TP SIDEWAYS END'})
 
-        smach.StateMachine.add('STANDING TP SIDEWAYS END', IdleState(outcomes=['gait_tilted_path_second_end',
-                                                                               'preempted']),
+        smach.StateMachine.add('STANDING TP SIDEWAYS END', IdleState(gait_outcomes=['gait_tilted_path_second_end']),
                                transitions={'gait_tilted_path_second_end': 'GAIT TP SECOND END'})
 
         smach.StateMachine.add('GAIT TP SECOND END', StepStateMachine('tilted_path_second_end',
