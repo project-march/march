@@ -224,7 +224,7 @@ class ESPAdapter:
 
         if 'idle' in state.state_type:
             csv = ','.join([get_time_str(data.header.stamp), 'idle', state.current_state.lower(), ' ', ' '])
-            self.send_to_esp('1, ' + csv, source)
+            self.send_to_esp('1, 1, ' + csv, source)
 
     def joint_command_callback(self, data, source):
         """Callback for after_limit_joint_command data. Converts ROS message to csv string to send to the source window.
@@ -320,7 +320,7 @@ class ESPAdapter:
         :param data: ROS march_shared_resoruces.GaitActionGoal message
         :param source: the name of the source window in the ESP engine
         """
-        csv = ','.join(['1', get_time_str(data.header.stamp), data.goal.name, data.goal.current_subgait.name,
+        csv = ','.join(['1, 1', get_time_str(data.header.stamp), data.goal.name, data.goal.current_subgait.name,
                         data.goal.current_subgait.version, data.goal.current_subgait.gait_type])
         self.send_to_esp(csv, source)
 
@@ -363,7 +363,6 @@ def get_join_time_str(timestamp, frequency):
     :param data: ROS timestamp message std_msgs/stamp
     """
     time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9) * frequency*2) / frequency /2
-    rospy.loginfo(time)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
