@@ -9,6 +9,7 @@ from .gaits import tilted_path_left_flexed_knee_step_sm
 from .gaits import tilted_path_left_knee_bend_sm
 from .gaits import tilted_path_left_straight_sm
 from .gaits import tilted_path_right_flexed_knee_step_sm
+from .gaits import tilted_path_right_knee_bend_sm
 from .gaits import tilted_path_right_straight_sm
 from .gaits import tilted_path_sideways_end_sm
 from .gaits import tilted_path_sideways_start_sm
@@ -117,6 +118,7 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.add_state('GAIT TP RIGHT STRAIGHT', tilted_path_right_straight_sm.create(), 'STANDING')
         self.add_state('GAIT TP RIGHT FLEXED KNEE STEP', tilted_path_right_flexed_knee_step_sm.create(), 'STANDING')
+        self.add_state('GAIT TP RIGHT KNEE BEND', tilted_path_right_knee_bend_sm.create(), 'STANDING')
 
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
@@ -141,6 +143,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                       'gait_tilted_path_left_knee_bend',
                                                       'gait_tilted_path_right_straight_start',
                                                       'gait_tilted_path_right_flexed_knee_step',
+                                                      'gait_tilted_path_right_knee_bend',
                                                       'gait_tilted_path_first_start',
                                                       'gait_tilted_path_first_end']),
                  transitions={'gait_sit': 'GAIT SIT',
@@ -170,6 +173,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_left_knee_bend': 'GAIT TP LEFT KNEE BEND',
                               'gait_tilted_path_right_straight_start': 'GAIT TP RIGHT STRAIGHT',
                               'gait_tilted_path_right_flexed_knee_step': 'GAIT TP RIGHT FLEXED KNEE STEP',
+                              'gait_tilted_path_right_knee_bend': 'GAIT TP RIGHT KNEE BEND',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
                               'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
                               'failed': 'UNKNOWN'})
