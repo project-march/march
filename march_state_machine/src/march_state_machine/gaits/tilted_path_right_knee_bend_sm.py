@@ -9,11 +9,11 @@ def create():
     sm_tilted_path_right_knee_bend.register_io_keys(['sounds'])
     with sm_tilted_path_right_knee_bend:
         smach.StateMachine.add('GAIT TP RIGHT KNEE BEND', StepStateMachine('tilted_path_right_knee_bend',
-                                                                          subgaits=['right_open']),
+                                                                           subgaits=['right_open']),
                                transitions={'succeeded': 'STANDING TP RIGHT STRAIGHT'})
 
         smach.StateMachine.add('GAIT TP RIGHT SINGLE STEP', StepStateMachine('tilted_path_right_single_step',
-                                                                            subgaits=['left_open', 'right_close']),
+                                                                             subgaits=['left_open', 'right_close']),
                                transitions={'succeeded': 'STANDING TP RIGHT STRAIGHT',
                                             'rejected': 'STANDING TP RIGHT STRAIGHT'})
 
@@ -24,7 +24,7 @@ def create():
                                             'gait_tilted_path_right_straight_end': 'GAIT TP RIGHT STRAIGHT END'})
 
         smach.StateMachine.add('GAIT TP RIGHT STRAIGHT END', StepStateMachine('tilted_path_right_straight_end',
-                                                                             subgaits=['right_open', 'left_close']),
+                                                                              subgaits=['right_open', 'left_close']),
                                transitions={'rejected': 'STANDING TP RIGHT STRAIGHT'})
 
     return sm_tilted_path_right_knee_bend
