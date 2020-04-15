@@ -258,11 +258,12 @@ class ESPAdapter:
         """
         motor_current_str = ','.join([str(value) for value in data.motor_current])
         imc_voltage_str = ','.join([str(value) for value in data.imc_voltage])
+        motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
         absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
         incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
         time_str = get_time_str(data.header.stamp)
 
-        csv = ','.join([time_str, imc_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
+        csv = ','.join([time_str, imc_voltage_str, motor_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
         self.send_to_esp(csv, source)
 
     def gait_callback(self, data, source):
