@@ -35,8 +35,8 @@ class MoveItSubgait(object):
     def capture_point_cb(self, msg, leg_name):
         """Set latest message to variable.
 
-        :param msg:
-        :param leg_name:
+        :param msg: The message from the capture point topic
+        :param leg_name: The name of corresponding move group
         """
         self._capture_point_msg[leg_name] = msg
 
@@ -44,6 +44,7 @@ class MoveItSubgait(object):
         """Create random trajectory using the moveit motion planner.
 
         :return:
+            A populated subgait message
         """
         self._move_group['left_leg'].set_random_target()
         trajectory_plan = self._move_group['left_leg'].plan()
@@ -52,7 +53,7 @@ class MoveItSubgait(object):
     @staticmethod
     def to_subgait_msg_(name, trajectory, gait_type='walk_like', version='moveit',
                         description='Subgait created using the moveit motion planning.'):
-        """Create a subgait message."""
+        """Create a subgait message using the standard format in the march shared resources."""
         subgait_msg = Subgait()
 
         subgait_msg.name = name
