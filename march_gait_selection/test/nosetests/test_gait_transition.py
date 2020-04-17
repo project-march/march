@@ -4,7 +4,7 @@ from copy import deepcopy
 import unittest
 
 from march_gait_selection.gait_selection import GaitSelection
-from march_gait_selection.transition_gait.transition_subgait import TransitionSubgait
+from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
 from march_shared_classes.exceptions.gait_exceptions import GaitError
 
 PKG = 'march_gait_selection'
