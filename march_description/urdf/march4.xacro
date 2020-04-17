@@ -758,7 +758,4 @@
             <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
-
-
-
 </robot>
