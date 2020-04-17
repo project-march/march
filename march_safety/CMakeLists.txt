@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_safety)
 
-add_compile_options(-std=c++11 -Wall -Wextra)
+add_compile_options(-std=c++14 -Wall -Wextra -Werror)
 
 find_package(catkin REQUIRED COMPONENTS
     march_shared_resources
@@ -29,6 +29,11 @@ include_directories(
     ${catkin_INCLUDE_DIRS}
 )
 
+if(CATKIN_ENABLE_TESTING AND ENABLE_COVERAGE_TESTING)
+    find_package(code_coverage REQUIRED)
+    append_coverage_compiler_flags()
+endif()
+
 add_library(${PROJECT_NAME}
     src/input_device_safety.cpp
     src/safety_handler.cpp
@@ -55,33 +60,27 @@ install(DIRECTORY launch sound
 
 # Add gtest based cpp test target and link libraries
 if(CATKIN_ENABLE_TESTING)
-    find_package(code_coverage REQUIRED)
     find_package(rostest REQUIRED)
 
-    if(ENABLE_COVERAGE_TESTING)
-        include(CodeCoverage)
-        append_coverage_compiler_flags()
-    endif()
-
     add_rostest_gtest(${PROJECT_NAME}_temperature_test
-        test/${PROJECT_NAME}_temperature.test
-        test/temperature_error_test.cpp
-        test/no_temperature_error_test.cpp
-        test/temperature_parameterized_test.cpp
+        test/launch/${PROJECT_NAME}_temperature.test
+        test/rostest/temperature_error_test.cpp
+        test/rostest/no_temperature_error_test.cpp
+        test/rostest/temperature_parameterized_test.cpp
     )
     add_rostest_gtest(${PROJECT_NAME}_connection_lost_test
-        test/${PROJECT_NAME}_connection_lost.test
-        test/connection_lost_test.cpp
+        test/launch/${PROJECT_NAME}_connection_lost.test
+        test/rostest/connection_lost_test.cpp
     )
 
     add_rostest_gtest(${PROJECT_NAME}_connection_never_started_test
-        test/${PROJECT_NAME}_connection_never_started.test
-        test/connection_never_started_test.cpp
+        test/launch/${PROJECT_NAME}_connection_never_started.test
+        test/rostest/connection_never_started_test.cpp
     )
 
     add_rostest_gtest(${PROJECT_NAME}_connection_not_lost_test
-        test/${PROJECT_NAME}_connection_not_lost.test
-        test/connection_not_lost_test.cpp
+        test/launch/${PROJECT_NAME}_connection_not_lost.test
+        test/rostest/connection_not_lost_test.cpp
     )
     target_link_libraries(${PROJECT_NAME}_temperature_test ${catkin_LIBRARIES})
     target_link_libraries(${PROJECT_NAME}_connection_lost_test ${catkin_LIBRARIES})
@@ -91,8 +90,12 @@ if(CATKIN_ENABLE_TESTING)
     if(ENABLE_COVERAGE_TESTING)
         set(COVERAGE_EXCLUDES "*/${PROJECT_NAME}/test*")
         add_code_coverage(
-            NAME ${PROJECT_NAME}_coverage
-            DEPENDS tests
+            NAME coverage_report
+            DEPENDENCIES
+            ${PROJECT_NAME}_temperature_test
+            ${PROJECT_NAME}_connection_lost_test
+            ${PROJECT_NAME}_connection_never_started_test
+            ${PROJECT_NAME}_connection_not_lost_test
         )
     endif()
 endif()

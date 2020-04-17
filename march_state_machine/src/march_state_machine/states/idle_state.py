@@ -12,7 +12,8 @@ class IdleState(smach.State):
     Listens to instructions from the input device and reacts if they are known transitions.
     """
 
-    def __init__(self, outcomes):
+    def __init__(self, gait_outcomes):
+        outcomes = ['failed', 'preempted'] + gait_outcomes
         super(IdleState, self).__init__(outcomes)
 
         self._result_gait = None
@@ -27,8 +28,12 @@ class IdleState(smach.State):
         self._result_gait = None
 
         control_flow.reset_gait()
+        control_flow.reset_stop()
+
         control_flow.set_stopped_callback(self._stopped_cb)
+        control_flow.set_gait_transition_callback(self._transition_cb)
         control_flow.set_gait_selected_callback(self._gait_cb)
+        control_flow.set_state_machine_to_unknown(self._return_failed)
 
         self._trigger_event.wait()
         control_flow.clear_callbacks()
@@ -42,9 +47,15 @@ class IdleState(smach.State):
 
         return 'failed'
 
-    def _stopped_cb(self):
+    @staticmethod
+    def _stopped_cb():
         rospy.logwarn('Idle state does not respond to stop')
         control_flow.reset_stop()
+
+    @staticmethod
+    def _transition_cb():
+        rospy.logwarn('Idle state does not respond to transition input')
+        control_flow.reset_transition()
 
     def _gait_cb(self, gait):
         if gait in self.get_registered_outcomes():
@@ -58,4 +69,9 @@ class IdleState(smach.State):
 
     def request_preempt(self):
         super(IdleState, self).request_preempt()
+        self._trigger_event.set()
+
+    def _return_failed(self):
+        rospy.logwarn('Current state is set to unknown.')
+        self._result_gait = None
         self._trigger_event.set()
