@@ -10,6 +10,8 @@ import tf2_ros
 
 from math import pi, asin, sqrt, acos
 
+from march_shared_resources.msg import Subgait
+
 
 class MoveItSubgait(object):
     def __init__(self):
@@ -24,5 +26,21 @@ class MoveItSubgait(object):
         self.move_group_left_ = moveit_commander.MoveGroupCommander("left_leg")
 
     def random_subgait(self):
-        random_joint_values = self.move_group_left_.get_random_joint_values()
-        random_plan = self.move_group_left_.plan(random_joint_values)
+        subgait = Subgait()
+
+        self.move_group_left_.set_random_target()
+        random_plan = self.move_group_left_.plan()
+
+        subgait.trajectory = random_plan.joint_trajectory
+        subgait.name = 'random'
+        subgait.version = 'moveit'
+        subgait.description = 'randomly generated subgait by MoveIt'
+        subgait.gait_type = 'walk_like'
+
+        return subgait
+
+
+
+
+
+
