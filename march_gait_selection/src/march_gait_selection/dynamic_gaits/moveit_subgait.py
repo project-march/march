@@ -1,13 +1,15 @@
-import moveit_commander
-import rospy
 import sys
 
-from march_shared_resources.msg import Subgait
+import moveit_commander
+import rospy
 from visualization_msgs.msg import Marker
+
+from march_shared_resources.msg import Subgait
 
 
 class MoveItSubgait(object):
-    """Base class to create a subgait using the moveit motion planning"""
+    """Base class to create a subgait using the moveit motion planning."""
+
     def __init__(self):
         rospy.init_node('moveit_subgait', anonymous=True)
 
@@ -15,41 +17,42 @@ class MoveItSubgait(object):
         moveit_commander.RobotCommander()
         moveit_commander.PlanningSceneInterface()
 
-        self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
-                            'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+        try:
+            self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
+                                'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+        except RuntimeError:
+            rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
+            return
 
-        self._capture_point_msg = {}
+        self._capture_point_msg = {'left_leg': None, 'right_leg': None}
+        self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
 
-        rospy.Subscriber('/march/cp_marker_left_foot', Marker, queue_size=1, callback=self.capture_point_cb,
+        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
                          callback_args='left_leg')
-        rospy.Subscriber('/march/cp_marker_right_foot', Marker, queue_size=1, callback=self.capture_point_cb,
+        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=self.capture_point_cb,
                          callback_args='right_leg')
 
     def capture_point_cb(self, msg, leg_name):
-        """ Set latest message to local variable
+        """Set latest message to variable.
 
         :param msg:
         :param leg_name:
         """
         self._capture_point_msg[leg_name] = msg
 
-    def create_subgait(self, leg_name):
-
-        return self.to_subgait_msg_('', '')
-
     def random_subgait(self):
-        """ Create random trajectory using the moveit motion planner
+        """Create random trajectory using the moveit motion planner.
 
         :return:
         """
         self._move_group['left_leg'].set_random_target()
         trajectory_plan = self._move_group['left_leg'].plan()
-        return self.to_subgait_msg_('Random moveit subgait', trajectory_plan)
+        return self.to_subgait_msg_('Random moveit subgait', trajectory_plan.joint_trajectory)
 
     @staticmethod
     def to_subgait_msg_(name, trajectory, gait_type='walk_like', version='moveit',
                         description='Subgait created using the moveit motion planning.'):
-        """Create a subgait message"""
+        """Create a subgait message."""
         subgait_msg = Subgait()
 
         subgait_msg.name = name
