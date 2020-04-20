@@ -47,18 +47,18 @@ class MoveItSubgait(object):
             A populated subgait message
         """
         self._move_group['left_leg'].set_random_target()
-        trajectory_plan = self._move_group['left_leg'].plan()
-        return self.to_subgait_msg_('Random moveit subgait', trajectory_plan.joint_trajectory)
+        trajectory_msg = self._move_group['left_leg'].plan()
+        return self.to_subgait_msg_('Random moveit subgait', trajectory_msg.joint_trajectory)
 
     @staticmethod
-    def to_subgait_msg_(name, trajectory, gait_type='walk_like', version='moveit',
+    def to_subgait_msg_(name, trajectory_msg, gait_type='walk_like', version='moveit',
                         description='Subgait created using the moveit motion planning.'):
         """Create a subgait message using the standard format in the march shared resources."""
         subgait_msg = Subgait()
 
         subgait_msg.name = name
         subgait_msg.description = description
-        subgait_msg.trajectory = trajectory
+        subgait_msg.trajectory = trajectory_msg
         subgait_msg.version = version
         subgait_msg.gait_type = gait_type
         subgait_msg.duration = subgait_msg.trajectory.points[-1].time_from_start
