@@ -25,8 +25,8 @@ class MoveItSubgait(object):
             return
 
         self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
-        self._latest_msg_time = dict()
-        self._poses = dict()
+        self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
+        self._capture_point_position = {'left_leg': None, 'right_leg': None}
 
         rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
                          callback_args='left_leg')
