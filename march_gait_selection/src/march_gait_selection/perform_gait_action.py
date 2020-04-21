@@ -1,7 +1,7 @@
 import actionlib
 import rospy
 
-from march_gait_selection.transition_gait.transition_subgait import TransitionSubgait
+from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
 from march_shared_classes.exceptions.general_exceptions import MsgTypeError
 from march_shared_resources import msg
 from march_shared_resources.msg import GaitAction, GaitGoal, GaitNameAction
