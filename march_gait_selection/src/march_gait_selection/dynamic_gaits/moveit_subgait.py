@@ -24,8 +24,9 @@ class MoveItSubgait(object):
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return
 
-        self._capture_point_msg = {'left_leg': None, 'right_leg': None}
         self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
+        self._latest_msg_time = dict()
+        self._poses = dict()
 
         rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
                          callback_args='left_leg')
@@ -38,7 +39,8 @@ class MoveItSubgait(object):
         :param msg: The message from the capture point topic
         :param leg_name: The name of corresponding move group
         """
-        self._capture_point_msg[leg_name] = msg
+        self._latest_msg_time[leg_name] = msg.header.stamp
+        self._poses[leg_name] = msg.pose
 
     def random_subgait(self):
         """Create random trajectory using the moveit motion planner.
