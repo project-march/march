@@ -39,8 +39,8 @@ class MoveItSubgait(object):
         :param msg: The message from the capture point topic
         :param leg_name: The name of corresponding move group
         """
-        self._latest_msg_time[leg_name] = msg.header.stamp
-        self._poses[leg_name] = msg.pose
+        self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
+        self._capture_point_position[leg_name] = msg.pose.position
 
     def random_subgait(self):
         """Create random trajectory using the moveit motion planner.
