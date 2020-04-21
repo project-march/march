@@ -28,7 +28,5 @@
     <arg name="debug" value="$(arg debug)"/>
   </include>
 
-  <node name="march_move_group" pkg="march_moveit" type="move_group.py" output="screen">
-  </node>
 
 </launch>

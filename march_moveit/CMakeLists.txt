@@ -1,12 +1,13 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_moveit)
 
-find_package(catkin REQUIRED)
-catkin_python_setup()
+find_package(catkin REQUIRED COMPONENTS
+    march_description
+    )
 
-catkin_package()
-catkin_install_python(PROGRAMS scripts/move_group.py
-        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
+catkin_package(CATKIN_DEPENDS
+    march_description
+    )
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   PATTERN "setup_assistant.launch" EXCLUDE)
