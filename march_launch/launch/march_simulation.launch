@@ -25,5 +25,5 @@
         <arg name="configuration" value="simulation"/>
     </include>
 
-<include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
+    <include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
 </launch>
