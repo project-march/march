@@ -19,6 +19,7 @@
     <arg name="rosbag" default="false" doc="Enables rosbag record node."/>
 
     <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
+    <param name="balance" value="$(arg balance)" />
 
     <include file="$(dirname)/march.launch" pass_all_args="true">
         <arg name="configuration" value="simulation"/>
@@ -26,6 +27,5 @@
 
     <group if="$(arg balance)">
         <include file="$(find march_moveit)/launch/march_moveit.launch" />
-        <param name="balance" value="$(arg balance)" />
     <group>
 </launch>
