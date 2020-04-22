@@ -26,5 +26,6 @@
 
     <group if="$(arg balance)">
         <include file="$(find march_moveit)/launch/march_moveit.launch" />
+        <param name="balance" value="$(arg balance)" />
     <group>
 </launch>
