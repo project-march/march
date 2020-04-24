@@ -10,13 +10,11 @@ from march_shared_resources.msg import Subgait
 class BalanceGait(object):
     """Base class to create a gait using the moveit motion planning."""
 
-    def __init__(self, gait_name='balanced_walk'):
+    def __init__(self, gait_name='gait_balanced_walk'):
         self.gait_name = gait_name
-        self.use_balance = rospy.get_param('balance')
+        self._is_balance_used = rospy.get_param('/balance', False)
 
-        if self.use_balance:
-            rospy.init_node('moveit_subgait', anonymous=True)
-
+        if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
             moveit_commander.PlanningSceneInterface()
