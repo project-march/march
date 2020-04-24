@@ -12,19 +12,21 @@ class BalanceGait(object):
 
     def __init__(self, gait_name='balanced_walk'):
         self.gait_name = gait_name
+        self.use_balance = rospy.get_param('balance')
 
-        rospy.init_node('moveit_subgait', anonymous=True)
+        if self.use_balance:
+            rospy.init_node('moveit_subgait', anonymous=True)
 
-        moveit_commander.roscpp_initialize(sys.argv)
-        moveit_commander.RobotCommander()
-        moveit_commander.PlanningSceneInterface()
+            moveit_commander.roscpp_initialize(sys.argv)
+            moveit_commander.RobotCommander()
+            moveit_commander.PlanningSceneInterface()
 
-        try:
-            self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
-                                'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
-        except RuntimeError:
-            rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
-            return
+            try:
+                self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
+                                    'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+            except RuntimeError:
+                rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
+                return
 
         self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
