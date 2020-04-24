@@ -16,7 +16,7 @@ class IdleState(smach.State):
         outcomes = ['failed', 'preempted'] + gait_outcomes
         super(IdleState, self).__init__(outcomes)
 
-        self._is_balance_used = rospy.get_param('balance')
+        self._is_balance_used = rospy.get_param('/balance', False)
         self._result_gait = None
         self._trigger_event = threading.Event()
 
