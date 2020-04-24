@@ -16,6 +16,7 @@ class IdleState(smach.State):
         outcomes = ['failed', 'preempted'] + gait_outcomes
         super(IdleState, self).__init__(outcomes)
 
+        self._is_balance_used = rospy.get_param('balance')
         self._result_gait = None
         self._trigger_event = threading.Event()
 
@@ -59,6 +60,12 @@ class IdleState(smach.State):
 
     def _gait_cb(self, gait):
         if gait in self.get_registered_outcomes():
+            if gait == 'gait_balanced_walk':
+                if not self._is_balance_used:
+                    rospy.logwarn('Balance cannot be used, MoveIt! is not launched')
+                    control_flow.gait_rejected()
+                    return
+
             rospy.logdebug('Accepted {0}'.format(gait))
             self._result_gait = gait
             control_flow.gait_accepted()
