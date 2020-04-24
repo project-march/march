@@ -7,10 +7,12 @@ from visualization_msgs.msg import Marker
 from march_shared_resources.msg import Subgait
 
 
-class MoveItSubgait(object):
-    """Base class to create a subgait using the moveit motion planning."""
+class BalanceGait(object):
+    """Base class to create a gait using the moveit motion planning."""
 
-    def __init__(self):
+    def __init__(self, gait_name='balanced_walk'):
+        self.gait_name = gait_name
+
         rospy.init_node('moveit_subgait', anonymous=True)
 
         moveit_commander.roscpp_initialize(sys.argv)
@@ -42,6 +44,10 @@ class MoveItSubgait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_position[leg_name] = msg.pose.position
 
+    def calculate_trajectory(self, leg_name):
+        """Calculate the trajectory using moveit and return as a subgait msg format."""
+        return self.random_subgait()
+
     def random_subgait(self):
         """Create random trajectory using the moveit motion planner.
 
@@ -66,3 +72,12 @@ class MoveItSubgait(object):
         subgait_msg.duration = subgait_msg.trajectory.points[-1].time_from_start
 
         return subgait_msg
+
+    def __getitem__(self, name):
+        """Return the trajectory of a move group based on capture point in subgait msg format."""
+        if name[0:4] == 'right':
+            return self.calculate_trajectory('right_leg')
+        elif name[0:5] == 'left':
+            return self.calculate_trajectory('left_leg')
+        else:
+            return None
