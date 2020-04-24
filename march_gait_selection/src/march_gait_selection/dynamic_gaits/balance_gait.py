@@ -45,7 +45,13 @@ class BalanceGait(object):
         self._capture_point_position[leg_name] = msg.pose.position
 
     def calculate_trajectory(self, leg_name):
-        """Calculate the trajectory using moveit and return as a subgait msg format."""
+        """Calculate the trajectory using moveit and return as a subgait msg format.
+
+        :param leg_name: The name of the used move group
+
+        :return:
+            A populated subgait message
+        """
         return self.random_subgait()
 
     def random_subgait(self):
@@ -74,10 +80,13 @@ class BalanceGait(object):
         return subgait_msg
 
     def __getitem__(self, name):
-        """Return the trajectory of a move group based on capture point in subgait msg format."""
-        if name[0:4] == 'right':
+        """Return the trajectory of a move group based on capture point in subgait msg format.
+
+        :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
+        """
+        if name == 'right_swing':
             return self.calculate_trajectory('right_leg')
-        elif name[0:5] == 'left':
+        elif name == 'left_swing':
             return self.calculate_trajectory('left_leg')
         else:
             return None
