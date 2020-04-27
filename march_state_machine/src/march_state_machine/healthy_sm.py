@@ -123,6 +123,9 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
+        # Balance gait based on Capture Point
+        self.add_state('GAIT BALANCED WALK', WalkStateMachine('gait_balanced_walk'), 'STANDING')
+
         self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
         self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small',
@@ -145,7 +148,9 @@ class HealthyStateMachine(smach.StateMachine):
                                                       'gait_tilted_path_right_flexed_knee_step',
                                                       'gait_tilted_path_right_knee_bend',
                                                       'gait_tilted_path_first_start',
-                                                      'gait_tilted_path_first_end']),
+                                                      'gait_tilted_path_first_end',
+                                                      'gait_balanced_walk'],
+                                       balance_gaits=['gait_balanced_walk']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
                               'gait_walk_small': 'GAIT WALK SMALL',
@@ -176,6 +181,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_right_knee_bend': 'GAIT TP RIGHT KNEE BEND',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
                               'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
+                              'gait_balanced_walk': 'GAIT BALANCED WALK',
                               'failed': 'UNKNOWN'})
         self.close()
 
