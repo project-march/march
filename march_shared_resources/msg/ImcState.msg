@@ -11,3 +11,5 @@ float32[] imc_voltage
 float32[] motor_voltage
 int32[] absolute_encoder_value
 int32[] incremental_encoder_value
+float32[] absolute_velocity
+float32[] incremental_velocity
