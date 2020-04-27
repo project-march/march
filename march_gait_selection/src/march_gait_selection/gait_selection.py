@@ -6,6 +6,7 @@ import rospy
 from urdf_parser_py import urdf
 import yaml
 
+from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
@@ -38,6 +39,7 @@ class GaitSelection(object):
         rospy.loginfo('GaitSelection initialized with package: {pk} of directory {dr}'.format(pk=package, dr=directory))
         rospy.logdebug('GaitSelection initialized with gait_version_map: {vm}'.format(vm=str(self.gait_version_map)))
 
+        self.balance_gait = BalanceGait()
         self.load_gaits()
 
     @staticmethod
@@ -64,7 +66,7 @@ class GaitSelection(object):
 
     def load_gaits(self):
         """Load the gaits in the specified gait directory."""
-        self.loaded_gaits = list()
+        self.loaded_gaits = [self.balance_gait]
 
         for gait in self._gait_version_map:
             loaded_gait = Gait.from_file(gait, self.gait_directory, self.robot, self._gait_version_map)
