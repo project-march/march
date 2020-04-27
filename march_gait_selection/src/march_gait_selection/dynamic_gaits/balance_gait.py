@@ -7,22 +7,24 @@ from visualization_msgs.msg import Marker
 from march_shared_resources.msg import Subgait
 
 
-class MoveItSubgait(object):
-    """Base class to create a subgait using the moveit motion planning."""
+class BalanceGait(object):
+    """Base class to create a gait using the moveit motion planning."""
 
-    def __init__(self):
-        rospy.init_node('moveit_subgait', anonymous=True)
+    def __init__(self, gait_name='gait_balanced_walk'):
+        self.gait_name = gait_name
+        self._is_balance_used = rospy.get_param('/balance', False)
 
-        moveit_commander.roscpp_initialize(sys.argv)
-        moveit_commander.RobotCommander()
-        moveit_commander.PlanningSceneInterface()
+        if self._is_balance_used:
+            moveit_commander.roscpp_initialize(sys.argv)
+            moveit_commander.RobotCommander()
+            moveit_commander.PlanningSceneInterface()
 
-        try:
-            self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
-                                'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
-        except RuntimeError:
-            rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
-            return
+            try:
+                self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
+                                    'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+            except RuntimeError:
+                rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
+                return
 
         self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
@@ -41,6 +43,16 @@ class MoveItSubgait(object):
         """
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_position[leg_name] = msg.pose.position
+
+    def calculate_trajectory(self, leg_name):
+        """Calculate the trajectory using moveit and return as a subgait msg format.
+
+        :param leg_name: The name of the used move group
+
+        :return:
+            A populated subgait message
+        """
+        return self.random_subgait()
 
     def random_subgait(self):
         """Create random trajectory using the moveit motion planner.
@@ -66,3 +78,15 @@ class MoveItSubgait(object):
         subgait_msg.duration = subgait_msg.trajectory.points[-1].time_from_start
 
         return subgait_msg
+
+    def __getitem__(self, name):
+        """Return the trajectory of a move group based on capture point in subgait msg format.
+
+        :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
+        """
+        if name == 'right_swing':
+            return self.calculate_trajectory('right_leg')
+        elif name == 'left_swing':
+            return self.calculate_trajectory('left_leg')
+        else:
+            return None
