@@ -29,6 +29,8 @@
     <arg name="moticon_ip" default="192.168.8.105" doc="The ip-adress with Moticon software running on it, defaults to
             EMS switch laptop on standard router"/>
 
+    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
+
     <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
 
     <node
