@@ -12,6 +12,7 @@ class BalanceGait(object):
 
     def __init__(self, gait_name='gait_balanced_walk'):
         self.gait_name = gait_name
+        self.default_walk = None
         self._is_balance_used = rospy.get_param('/balance', False)
 
         if self._is_balance_used:
@@ -84,9 +85,15 @@ class BalanceGait(object):
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
-        if name == 'right_swing':
+        if name == 'right_open':
+            return self.default_walk[name]
+        elif name == 'right_swing':
             return self.calculate_trajectory('right_leg')
         elif name == 'left_swing':
             return self.calculate_trajectory('left_leg')
+        elif name == 'right_close':
+            return self.default_walk[name]
+        elif name == 'left_close':
+            return self.default_walk[name]
         else:
             return None
