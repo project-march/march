@@ -111,6 +111,9 @@ class GaitSelection(object):
     def validate_versions_in_directory(self, new_gait_version_map):
         """Validate if the given version numbers in the version map exist in the selected directory."""
         for gait_name in new_gait_version_map:
+            if not self.validate_gait_in_directory(gait_name):
+                return False
+
             for subgait_name in new_gait_version_map[gait_name]:
                 version = new_gait_version_map[gait_name][subgait_name]
                 subgait_path = os.path.join(self.gait_directory, gait_name, subgait_name, version + '.subgait')
@@ -126,7 +129,9 @@ class GaitSelection(object):
         gait_path = os.path.join(self.gait_directory, gait_map, gait_name + '.gait')
 
         if not os.path.isfile(gait_path):
-            raise FileNotFoundError(gait_path)
+            return False
+        else:
+            return True
 
     def update_default_versions(self):
         """Update the default.yaml file in the given directory."""
