@@ -28,4 +28,5 @@ install(DIRECTORY launch
 if (CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
     add_rostest(test/launch/testing_gait_selection.test)
+    add_rostest(test/launch/testing_dynamic_gaits.test)
 endif()

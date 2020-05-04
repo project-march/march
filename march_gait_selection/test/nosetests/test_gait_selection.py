@@ -9,7 +9,6 @@ from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
-
 valid_package = 'march_gait_selection'
 valid_directory = 'test/testing_gait_files'
 
