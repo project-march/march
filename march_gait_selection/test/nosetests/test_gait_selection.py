@@ -1,12 +1,15 @@
 #!/usr/bin/env python
 
+from copy import deepcopy
 import unittest
 
 from march_gait_selection.gait_selection import GaitSelection
+from march_shared_classes.exceptions.gait_exceptions import GaitError
+from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 
 
-PKG = 'march_gait_selection'
-DIR = 'test/testing_gait_files'
+valid_package = 'march_gait_selection'
+valid_directory = 'test/testing_gait_files'
 
 walk_medium = 'walk_medium'
 walk_small = 'walk_small'
@@ -17,62 +20,49 @@ right_close = 'right_close'
 
 wrong_name = 'wrong'
 
-gait_selection = GaitSelection(PKG, DIR)
-
 
 class TestGaitSelection(unittest.TestCase):
-    def test_valid_walk_small_gait(self):
-        # check if gait name exists
-        is_walk_small_gait = False if gait_selection[walk_small] is None else True
-        self.assertTrue(is_walk_small_gait, msg='{gn} gait could not be found in folder'.format(gn=walk_small))
 
-    def test_valid_walk_medium_gait(self):
-        # check if gait name exists
-        is_walk_medium_medium = False if gait_selection[walk_medium] is None else True
-        self.assertTrue(is_walk_medium_medium, msg='{gn} gait could not be found in folder'.format(gn=walk_medium))
+    @classmethod
+    def setUpClass(cls):
+        cls._gait_selection = GaitSelection(valid_package, valid_directory)
 
-    def test_invalid_gait_name(self):
-        # check if wrong gait name
-        self.assertEqual(None, gait_selection[wrong_name], msg='Gait selection class does not return None when given '
-                                                               'a false gait name')
+    def setUp(self):
+        self.gait_selection = deepcopy(self._gait_selection)
+        self.gait_version_map = deepcopy(self._gait_selection.gait_version_map)
 
-    def test_right_open_walk_small(self):
-        # check if subgait name exists
-        is_right_open_subgait = False if gait_selection[walk_small][right_open] is None else True
-        self.assertTrue(is_right_open_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_open, gn=walk_small))
+    # __init__ tests
+    def test_init_with_wrong_package(self):
+        with self.assertRaises(PackageNotFoundError):
+            GaitSelection('wrong', valid_directory)
 
-    def test_right_open_walk_medium(self):
-        # check if subgait name exists
-        is_right_open_subgait = False if gait_selection[walk_medium][right_open] is None else True
-        self.assertTrue(is_right_open_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_open, gn=walk_medium))
+    def test_init_with_wrong_directory(self):
+        with self.assertRaises(FileNotFoundError):
+            GaitSelection(valid_package, 'wrong')
 
-    def test_right_swing_in_walk_small(self):
-        # check if subgait name exists
-        is_right_swing_subgait = False if gait_selection[walk_small][right_swing] is None else True
-        self.assertTrue(is_right_swing_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_swing, gn=walk_small))
+    # gait version map setter tests
+    def test_set_gait_version_map_with_wrong_type(self):
+        with self.assertRaises(TypeError):
+            self.gait_selection.gait_version_map = 'wrong'
 
-    def test_invalid_subgait_name(self):
-        # check if wrong gait name
-        self.assertEqual(None, gait_selection[walk_medium][wrong_name], msg='Gait selection class does not return None '
-                                                                            'when given a false subgait name')
+    def test_set_gait_version_map_with_empty_version_map(self):
+        self.gait_version_map = {}
+        with self.assertRaises(GaitError):
+            self.gait_selection.gait_version_map = self.gait_version_map
 
-    def test_right_swing_in_walk_medium(self):
-        # check if subgait name exists
-        is_right_swing_subgait = False if gait_selection[walk_medium][right_swing] is None else True
-        self.assertTrue(is_right_swing_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_swing, gn=walk_medium))
+    def test_set_gait_version_map_with_non_existing_gait_name(self):
+        self.gait_version_map['wrong'] = self.gait_version_map['walk']
+        with self.assertRaises(GaitError):
+            self.gait_selection.gait_version_map = self.gait_version_map
 
-    def test_right_close_walk_small(self):
-        # check if subgait name exists
-        is_right_close_subgait = False if gait_selection[walk_small][right_close] is None else True
-        self.assertTrue(is_right_close_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_close, gn=walk_small))
+    def test_set_gait_version_map_with_non_existing_subgait_name(self):
+        self.gait_version_map['walk']['wrong'] = self.gait_version_map['walk']['right_open']
+        with self.assertRaises(GaitError):
+            self.gait_selection.gait_version_map = self.gait_version_map
 
-    def test_right_close_walk_medium(self):
-        # check if subgait name exists
-        is_right_close_subgait = False if gait_selection[walk_medium][right_close] is None else True
-        self.assertTrue(is_right_close_subgait, msg='{sg} subgait could not be found in gait {gn}'
-                        .format(sg=right_close, gn=walk_medium))
+    def test_set_gait_version_map_with_wrong_subgait_version(self):
+        self.gait_version_map['walk']['right_open'] = 'wrong'
+        with self.assertRaises(GaitError):
+            self.gait_selection.gait_version_map = self.gait_version_map
+
+    # gait

@@ -40,7 +40,7 @@ class GaitSelection(object):
         rospy.logdebug('GaitSelection initialized with gait_version_map: {vm}'.format(vm=str(self.gait_version_map)))
 
         self.balance_gait = BalanceGait()
-        self.load_gaits()
+        self.gait_version_map = self._gait_version_map
 
     @staticmethod
     def get_ros_package_path(package):
@@ -58,6 +58,12 @@ class GaitSelection(object):
     @gait_version_map.setter
     def gait_version_map(self, new_version_map):
         """Set new version map and reload the gaits from the directory."""
+        if not type(new_version_map) is dict:
+            raise TypeError('Gait version map should be of type; dictionary.')
+
+        if len(new_version_map) == 0:
+            raise GaitError(msg='Gait version map: {gm}, is empty'.format(gm=new_version_map))
+
         if not self.validate_versions_in_directory(new_version_map):
             raise GaitError(msg='Gait version map: {gm}, is not valid'.format(gm=new_version_map))
 
@@ -122,10 +128,6 @@ class GaitSelection(object):
         if not os.path.isfile(gait_path):
             raise FileNotFoundError(gait_path)
 
-    def __getitem__(self, name):
-        """Get a gait from the loaded gaits."""
-        return next((gait for gait in self.loaded_gaits if gait.gait_name == name), None)
-
     def update_default_versions(self):
         """Update the default.yaml file in the given directory."""
         new_default_dict = {'gaits': self.gait_version_map}
@@ -138,3 +140,7 @@ class GaitSelection(object):
 
         except IOError:
             return [False, 'Error occurred when writing to file path: {pn}'.format(pn=self.default_yaml)]
+
+    def __getitem__(self, name):
+        """Get a gait from the loaded gaits."""
+        return next((gait for gait in self.loaded_gaits if gait.gait_name == name), None)
