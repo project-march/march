@@ -3,22 +3,15 @@
 from copy import deepcopy
 import unittest
 
+from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
+from march_shared_classes.gait.gait import Gait
 
 
 valid_package = 'march_gait_selection'
 valid_directory = 'test/testing_gait_files'
-
-walk_medium = 'walk_medium'
-walk_small = 'walk_small'
-
-right_open = 'right_open'
-right_swing = 'right_swing'
-right_close = 'right_close'
-
-wrong_name = 'wrong'
 
 
 class TestGaitSelection(unittest.TestCase):
@@ -65,4 +58,34 @@ class TestGaitSelection(unittest.TestCase):
         with self.assertRaises(GaitError):
             self.gait_selection.gait_version_map = self.gait_version_map
 
-    # gait
+    # load gaits tests
+    def test_types_in_loaded_gaits(self):
+        for gait in self.gait_selection.loaded_gaits:
+            self.assertIsInstance(gait, (Gait, BalanceGait))
+
+    # scan directory tests
+    def test_scan_directory_top_level_length(self):
+        directory = self.gait_selection.scan_directory()
+        self.assertTrue(len(['stairs_up', 'walk', 'walk_medium', 'walk_small']), len(directory.keys()))
+
+    def test_scan_directory_top_level_content(self):
+        directory = self.gait_selection.scan_directory()
+        self.assertTrue(all(key in ['stairs_up', 'walk', 'walk_medium', 'walk_small'] for key in directory.keys()))
+
+    def test_scan_directory_subgait_versions(self):
+        directory = self.gait_selection.scan_directory()
+        walk_subgaits = directory['walk']['subgaits']
+        self.assertEqual(walk_subgaits['left_swing'], ['MV_walk_leftswing_v2'])
+
+    # get item tests
+    def test_get_item_with_wrong_name(self):
+        gait = self.gait_selection['wrong']
+        self.assertEqual(gait, None)
+
+    def test_get_item_valid_gait_name(self):
+        gait = True if self.gait_selection['walk'] is not None else False
+        self.assertTrue(gait)
+
+    def test_get_item_type(self):
+        gait = self.gait_selection['walk']
+        self.assertIsInstance(gait, Gait)
