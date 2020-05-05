@@ -90,6 +90,7 @@
             <arg name="fixed" value="$(arg fixed)"/>
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
+            <arg name="balance" value="$(arg balance)"/>
         </include>
     </group>
 
