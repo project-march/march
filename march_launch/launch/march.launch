@@ -48,7 +48,7 @@
         <include file="$(find march_state_machine)/launch/state_machine.launch">
             <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
             <arg name="unpause" value="$(eval configuration == 'simulation' and unpause)"/>
-            <arg name="sounds" value="$(arg sounds)"/>
+            <arg name="sounds" value="$(arg sounds)"/>		
         </include>
 
         <include file="$(find march_safety)/launch/march_safety.launch"/>
@@ -74,6 +74,8 @@
             <arg name="pressure_soles" value="$(arg pressure_soles)"/>
             <arg name="moticon_ip" value="$(arg moticon_ip)"/>
         </include>
+
+    	<include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
     </group>
 
     <group if="$(eval configuration == 'exoskeleton')">
@@ -88,6 +90,7 @@
             <arg name="fixed" value="$(arg fixed)"/>
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
+            <arg name="balance" value="$(arg balance)"/>
         </include>
     </group>
 
