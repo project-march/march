@@ -26,4 +26,3 @@ class TestBalanceGait(unittest.TestCase):
     def test_get_balance_walk_gait_type(self):
         balanced_walk = self.gait_selection['gait_balanced_walk']
         self.assertIsInstance(balanced_walk, BalanceGait)
-
