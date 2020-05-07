@@ -112,6 +112,7 @@ class GaitSelection(object):
         """Validate if the given version numbers in the version map exist in the selected directory."""
         for gait_name in new_gait_version_map:
             if not self.validate_gait_in_directory(gait_name):
+                rospy.logwarn('gait {gn} does not exist'.format(gn=gait_name))
                 return False
 
             for subgait_name in new_gait_version_map[gait_name]:

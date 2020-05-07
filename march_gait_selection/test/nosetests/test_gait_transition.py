@@ -8,15 +8,15 @@ from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError
 
 
-PKG = 'march_gait_selection'
-DIR = 'test/testing_gait_files'
+VALID_PACKAGE = 'march_gait_selection'
+VALID_DIRECTORY = 'test/testing_gait_files'
 
 
 class TestTransitionTrajectory(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._gait_selection = GaitSelection(PKG, DIR)
+        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY)
 
     def setUp(self):
         self.gait_selection = deepcopy(self._gait_selection)

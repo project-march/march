@@ -2,9 +2,11 @@
 import rosunit
 
 from nosetests.test_gait_transition import TestTransitionTrajectory
+from nosetests.test_gait_balance import TestBalanceGait
 
 PKG = 'march_gait_selection'
 
 
 if __name__ == '__main__':
     rosunit.unitrun(PKG, 'test_gait_transition', TestTransitionTrajectory)
+    rosunit.unitrun(PKG, 'test_gait_balance', TestBalanceGait)

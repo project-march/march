@@ -9,15 +9,15 @@ from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
-valid_package = 'march_gait_selection'
-valid_directory = 'test/testing_gait_files'
+VALID_PACKAGE = 'march_gait_selection'
+VALID_DIRECTORY = 'test/testing_gait_files'
 
 
 class TestGaitSelection(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._gait_selection = GaitSelection(valid_package, valid_directory)
+        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY)
 
     def setUp(self):
         self.gait_selection = deepcopy(self._gait_selection)
@@ -26,11 +26,11 @@ class TestGaitSelection(unittest.TestCase):
     # __init__ tests
     def test_init_with_wrong_package(self):
         with self.assertRaises(PackageNotFoundError):
-            GaitSelection('wrong', valid_directory)
+            GaitSelection('wrong', VALID_DIRECTORY)
 
     def test_init_with_wrong_directory(self):
         with self.assertRaises(FileNotFoundError):
-            GaitSelection(valid_package, 'wrong')
+            GaitSelection(VALID_PACKAGE, 'wrong')
 
     # gait version map setter tests
     def test_set_gait_version_map_with_wrong_type(self):
@@ -82,8 +82,7 @@ class TestGaitSelection(unittest.TestCase):
         self.assertEqual(gait, None)
 
     def test_get_item_valid_gait_name(self):
-        gait = True if self.gait_selection['walk'] is not None else False
-        self.assertTrue(gait)
+        self.assertFalse(self.gait_selection['walk'] is None)
 
     def test_get_item_type(self):
         gait = self.gait_selection['walk']
