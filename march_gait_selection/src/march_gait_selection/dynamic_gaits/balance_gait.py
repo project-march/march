@@ -89,7 +89,7 @@ class BalanceGait(object):
             return self.calculate_trajectory('right_leg')
         elif name == 'left_swing':
             return self.calculate_trajectory('left_leg')
-        elif self.default_walk.has_key(name):
+        elif name in self.default_walk:
             return self.default_walk[name]
         else:
             return None
