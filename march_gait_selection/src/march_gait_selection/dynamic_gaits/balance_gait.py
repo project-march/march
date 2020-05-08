@@ -85,15 +85,11 @@ class BalanceGait(object):
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
-        if name == 'right_open':
-            return self.default_walk[name]
-        elif name == 'right_swing':
+        if name == 'right_swing':
             return self.calculate_trajectory('right_leg')
         elif name == 'left_swing':
             return self.calculate_trajectory('left_leg')
-        elif name == 'right_close':
-            return self.default_walk[name]
-        elif name == 'left_close':
+        elif self.default_walk.has_key(name):
             return self.default_walk[name]
         else:
             return None
