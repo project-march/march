@@ -2,5 +2,8 @@
     <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
     <param name="balance" value="true" />
 
-    <test test-name=" test_gait_selection" pkg="march_gait_selection" type="run_tests_dynamic_gaits"/>
+    <group ns="march">
+        <test test-name=" test_gait_selection" pkg="march_gait_selection" type="run_tests_dynamic_gaits"/>
+        <include file="$(find march_moveit)/launch/march_moveit.launch" />
+    </group>
 </launch>

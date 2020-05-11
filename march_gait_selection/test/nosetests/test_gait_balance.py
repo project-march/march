@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-from copy import deepcopy
 import unittest
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_gait_selection.gait_selection import GaitSelection
+from march_shared_resources.msg import Subgait
 
 VALID_PACKAGE = 'march_gait_selection'
 VALID_DIRECTORY = 'test/testing_gait_files'
@@ -14,15 +14,18 @@ class TestBalanceGait(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY)
-
-    def setUp(self):
-        self.gait_selection = deepcopy(self._gait_selection)
+        cls.gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY)
 
     # __init__ tests
     def test_get_balance_walk_gait(self):
-        self.assertFalse(self.gait_selection['gait_balanced_walk'] is None)
+        self.assertIsNotNone(self.gait_selection['gait_balanced_walk'])
 
     def test_get_balance_walk_gait_type(self):
-        balanced_walk = self.gait_selection['gait_balanced_walk']
-        self.assertIsInstance(balanced_walk, BalanceGait)
+        self.assertIsInstance(self.gait_selection['gait_balanced_walk'], BalanceGait)
+
+    def test_move_group_initiate(self):
+        self.assertIsNotNone(self.gait_selection['gait_balanced_walk']._move_group)
+
+    def test_random_subgait_message(self):
+        random_moveit_subgait = self.gait_selection['gait_balanced_walk'].random_subgait()
+        self.assertIsInstance(random_moveit_subgait, Subgait)

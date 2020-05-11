@@ -63,13 +63,9 @@ class TestGaitSelection(unittest.TestCase):
             self.assertIsInstance(gait, (Gait, BalanceGait))
 
     # scan directory tests
-    def test_scan_directory_top_level_length(self):
-        directory = self.gait_selection.scan_directory()
-        self.assertTrue(len(['stairs_up', 'walk', 'walk_medium', 'walk_small']), len(directory.keys()))
-
     def test_scan_directory_top_level_content(self):
         directory = self.gait_selection.scan_directory()
-        self.assertTrue(all(key in ['stairs_up', 'walk', 'walk_medium', 'walk_small'] for key in directory.keys()))
+        self.assertEqual(['walk_medium', 'walk_small', 'stairs_up', 'walk'], directory.keys())
 
     def test_scan_directory_subgait_versions(self):
         directory = self.gait_selection.scan_directory()
@@ -78,12 +74,10 @@ class TestGaitSelection(unittest.TestCase):
 
     # get item tests
     def test_get_item_with_wrong_name(self):
-        gait = self.gait_selection['wrong']
-        self.assertEqual(gait, None)
+        self.assertIsNone(self.gait_selection['wrong'])
 
     def test_get_item_valid_gait_name(self):
-        self.assertFalse(self.gait_selection['walk'] is None)
+        self.assertIsNotNone(self.gait_selection['walk'])
 
     def test_get_item_type(self):
-        gait = self.gait_selection['walk']
-        self.assertIsInstance(gait, Gait)
+        self.assertIsInstance(self.gait_selection['walk'], Gait)
