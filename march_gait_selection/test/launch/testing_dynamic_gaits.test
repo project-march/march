@@ -3,7 +3,8 @@
     <param name="balance" value="true" />
 
     <group ns="march">
-        <test test-name=" test_gait_selection" pkg="march_gait_selection" type="run_tests_dynamic_gaits"/>
         <include file="$(find march_moveit)/launch/march_moveit.launch" />
+        <test test-name=" test_gait_selection" pkg="march_gait_selection" type="run_tests_dynamic_gaits"/>
     </group>
+
 </launch>
