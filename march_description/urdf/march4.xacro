@@ -70,8 +70,8 @@
     <xacro:property name="foot_height_forward" value="${0.184}"/>
     <xacro:property name="foot_height_backward" value="${0.059}"/>
     <xacro:property name="foot_mass" value="0.847"/>
-    <xacro:property name="foot_mu1" value="0.9"/>
-    <xacro:property name="foot_mu2" value="0.9"/>
+    <xacro:property name="foot_mu1" value="1"/>
+    <xacro:property name="foot_mu2" value="1"/>
     <!-- Minimum allowable depth before contact correction impulse is applied. -->
     <xacro:property name="foot_min_depth" value="0.0005"/>
     <!-- mass = Passive ankle + foot -->
@@ -364,6 +364,7 @@
         <mu1>${foot_mu1}</mu1>
         <mu2>${foot_mu2}</mu2>
         <minDepth>${foot_min_depth}</minDepth>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
 
     <!-- Right Moving Hip-->
@@ -508,6 +509,7 @@
         <mu1>${foot_mu1}</mu1>
         <mu2>${foot_mu2}</mu2>
         <minDepth>${foot_min_depth}</minDepth>
+        <fdir1>1 0 0</fdir1>
     </gazebo>
 
     <!-- Joints -->
