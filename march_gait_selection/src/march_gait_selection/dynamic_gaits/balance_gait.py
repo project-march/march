@@ -14,6 +14,7 @@ class BalanceGait(object):
         self.gait_name = gait_name
         self._is_balance_used = rospy.get_param('/balance', False)
 
+        self._move_group = None
         if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
