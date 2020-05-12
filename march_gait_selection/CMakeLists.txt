@@ -3,6 +3,7 @@ project(march_gait_selection)
 
 find_package(catkin REQUIRED COMPONENTS
     march_description
+    march_moveit
     march_shared_classes
     march_shared_resources
     std_msgs
@@ -12,6 +13,7 @@ catkin_python_setup()
 
 catkin_package(CATKIN_DEPENDS
     march_description
+    march_moveit
     march_shared_classes
     march_shared_resources
     std_msgs
@@ -28,4 +30,5 @@ install(DIRECTORY launch
 if (CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
     add_rostest(test/launch/testing_gait_selection.test)
+    add_rostest(test/launch/testing_dynamic_gaits.test)
 endif()

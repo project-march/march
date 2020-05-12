@@ -39,7 +39,7 @@ class GaitSelection(object):
         rospy.logdebug('GaitSelection initialized with gait_version_map: {vm}'.format(vm=str(self.gait_version_map)))
 
         self.balance_gait = BalanceGait()
-        self.load_gaits()
+        self.gait_version_map = self._gait_version_map
 
     @staticmethod
     def get_ros_package_path(package):
@@ -57,6 +57,12 @@ class GaitSelection(object):
     @gait_version_map.setter
     def gait_version_map(self, new_version_map):
         """Set new version map and reload the gaits from the directory."""
+        if not type(new_version_map) is dict:
+            raise TypeError('Gait version map should be of type; dictionary.')
+
+        if len(new_version_map) == 0:
+            raise GaitError(msg='Gait version map: {gm}, is empty'.format(gm=new_version_map))
+
         if not self.validate_versions_in_directory(new_version_map):
             raise GaitError(msg='Gait version map: {gm}, is not valid'.format(gm=new_version_map))
 
@@ -106,6 +112,10 @@ class GaitSelection(object):
     def validate_versions_in_directory(self, new_gait_version_map):
         """Validate if the given version numbers in the version map exist in the selected directory."""
         for gait_name in new_gait_version_map:
+            if not self.validate_gait_in_directory(gait_name):
+                rospy.logwarn('gait {gn} does not exist'.format(gn=gait_name))
+                return False
+
             for subgait_name in new_gait_version_map[gait_name]:
                 version = new_gait_version_map[gait_name][subgait_name]
                 subgait_path = os.path.join(self.gait_directory, gait_name, subgait_name, version + '.subgait')
@@ -121,11 +131,9 @@ class GaitSelection(object):
         gait_path = os.path.join(self.gait_directory, gait_map, gait_name + '.gait')
 
         if not os.path.isfile(gait_path):
-            raise FileNotFoundError(gait_path)
-
-    def __getitem__(self, name):
-        """Get a gait from the loaded gaits."""
-        return next((gait for gait in self.loaded_gaits if gait.gait_name == name), None)
+            return False
+        else:
+            return True
 
     def update_default_versions(self):
         """Update the default.yaml file in the given directory."""
@@ -139,3 +147,7 @@ class GaitSelection(object):
 
         except IOError:
             return [False, 'Error occurred when writing to file path: {pn}'.format(pn=self.default_yaml)]
+
+    def __getitem__(self, name):
+        """Get a gait from the loaded gaits."""
+        return next((gait for gait in self.loaded_gaits if gait.gait_name == name), None)
