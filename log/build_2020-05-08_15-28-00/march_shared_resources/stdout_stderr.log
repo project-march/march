@@ -1,0 +1,728 @@
+[0.296s] -- The C compiler identification is GNU 7.5.0
+[0.558s] -- The CXX compiler identification is GNU 7.5.0
+[0.571s] -- Check for working C compiler: /usr/bin/cc
+[0.693s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.695s] -- Detecting C compiler ABI info
+[0.854s] -- Detecting C compiler ABI info - done
+[0.869s] -- Detecting C compile features
+[1.272s] -- Detecting C compile features - done
+[1.285s] -- Check for working CXX compiler: /usr/bin/c++
+[1.411s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.412s] -- Detecting CXX compiler ABI info
+[1.567s] -- Detecting CXX compiler ABI info - done
+[1.580s] -- Detecting CXX compile features
+[2.161s] -- Detecting CXX compile features - done
+[2.171s] -- Using CATKIN_DEVEL_PREFIX: /home/rutger/march_ws/src/march/build/march_shared_resources/devel
+[2.171s] -- Using CMAKE_PREFIX_PATH: /home/rutger/march_ws/install/march_tutorials;/home/rutger/march_ws/install/march_temperature_sensor_controller;/home/rutger/march_ws/install/march_launch;/home/rutger/march_ws/install/march_state_machine;/home/rutger/march_ws/install/march_simulation;/home/rutger/march_ws/install/march_rqt_gait_generator;/home/rutger/march_ws/install/march_gait_selection;/home/rutger/march_ws/install/march_shared_classes;/home/rutger/march_ws/install/march_safety;/home/rutger/march_ws/install/march_rqt_note_taker;/home/rutger/march_ws/install/march_rqt_input_device;/home/rutger/march_ws/install/march_pdb_state_controller;/home/rutger/march_ws/install/march_hardware_interface;/home/rutger/march_ws/install/march_gazebo_plugins;/home/rutger/march_ws/install/march_gait_scheduler;/home/rutger/march_ws/install/march_gain_scheduling;/home/rutger/march_ws/install/march_data_collector;/home/rutger/march_ws/install/march_shared_resources;/home/rutger/march_ws/install/march_rqt_software_check;/home/rutger/march_ws/install/march_rqt_robot_monitor;/home/rutger/march_ws/install/march_rqt_gait_selection;/home/rutger/march_ws/install/march_moveit;/home/rutger/march_ws/install/march_imu_manager;/home/rutger/march_ws/install/march_hardware_builder;/home/rutger/march_ws/install/march_hardware;/home/rutger/march_ws/install/march_gait_files;/home/rutger/march_ws/install/march_fake_sensor_data;/home/rutger/march_ws/install/march_description;/opt/ros/melodic
+[2.172s] -- This workspace overlays: /home/rutger/march_ws/install/march_tutorials;/home/rutger/march_ws/install/march_temperature_sensor_controller;/home/rutger/march_ws/install/march_launch;/home/rutger/march_ws/install/march_state_machine;/home/rutger/march_ws/install/march_simulation;/home/rutger/march_ws/install/march_rqt_gait_generator;/home/rutger/march_ws/install/march_gait_selection;/home/rutger/march_ws/install/march_shared_classes;/home/rutger/march_ws/install/march_safety;/home/rutger/march_ws/install/march_rqt_note_taker;/home/rutger/march_ws/install/march_rqt_input_device;/home/rutger/march_ws/install/march_pdb_state_controller;/home/rutger/march_ws/install/march_hardware_interface;/home/rutger/march_ws/install/march_gazebo_plugins;/home/rutger/march_ws/install/march_gait_scheduler;/home/rutger/march_ws/install/march_gain_scheduling;/home/rutger/march_ws/install/march_data_collector;/home/rutger/march_ws/install/march_shared_resources;/home/rutger/march_ws/install/march_rqt_software_check;/home/rutger/march_ws/install/march_rqt_robot_monitor;/home/rutger/march_ws/install/march_rqt_gait_selection;/home/rutger/march_ws/install/march_moveit;/home/rutger/march_ws/install/march_imu_manager;/home/rutger/march_ws/install/march_hardware_builder;/home/rutger/march_ws/install/march_hardware;/home/rutger/march_ws/install/march_gait_files;/home/rutger/march_ws/install/march_fake_sensor_data;/home/rutger/march_ws/install/march_description;/opt/ros/melodic
+[2.202s] -- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+[2.202s] -- Using PYTHON_EXECUTABLE: /usr/bin/python2
+[2.202s] -- Using Debian Python package layout
+[2.203s] -- Using empy: /usr/bin/empy
+[2.425s] -- Using CATKIN_ENABLE_TESTING: ON
+[2.425s] -- Call enable_testing()
+[2.430s] -- Using CATKIN_TEST_RESULTS_DIR: /home/rutger/march_ws/src/march/build/march_shared_resources/test_results
+[2.472s] -- Found gtest sources under '/usr/src/googletest': gtests will be built
+[2.472s] -- Found gmock sources under '/usr/src/googletest': gmock will be built
+[2.501s] -- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+[2.505s] -- Looking for pthread.h
+[2.644s] -- Looking for pthread.h - found
+[2.645s] -- Looking for pthread_create
+[2.773s] -- Looking for pthread_create - not found
+[2.774s] -- Looking for pthread_create in pthreads
+[2.866s] -- Looking for pthread_create in pthreads - not found
+[2.867s] -- Looking for pthread_create in pthread
+[2.985s] -- Looking for pthread_create in pthread - found
+[2.987s] -- Found Threads: TRUE  
+[2.993s] -- Using Python nosetests: /usr/bin/nosetests-2.7
+[3.082s] -- catkin 0.7.23
+[3.082s] -- BUILD_SHARED_LIBS is on
+[3.364s] -- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+[3.516s] -- Generating .msg files for action march_shared_resources/Gait /home/rutger/march_ws/src/march/march_shared_resources/action/Gait.action
+[3.561s] Generating for action Gait
+[3.565s] -- Generating .msg files for action march_shared_resources/GaitName /home/rutger/march_ws/src/march/march_shared_resources/action/GaitName.action
+[3.600s] Generating for action GaitName
+[3.888s] -- march_shared_resources: 27 messages, 5 services
+[4.227s] -- Configuring done
+[4.303s] -- Generating done
+[4.315s] -- Build files have been written to: /home/rutger/march_ws/src/march/build/march_shared_resources
+[4.410s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitFeedback[0m
+[4.410s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitGoal[0m
+[4.410s] [35m[1mScanning dependencies of target trajectory_msgs_generate_messages_lisp[0m
+[4.410s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_Subgait[0m
+[4.439s] [  0%] Built target trajectory_msgs_generate_messages_lisp
+[4.465s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_LowVoltageNet[0m
+[4.526s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitGoal
+[4.529s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitFeedback
+[4.566s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Subgait
+[4.570s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameActionResult[0m
+[4.592s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitInstructionResponse[0m
+[4.596s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_LowVoltageNet
+[4.608s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitAction[0m
+[4.657s] [35m[1mScanning dependencies of target control_msgs_generate_messages_lisp[0m
+[4.692s] [  0%] Built target control_msgs_generate_messages_lisp
+[4.694s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionResult
+[4.701s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitInstructionResponse
+[4.725s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_Error[0m
+[4.733s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_JointValues[0m
+[4.735s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_PowerDistributionBoardState[0m
+[4.759s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitAction
+[4.804s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_CurrentState[0m
+[4.847s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PowerDistributionBoardState
+[4.847s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Error
+[4.859s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_JointValues
+[4.884s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_Setpoint[0m
+[4.885s] [35m[1mScanning dependencies of target actionlib_msgs_generate_messages_lisp[0m
+[4.903s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_StringTrigger[0m
+[4.921s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_CurrentState
+[4.937s] [  0%] Built target actionlib_msgs_generate_messages_lisp
+[4.973s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitInstruction[0m
+[4.982s] [35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[5.031s] [  0%] Built target std_msgs_generate_messages_lisp
+[5.039s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Setpoint
+[5.067s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_StringTrigger
+[5.097s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_ContainsGait[0m
+[5.118s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameFeedback[0m
+[5.148s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitActionFeedback[0m
+[5.206s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitInstruction
+[5.258s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameFeedback
+[5.266s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameAction[0m
+[5.284s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_ContainsGait
+[5.300s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameResult[0m
+[5.339s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameActionGoal[0m
+[5.364s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionFeedback
+[5.403s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_HighVoltageNet[0m
+[5.417s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameAction
+[5.455s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameResult
+[5.459s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionGoal
+[5.462s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_PressureSole[0m
+[5.501s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitActionGoal[0m
+[5.518s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameGoal[0m
+[5.523s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_HighVoltageNet
+[5.557s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitActionResult[0m
+[5.630s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionGoal
+[5.633s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PressureSole
+[5.645s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameGoal
+[5.666s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitResult[0m
+[5.683s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_Trigger[0m
+[5.686s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionResult
+[5.699s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_AfterLimitJointCommand[0m
+[5.719s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_Graph[0m
+[5.804s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitResult
+[5.809s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Trigger
+[5.810s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_AfterLimitJointCommand
+[5.835s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_PossibleGaits[0m
+[5.835s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_ImcState[0m
+[5.838s] [35m[1mScanning dependencies of target _march_shared_resources_generate_messages_check_deps_GaitNameActionFeedback[0m
+[5.870s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Graph
+[5.911s] [35m[1mScanning dependencies of target control_msgs_generate_messages_nodejs[0m
+[5.931s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionFeedback
+[5.970s] [  0%] Built target control_msgs_generate_messages_nodejs
+[5.975s] [35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[5.992s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_ImcState
+[5.997s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PossibleGaits
+[6.018s] [35m[1mScanning dependencies of target actionlib_msgs_generate_messages_nodejs[0m
+[6.022s] [  0%] Built target std_msgs_generate_messages_nodejs
+[6.032s] [35m[1mScanning dependencies of target trajectory_msgs_generate_messages_nodejs[0m
+[6.043s] [35m[1mScanning dependencies of target trajectory_msgs_generate_messages_py[0m
+[6.053s] [  0%] Built target actionlib_msgs_generate_messages_nodejs
+[6.074s] [  0%] Built target trajectory_msgs_generate_messages_nodejs
+[6.076s] [35m[1mScanning dependencies of target control_msgs_generate_messages_py[0m
+[6.092s] [  0%] Built target trajectory_msgs_generate_messages_py
+[6.104s] [35m[1mScanning dependencies of target actionlib_msgs_generate_messages_py[0m
+[6.109s] [  0%] Built target control_msgs_generate_messages_py
+[6.112s] [35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[6.130s] [35m[1mScanning dependencies of target trajectory_msgs_generate_messages_cpp[0m
+[6.141s] [  0%] Built target actionlib_msgs_generate_messages_py
+[6.153s] [  0%] Built target std_msgs_generate_messages_py
+[6.156s] [35m[1mScanning dependencies of target control_msgs_generate_messages_cpp[0m
+[6.169s] [35m[1mScanning dependencies of target actionlib_msgs_generate_messages_cpp[0m
+[6.170s] [  0%] Built target trajectory_msgs_generate_messages_cpp
+[6.182s] [35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[6.193s] [  0%] Built target control_msgs_generate_messages_cpp
+[6.197s] [35m[1mScanning dependencies of target trajectory_msgs_generate_messages_eus[0m
+[6.200s] [  0%] Built target actionlib_msgs_generate_messages_cpp
+[6.210s] [  0%] Built target std_msgs_generate_messages_cpp
+[6.216s] [35m[1mScanning dependencies of target control_msgs_generate_messages_eus[0m
+[6.220s] [  0%] Built target trajectory_msgs_generate_messages_eus
+[6.237s] [35m[1mScanning dependencies of target actionlib_msgs_generate_messages_eus[0m
+[6.244s] [35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[6.247s] [  0%] Built target control_msgs_generate_messages_eus
+[6.270s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages_lisp[0m
+[6.275s] [  0%] Built target actionlib_msgs_generate_messages_eus
+[6.280s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages_nodejs[0m
+[6.284s] [  0%] Built target std_msgs_generate_messages_eus
+[6.301s] [  1%] [34m[1mGenerating Lisp code from march_shared_resources/GaitInstructionResponse.msg[0m
+[6.303s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages_py[0m
+[6.307s] [  1%] [34m[1mGenerating Lisp code from march_shared_resources/LowVoltageNet.msg[0m
+[6.310s] [  1%] [34m[1mGenerating Javascript code from march_shared_resources/GaitInstructionResponse.msg[0m
+[6.336s] [  2%] [34m[1mGenerating Python from MSG march_shared_resources/GaitInstructionResponse[0m
+[6.426s] [  3%] [34m[1mGenerating Lisp code from march_shared_resources/Subgait.msg[0m
+[6.431s] [  3%] [34m[1mGenerating Python from MSG march_shared_resources/LowVoltageNet[0m
+[6.478s] [  4%] [34m[1mGenerating Javascript code from march_shared_resources/LowVoltageNet.msg[0m
+[6.623s] [  4%] [34m[1mGenerating Javascript code from march_shared_resources/Subgait.msg[0m
+[6.651s] [  5%] [34m[1mGenerating Python from MSG march_shared_resources/Subgait[0m
+[6.678s] [  5%] [34m[1mGenerating Lisp code from march_shared_resources/GaitActionFeedback.msg[0m
+[6.720s] [  5%] [34m[1mGenerating Python from MSG march_shared_resources/GaitActionFeedback[0m
+[6.795s] [  6%] [34m[1mGenerating Javascript code from march_shared_resources/GaitActionFeedback.msg[0m
+[6.835s] [  7%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameAction.msg[0m
+[6.982s] [  7%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameAction.msg[0m
+[6.991s] [  8%] [34m[1mGenerating Javascript code from march_shared_resources/GaitFeedback.msg[0m
+[7.010s] [  9%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameAction[0m
+[7.022s] [ 10%] [34m[1mGenerating Lisp code from march_shared_resources/GaitFeedback.msg[0m
+[7.130s] [ 10%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameResult.msg[0m
+[7.140s] [ 11%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameResult.msg[0m
+[7.181s] [ 11%] [34m[1mGenerating Javascript code from march_shared_resources/HighVoltageNet.msg[0m
+[7.294s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages_cpp[0m
+[7.306s] [ 11%] [34m[1mGenerating Python from MSG march_shared_resources/GaitFeedback[0m
+[7.308s] [ 12%] [34m[1mGenerating Lisp code from march_shared_resources/HighVoltageNet.msg[0m
+[7.320s] [ 13%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameFeedback.msg[0m
+[7.339s] [ 13%] [34m[1mGenerating C++ code from march_shared_resources/GaitInstructionResponse.msg[0m
+[7.455s] [ 13%] [34m[1mGenerating Javascript code from march_shared_resources/PressureSole.msg[0m
+[7.525s] [ 13%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameFeedback.msg[0m
+[7.600s] [ 14%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameResult[0m
+[7.625s] [ 15%] [34m[1mGenerating Javascript code from march_shared_resources/Setpoint.msg[0m
+[7.657s] [ 17%] [34m[1mGenerating Lisp code from march_shared_resources/PressureSole.msg[0m
+[7.765s] [ 18%] [34m[1mGenerating C++ code from march_shared_resources/LowVoltageNet.msg[0m
+[7.811s] [ 18%] [34m[1mGenerating Javascript code from march_shared_resources/GaitActionGoal.msg[0m
+[7.835s] [ 19%] [34m[1mGenerating Lisp code from march_shared_resources/Setpoint.msg[0m
+[7.918s] [ 20%] [34m[1mGenerating Python from MSG march_shared_resources/HighVoltageNet[0m
+[7.941s] [ 21%] [34m[1mGenerating Javascript code from march_shared_resources/AfterLimitJointCommand.msg[0m
+[8.015s] [ 21%] [34m[1mGenerating Lisp code from march_shared_resources/GaitActionGoal.msg[0m
+[8.070s] [ 22%] [34m[1mGenerating Javascript code from march_shared_resources/GaitActionResult.msg[0m
+[8.155s] [ 23%] [34m[1mGenerating C++ code from march_shared_resources/Subgait.msg[0m
+[8.196s] [ 24%] [34m[1mGenerating Lisp code from march_shared_resources/AfterLimitJointCommand.msg[0m
+[8.201s] [ 24%] [34m[1mGenerating Javascript code from march_shared_resources/GaitResult.msg[0m
+[8.202s] [ 24%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameFeedback[0m
+[8.319s] [ 24%] [34m[1mGenerating Lisp code from march_shared_resources/GaitActionResult.msg[0m
+[8.326s] [ 25%] [34m[1mGenerating Javascript code from march_shared_resources/Error.msg[0m
+[8.429s] [ 26%] [34m[1mGenerating Lisp code from march_shared_resources/GaitResult.msg[0m
+[8.457s] [ 26%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameActionGoal.msg[0m
+[8.497s] [ 27%] [34m[1mGenerating Python from MSG march_shared_resources/PressureSole[0m
+[8.591s] [ 27%] [34m[1mGenerating C++ code from march_shared_resources/GaitActionFeedback.msg[0m
+[8.595s] [ 28%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameGoal.msg[0m
+[8.612s] [ 28%] [34m[1mGenerating Lisp code from march_shared_resources/Error.msg[0m
+[8.754s] [ 28%] [34m[1mGenerating Javascript code from march_shared_resources/JointValues.msg[0m
+[8.783s] [ 29%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameActionGoal.msg[0m
+[8.803s] [ 29%] [34m[1mGenerating Python from MSG march_shared_resources/Setpoint[0m
+[8.919s] [ 30%] [34m[1mGenerating Javascript code from march_shared_resources/GaitInstruction.msg[0m
+[8.945s] [ 31%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameGoal.msg[0m
+[9.031s] [ 32%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameAction.msg[0m
+[9.044s] [ 34%] [34m[1mGenerating Javascript code from march_shared_resources/GaitGoal.msg[0m
+[9.088s] [ 35%] [34m[1mGenerating Python from MSG march_shared_resources/GaitActionGoal[0m
+[9.096s] [ 35%] [34m[1mGenerating Lisp code from march_shared_resources/JointValues.msg[0m
+[9.157s] [ 35%] [34m[1mGenerating Javascript code from march_shared_resources/GaitAction.msg[0m
+[9.229s] [ 36%] [34m[1mGenerating Lisp code from march_shared_resources/GaitInstruction.msg[0m
+[9.319s] [ 37%] [34m[1mGenerating Javascript code from march_shared_resources/Graph.msg[0m
+[9.337s] [ 37%] [34m[1mGenerating Python from MSG march_shared_resources/AfterLimitJointCommand[0m
+[9.405s] [ 37%] [34m[1mGenerating Lisp code from march_shared_resources/GaitGoal.msg[0m
+[9.429s] [ 37%] [34m[1mGenerating C++ code from march_shared_resources/GaitFeedback.msg[0m
+[9.445s] [ 37%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameActionFeedback.msg[0m
+[9.548s] [ 38%] [34m[1mGenerating Lisp code from march_shared_resources/GaitAction.msg[0m
+[9.620s] [ 39%] [34m[1mGenerating Javascript code from march_shared_resources/ImcState.msg[0m
+[9.628s] [ 40%] [34m[1mGenerating Python from MSG march_shared_resources/GaitActionResult[0m
+[9.735s] [ 40%] [34m[1mGenerating Lisp code from march_shared_resources/Graph.msg[0m
+[9.812s] [ 41%] [34m[1mGenerating Javascript code from march_shared_resources/GaitNameActionResult.msg[0m
+[9.876s] [ 42%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameResult.msg[0m
+[9.885s] [ 43%] [34m[1mGenerating Python from MSG march_shared_resources/GaitResult[0m
+[9.915s] [ 44%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameActionFeedback.msg[0m
+[9.970s] [ 44%] [34m[1mGenerating Javascript code from march_shared_resources/PowerDistributionBoardState.msg[0m
+[10.081s] [ 45%] [34m[1mGenerating Lisp code from march_shared_resources/ImcState.msg[0m
+[10.141s] [ 45%] [34m[1mGenerating Python from MSG march_shared_resources/Error[0m
+[10.160s] [ 46%] [34m[1mGenerating Javascript code from march_shared_resources/Trigger.srv[0m
+[10.226s] [ 46%] [34m[1mGenerating Lisp code from march_shared_resources/GaitNameActionResult.msg[0m
+[10.291s] [ 46%] [34m[1mGenerating Javascript code from march_shared_resources/ContainsGait.srv[0m
+[10.316s] [ 46%] [34m[1mGenerating C++ code from march_shared_resources/HighVoltageNet.msg[0m
+[10.357s] [ 47%] [34m[1mGenerating Lisp code from march_shared_resources/PowerDistributionBoardState.msg[0m
+[10.428s] [ 48%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameActionGoal[0m
+[10.431s] [ 50%] [34m[1mGenerating Javascript code from march_shared_resources/PossibleGaits.srv[0m
+[10.491s] [ 50%] [34m[1mGenerating Lisp code from march_shared_resources/Trigger.srv[0m
+[10.555s] [ 50%] [34m[1mGenerating Javascript code from march_shared_resources/CurrentState.srv[0m
+[10.643s] [ 51%] [34m[1mGenerating Lisp code from march_shared_resources/ContainsGait.srv[0m
+[10.675s] [ 52%] [34m[1mGenerating Javascript code from march_shared_resources/StringTrigger.srv[0m
+[10.779s] [ 52%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameGoal[0m
+[10.792s] [ 52%] [34m[1mGenerating Lisp code from march_shared_resources/PossibleGaits.srv[0m
+[10.810s] [ 53%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameFeedback.msg[0m
+[10.815s] [ 53%] Built target march_shared_resources_generate_messages_nodejs
+[10.842s] [ 54%] [34m[1mGenerating Lisp code from march_shared_resources/CurrentState.srv[0m
+[10.945s] [ 55%] [34m[1mGenerating C++ code from march_shared_resources/PressureSole.msg[0m
+[11.011s] [ 56%] [34m[1mGenerating Lisp code from march_shared_resources/StringTrigger.srv[0m
+[11.106s] [ 57%] [34m[1mGenerating Python from MSG march_shared_resources/JointValues[0m
+[11.351s] [ 57%] [34m[1mGenerating C++ code from march_shared_resources/Setpoint.msg[0m
+[11.396s] [ 57%] Built target march_shared_resources_generate_messages_lisp
+[11.471s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages_eus[0m
+[11.481s] [ 58%] [34m[1mGenerating C++ code from march_shared_resources/GaitActionGoal.msg[0m
+[11.502s] [ 58%] [34m[1mGenerating Python from MSG march_shared_resources/GaitInstruction[0m
+[11.534s] [ 59%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitInstructionResponse.msg[0m
+[11.898s] [ 59%] [34m[1mGenerating EusLisp code from march_shared_resources/LowVoltageNet.msg[0m
+[11.902s] [ 59%] [34m[1mGenerating C++ code from march_shared_resources/AfterLimitJointCommand.msg[0m
+[11.953s] [ 60%] [34m[1mGenerating Python from MSG march_shared_resources/GaitGoal[0m
+[11.979s] [ 61%] [34m[1mGenerating EusLisp code from march_shared_resources/Subgait.msg[0m
+[12.133s] [ 62%] [34m[1mGenerating Python from MSG march_shared_resources/GaitAction[0m
+[12.287s] [ 63%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitActionFeedback.msg[0m
+[12.389s] [ 64%] [34m[1mGenerating C++ code from march_shared_resources/GaitActionResult.msg[0m
+[12.423s] [ 64%] [34m[1mGenerating C++ code from march_shared_resources/GaitResult.msg[0m
+[12.552s] [ 64%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameAction.msg[0m
+[12.579s] [ 64%] [34m[1mGenerating Python from MSG march_shared_resources/Graph[0m
+[12.826s] [ 65%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitFeedback.msg[0m
+[12.914s] [ 67%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameActionFeedback[0m
+[12.938s] [ 67%] [34m[1mGenerating Python from MSG march_shared_resources/ImcState[0m
+[13.132s] [ 67%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameResult.msg[0m
+[13.190s] [ 68%] [34m[1mGenerating C++ code from march_shared_resources/Error.msg[0m
+[13.255s] [ 69%] [34m[1mGenerating Python from MSG march_shared_resources/GaitNameActionResult[0m
+[13.339s] [ 69%] [34m[1mGenerating Python from MSG march_shared_resources/PowerDistributionBoardState[0m
+[13.486s] [ 70%] [34m[1mGenerating EusLisp code from march_shared_resources/HighVoltageNet.msg[0m
+[13.849s] [ 71%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameActionGoal.msg[0m
+[13.903s] [ 71%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameFeedback.msg[0m
+[13.915s] [ 72%] [34m[1mGenerating Python code from SRV march_shared_resources/Trigger[0m
+[14.117s] [ 73%] [34m[1mGenerating Python code from SRV march_shared_resources/ContainsGait[0m
+[14.235s] [ 74%] [34m[1mGenerating EusLisp code from march_shared_resources/PressureSole.msg[0m
+[14.418s] [ 75%] [34m[1mGenerating Python code from SRV march_shared_resources/CurrentState[0m
+[14.433s] [ 75%] [34m[1mGenerating Python code from SRV march_shared_resources/PossibleGaits[0m
+[14.584s] [ 75%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameGoal.msg[0m
+[14.646s] [ 76%] [34m[1mGenerating EusLisp code from march_shared_resources/Setpoint.msg[0m
+[14.898s] [ 76%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitActionGoal.msg[0m
+[15.002s] [ 76%] [34m[1mGenerating Python code from SRV march_shared_resources/StringTrigger[0m
+[15.023s] [ 77%] [34m[1mGenerating C++ code from march_shared_resources/JointValues.msg[0m
+[15.109s] [ 78%] [34m[1mGenerating EusLisp code from march_shared_resources/AfterLimitJointCommand.msg[0m
+[15.135s] [ 78%] [34m[1mGenerating C++ code from march_shared_resources/GaitInstruction.msg[0m
+[15.395s] [ 78%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitActionResult.msg[0m
+[15.552s] [ 79%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitResult.msg[0m
+[15.574s] [ 80%] [34m[1mGenerating Python msg __init__.py for march_shared_resources[0m
+[15.880s] [ 81%] [34m[1mGenerating C++ code from march_shared_resources/GaitGoal.msg[0m
+[15.915s] [ 81%] [34m[1mGenerating EusLisp code from march_shared_resources/Error.msg[0m
+[15.946s] [ 81%] [34m[1mGenerating C++ code from march_shared_resources/GaitAction.msg[0m
+[16.211s] [ 82%] [34m[1mGenerating Python srv __init__.py for march_shared_resources[0m
+[16.367s] [ 84%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameActionGoal.msg[0m
+[16.479s] [ 85%] [34m[1mGenerating C++ code from march_shared_resources/Graph.msg[0m
+[16.700s] [ 86%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameActionFeedback.msg[0m
+[16.799s] [ 86%] Built target march_shared_resources_generate_messages_py
+[16.859s] [ 87%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameGoal.msg[0m
+[16.963s] [ 87%] [34m[1mGenerating EusLisp code from march_shared_resources/JointValues.msg[0m
+[17.192s] [ 87%] [34m[1mGenerating C++ code from march_shared_resources/ImcState.msg[0m
+[17.346s] [ 88%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitInstruction.msg[0m
+[17.381s] [ 88%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitGoal.msg[0m
+[17.530s] [ 89%] [34m[1mGenerating C++ code from march_shared_resources/GaitNameActionResult.msg[0m
+[17.876s] [ 90%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitAction.msg[0m
+[17.960s] [ 90%] [34m[1mGenerating EusLisp code from march_shared_resources/Graph.msg[0m
+[17.965s] [ 90%] [34m[1mGenerating C++ code from march_shared_resources/PowerDistributionBoardState.msg[0m
+[18.256s] [ 91%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameActionFeedback.msg[0m
+[18.262s] [ 92%] [34m[1mGenerating C++ code from march_shared_resources/Trigger.srv[0m
+[18.350s] [ 92%] [34m[1mGenerating C++ code from march_shared_resources/ContainsGait.srv[0m
+[18.598s] [ 93%] [34m[1mGenerating EusLisp code from march_shared_resources/ImcState.msg[0m
+[18.759s] [ 94%] [34m[1mGenerating C++ code from march_shared_resources/PossibleGaits.srv[0m
+[19.057s] [ 94%] [34m[1mGenerating EusLisp code from march_shared_resources/GaitNameActionResult.msg[0m
+[19.160s] [ 95%] [34m[1mGenerating C++ code from march_shared_resources/CurrentState.srv[0m
+[19.350s] [ 95%] [34m[1mGenerating C++ code from march_shared_resources/StringTrigger.srv[0m
+[19.476s] [ 96%] [34m[1mGenerating EusLisp code from march_shared_resources/PowerDistributionBoardState.msg[0m
+[19.833s] [ 96%] [34m[1mGenerating EusLisp code from march_shared_resources/Trigger.srv[0m
+[20.018s] [ 97%] [34m[1mGenerating EusLisp code from march_shared_resources/ContainsGait.srv[0m
+[20.131s] [ 97%] [34m[1mGenerating EusLisp code from march_shared_resources/PossibleGaits.srv[0m
+[20.139s] [ 98%] [34m[1mGenerating EusLisp code from march_shared_resources/CurrentState.srv[0m
+[20.339s] [100%] [34m[1mGenerating EusLisp code from march_shared_resources/StringTrigger.srv[0m
+[20.479s] [100%] [34m[1mGenerating EusLisp manifest code for march_shared_resources[0m
+[20.582s] [100%] Built target march_shared_resources_generate_messages_cpp
+[22.905s] [100%] Built target march_shared_resources_generate_messages_eus
+[22.942s] [35m[1mScanning dependencies of target march_shared_resources_generate_messages[0m
+[22.974s] [100%] Built target march_shared_resources_generate_messages
+[23.530s] [35m[1mScanning dependencies of target tests[0m
+[23.554s] Built target tests
+[24.131s] [  0%] Built target trajectory_msgs_generate_messages_lisp
+[24.202s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitFeedback
+[24.362s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitGoal
+[24.446s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_LowVoltageNet
+[24.582s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionResult
+[24.677s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitInstructionResponse
+[24.781s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitAction
+[24.789s] [  0%] Built target control_msgs_generate_messages_lisp
+[24.866s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Subgait
+[25.066s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_JointValues
+[25.118s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PowerDistributionBoardState
+[25.138s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Error
+[25.306s] [  0%] Built target actionlib_msgs_generate_messages_lisp
+[25.364s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_CurrentState
+[25.408s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Setpoint
+[25.555s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_StringTrigger
+[25.564s] [  0%] Built target std_msgs_generate_messages_lisp
+[25.709s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitInstruction
+[25.763s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_ContainsGait
+[25.774s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameFeedback
+[26.007s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionFeedback
+[26.098s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameAction
+[26.114s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameResult
+[26.132s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionGoal
+[26.259s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_HighVoltageNet
+[26.260s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PressureSole
+[26.290s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionGoal
+[26.311s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameGoal
+[26.418s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_AfterLimitJointCommand
+[26.504s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Trigger
+[26.579s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_Graph
+[26.672s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_ImcState
+[26.759s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_PossibleGaits
+[26.842s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitNameActionFeedback
+[26.875s] [  0%] Built target control_msgs_generate_messages_nodejs
+[26.916s] [  0%] Built target std_msgs_generate_messages_nodejs
+[26.969s] [  0%] Built target actionlib_msgs_generate_messages_nodejs
+[27.011s] [  0%] Built target trajectory_msgs_generate_messages_nodejs
+[27.043s] [  0%] Built target trajectory_msgs_generate_messages_py
+[27.075s] [  0%] Built target control_msgs_generate_messages_py
+[27.117s] [  0%] Built target actionlib_msgs_generate_messages_py
+[27.148s] [  0%] Built target std_msgs_generate_messages_py
+[27.185s] [  0%] Built target trajectory_msgs_generate_messages_cpp
+[27.225s] [  0%] Built target control_msgs_generate_messages_cpp
+[27.256s] [  0%] Built target actionlib_msgs_generate_messages_cpp
+[27.292s] [  0%] Built target std_msgs_generate_messages_cpp
+[27.330s] [  0%] Built target trajectory_msgs_generate_messages_eus
+[27.362s] [  0%] Built target control_msgs_generate_messages_eus
+[27.398s] [  0%] Built target actionlib_msgs_generate_messages_eus
+[27.441s] [  0%] Built target std_msgs_generate_messages_eus
+[27.535s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitResult
+[27.621s] [  0%] Built target _march_shared_resources_generate_messages_check_deps_GaitActionResult
+[27.663s] [ 20%] Built target march_shared_resources_generate_messages_lisp
+[27.706s] [ 39%] Built target march_shared_resources_generate_messages_cpp
+[27.756s] [ 59%] Built target march_shared_resources_generate_messages_eus
+[27.795s] [ 80%] Built target march_shared_resources_generate_messages_py
+[27.838s] [100%] Built target march_shared_resources_generate_messages_nodejs
+[27.871s] [100%] Built target march_shared_resources_generate_messages
+[27.910s] [36mInstall the project...[0m
+[27.930s] -- Install configuration: ""
+[27.930s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/AfterLimitJointCommand.msg
+[27.930s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/Error.msg
+[27.931s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitInstruction.msg
+[27.931s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitInstructionResponse.msg
+[27.932s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/Graph.msg
+[27.932s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/HighVoltageNet.msg
+[27.932s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/ImcState.msg
+[27.932s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/JointValues.msg
+[27.932s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/LowVoltageNet.msg
+[27.933s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/PowerDistributionBoardState.msg
+[27.933s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/PressureSole.msg
+[27.933s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/Setpoint.msg
+[27.933s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/Subgait.msg
+[27.933s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/srv/ContainsGait.srv
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/srv/CurrentState.srv
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/srv/PossibleGaits.srv
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/srv/StringTrigger.srv
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/srv/Trigger.srv
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/action/Gait.action
+[27.934s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/action/GaitName.action
+[27.935s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitAction.msg
+[27.935s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitActionGoal.msg
+[27.935s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitActionResult.msg
+[27.936s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitActionFeedback.msg
+[27.936s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitGoal.msg
+[27.936s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitResult.msg
+[27.937s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitFeedback.msg
+[27.937s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameAction.msg
+[27.937s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameActionGoal.msg
+[27.938s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameActionResult.msg
+[27.939s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameActionFeedback.msg
+[27.940s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameGoal.msg
+[27.942s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameResult.msg
+[27.944s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/msg/GaitNameFeedback.msg
+[27.945s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/cmake/march_shared_resources-msg-paths.cmake
+[27.946s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources
+[27.946s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitActionFeedback.h
+[27.947s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/ContainsGait.h
+[27.947s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/Subgait.h
+[27.948s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/PowerDistributionBoardState.h
+[27.949s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameGoal.h
+[27.949s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/ContainsGaitResponse.h
+[27.949s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameActionFeedback.h
+[27.950s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/CurrentStateResponse.h
+[27.950s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/ContainsGaitRequest.h
+[27.950s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitActionResult.h
+[27.951s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameActionResult.h
+[27.951s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitGoal.h
+[27.951s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/PossibleGaits.h
+[27.952s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/PossibleGaitsRequest.h
+[27.952s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/StringTriggerResponse.h
+[27.952s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/StringTrigger.h
+[27.953s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/JointValues.h
+[27.953s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/PossibleGaitsResponse.h
+[27.953s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/TriggerResponse.h
+[27.954s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/ImcState.h
+[27.954s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/PressureSole.h
+[27.954s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/StringTriggerRequest.h
+[27.954s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameAction.h
+[27.955s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/Error.h
+[27.956s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitInstruction.h
+[27.956s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/Graph.h
+[27.956s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameFeedback.h
+[27.957s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/HighVoltageNet.h
+[27.957s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitFeedback.h
+[27.957s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitActionGoal.h
+[27.957s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/Trigger.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/CurrentState.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitResult.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitInstructionResponse.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitAction.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/LowVoltageNet.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/CurrentStateRequest.h
+[27.958s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/Setpoint.h
+[27.959s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/TriggerRequest.h
+[27.959s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/AfterLimitJointCommand.h
+[27.959s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameActionGoal.h
+[27.959s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/include/march_shared_resources/GaitNameResult.h
+[27.959s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameAction.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameActionResult.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameActionFeedback.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitInstruction.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/PowerDistributionBoardState.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameFeedback.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/Graph.l
+[27.960s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/LowVoltageNet.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/PressureSole.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/AfterLimitJointCommand.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameActionGoal.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/JointValues.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameResult.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitFeedback.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitActionGoal.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitAction.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitNameGoal.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitGoal.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/ImcState.l
+[27.961s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitActionResult.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/Error.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/HighVoltageNet.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitResult.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitActionFeedback.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/Subgait.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/Setpoint.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/msg/GaitInstructionResponse.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/manifest.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv/PossibleGaits.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv/Trigger.l
+[27.962s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv/ContainsGait.l
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv/CurrentState.l
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/roseus/ros/march_shared_resources/srv/StringTrigger.l
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitInstruction.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameFeedback.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitActionGoal.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_PressureSole.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameGoal.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/Graph.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameGoal.lisp
+[27.963s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_Subgait.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameActionResult.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/Subgait.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_HighVoltageNet.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameResult.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitActionResult.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameActionGoal.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitResult.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/JointValues.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameAction.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/ImcState.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/PressureSole.lisp
+[27.964s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_ImcState.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitActionGoal.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitResult.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitInstructionResponse.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/HighVoltageNet.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameActionFeedback.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_AfterLimitJointCommand.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_Error.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/Setpoint.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameFeedback.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/Error.lisp
+[27.965s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitFeedback.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameActionResult.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitInstructionResponse.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitFeedback.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_Setpoint.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitGoal.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_LowVoltageNet.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitNameAction.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameActionFeedback.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_PowerDistributionBoardState.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/AfterLimitJointCommand.lisp
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/march_shared_resources-msg.asd
+[27.966s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitInstruction.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitActionFeedback.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameResult.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitNameActionGoal.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitAction.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_Graph.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitActionResult.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/PowerDistributionBoardState.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_JointValues.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/_package_GaitAction.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitGoal.lisp
+[27.967s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/LowVoltageNet.lisp
+[27.968s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/msg/GaitActionFeedback.lisp
+[27.968s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv
+[27.968s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package_PossibleGaits.lisp
+[27.968s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package_Trigger.lisp
+[27.969s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/CurrentState.lisp
+[27.969s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/PossibleGaits.lisp
+[27.970s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package_StringTrigger.lisp
+[27.970s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package.lisp
+[27.970s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/ContainsGait.lisp
+[27.971s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/StringTrigger.lisp
+[27.971s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/march_shared_resources-srv.asd
+[27.971s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/Trigger.lisp
+[27.972s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package_ContainsGait.lisp
+[27.973s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/common-lisp/ros/march_shared_resources/srv/_package_CurrentState.lisp
+[27.973s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources
+[27.974s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg
+[27.974s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitGoal.js
+[27.975s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameActionFeedback.js
+[27.975s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameFeedback.js
+[27.975s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitAction.js
+[27.975s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitActionResult.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitActionGoal.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameActionResult.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/JointValues.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/Subgait.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/ImcState.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitInstructionResponse.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameAction.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/_index.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitInstruction.js
+[27.976s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitActionFeedback.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/PressureSole.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitFeedback.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/AfterLimitJointCommand.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/Setpoint.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/Graph.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitResult.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/Error.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/HighVoltageNet.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameResult.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameActionGoal.js
+[27.977s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/LowVoltageNet.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/GaitNameGoal.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/msg/PowerDistributionBoardState.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/_index.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/PossibleGaits.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/ContainsGait.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/_index.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/StringTrigger.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/CurrentState.js
+[27.978s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/gennodejs/ros/march_shared_resources/srv/Trigger.js
+[28.043s] Listing /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/__init__.py ...
+[28.044s] Listing /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_AfterLimitJointCommand.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_Error.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitAction.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionFeedback.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionGoal.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionResult.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitFeedback.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitGoal.py ...
+[28.044s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstruction.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstructionResponse.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameAction.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionFeedback.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionGoal.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionResult.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameFeedback.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameGoal.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameResult.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitResult.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_Graph.py ...
+[28.045s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_HighVoltageNet.py ...
+[28.046s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_ImcState.py ...
+[28.046s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_JointValues.py ...
+[28.046s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_LowVoltageNet.py ...
+[28.061s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_PowerDistributionBoardState.py ...
+[28.061s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_PressureSole.py ...
+[28.061s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_Setpoint.py ...
+[28.061s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/_Subgait.py ...
+[28.061s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/msg/__init__.py ...
+[28.062s] Listing /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/_ContainsGait.py ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/_CurrentState.py ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/_PossibleGaits.py ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/_StringTrigger.py ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/_Trigger.py ...
+[28.062s] Compiling /home/rutger/march_ws/src/march/build/march_shared_resources/devel/lib/python2.7/dist-packages/march_shared_resources/srv/__init__.py ...
+[28.063s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources
+[28.063s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg
+[28.063s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionGoal.pyc
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Graph.py
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitGoal.py
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitGoal.pyc
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionGoal.pyc
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionFeedback.pyc
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitFeedback.py
+[28.064s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/__init__.py
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_HighVoltageNet.pyc
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstruction.pyc
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitAction.py
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_PressureSole.py
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionResult.pyc
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitResult.pyc
+[28.065s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Subgait.py
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameResult.pyc
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/__init__.pyc
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionFeedback.pyc
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_AfterLimitJointCommand.pyc
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionResult.pyc
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_HighVoltageNet.py
+[28.066s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_JointValues.py
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Error.pyc
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_PowerDistributionBoardState.py
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_ImcState.py
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Graph.pyc
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_JointValues.pyc
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstructionResponse.pyc
+[28.067s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Setpoint.py
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionGoal.py
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_PressureSole.pyc
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitFeedback.pyc
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameAction.py
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitAction.pyc
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameGoal.py
+[28.068s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionFeedback.py
+[28.069s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Error.py
+[28.069s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitActionResult.py
+[28.069s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Subgait.pyc
+[28.069s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionFeedback.py
+[28.070s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionGoal.py
+[28.070s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameResult.py
+[28.070s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameFeedback.pyc
+[28.070s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_LowVoltageNet.py
+[28.070s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_ImcState.pyc
+[28.071s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_PowerDistributionBoardState.pyc
+[28.071s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstructionResponse.py
+[28.071s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameFeedback.py
+[28.071s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameAction.pyc
+[28.071s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitInstruction.py
+[28.072s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameActionResult.py
+[28.072s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_LowVoltageNet.pyc
+[28.072s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_Setpoint.pyc
+[28.072s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitResult.py
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_GaitNameGoal.pyc
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/msg/_AfterLimitJointCommand.py
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/__init__.py
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/__init__.pyc
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv
+[28.073s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/__init__.py
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_PossibleGaits.py
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_StringTrigger.py
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_ContainsGait.pyc
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/__init__.pyc
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_Trigger.pyc
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_StringTrigger.pyc
+[28.074s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_CurrentState.pyc
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_CurrentState.py
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_PossibleGaits.pyc
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_Trigger.py
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages/march_shared_resources/srv/_ContainsGait.py
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/lib/pkgconfig/march_shared_resources.pc
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/cmake/march_shared_resources-msg-extras.cmake
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/cmake/march_shared_resourcesConfig.cmake
+[28.075s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/cmake/march_shared_resourcesConfig-version.cmake
+[28.076s] -- Installing: /home/rutger/march_ws/src/march/install/march_shared_resources/share/march_shared_resources/package.xml
