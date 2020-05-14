@@ -1,5 +1,6 @@
 #include "ros/ros.h"
 #include "std_msgs/Float64MultiArray.h"
+#include <kdl/chaindynparam.hpp>
 #include <kdl/jntarrayvel.hpp>
 #include <kdl_parser/kdl_parser.hpp>
 #include <kdl/chainidsolver_recursive_newton_euler.hpp>
@@ -94,7 +95,7 @@ int main(int argc, char** argv)
 
     for (unsigned int i = 0; i < 8; i++)
     {
-      inertias.data[i] = chain.getSegment(i).getInertia();
+      inertias.data[i] = chain.getSegment(i).getInertia().getRotationalInertia().data[4];
     }
 
     /**
