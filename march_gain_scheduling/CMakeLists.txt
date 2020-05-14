@@ -24,7 +24,10 @@ catkin_package(
     std_msgs
 )
 
-include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS} ${orocos_kdl_INCLUDE_DIRS})
+
+link_directories(${catkin_LIBRARY_DIRS})
+link_directories(${orocos_kdl_LIBRARY_DIRS})
 
 install(DIRECTORY config launch
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
@@ -39,4 +42,5 @@ catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node
     )
 
 add_executable(inertia_calculator src/inertia_calculator.cpp)
-target_link_libraries(inertia_calculator ${catkin_LIBRARIES})
+target_link_libraries(inertia_calculator ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
+add_dependencies(inertia_calculator orocos_kinematics_dynamics)

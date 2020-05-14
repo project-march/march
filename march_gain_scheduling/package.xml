@@ -15,6 +15,7 @@
   <depend>dynamic_reconfigure</depend>
   <depend>eigen_conversions</depend>
   <depend>march_shared_resources</depend>
+  <depend>orocos_kdl</depend>
   <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>std_msgs</depend>
