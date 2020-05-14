@@ -41,6 +41,4 @@ catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
     )
 
-add_executable(inertia_calculator src/inertia_calculator.cpp)
-target_link_libraries(inertia_calculator ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
-add_dependencies(inertia_calculator orocos_kinematics_dynamics)
+add_executable(inertia_calculator_node src/inertia_calculator_node.cpp)
