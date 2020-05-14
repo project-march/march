@@ -8,12 +8,19 @@
 
   <license>TODO</license>
 
+  <build_depend>kdl_parser</build_depend>
+
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>dynamic_reconfigure</depend>
+  <depend>eigen_conversions</depend>
+  <depend>march_shared_resources</depend>
+  <depend>roscpp</depend>
   <depend>rospy</depend>
   <depend>std_msgs</depend>
-  <depend>dynamic_reconfigure</depend>
-  <depend>march_shared_resources</depend>
+  <depend>urdf</depend>
+
+  <exec_depend>kdl_parser</exec_depend>
 
   <test_depend>rosunit</test_depend>
 </package>
