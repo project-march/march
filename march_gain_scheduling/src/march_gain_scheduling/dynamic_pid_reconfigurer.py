@@ -12,7 +12,7 @@ class DynamicPIDReconfigurer:
         self._joint_list = joint_list
         self.interpolation_done = True
         self._last_update_times = []
-        self._clients = [Client('/march/controller/trajectory/gains/' + joint, timeout=30) for joint in
+        self._clients = [Client('/march/controller/trajectory/gains/' + joint, timeout=90) for joint in
                          self._joint_list]
         self.current_gains = []
         rospy.Subscriber('/march/gait/schedule/goal', GaitActionGoal, callback=self.gait_selection_callback)
