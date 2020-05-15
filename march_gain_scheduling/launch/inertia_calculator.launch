@@ -1,0 +1,4 @@
+<launch>
+    <node name="inertia_calculator" pkg="march_gain_scheduling" type="inertia_calculator_node" output="screen">
+    </node>
+</launch>

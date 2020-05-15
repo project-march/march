@@ -1,3 +1,5 @@
+#include "march_gain_scheduling/inertia_calculator_node.h"
+
 #include "ros/ros.h"
 #include "std_msgs/Float64MultiArray.h"
 #include <kdl/chaindynparam.hpp>
@@ -84,7 +86,6 @@ int main(int argc, char** argv)
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
-  int count = 0;
   while (ros::ok())
   {
     KDL::ChainDynParam dyn(chain, KDL::Vector::Zero());

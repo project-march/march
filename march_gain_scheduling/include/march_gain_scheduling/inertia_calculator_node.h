@@ -1,0 +1,8 @@
+//
+// Created by rogier on 15-05-20.
+//
+
+#ifndef MARCH_WS_INERTIA_CALCULATOR_NODE_H
+#define MARCH_WS_INERTIA_CALCULATOR_NODE_H
+
+#endif  // MARCH_WS_INERTIA_CALCULATOR_NODE_H

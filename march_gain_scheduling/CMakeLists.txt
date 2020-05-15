@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(march_gain_scheduling)
 
+add_compile_options(-std=c++14 -Wall -Wextra -Werror)
+
 find_package(catkin REQUIRED COMPONENTS
     dynamic_reconfigure
     eigen_conversions
@@ -42,4 +44,4 @@ catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node
     )
 
 add_executable(inertia_calculator_node src/inertia_calculator_node.cpp)
-target_link_libraries(inertia_calculator_node ${catkin_LIBRARIES} ${orocos_kdl_LIBRARIES})
+target_link_libraries(inertia_calculator_node ${catkin_LIBRARIES})
