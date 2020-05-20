@@ -57,7 +57,6 @@ int main(int argc, char** argv)
   ROS_INFO("Extracted chain from kdl tree");
 
   KDL::JntArray q(chain.getNrOfJoints());
-  ROS_INFO("gucci1");
   while (ros::ok())
   {
     for (unsigned int i = 0; i < chain.getNrOfJoints(); i++)
@@ -69,16 +68,8 @@ int main(int argc, char** argv)
     KDL::JntSpaceInertiaMatrix H(chain.getNrOfJoints());
     dyn.JntToMass(q, H);
 
-    ROS_INFO("inertias:");
     for (unsigned int i = 0; i < chain.getNrOfJoints(); i++)
     {
-      ROS_INFO("%f, %f, %f, %f", H(0, i), H(1, i), H(2, i), H(3, i));
-    }
-
-    ROS_INFO("joints:");
-    for (unsigned int i = 0; i < chain.getNrOfJoints(); i++)
-    {
-      ROS_INFO("%f", q.data[i]);
       inertias.data[i] = H(i, i);
     }
 
