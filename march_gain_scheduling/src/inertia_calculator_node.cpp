@@ -22,7 +22,8 @@ int main(int argc, char** argv)
 
   inCalcClass place(n);
 
-  ros::Subscriber sub = n.subscribe("/march/joint_states", 1000, &inCalcClass::joint_trajectory_feedback_callback, &place);
+  ros::Subscriber sub =
+      n.subscribe("/march/joint_states", 1000, &inCalcClass::joint_trajectory_feedback_callback, &place);
   ros::Publisher chatter_pub = n.advertise<std_msgs::Float64MultiArray>("inertia_publisher", 1000);
   std_msgs::Float64MultiArray inertias;
   inertias.data.resize(8);

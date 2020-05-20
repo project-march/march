@@ -11,10 +11,11 @@ private:
   double joint_pos_[8];
   double joint_vel_[8];
   ros::NodeHandle n_;
+
 public:
   void joint_trajectory_feedback_callback(const sensor_msgs::JointStateConstPtr& msg)
   {
-    for(int i =0; i<8; i++)
+    for (int i = 0; i < 8; i++)
     {
       joint_pos_[i] = msg->position[i];
       joint_vel_[i] = msg->velocity[i];
@@ -22,7 +23,7 @@ public:
   }
   inCalcClass(ros::NodeHandle n)
   {
-    for(int i=0; i<8; i++)
+    for (int i = 0; i < 8; i++)
     {
       joint_pos_[i] = 0.0;
       joint_vel_[i] = 0.0;
