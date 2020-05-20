@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
     )
 
 find_package(orocos_kdl REQUIRED)
+find_package(Boost REQUIRED COMPONENTS system)
 
 catkin_python_setup()
 
@@ -26,10 +27,10 @@ catkin_package(
     std_msgs
 )
 
-include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS} ${orocos_kdl_INCLUDE_DIRS})
+include_directories(include ${catkin_INCLUDE_DIRS} ${Eigen_INCLUDE_DIRS} ${orocos_kdl_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
 
 link_directories(${catkin_LIBRARY_DIRS})
-link_directories(${orocos_kdl_LIBRARY_DIRS})
+link_directories(${orocos_kdl_LIBRARY_DIRS} ${Boost_LIBRARY_DIR})
 
 install(DIRECTORY config launch
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
@@ -44,4 +45,8 @@ catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node
     )
 
 add_executable(inertia_calculator_node src/inertia_calculator_node.cpp)
-target_link_libraries(inertia_calculator_node ${catkin_LIBRARIES})
+target_link_libraries(inertia_calculator_node ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+
+install(TARGETS inertia_calculator_node
+    RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+    )
