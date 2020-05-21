@@ -45,7 +45,7 @@
     <xacro:property name="k_position_value_adpf" value="$(arg k_position_value_adpf)" />
 
     <!-- Constants for robot dimensions -->
-    <!-- Masses determined in https://confluence.projectmarch.nl:8443/display/41TECH/Weights+of+the+Exoskeleton -->
+    <!-- Masses determined in Catia, see https://confluence.projectmarch.nl:8443/display/51/URDF+description -->
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="hip_base_height" value="0.160"/>
