@@ -12,8 +12,10 @@ class BalanceGait(object):
 
     def __init__(self, gait_name='gait_balanced_walk'):
         self.gait_name = gait_name
+        self.default_walk = None
         self._is_balance_used = rospy.get_param('/balance', False)
 
+        self._move_group = None
         if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
@@ -89,4 +91,4 @@ class BalanceGait(object):
         elif name == 'left_swing':
             return self.calculate_trajectory('left_leg')
         else:
-            return None
+            return self.default_walk[name]
