@@ -29,8 +29,10 @@ class BalanceGait(object):
                 return
 
         self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
+        self._capture_point_pose = {'left_leg': None, 'right_leg': None}
+
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
-        self._capture_point_position = {'left_leg': None, 'right_leg': None}
+        self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
 
         rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
                          callback_args='left_leg')
@@ -44,7 +46,7 @@ class BalanceGait(object):
         :param leg_name: The name of corresponding move group
         """
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
-        self._capture_point_position[leg_name] = msg.pose.position
+        self._capture_point_pose[leg_name] = msg.pose
 
     def calculate_trajectory(self, leg_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
@@ -54,7 +56,23 @@ class BalanceGait(object):
         :return:
             A populated subgait message
         """
-        return self.random_subgait()
+        if self._capture_point_pose[leg_name] is None:
+            rospy.logwarn('No messages received from the capture point topic of {lg}'.format(lg=leg_name))
+            return None
+
+        if self._old_capture_point_msg_time[leg_name]:
+            if self._old_capture_point_msg_time[leg_name] == self._latest_capture_point_msg_time[leg_name]:
+                rospy.logwarn('No new capture point messages received from cp topic of {lg}'.format(lg=leg_name))
+                return None
+
+        self._old_capture_point_msg_time[leg_name] = self._latest_capture_point_msg_time[leg_name]
+
+        _pose = self._capture_point_pose[leg_name]
+        _end_effector = self._end_effectors[leg_name]
+        self._move_group[leg_name].set_pose_target(_pose, end_effector_link=_end_effector)
+
+        trajectory_plan = self._move_group[leg_name].plan()
+        return trajectory_plan.joint_trajectory
 
     def random_subgait(self):
         """Create random trajectory using the moveit motion planner.
@@ -64,11 +82,11 @@ class BalanceGait(object):
         """
         self._move_group['left_leg'].set_random_target()
         trajectory_msg = self._move_group['left_leg'].plan()
-        return self.to_subgait_msg_('Random moveit subgait', trajectory_msg.joint_trajectory)
+        return self.to_subgait_msg('Random moveit subgait', trajectory_msg.joint_trajectory)
 
     @staticmethod
-    def to_subgait_msg_(name, trajectory_msg, gait_type='walk_like', version='moveit',
-                        description='Subgait created using the moveit motion planning.'):
+    def to_subgait_msg(name, trajectory_msg, gait_type='walk_like', version='moveit',
+                       description='Subgait created using the moveit motion planning.'):
         """Create a subgait message using the standard format in the march shared resources."""
         subgait_msg = Subgait()
 
@@ -81,14 +99,32 @@ class BalanceGait(object):
 
         return subgait_msg
 
+    def construct_subgait(self, leg_name, subgait_name):
+        capture_point_trajectory = self.calculate_trajectory(leg_name)
+        if not capture_point_trajectory:
+            return False
+
+        capture_point_message = self.to_subgait_msg('test', capture_point_trajectory)
+
+        subgait = self.default_walk[subgait_name]
+        subgait_message = subgait.to_subgait_msg()
+
+        print('subgait trajectory: \n' + str(subgait_message.trajectory))
+        print('capture point trajectory: \n' + str(capture_point_trajectory))
+
+        print('subgait_msg: ' + str(subgait_message))
+        print('capture point message: ' + str(capture_point_message))
+
+        return self.default_walk[subgait_name]
+
     def __getitem__(self, name):
         """Return the trajectory of a move group based on capture point in subgait msg format.
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
         if name == 'right_swing':
-            return self.calculate_trajectory('right_leg')
+            return self.construct_subgait('right_leg', 'right_swing')
         elif name == 'left_swing':
-            return self.calculate_trajectory('left_leg')
+            return self.construct_subgait('left_leg', 'left_swing')
         else:
             return self.default_walk[name]
