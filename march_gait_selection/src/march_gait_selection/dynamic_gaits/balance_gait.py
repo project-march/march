@@ -28,7 +28,7 @@ class BalanceGait(object):
                 rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
                 return
 
-        self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
+        self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
         self._capture_point_pose = {'left_leg': None, 'right_leg': None}
 
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
@@ -102,7 +102,7 @@ class BalanceGait(object):
     def construct_subgait(self, leg_name, subgait_name):
         capture_point_trajectory = self.calculate_trajectory(leg_name)
         if not capture_point_trajectory:
-            return False
+            return None
 
         capture_point_message = self.to_subgait_msg('test', capture_point_trajectory)
 
@@ -122,9 +122,9 @@ class BalanceGait(object):
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
-        if name == 'right_swing':
-            return self.construct_subgait('right_leg', 'right_swing')
-        elif name == 'left_swing':
+        if name == 'left_swing':
             return self.construct_subgait('left_leg', 'left_swing')
+        elif name == 'right_swing':
+            return self.construct_subgait('right_leg', 'right_swing')
         else:
             return self.default_walk[name]
