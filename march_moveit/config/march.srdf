@@ -28,10 +28,10 @@
         <chain base_link="hip_base" tip_link="foot_left" />
     </group>
     <group name="foot_right">
-      <link name="foot_right" />
+        <link name="foot_right" />
     </group>
     <group name="foot_left">
-      <link name="foot_left" />
+        <link name="foot_left" />
     </group>
     <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
     <end_effector name="foot_right" parent_link="foot_right" group="right_leg" />
