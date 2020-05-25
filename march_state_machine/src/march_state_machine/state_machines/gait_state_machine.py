@@ -64,11 +64,13 @@ class GaitStateMachine(smach.StateMachine):
             try:
                 subgaits = self.get_children().keys()
                 if not self._contains_gait(gait=self._gait_name, subgaits=subgaits).contains:
-                    rospy.logwarn('Gait {0} is not currently loaded with subgaits {1}'.format(self._gait_name, subgaits))
+                    rospy.logwarn(
+                        'Gait {0} is not currently loaded with subgaits {1}'.format(self._gait_name, subgaits))
                     return 'rejected'
             except rospy.ServiceException:
                 rospy.logerr(
-                    'Failed to contact {0}, is a gait_selection node running?'.format(self._contains_gait.resolved_name))
+                    'Failed to contact {0}, is a gait_selection node running?'.format(
+                        self._contains_gait.resolved_name))
                 return 'failed'
 
         self._gait_publisher.publish(self._gait_name)

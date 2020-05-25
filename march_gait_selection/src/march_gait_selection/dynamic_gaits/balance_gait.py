@@ -103,17 +103,11 @@ class BalanceGait(object):
         capture_point_trajectory = self.calculate_trajectory(leg_name)
         if not capture_point_trajectory:
             return None
-
-        capture_point_message = self.to_subgait_msg('test', capture_point_trajectory)
-
-        subgait = self.default_walk[subgait_name]
-        subgait_message = subgait.to_subgait_msg()
-
-        print('subgait trajectory: \n' + str(subgait_message.trajectory))
-        print('capture point trajectory: \n' + str(capture_point_trajectory))
-
-        print('subgait_msg: ' + str(subgait_message))
-        print('capture point message: ' + str(capture_point_message))
+        #
+        # capture_point_message = self.to_subgait_msg('test', capture_point_trajectory)
+        #
+        # subgait = self.default_walk[subgait_name]
+        # subgait_message = subgait.to_subgait_msg()
 
         return self.default_walk[subgait_name]
 
