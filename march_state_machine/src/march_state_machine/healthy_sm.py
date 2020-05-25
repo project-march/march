@@ -124,7 +124,8 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
         # Balance gait based on Capture Point
-        self.add_state('GAIT BALANCED WALK', WalkStateMachine('gait_balanced_walk'), 'STANDING')
+        self.add_state('GAIT BALANCED WALK',
+                       WalkStateMachine('gait_balanced_walk', check_gait_content=False), 'STANDING')
 
         self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})

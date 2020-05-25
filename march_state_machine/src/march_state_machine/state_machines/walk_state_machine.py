@@ -6,7 +6,7 @@ from .gait_state_machine import GaitStateMachine
 class WalkStateMachine(GaitStateMachine):
     """A smach.StateMachine that implements a walking pattern gait."""
 
-    def __init__(self, gait_name, is_transition_active=False):
+    def __init__(self, gait_name, is_transition_active=False, check_gait_content=True):
         """Initializes the walking pattern gait.
 
         The gait will be initialized with the following subgaits:
@@ -21,7 +21,7 @@ class WalkStateMachine(GaitStateMachine):
         :type gait_name: str
         :param gait_name: Name of the walking pattern gait
         """
-        super(WalkStateMachine, self).__init__(gait_name)
+        super(WalkStateMachine, self).__init__(gait_name, check_gait_content)
 
         self.register_output_keys(['current_gait_name', 'transition_state_name', 'start_state'])
 
