@@ -1,10 +1,15 @@
+
+from copy import deepcopy
 import sys
 
 import moveit_commander
 import rospy
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import Subgait
+from march_shared_classes.gait.joint_trajectory import JointTrajectory
+from march_shared_classes.gait.setpoint import Setpoint
+from march_shared_classes.gait.subgait import Subgait
+from march_shared_resources import msg
 
 
 class BalanceGait(object):
@@ -48,13 +53,23 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_pose[leg_name] = msg.pose
 
+    def random_subgait(self):
+        """Create random trajectory using the moveit motion planner.
+
+        :return:
+            A populated subgait message
+        """
+        self._move_group['left_leg'].set_random_target()
+        trajectory_msg = self._move_group['left_leg'].plan()
+        return self.to_subgait_msg('Random moveit subgait', trajectory_msg.joint_trajectory)
+
     def calculate_trajectory(self, leg_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
         :param leg_name: The name of the used move group
 
         :return:
-            A populated subgait message
+            A joint trajectory which can be used in a subgait or subgait msg
         """
         if self._capture_point_pose[leg_name] is None:
             rospy.logwarn('No messages received from the capture point topic of {lg}'.format(lg=leg_name))
@@ -69,27 +84,16 @@ class BalanceGait(object):
 
         _pose = self._capture_point_pose[leg_name]
         _end_effector = self._end_effectors[leg_name]
-        self._move_group[leg_name].set_pose_target(_pose, end_effector_link=_end_effector)
+        self._move_group[leg_name].set_joint_value_target(_pose, _end_effector, True)
 
         trajectory_plan = self._move_group[leg_name].plan()
         return trajectory_plan.joint_trajectory
-
-    def random_subgait(self):
-        """Create random trajectory using the moveit motion planner.
-
-        :return:
-            A populated subgait message
-        """
-        self._move_group['left_leg'].set_random_target()
-        trajectory_msg = self._move_group['left_leg'].plan()
-        return self.to_subgait_msg('Random moveit subgait', trajectory_msg.joint_trajectory)
 
     @staticmethod
     def to_subgait_msg(name, trajectory_msg, gait_type='walk_like', version='moveit',
                        description='Subgait created using the moveit motion planning.'):
         """Create a subgait message using the standard format in the march shared resources."""
-        subgait_msg = Subgait()
-
+        subgait_msg = msg.Subgait()
         subgait_msg.name = name
         subgait_msg.description = description
         subgait_msg.trajectory = trajectory_msg
@@ -99,15 +103,41 @@ class BalanceGait(object):
 
         return subgait_msg
 
+    @staticmethod
+    def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
+                   subgait_name='balance_subgait', description='Subgait created using the moveit motion planning.'):
+        """Create a subgait using the standard format in the march shared classes."""
+        return Subgait(joints, duration, gait_type, gait_name, subgait_name, version, description)
+
+    @staticmethod
+    def create_subgait_of_trajectory(normal_subgait, joint_trajectory):
+        balance_duration = joint_trajectory.points[-1].time_from_start.to_sec()
+
+        balance_joints = []
+        for joint_index, joint_name in enumerate(joint_trajectory.joint_names):
+            normal_joint = normal_subgait.get_joint(joint_name)
+
+            setpoints = []
+            for joint_trajectory_point in joint_trajectory.points:
+                time = joint_trajectory_point.time_from_start.to_sec()
+                position = joint_trajectory_point.positions[joint_index]
+                velocity = joint_trajectory_point.velocities[joint_index]
+                setpoints.append(Setpoint(time, position, velocity))
+
+            balance_joints.append(JointTrajectory(joint_name, normal_joint.limits, setpoints, balance_duration))
+
+        balance_subgait = BalanceGait.to_subgait(balance_joints, balance_duration)
+
+        return balance_subgait
+
     def construct_subgait(self, leg_name, subgait_name):
         capture_point_trajectory = self.calculate_trajectory(leg_name)
+
         if not capture_point_trajectory:
             return None
-        #
-        # capture_point_message = self.to_subgait_msg('test', capture_point_trajectory)
-        #
-        # subgait = self.default_walk[subgait_name]
-        # subgait_message = subgait.to_subgait_msg()
+
+        default_subgait = deepcopy(self.default_walk[subgait_name])
+        self.create_subgait_of_trajectory(default_subgait, capture_point_trajectory)
 
         return self.default_walk[subgait_name]
 
