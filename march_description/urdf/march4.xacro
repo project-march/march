@@ -194,7 +194,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -228,7 +228,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LeftHAA.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftHAA.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -267,7 +267,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperLeftLeg.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperLegLeft.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -297,7 +297,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerLeftLeg.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerLegLeft.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -327,7 +327,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LeftFoot.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftFoot.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -372,7 +372,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/RightHAA.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightHAA.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -411,7 +411,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperRightLeg.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperLegRight.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -442,7 +442,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerRightLeg.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerLegRight.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -472,7 +472,7 @@
         <visual>
             <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/RightFoot.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightFoot.stl" scale="1150 1150 1150"/>
             </geometry>
             <material name="blue"/>
         </visual>
