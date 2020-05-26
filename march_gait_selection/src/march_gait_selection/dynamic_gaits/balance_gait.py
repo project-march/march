@@ -130,16 +130,81 @@ class BalanceGait(object):
 
         return balance_subgait
 
+    @staticmethod
+    def _equalize_amount_of_setpoints(first_subgait, second_subgait):
+        """Equalize the subgaits to have matching amount of setpoints on all the timestamps."""
+        max_duration = max([first_subgait.duration, second_subgait.duration])
+
+        first_subgait = BalanceGait._scale_timestamps_subgaits(first_subgait, max_duration)
+        second_subgait = BalanceGait._scale_timestamps_subgaits(second_subgait, max_duration)
+
+        unique_timestamps = BalanceGait._get_all_unique_timestamps(first_subgait, second_subgait)
+
+        for old_joint in first_subgait:
+            new_joint = second_subgait.get_joint(old_joint.name)
+
+            old_joint_setpoints = []
+            new_joint_setpoints = []
+
+            for timestamp in unique_timestamps:
+                old_joint_setpoints.append(old_joint.get_interpolated_setpoint(timestamp))
+                new_joint_setpoints.append(new_joint.get_interpolated_setpoint(timestamp))
+
+            old_joint.setpoints = old_joint_setpoints
+            new_joint.setpoints = new_joint_setpoints
+
+        return first_subgait, second_subgait
+
+    @staticmethod
+    def _scale_timestamps_subgaits(subgait, new_duration):
+        """Scale all the setpoint to match the duration in both subgaits."""
+        old_duration = subgait.duration
+
+        if new_duration == old_duration:
+            return subgait
+
+        for joint in subgait.joints:
+            for setpoint in joint.setpoints:
+                setpoint.time = setpoint.time * new_duration / old_duration
+
+            joint.duration = new_duration
+            joint.setpoints[-1].time = new_duration
+
+        subgait.duration = new_duration
+        return subgait
+
+    @staticmethod
+    def _get_all_unique_timestamps(first_subgait, second_subgait):
+        """Get all the timestamps from the subgaits, eliminate double."""
+        all_timestamps = first_subgait.get_unique_timestamps() + second_subgait.get_unique_timestamps()
+        return sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
+
+    @staticmethod
+    def merge_subgaits(balance_trajectory_subgait, subgait):
+        balance_trajectory_subgait, subgait = \
+            BalanceGait._equalize_amount_of_setpoints(balance_trajectory_subgait, subgait)
+
+        if subgait.duration != balance_trajectory_subgait.duration:
+            return None
+
+        joint_names = subgait.get_joint_names()
+        for joint in balance_trajectory_subgait:
+            joint_index = joint_names.index(joint.name)
+            subgait.joints[joint_index] = joint
+
+        return subgait
+
     def construct_subgait(self, leg_name, subgait_name):
         capture_point_trajectory = self.calculate_trajectory(leg_name)
+        default_subgait = deepcopy(self.default_walk[subgait_name])
 
         if not capture_point_trajectory:
             return None
 
-        default_subgait = deepcopy(self.default_walk[subgait_name])
-        self.create_subgait_of_trajectory(default_subgait, capture_point_trajectory)
+        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, capture_point_trajectory)
+        balance_subgait = self.merge_subgaits(balance_trajectory_subgait, default_subgait)
 
-        return self.default_walk[subgait_name]
+        return balance_subgait
 
     def __getitem__(self, name):
         """Return the trajectory of a move group based on capture point in subgait msg format.
