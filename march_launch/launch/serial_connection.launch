@@ -1,9 +1,21 @@
 <launch>
+    <arg name="arduino_master" default="true" doc="Launches the arduino master serial node when true."/>
+    <arg name="arduino_master_port" default="/dev/ttyACM0" doc="Device port to use for arduino master serial connection."/>
+    <arg name="arduino_master_baud" default="57600" doc="Baud rate to set for the arduino master connection."/>
+
+    <arg name="input_device" default="true" doc="Launches the input device serial node when true."/>
+    <arg name="input_device_port" default="/dev/ttyUSB0" doc="Device port to use for input device serial connection. Only used when `wireless` is false."/>
+    <arg name="arduino_master_baud" default="57600" doc="Baud rate to set for the input device connection. Only used when `wireless` is false."/>
     <arg name="wireless" default="false" doc="Use wireless connection to input device. Defaults to false."/>
 
-    <node pkg="rosserial_python" type="serial_node.py" name="serial_node">
+    <node name="arduino_master" pkg="rosserial_python" type="serial_node.py" if="$(arg arduino_master)">
+        <param name="port" value="$(arg arduino_master_port)"/>
+        <param name="baud" value="$(arg arduino_master_baud)"/>
+    </node>
+
+    <node name="input_device" pkg="rosserial_python" type="serial_node.py" if="$(arg input_device)">
         <param name="port" value="tcp" if="$(arg wireless)"/>
-        <param name="port" value="/dev/ttyUSB0" unless="$(arg wireless)"/>
-        <param name="baud" value="57600" unless="$(arg wireless)"/>
+        <param name="port" value="$(arg input_device_port)" unless="$(arg wireless)"/>
+        <param name="baud" value="$(arg input_device_baud)" unless="$(arg wireless)"/>
     </node>
 </launch>
