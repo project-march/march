@@ -4,59 +4,68 @@
 #include <string>
 
 InputDeviceSafety::InputDeviceSafety(ros::NodeHandle* n, SafetyHandler* safety_handler)
-  : time_last_alive_(ros::Time(0)), is_connected_(false)
+  : safety_handler_(safety_handler)
 {
   int milliseconds;
   ros::param::get("~input_device_connection_timeout", milliseconds);
   this->connection_timeout_ = ros::Duration(milliseconds / 1000.0);
-  this->safety_handler_ = safety_handler;
-  this->subscriber_input_device_alive_ =
-      n->subscribe<std_msgs::Time>("/march/input_device/alive", 10, &InputDeviceSafety::inputDeviceAliveCallback, this);
+  this->subscriber_input_device_alive_ = n->subscribe<march_shared_resources::Alive>(
+      "/march/input_device/alive", 10, &InputDeviceSafety::inputDeviceAliveCallback, this);
 }
 
-void InputDeviceSafety::inputDeviceAliveCallback(const std_msgs::TimeConstPtr& msg)
+void InputDeviceSafety::inputDeviceAliveCallback(const march_shared_resources::AliveConstPtr& msg)
 {
-  this->time_last_alive_ = msg->data;
+  this->last_alive_stamps_[msg->id] = msg->stamp;
 }
 
 void InputDeviceSafety::update(const ros::Time& now)
 {
-  if (this->time_last_alive_.isZero())
+  if (this->last_alive_stamps_.empty())
   {
     ROS_INFO_THROTTLE(5, "No input device connected yet");
     return;
   }
 
-  const bool timed_out = now > this->time_last_alive_ + this->connection_timeout_;
-  // Check if no alive msg has been received for the timeout duration.
-  if (this->is_connected_ && timed_out)
+  const bool had_connections = !this->connected_devices_.empty();
+
+  for (const auto& entry : this->last_alive_stamps_)
   {
-    this->is_connected_ = false;
-    std::ostringstream message_stream;
-    message_stream << "Input Device Connection Lost. Current time is " << now.toSec() << " and last alive message was "
-                   << this->time_last_alive_.toSec()
-                   << ". The difference in time is: " << now.toSec() - this->time_last_alive_.toSec();
-    this->safety_handler_->publishNonFatal(message_stream.str());
-  }
-  else if (!this->is_connected_ && !timed_out)
-  {
-    this->is_connected_ = true;
-    ROS_INFO("Input device reconnected");
+    const std::string& id = entry.first;
+    const ros::Time& last_alive = entry.second;
+    const bool timed_out = now > (last_alive + this->connection_timeout_);
+    const bool is_connected = this->connected_devices_.find(id) != this->connected_devices_.end();
+
+    if (is_connected && timed_out)
+    {
+      this->connected_devices_.erase(id);
+      ROS_WARN_STREAM("Input device `" << id << "` lost");
+    }
+    else if (!is_connected && !timed_out)
+    {
+      this->connected_devices_.insert(id);
+      ROS_INFO_STREAM("Input device `" << id << "` reconnected. Total connected is "
+                                       << this->connected_devices_.size());
+    }
+
+    // Check if the alive msg is not timestamped with a future time.
+    // This can happen when one node is using sim_time and others aren't.
+    // Add small margin to take the stamp offset between board and PC into account
+    if (now + ros::Duration(0.5) < last_alive)
+    {
+      ROS_WARN_STREAM_THROTTLE(5.0, "Input device `" << id << "` alive message is from the future. Current time is "
+                                                     << now.toSec() << " and last alive message was "
+                                                     << last_alive.toSec());
+    }
   }
 
-  if (!this->is_connected_)
+  const bool has_connections = !this->connected_devices_.empty();
+  if (had_connections && !has_connections)
+  {
+    this->safety_handler_->publishNonFatal("All input devices are lost");
+  }
+
+  if (!has_connections)
   {
     ROS_INFO_DELAYED_THROTTLE(5.0, "No input device connected");
-  }
-
-  // Check if the alive msg is not timestamped with a future time.
-  // This can happen when one node is using sim_time and others aren't.
-  // Add small margin to take the stamp offset between board and PC into account
-  if (now + ros::Duration(0.5) < this->time_last_alive_)
-  {
-    ROS_WARN_STREAM_THROTTLE(5.0, "Input Device Connection message is from the future. Current time: "
-                                      << now.toSec()
-                                      << " and last alive message was: " << this->time_last_alive_.toSec()
-                                      << "The difference in time is: " << this->time_last_alive_.toSec() - now.toSec());
   }
 }
