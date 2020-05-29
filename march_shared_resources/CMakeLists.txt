@@ -13,6 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
     FILES
     AfterLimitJointCommand.msg
+    Alive.msg
     Error.msg
     GaitInstruction.msg
     GaitInstructionResponse.msg
