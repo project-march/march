@@ -28,10 +28,10 @@ void InputDeviceSafety::update(const ros::Time& now)
 
   const bool had_connections = !this->connected_devices_.empty();
 
-  for (const auto& entry : this->last_alive_stamps_)
+  for (const auto& last_alive_stamp : this->last_alive_stamps_)
   {
-    const std::string& id = entry.first;
-    const ros::Time& last_alive = entry.second;
+    const std::string& id = last_alive_stamp.first;
+    const ros::Time& last_alive = last_alive_stamp.second;
     const bool timed_out = now > (last_alive + this->connection_timeout_);
     const bool is_connected = this->connected_devices_.find(id) != this->connected_devices_.end();
 
