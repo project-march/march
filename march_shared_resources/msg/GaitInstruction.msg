@@ -15,3 +15,5 @@ int8 DECREMENT_STEP_SIZE = 5
 # If the type is a GAIT this is the name of the gait.
 string gait_name
 
+# Unique identifier for the input device sending this message. See `Alive`.
+string id
