@@ -46,7 +46,7 @@ jobs:
       language: python
       python: 3.8
       install:
-        - pip install flake8 pep8-naming flake8-blind-except flake8-string-format flake8-builtins flake8-commas flake8-quotes flake8-print flake8-docstrings flake8-import-order flake8-colors flake8-return
+        - pip install flake8 pep8-naming flake8-blind-except flake8-string-format flake8-builtins flake8-commas flake8-quotes flake8-print flake8-docstrings flake8-import-order flake8-colors
       script: flake8
 
 # clone and run industrial_ci
