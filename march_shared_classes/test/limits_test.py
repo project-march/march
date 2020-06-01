@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import unittest
 
 from march_shared_classes.gait.limits import Limits

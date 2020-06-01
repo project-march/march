@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-from __future__ import absolute_import
-
 import unittest
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait

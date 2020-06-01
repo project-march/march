@@ -3,8 +3,6 @@
 # The connection is establish trough the libraries modelingApi.py and pubsubApi.py, which come with the installation and
 # are a wrapper for the C Api. Detailed documentation about ESP can be found at
 # https://documentation.sas.com/?cdcId=espcdc&cdcVersion=6.2&docsetId=espov&docsetTarget=home.htm&locale=nl
-from __future__ import absolute_import
-
 import datetime
 import logging
 import os

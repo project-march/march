@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import rospy
 
 from march_shared_resources.msg import GaitInstruction, GaitInstructionResponse

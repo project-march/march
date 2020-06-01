@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import smach
 
 from .states.wait_for_gait_server_state import WaitForGaitServerState

@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 from dynamic_reconfigure.client import Client
 import rospy
 

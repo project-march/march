@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 import smach
 
 from march_state_machine.states.gait_state import GaitState
