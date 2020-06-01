@@ -11,10 +11,11 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>python3-setuptools</buildtool_depend>
 
-  <depend>rospy</depend>
-  <depend>std_msgs</depend>
-  <depend>dynamic_reconfigure</depend>
   <depend>march_shared_resources</depend>
+  <depend>std_msgs</depend>
+
+  <exec_depend>dynamic_reconfigure</exec_depend>
+  <exec_depend>rospy</exec_depend>
 
   <test_depend>rosunit</test_depend>
 </package>

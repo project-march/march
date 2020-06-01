@@ -5,7 +5,6 @@ find_package(catkin REQUIRED COMPONENTS
     actionlib_msgs
     control_msgs
     message_generation
-    message_runtime
     std_msgs
     trajectory_msgs
 )
@@ -56,9 +55,7 @@ catkin_package(
     CATKIN_DEPENDS
     actionlib_msgs
     control_msgs
-    message_generation
     message_runtime
     std_msgs
     trajectory_msgs
 )
-
