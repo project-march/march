@@ -14,14 +14,14 @@ catkin_package(CATKIN_DEPENDS
     controller_manager_msgs
     march_shared_resources
     std_msgs
-)
-
-install(DIRECTORY launch sounds
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+    std_srvs
 )
 
 catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+install(DIRECTORY launch sounds
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 ## Add folders to be run by python nosetests

@@ -1,13 +1,9 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(march_moveit)
 
-find_package(catkin REQUIRED COMPONENTS
-    march_description
-    )
+find_package(catkin REQUIRED)
 
-catkin_package(CATKIN_DEPENDS
-    march_description
-    )
+catkin_package()
 
 install(DIRECTORY launch DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
   PATTERN "setup_assistant.launch" EXCLUDE)

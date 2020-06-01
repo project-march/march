@@ -11,15 +11,15 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>python3-setuptools</buildtool_depend>
 
-  <depend>std_srvs</depend>
-  <depend>std_msgs</depend>
   <depend>controller_manager_msgs</depend>
   <depend>march_shared_resources</depend>
+  <depend>std_msgs</depend>
+  <depend>std_srvs</depend>
 
-  <exec_depend>roslib</exec_depend>
-  <exec_depend>rospy</exec_depend>
   <exec_depend>executive_smach</exec_depend>
   <exec_depend>python3-psutil</exec_depend>
+  <exec_depend>roslib</exec_depend>
+  <exec_depend>rospy</exec_depend>
   <exec_depend>sound_play</exec_depend>
 
   <test_depend>rostest</test_depend>
