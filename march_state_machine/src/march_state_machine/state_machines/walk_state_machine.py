@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import smach
 
 from .gait_state_machine import GaitStateMachine

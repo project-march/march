@@ -1,6 +1,8 @@
-from feedback_action_state import FeedbackActionState
+from __future__ import absolute_import
 
 from march_shared_resources.msg import GaitNameAction, GaitNameGoal
+
+from .feedback_action_state import FeedbackActionState
 
 
 class GaitState(FeedbackActionState):

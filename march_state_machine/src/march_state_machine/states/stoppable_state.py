@@ -1,8 +1,11 @@
-from feedback_action_state import FeedbackActionState
+from __future__ import absolute_import
+
 import rospy
 
 from march_shared_resources.msg import GaitNameAction, GaitNameGoal
 from march_state_machine.control_flow import control_flow
+
+from .feedback_action_state import FeedbackActionState
 
 
 class StoppableState(FeedbackActionState):

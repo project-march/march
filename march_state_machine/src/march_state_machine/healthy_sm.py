@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import rospy
 import smach
 from std_srvs.srv import Empty, EmptyRequest

@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import smach
 
 from march_state_machine.state_machines.step_state_machine import StepStateMachine
