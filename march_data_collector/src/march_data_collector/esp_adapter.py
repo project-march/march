@@ -24,7 +24,7 @@ try:
     sys.path.append(os.environ['DFESP_HOME'] + '/lib')
     import pubsubApi
     import modelingApi
-except (ImportError, KeyError) as e:
+except (ImportError, KeyError):
     rospy.logerr('Error while loading libraries for ESP.\nProbably ESP is not installed on this machine.')
     sys.exit()
 
