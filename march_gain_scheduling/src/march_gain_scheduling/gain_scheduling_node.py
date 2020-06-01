@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import rospy
 
 from .dynamic_pid_reconfigurer import DynamicPIDReconfigurer

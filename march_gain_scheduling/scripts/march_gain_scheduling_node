@@ -3,4 +3,3 @@ import march_gain_scheduling.gain_scheduling_node
 
 if __name__ == '__main__':
     march_gain_scheduling.gain_scheduling_node.main()
-
