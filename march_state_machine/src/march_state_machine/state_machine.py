@@ -4,7 +4,6 @@ from multiprocessing.pool import ThreadPool
 
 import rospy
 import smach
-import smach_ros
 
 from . import launch_sm
 from .healthy_sm import HealthyStateMachine
@@ -20,12 +19,6 @@ def main():
     sm = create_sm()
     rospy.on_shutdown(sm.request_preempt)
 
-    sis = None
-    if rospy.get_param('~state_machine_viewer', False):
-        rospy.loginfo('Starting state_machine_viewer')
-        sis = smach_ros.IntrospectionServer('smach_server', sm, '/SM_ROOT')
-        sis.start()
-
     pool = ThreadPool(processes=1)
     pool.apply_async(sm.execute)
 
@@ -33,8 +26,6 @@ def main():
 
     pool.close()
     pool.join()
-    if sis:
-        sis.stop()
 
 
 def create_userdata():

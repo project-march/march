@@ -7,7 +7,6 @@
     <arg name="sounds" default="true" doc="Whether to use sounds."/>
 
     <arg name="rviz" default="false" doc="Launches RViz."/>
-    <arg name="state_machine_viewer" default="false" doc="Launches the SMACH viewer."/>
     <arg name="rqt_input" default="true" doc="Launches the march rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
 
@@ -47,7 +46,6 @@
 
     <group ns="march">
         <include file="$(find march_state_machine)/launch/state_machine.launch">
-            <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
             <arg name="unpause" value="$(eval configuration == 'simulation' and unpause)"/>
             <arg name="sounds" value="$(arg sounds)"/>		
         </include>
