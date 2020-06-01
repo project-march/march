@@ -16,7 +16,8 @@
     <arg name="unpause" default="true" doc="Unpause simulation when controller starts."/>
     <arg name="fixed" default="true" doc="Fixes the exoskeleton in the world in rviz"/>
 
-    <arg name="input-device" default="false" doc="Launches ros serial node to connect with input device."/>
+    <arg name="arduino_master" default="false" doc="Launches ros serial node to connect with arduino on master."/>
+    <arg name="input_device" default="false" doc="Launches ros serial node to connect with input device."/>
     <arg name="wireless" default="false" doc="Enables wireless connection to the input device."/>
 
     <arg name="gait_directory" default="training-v" doc="Gait files directory to use"/>
@@ -28,6 +29,8 @@
     <arg name="pressure_soles" default="false" doc="Whether a connection with pressure_soles should be established." />
     <arg name="moticon_ip" default="192.168.8.105" doc="The ip-adress with Moticon software running on it, defaults to
             EMS switch laptop on standard router"/>
+
+    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
 
     <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
 
@@ -46,7 +49,7 @@
         <include file="$(find march_state_machine)/launch/state_machine.launch">
             <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
             <arg name="unpause" value="$(eval configuration == 'simulation' and unpause)"/>
-            <arg name="sounds" value="$(arg sounds)"/>
+            <arg name="sounds" value="$(arg sounds)"/>		
         </include>
 
         <include file="$(find march_safety)/launch/march_safety.launch"/>
@@ -72,6 +75,8 @@
             <arg name="pressure_soles" value="$(arg pressure_soles)"/>
             <arg name="moticon_ip" value="$(arg moticon_ip)"/>
         </include>
+
+    	<include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
     </group>
 
     <group if="$(eval configuration == 'exoskeleton')">
@@ -86,11 +91,13 @@
             <arg name="fixed" value="$(arg fixed)"/>
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
+            <arg name="balance" value="$(arg balance)"/>
         </include>
     </group>
 
-    <include file="$(dirname)/serial_connection.launch" if="$(arg input-device)">
+    <include file="$(dirname)/serial_connection.launch">
+        <arg name="arduino_master" value="$(arg arduino_master)"/>
+        <arg name="input_device" value="$(arg input_device)"/>
         <arg name="wireless" value="$(arg wireless)"/>
     </include>
-
 </launch>

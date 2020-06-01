@@ -13,12 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
 add_message_files(
     FILES
     AfterLimitJointCommand.msg
+    Alive.msg
     Error.msg
     GaitInstruction.msg
     GaitInstructionResponse.msg
     Graph.msg
     HighVoltageNet.msg
-    ImcErrorState.msg
+    ImcState.msg
     JointValues.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
@@ -29,6 +30,7 @@ add_message_files(
 
 add_service_files(
     FILES
+    ContainsGait.srv
     CurrentState.srv
     PossibleGaits.srv
     StringTrigger.srv

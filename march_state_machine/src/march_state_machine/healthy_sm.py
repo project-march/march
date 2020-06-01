@@ -6,8 +6,10 @@ from march_shared_resources.srv import CurrentState, PossibleGaits
 
 from .gaits import slope_down_sm
 from .gaits import tilted_path_left_flexed_knee_step_sm
+from .gaits import tilted_path_left_knee_bend_sm
 from .gaits import tilted_path_left_straight_sm
 from .gaits import tilted_path_right_flexed_knee_step_sm
+from .gaits import tilted_path_right_knee_bend_sm
 from .gaits import tilted_path_right_straight_sm
 from .gaits import tilted_path_sideways_end_sm
 from .gaits import tilted_path_sideways_start_sm
@@ -49,11 +51,11 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.open()
         self.add_auto('START', HealthyStart(), connector_outcomes=['succeeded'])
-        self.add('UNKNOWN', IdleState(outcomes=['home_sit', 'home_stand', 'failed', 'preempted']),
-                 transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND'})
+        self.add('UNKNOWN', IdleState(gait_outcomes=['home_sit', 'home_stand']),
+                 transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND', 'failed': 'UNKNOWN'})
 
-        self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING')
-        self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING')
+        self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING', rejected='UNKNOWN')
+        self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING', rejected='UNKNOWN')
 
         walking_state_machine = StateMachineWithTransition(['walk_small', 'walk', 'walk_large'])
         walking_state_machine.add('walk', WalkStateMachine('walk', is_transition_active=True))
@@ -64,8 +66,9 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT WALK SMALL', walking_state_machine, 'STANDING', custom_start_label='walk_small')
         self.add_state('GAIT WALK LARGE', walking_state_machine, 'STANDING', custom_start_label='walk_large')
 
-        self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING')
-        self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING')
+        self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING', rejected='STANDING')
+        self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
+                       rejected='SITTING')
 
         self.add_state('GAIT SINGLE STEP SMALL', StepStateMachine('single_step_small'), 'STANDING')
         self.add_state('GAIT SINGLE STEP NORMAL', StepStateMachine('single_step_normal'), 'STANDING')
@@ -80,10 +83,12 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT SIDE STEP RIGHT', StepStateMachine('side_step_right'), 'STANDING')
         self.add_state('GAIT SIDE STEP RIGHT SMALL', StepStateMachine('side_step_right_small'), 'STANDING')
 
-        self.add_state('GAIT SOFA SIT', StepStateMachine('sofa_sit', ['sit_down', 'sit_home']), 'SOFA SITTING')
-        self.add('SOFA SITTING', IdleState(outcomes=['gait_sofa_stand', 'preempted']),
-                 transitions={'gait_sofa_stand': 'GAIT SOFA STAND'})
-        self.add_state('GAIT SOFA STAND', StepStateMachine('sofa_stand', ['prepare_stand_up', 'stand_up']), 'STANDING')
+        self.add_state('GAIT SOFA SIT', StepStateMachine('sofa_sit', ['sit_down', 'sit_home']), 'SOFA SITTING',
+                       rejected='STANDING')
+        self.add('SOFA SITTING', IdleState(gait_outcomes=['gait_sofa_stand']),
+                 transitions={'gait_sofa_stand': 'GAIT SOFA STAND', 'failed': 'UNKNOWN'})
+        self.add_state('GAIT SOFA STAND', StepStateMachine('sofa_stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
+                       rejected='SOFA SITTING')
 
         self.add_state('GAIT STAIRS UP', WalkStateMachine('stairs_up'), 'STANDING')
         self.add_state('GAIT STAIRS DOWN', WalkStateMachine('stairs_down'), 'STANDING')
@@ -109,34 +114,43 @@ class HealthyStateMachine(smach.StateMachine):
         # TP stands for Tilted Path
         self.add_state('GAIT TP LEFT STRAIGHT', tilted_path_left_straight_sm.create(), 'STANDING')
         self.add_state('GAIT TP LEFT FLEXED KNEE STEP', tilted_path_left_flexed_knee_step_sm.create(), 'STANDING')
+        self.add_state('GAIT TP LEFT KNEE BEND', tilted_path_left_knee_bend_sm.create(), 'STANDING')
 
         self.add_state('GAIT TP RIGHT STRAIGHT', tilted_path_right_straight_sm.create(), 'STANDING')
         self.add_state('GAIT TP RIGHT FLEXED KNEE STEP', tilted_path_right_flexed_knee_step_sm.create(), 'STANDING')
+        self.add_state('GAIT TP RIGHT KNEE BEND', tilted_path_right_knee_bend_sm.create(), 'STANDING')
 
         self.add_state('GAIT TP SIDEWAYS START', tilted_path_sideways_start_sm.create(), 'STANDING')
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
-        self.add('SITTING', IdleState(outcomes=['gait_stand', 'preempted']),
-                 transitions={'gait_stand': 'GAIT STAND'})
-        self.add('STANDING', IdleState(outcomes=['gait_sit', 'gait_walk', 'gait_walk_small', 'gait_single_step_small',
-                                                 'gait_walk_large', 'gait_single_step_normal', 'gait_side_step_left',
-                                                 'gait_side_step_right', 'gait_side_step_left_small',
-                                                 'gait_side_step_right_small', 'gait_sofa_sit',
-                                                 'gait_stairs_up', 'gait_stairs_down',
-                                                 'gait_stairs_up_single_step', 'gait_stairs_down_single_step',
-                                                 'gait_walk_small', 'gait_rough_terrain_high_step',
-                                                 'gait_rough_terrain_middle_steps',
-                                                 'gait_rough_terrain_first_middle_step',
-                                                 'gait_rough_terrain_second_middle_step',
-                                                 'gait_rough_terrain_third_middle_step',
-                                                 'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
-                                                 'gait_tilted_path_left_straight_start',
-                                                 'gait_tilted_path_left_flexed_knee_step',
-                                                 'gait_tilted_path_right_straight_start',
-                                                 'gait_tilted_path_right_flexed_knee_step',
-                                                 'gait_tilted_path_first_start',
-                                                 'gait_tilted_path_first_end',
-                                                 'preempted']),
+        # Balance gait based on Capture Point
+        self.add_state('GAIT BALANCED WALK', WalkStateMachine('gait_balanced_walk'), 'STANDING')
+
+        self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
+                 transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
+        self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small',
+                                                      'gait_single_step_small', 'gait_walk_large',
+                                                      'gait_single_step_normal', 'gait_side_step_left',
+                                                      'gait_side_step_right', 'gait_side_step_left_small',
+                                                      'gait_side_step_right_small', 'gait_sofa_sit',
+                                                      'gait_stairs_up', 'gait_stairs_down',
+                                                      'gait_stairs_up_single_step', 'gait_stairs_down_single_step',
+                                                      'gait_walk_small', 'gait_rough_terrain_high_step',
+                                                      'gait_rough_terrain_middle_steps',
+                                                      'gait_rough_terrain_first_middle_step',
+                                                      'gait_rough_terrain_second_middle_step',
+                                                      'gait_rough_terrain_third_middle_step',
+                                                      'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
+                                                      'gait_tilted_path_left_straight_start',
+                                                      'gait_tilted_path_left_flexed_knee_step',
+                                                      'gait_tilted_path_left_knee_bend',
+                                                      'gait_tilted_path_right_straight_start',
+                                                      'gait_tilted_path_right_flexed_knee_step',
+                                                      'gait_tilted_path_right_knee_bend',
+                                                      'gait_tilted_path_first_start',
+                                                      'gait_tilted_path_first_end',
+                                                      'gait_balanced_walk'],
+                                       balance_gaits=['gait_balanced_walk']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
                               'gait_walk_small': 'GAIT WALK SMALL',
@@ -161,13 +175,17 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_ramp_door_slope_down': 'GAIT RD SLOPE DOWN',
                               'gait_tilted_path_left_straight_start': 'GAIT TP LEFT STRAIGHT',
                               'gait_tilted_path_left_flexed_knee_step': 'GAIT TP LEFT FLEXED KNEE STEP',
+                              'gait_tilted_path_left_knee_bend': 'GAIT TP LEFT KNEE BEND',
                               'gait_tilted_path_right_straight_start': 'GAIT TP RIGHT STRAIGHT',
                               'gait_tilted_path_right_flexed_knee_step': 'GAIT TP RIGHT FLEXED KNEE STEP',
+                              'gait_tilted_path_right_knee_bend': 'GAIT TP RIGHT KNEE BEND',
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
-                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END'})
+                              'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
+                              'gait_balanced_walk': 'GAIT BALANCED WALK',
+                              'failed': 'UNKNOWN'})
         self.close()
 
-    def add_state(self, label, state, succeeded, custom_start_label=None):
+    def add_state(self, label, state, succeeded, rejected=None, custom_start_label=None):
         """Adds a state to the healthy state machine.
 
         The healthy state machine should be opened before using this method.
@@ -175,14 +193,18 @@ class HealthyStateMachine(smach.StateMachine):
         :type label: str
         :param label: name of the state
         :type state: smach.State
-        :param state: State (or statemachine to be added)
+        :param state: State (or statemachine) to be added
         :type succeeded: str
         :param succeeded: name of the state that the given state should transition to once succeeded
+        :type rejected: str
+        :param rejected: name of the state that the given state should transition to once rejected
         :type custom_start_label: str
         :param custom_start_label: name of the start state within the given state machine
         """
         self.assert_opened()
-        self.add(label, state, transitions={'succeeded': succeeded, 'failed': 'UNKNOWN'})
+        if rejected is None:
+            rejected = succeeded
+        self.add(label, state, transitions={'succeeded': succeeded, 'failed': 'UNKNOWN', 'rejected': rejected})
 
         if custom_start_label is not None:
             self._custom_start_states[label] = custom_start_label
@@ -193,7 +215,7 @@ class HealthyStateMachine(smach.StateMachine):
         :type _req: march_shared_resources.srv.PossibleGaitsRequest
         :rtype march_shared_resources.srv.PossibleGaitsResponse
         """
-        non_gaits = ['succeeded', 'failed', 'preempted', 'aborted']
+        non_gaits = ['succeeded', 'failed', 'preempted', 'aborted', 'rejected']
         gaits = []
         if self.is_running():
             gaits = [k for k in self._current_transitions.keys() if k not in non_gaits]

@@ -12,9 +12,12 @@ class IdleState(smach.State):
     Listens to instructions from the input device and reacts if they are known transitions.
     """
 
-    def __init__(self, outcomes):
+    def __init__(self, gait_outcomes, balance_gaits=[]):
+        outcomes = ['failed', 'preempted'] + gait_outcomes
         super(IdleState, self).__init__(outcomes)
 
+        self._is_balance_used = rospy.get_param('/balance', False)
+        self._balance_gaits = balance_gaits
         self._result_gait = None
         self._trigger_event = threading.Event()
 
@@ -27,9 +30,12 @@ class IdleState(smach.State):
         self._result_gait = None
 
         control_flow.reset_gait()
+        control_flow.reset_stop()
+
         control_flow.set_stopped_callback(self._stopped_cb)
         control_flow.set_gait_transition_callback(self._transition_cb)
         control_flow.set_gait_selected_callback(self._gait_cb)
+        control_flow.set_state_machine_to_unknown(self._return_failed)
 
         self._trigger_event.wait()
         control_flow.clear_callbacks()
@@ -55,6 +61,12 @@ class IdleState(smach.State):
 
     def _gait_cb(self, gait):
         if gait in self.get_registered_outcomes():
+            if gait in self._balance_gaits:
+                if not self._is_balance_used:
+                    rospy.logwarn('Balance cannot be used, MoveIt! is not launched')
+                    control_flow.gait_rejected()
+                    return
+
             rospy.logdebug('Accepted {0}'.format(gait))
             self._result_gait = gait
             control_flow.gait_accepted()
@@ -65,4 +77,9 @@ class IdleState(smach.State):
 
     def request_preempt(self):
         super(IdleState, self).request_preempt()
+        self._trigger_event.set()
+
+    def _return_failed(self):
+        rospy.logwarn('Current state is set to unknown.')
+        self._result_gait = None
         self._trigger_event.set()

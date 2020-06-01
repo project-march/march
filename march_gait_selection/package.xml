@@ -9,13 +9,14 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>march_description</depend>
+  <depend>march_moveit</depend>
   <depend>march_shared_classes</depend>
   <depend>march_shared_resources</depend>
-  <depend>march_description</depend>
   <depend>std_msgs</depend>
 
+  <exec_depend>moveit_commander</exec_depend>
   <exec_depend>rospy</exec_depend>
-  <exec_depend>rospy_message_converter</exec_depend>
   <exec_depend>urdfdom_py</exec_depend>
 
   <test_depend>rostest</test_depend>
