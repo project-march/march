@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from __future__ import absolute_import
+
 import rosunit
 
 from .gait_test import GaitTest

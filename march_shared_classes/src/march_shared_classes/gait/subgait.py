@@ -1,12 +1,16 @@
+from __future__ import absolute_import
 
-from joint_trajectory import JointTrajectory
-from limits import Limits
+from io import open
+
 import rospy
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
 from march_shared_resources import msg as march_msg
+
+from .joint_trajectory import JointTrajectory
+from .limits import Limits
 
 
 class Subgait(object):
