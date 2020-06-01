@@ -8,6 +8,7 @@
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>python3-setuptools</buildtool_depend>
 
   <depend>march_shared_resources</depend>
 
