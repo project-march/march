@@ -17,6 +17,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+from __future__ import absolute_import
+
 import geometry_msgs.msg
 import rospy
 import tf2_geometry_msgs as tf_geo
@@ -29,7 +31,7 @@ class CoMCalculator(object):
     def __init__(self, robot, tf_buffer):
         self.tf_buffer = tf_buffer
 
-        self.links = dict(filter(lambda (_, l): l.inertial is not None, robot.link_map.items()))
+        self.links = dict([link for link in list(robot.link_map.items()) if link[1].inertial is not None])
         self.mass = sum(l.inertial.mass for (_, l) in self.links.items())
 
         self.marker = Marker()
