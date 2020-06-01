@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import actionlib
 import rospy
 
@@ -39,7 +41,7 @@ class PerformGaitAction(object):
                                    .format(og=old_gait_name, ng=gait_name, sg=subgait_name))
                     subgait = TransitionSubgait.from_subgait_names(self.gait_selection, old_gait_name,
                                                                    gait_name, subgait_name)
-                if type(subgait) != msg.Subgait:
+                if not isinstance(subgait, msg.Subgait):
                     subgait = subgait.to_subgait_msg()
                 trajectory_state = self.schedule_gait(subgait_goal_msg.name, subgait)
 
@@ -60,7 +62,7 @@ class PerformGaitAction(object):
 
     def schedule_gait(self, gait_name, subgait):
         """Construct the goal message and send."""
-        if type(subgait) != msg.Subgait:
+        if not isinstance(subgait, msg.Subgait):
             raise MsgTypeError(msg='Given subgait is not of type msg.Subgait')
 
         gait_action_goal = GaitGoal()

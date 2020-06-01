@@ -1,3 +1,6 @@
+from __future__ import absolute_import
+
+from io import open
 import os
 
 import rospkg
@@ -57,7 +60,7 @@ class GaitSelection(object):
     @gait_version_map.setter
     def gait_version_map(self, new_version_map):
         """Set new version map and reload the gaits from the directory."""
-        if not type(new_version_map) is dict:
+        if not isinstance(new_version_map, dict):
             raise TypeError('Gait version map should be of type; dictionary.')
 
         if len(new_version_map) == 0:

@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 from copy import deepcopy
 
 from march_gait_selection.gait_selection import GaitSelection
@@ -184,7 +186,7 @@ class TransitionSubgait(Subgait):
     def _get_all_unique_timestamps(old_subgait, new_subgait):
         """Get all the timestamps from the subgaits, eliminate double."""
         all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
-        return sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
+        return sorted({round(timestamp, Setpoint.digits) for timestamp in all_timestamps})
 
     @staticmethod
     def _validate_transition_gait(old_subgait, transition_subgait, new_subgait):
