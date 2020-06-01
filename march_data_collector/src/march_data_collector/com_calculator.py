@@ -30,7 +30,7 @@ class CoMCalculator(object):
         self.tf_buffer = tf_buffer
 
         self.links = dict([link for link in list(robot.link_map.items()) if link[1].inertial is not None])
-        self.mass = sum(l.inertial.mass for (_, l) in self.links.items())
+        self.mass = sum(l.inertial.mass for (_, l) in list(self.links.items()))
 
         self.marker = Marker()
         self.marker.header.frame_id = 'world'

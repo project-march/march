@@ -66,7 +66,7 @@ class Gait(object):
         to_subgaits_names = gait_content['to_subgait']
 
         subgait_names = gait_content['from_subgait'] + gait_content['to_subgait']
-        subgait_names = filter(lambda name: name not in ('start', 'end'), subgait_names)
+        subgait_names = [name for name in subgait_names if name not in ('start', 'end')]
 
         subgaits = [cls.load_subgait(robot, gait_directory, gait_name, subgait_name, gait_version_map)
                     for subgait_name in subgait_names]

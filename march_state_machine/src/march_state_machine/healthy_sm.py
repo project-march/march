@@ -218,11 +218,11 @@ class HealthyStateMachine(smach.StateMachine):
         non_gaits = ['succeeded', 'failed', 'preempted', 'aborted', 'rejected']
         gaits = []
         if self.is_running():
-            gaits = [k for k in self._current_transitions.keys() if k not in non_gaits]
+            gaits = [k for k in list(self._current_transitions.keys()) if k not in non_gaits]
             # If no possible gaits are on this level, try one state machine deeper
             if not gaits:
                 if self._current_state._current_transitions:
-                    gaits = [k for k in self._current_state._current_transitions.keys() if k not in non_gaits]
+                    gaits = [k for k in list(self._current_state._current_transitions.keys()) if k not in non_gaits]
 
         return {'gaits': gaits}
 

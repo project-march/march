@@ -60,7 +60,7 @@ class GaitStateMachine(smach.StateMachine):
 
     def execute(self, ud=smach.UserData()):
         try:
-            subgaits = self.get_children().keys()
+            subgaits = list(self.get_children().keys())
             if not self._contains_gait(gait=self._gait_name, subgaits=subgaits).contains:
                 rospy.logwarn('Gait {0} is not currently loaded with subgaits {1}'.format(self._gait_name, subgaits))
                 return 'rejected'
