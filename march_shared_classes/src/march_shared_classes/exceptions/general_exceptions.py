@@ -1,5 +1,5 @@
 
-class FileNotFoundError(Exception):
+class FileError(Exception):
     def __init__(self, file_path, msg=None):
         """Class to raise an error when a file cannot be found.
 
@@ -9,7 +9,7 @@ class FileNotFoundError(Exception):
         if msg is None:
             msg = 'File path: {fp} could not be found.'.format(fp=file_path)
 
-        super(FileNotFoundError, self).__init__(msg)
+        super(FileError, self).__init__(msg)
 
 
 class PackageNotFoundError(Exception):

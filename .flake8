@@ -4,15 +4,16 @@ max-line-length = 120
 format = ${cyan}%(path)s${reset}:${yellow_bold}%(row)d${reset}:${green_bold}%(col)d${reset}: ${red_bold}%(code)s${reset} %(text)s
 exclude = .git
 application-package-names =
+    march_data_collector,
     march_description,
     march_gain_scheduling,
     march_gait_scheduler,
     march_gait_selection,
     march_launch,
+    march_moveit,
     march_safety,
     march_shared_classes,
     march_shared_resources,
-    march_sound_scheduler,
     march_state_machine
 import-order-style = appnexus
 ignore =
@@ -36,5 +37,3 @@ ignore =
     D401,
     # W503: Line break before operator
     W503,
-    # C815: Trailing comma in Python 3.5
-    C815

@@ -8,7 +8,7 @@ from urdf_parser_py import urdf
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
-from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
+from march_shared_classes.exceptions.general_exceptions import FileError
 from march_shared_classes.gait.gait import Gait
 from march_shared_classes.gait.subgait import Subgait
 
@@ -36,7 +36,7 @@ class GaitTest(unittest.TestCase):
         self.assertIsInstance(self.gait, Gait)
 
     def test_from_file_invalid_path(self):
-        with self.assertRaises(FileNotFoundError):
+        with self.assertRaises(FileError):
             Gait.from_file(self.gait_name, self.resources_folder + '/gaits', self.robot, self.gait_version_map)
 
     # __init__ (_validate_gait_file) tests
@@ -93,5 +93,5 @@ class GaitTest(unittest.TestCase):
     def test_load_subgait_unexisting_version_error(self):
         self.gait_version_map['walk']['right_open'] = 'MV_walk_rightopen_non_existing_banana_version'
 
-        with self.assertRaises(FileNotFoundError):
+        with self.assertRaises(FileError):
             Gait.load_subgait(self.robot, self.resources_folder, self.gait_name, 'right_open', self.gait_version_map)

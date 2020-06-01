@@ -7,7 +7,7 @@ import unittest
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError
-from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
+from march_shared_classes.exceptions.general_exceptions import FileError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
 VALID_PACKAGE = 'march_gait_selection'
@@ -30,7 +30,7 @@ class TestGaitSelection(unittest.TestCase):
             GaitSelection('wrong', VALID_DIRECTORY)
 
     def test_init_with_wrong_directory(self):
-        with self.assertRaises(FileNotFoundError):
+        with self.assertRaises(FileError):
             GaitSelection(VALID_PACKAGE, 'wrong')
 
     # gait version map setter tests

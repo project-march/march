@@ -6,7 +6,7 @@ import os
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
-from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
+from march_shared_classes.exceptions.general_exceptions import FileError
 from march_shared_classes.gait.subgait import Subgait
 
 
@@ -38,7 +38,7 @@ class Gait(object):
         gait_folder = gait_name
         gait_path = os.path.join(gait_directory, gait_folder, gait_name + '.gait')
         if not os.path.isfile(gait_path):
-            raise FileNotFoundError(gait_path)
+            raise FileError(gait_path)
 
         with open(gait_path, 'r') as gait_file:
             gait_dictionary = yaml.load(gait_file, Loader=yaml.SafeLoader)
@@ -90,7 +90,7 @@ class Gait(object):
         version = gait_version_map[gait_name][subgait_name]
         subgait_path = os.path.join(gait_directory, gait_name, subgait_name, version + '.subgait')
         if not os.path.isfile(subgait_path):
-            raise FileNotFoundError(file_path=subgait_path)
+            raise FileError(file_path=subgait_path)
 
         return Subgait.from_file(robot, subgait_path)
 

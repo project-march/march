@@ -10,7 +10,7 @@ import yaml
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError
-from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
+from march_shared_classes.exceptions.general_exceptions import FileError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
 
@@ -27,7 +27,7 @@ class GaitSelection(object):
         self.default_yaml = os.path.join(package_path, directory, 'default.yaml')
 
         if not os.path.isfile(self.default_yaml):
-            raise FileNotFoundError(file_path=self.default_yaml)
+            raise FileError(file_path=self.default_yaml)
 
         with open(self.default_yaml, 'r') as default_yaml_file:
             default_config = yaml.load(default_yaml_file, Loader=yaml.SafeLoader)
