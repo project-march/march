@@ -1,6 +1,8 @@
 # This config uses industrial_ci (https://github.com/ros-industrial/industrial_ci.git).
 # For troubleshooting, see readme (https://github.com/ros-industrial/industrial_ci/blob/master/README.rst)
 
+os: linux
+dist: focal
 language: generic # optional, just removes the language badge
 
 services:
@@ -36,15 +38,15 @@ env:
 
 jobs:
   include:
-    - name: "Melodic"
-      env: ROS_DISTRO=melodic
+    - name: "Noetic"
+      env: ROS_DISTRO=noetic
     - name: "clang-format"
-      env: ROS_DISTRO=melodic CLANG_FORMAT_CHECK=file
+      env: ROS_DISTRO=noetic CLANG_FORMAT_CHECK=file
     - name: "flake8"
       language: python
-      python: 2.7
+      python: 3.8
       install:
-        - pip install flake8 pep8-naming flake8-blind-except flake8-string-format flake8-builtins flake8-commas flake8-quotes flake8-print flake8-docstrings flake8-import-order flake8-colors
+        - pip install flake8 pep8-naming flake8-blind-except flake8-string-format flake8-builtins flake8-commas flake8-quotes flake8-print flake8-docstrings flake8-import-order flake8-colors flake8-return
       script: flake8
 
 # clone and run industrial_ci
