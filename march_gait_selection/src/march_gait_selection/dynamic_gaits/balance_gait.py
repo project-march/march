@@ -53,16 +53,6 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_pose[leg_name] = msg.pose
 
-    def random_subgait(self):
-        """Create random trajectory using the moveit motion planner.
-
-        :return:
-            A populated subgait message
-        """
-        self._move_group['left_leg'].set_random_target()
-        trajectory_msg = self._move_group['left_leg'].plan()
-        return self.to_subgait_msg('Random moveit subgait', trajectory_msg.joint_trajectory)
-
     def calculate_trajectory(self, leg_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
@@ -221,8 +211,14 @@ class BalanceGait(object):
         default_subgait = deepcopy(self.default_walk[subgait_name])
 
         if not capture_point_trajectory:
-            rospy.logwarn('No capture point trajectory for {ln} received from capture point topic'.format(ln=leg_name))
-            return None
+            rospy.logwarn('No capture point trajectory for {ln} received from capture point topic, '
+                          'returning default subgait'.format(ln=leg_name))
+            return default_subgait
+
+        if not capture_point_trajectory.points:
+            rospy.logwarn('Empty trajectory in {ln} received from capture point topic, '
+                          'returning default subgait'.format(ln=leg_name))
+            return default_subgait
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, capture_point_trajectory)
         balance_subgait = self.merge_subgaits(balance_trajectory_subgait, default_subgait)
