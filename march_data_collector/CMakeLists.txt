@@ -1,16 +1,13 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(march_data_collector)
 
 find_package(catkin REQUIRED COMPONENTS
     control_msgs
     geometry_msgs
     march_shared_resources
-    rospy
     sensor_msgs
     std_msgs
-    tf
     tf2_geometry_msgs
-    tf2_ros
     visualization_msgs
 )
 
@@ -20,7 +17,7 @@ catkin_package(
     CATKIN_DEPENDS
     control_msgs
     geometry_msgs
-    rospy
+    march_shared_resources
     sensor_msgs
     std_msgs
     tf2_geometry_msgs
