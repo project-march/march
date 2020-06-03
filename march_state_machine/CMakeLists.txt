@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(march_state_machine)
 
 find_package(catkin REQUIRED COMPONENTS
@@ -14,14 +14,14 @@ catkin_package(CATKIN_DEPENDS
     controller_manager_msgs
     march_shared_resources
     std_msgs
-)
-
-install(DIRECTORY launch sounds
-    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+    std_srvs
 )
 
 catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+install(DIRECTORY launch sounds
+    DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 ## Add folders to be run by python nosetests

@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(march_shared_resources)
 
 find_package(catkin REQUIRED COMPONENTS
     actionlib_msgs
     control_msgs
     message_generation
-    message_runtime
     std_msgs
     trajectory_msgs
 )
@@ -56,9 +55,7 @@ catkin_package(
     CATKIN_DEPENDS
     actionlib_msgs
     control_msgs
-    message_generation
     message_runtime
     std_msgs
     trajectory_msgs
 )
-
