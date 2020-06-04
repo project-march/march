@@ -294,10 +294,6 @@ class ESPAdapter:
         :param data: ROS march_shared_resources.msgs.ImcErrorState message
         :param sources: list of source windows in the ESP engine
         """
-        motor_current_str = ','.join([str(value) for value in data.motor_current])
-        imc_voltage_str = ','.join([str(value) for value in data.imc_voltage])
-        absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
-        incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
 
@@ -305,7 +301,15 @@ class ESPAdapter:
             return
         self.previous_join_key[sources[0]] = join_time_str
 
-        csv = ','.join([time_str, imc_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
+        motor_current_str = ','.join([str(value) for value in data.motor_current])
+        imc_voltage_str = ','.join([str(value) for value in data.imc_voltage])
+        absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
+        incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
+        motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
+        absolute_velocity_str = ','.join([str(value) for value in data.absolute_velocity])
+        incremental_velocity_str = ','.join([str(value) for value in data.incremental_velocity])
+        csv = ','.join([time_str, motor_current_str, imc_voltage_str, motor_voltage_str, absolute_encoder_str,
+                        incremental_encoder_str, absolute_velocity_str, incremental_velocity_str])
         self.send_to_esp('{0}, {1}, 1, {2}'.format(join_time_str, data.header.seq, csv), sources)
 
     def gait_callback(self, data, sources):
