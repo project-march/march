@@ -346,11 +346,6 @@ class ESPAdapter:
                         pressure_left, pressure_right, cop_left, cop_right])
         self.send_to_esp('{0}, 1, {1}'.format(data.header.seq, csv), sources)
 
-    def check_keys(self, sources, key):
-        if self.previous_join_key[sources[0]] == key:
-            return False
-        self.previous_join_key[sources[0]] = key
-
 
 def get_time_str(timestamp):
     """Creates str to use in csv string for source window based on timestamp.
