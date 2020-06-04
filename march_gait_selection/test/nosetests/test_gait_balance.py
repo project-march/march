@@ -25,7 +25,3 @@ class TestBalanceGait(unittest.TestCase):
 
     def test_move_group_initiate(self):
         self.assertIsNotNone(self.gait_selection['gait_balanced_walk']._move_group)
-
-    def test_random_subgait_message(self):
-        random_moveit_subgait = self.gait_selection['gait_balanced_walk'].random_subgait()
-        self.assertIsInstance(random_moveit_subgait, Subgait)
