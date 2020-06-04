@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>march_shared_classes</name>
   <version>0.0.0</version>
   <description>classes for the march packages</description>
@@ -7,10 +8,11 @@
   <license>TODO</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+  <buildtool_depend>python3-setuptools</buildtool_depend>
 
   <depend>march_shared_resources</depend>
 
-  <exec_depend>rospy</exec_depend>
-  <exec_depend>python-scipy</exec_depend>
   <exec_depend>march_description</exec_depend>
+  <exec_depend>python-scipy</exec_depend>
+  <exec_depend>rospy</exec_depend>
 </package>
