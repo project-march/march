@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
     <name>march_launch</name>
     <version>0.0.0</version>
     <description>Launches the related march packages</description>
@@ -10,13 +11,16 @@
 
     <buildtool_depend>catkin</buildtool_depend>
 
+    <exec_depend>march_data_collector</exec_depend>
     <exec_depend>march_description</exec_depend>
-    <exec_depend>march_gait_scheduler</exec_depend>
     <exec_depend>march_gain_scheduling</exec_depend>
+    <exec_depend>march_gait_scheduler</exec_depend>
     <exec_depend>march_gait_selection</exec_depend>
+    <exec_depend>march_moveit</exec_depend>
     <exec_depend>march_safety</exec_depend>
     <exec_depend>march_state_machine</exec_depend>
-    <exec_depend>xacro</exec_depend>
     <exec_depend>rosserial_python</exec_depend>
     <exec_depend>rviz</exec_depend>
+    <exec_depend>sound_play</exec_depend>
+    <exec_depend>xacro</exec_depend>
 </package>

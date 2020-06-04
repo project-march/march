@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package format="2">
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
   <name>march_safety</name>
   <version>0.0.0</version>
   <description>
@@ -11,13 +12,13 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>roscpp</depend>
   <depend>march_shared_resources</depend>
+  <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
+  <depend>sound_play</depend>
   <depend>std_msgs</depend>
   <depend>urdf</depend>
-  <depend>sound_play</depend>
 
-  <test_depend>rostest</test_depend>
   <test_depend>code_coverage</test_depend>
+  <test_depend>rostest</test_depend>
 </package>
