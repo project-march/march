@@ -12,7 +12,7 @@
     <arg name="ground_gait" default="false" doc="Exoskeleton will ground gait in simulation if true."/>
     <arg name="obstacle" default="none" doc="Obstacle to load in the simulation."/>
 
-    <arg name="gait_directory" default="training-v" doc="Gait files directory to use"/>
+    <arg name="gait_directory" default="minimal" doc="Gait files directory to use"/>
 
     <arg name="input_device" default="false" doc="Launches ros serial node to connect with input device."/>
 
