@@ -4,7 +4,7 @@ import unittest
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_gait_selection.gait_selection import GaitSelection
-from march_shared_resources.msg import Subgait
+
 
 VALID_PACKAGE = 'march_gait_selection'
 VALID_DIRECTORY = 'test/testing_gait_files'
