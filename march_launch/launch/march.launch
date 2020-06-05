@@ -16,7 +16,8 @@
     <arg name="unpause" default="true" doc="Unpause simulation when controller starts."/>
     <arg name="fixed" default="true" doc="Fixes the exoskeleton in the world in rviz"/>
 
-    <arg name="input-device" default="false" doc="Launches ros serial node to connect with input device."/>
+    <arg name="arduino_master" default="false" doc="Launches ros serial node to connect with arduino on master."/>
+    <arg name="input_device" default="false" doc="Launches ros serial node to connect with input device."/>
     <arg name="wireless" default="false" doc="Enables wireless connection to the input device."/>
 
     <arg name="gait_directory" default="training-v" doc="Gait files directory to use"/>
@@ -94,8 +95,9 @@
         </include>
     </group>
 
-    <include file="$(dirname)/serial_connection.launch" if="$(arg input-device)">
+    <include file="$(dirname)/serial_connection.launch">
+        <arg name="arduino_master" value="$(arg arduino_master)"/>
+        <arg name="input_device" value="$(arg input_device)"/>
         <arg name="wireless" value="$(arg wireless)"/>
     </include>
-
 </launch>

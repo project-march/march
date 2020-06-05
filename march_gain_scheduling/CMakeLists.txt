@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(march_gain_scheduling)
 
 add_compile_options(-std=c++14 -Wall -Wextra -Werror)
@@ -34,7 +34,7 @@ link_directories(${orocos_kdl_LIBRARY_DIRS} ${Boost_LIBRARY_DIR})
 
 install(DIRECTORY config launch
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-    )
+)
 
 if (CATKIN_ENABLE_TESTING)
     catkin_add_nosetests(test/one_step_linear_interpolation_test.py)

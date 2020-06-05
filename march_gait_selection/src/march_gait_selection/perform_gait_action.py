@@ -39,8 +39,9 @@ class PerformGaitAction(object):
                                    .format(og=old_gait_name, ng=gait_name, sg=subgait_name))
                     subgait = TransitionSubgait.from_subgait_names(self.gait_selection, old_gait_name,
                                                                    gait_name, subgait_name)
-
-                trajectory_state = self.schedule_gait(subgait_goal_msg.name, subgait.to_subgait_msg())
+                if type(subgait) != msg.Subgait:
+                    subgait = subgait.to_subgait_msg()
+                trajectory_state = self.schedule_gait(subgait_goal_msg.name, subgait)
 
                 if trajectory_state == actionlib.GoalStatus.SUCCEEDED:
                     self.action_server.set_succeeded(trajectory_state)

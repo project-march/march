@@ -32,6 +32,7 @@ docs/build/*
 # qcreator stuff
 CMakeLists.txt.user
 
+*.egg-info/
 srv/_*.py
 *.pcd
 *.pyc
@@ -51,6 +52,7 @@ qtcreator-*
 
 # Catkin custom files
 CATKIN_IGNORE
+COLCON_IGNORE
 
 install/*
 
