@@ -326,7 +326,10 @@
     <!-- Ankle plate Left -->
     <link name="ankle_plate_left">
         <visual>
-            <origin xyz="0 ${hip_base_height/2 + hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}" rpy="0 0 ${pi}"/>
+            <origin
+                xyz="0 ${hip_base_height/2 + hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"
+            />
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/LeftFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
@@ -471,7 +474,10 @@
     <!-- Ankle Plate Right -->
     <link name="ankle_plate_right">
         <visual>
-            <origin xyz="0 ${-hip_base_height/2 - hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}" rpy="0 0 ${pi}"/>
+            <origin
+                xyz="0 ${-hip_base_height/2 - hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"/>
+            />
             <geometry>
                 <mesh filename="package://march_description/urdf/stl-files/RightFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
