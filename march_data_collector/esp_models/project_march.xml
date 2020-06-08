@@ -4,7 +4,7 @@
     <meta id="studioUploadedBy">r.vanbeek</meta>
     <meta id="studioUploaded">1591254982051</meta>
     <meta id="studioModifiedBy">r.vanbeek</meta>
-    <meta id="studioModified">1591256042792</meta>
+    <meta id="studioModified">1591611495793</meta>
     <meta id="layout">{"control_analysis":{"Aggregate3":{"x":null,"y":null},"Com":{"x":-45,"y":-165},"Computes the square effort ":{"x":null,"y":null},"Copy1":{"x":null,"y":null},"Copy3":{"x":-1055,"y":140},"Copy4":{"x":-1715,"y":-1040},"RemoveState10":{"x":null,"y":null},"RemoveState3":{"x":-1050,"y":50},"add_lag_one":{"x":-955,"y":-80},"aggregate_gait_control":{"x":-975,"y":480},"aggregate_per_gait":{"x":-645,"y":940},"compute_actual_effort":{"x":275,"y":-90},"compute_safety_limits_worked":{"x":-95,"y":115},"compute_sign_change":{"x":-820,"y":180},"compute_square_effort_change":{"x":-240,"y":-315},"compute_squared_effort_difference":{"x":-1720,"y":-1045},"compute_squared_error":{"x":-550,"y":-30},"join_controller_statistics":{"x":-365,"y":525},"join_effort_command_statistics":{"x":null,"y":null},"join_effort_commands":{"x":-35,"y":-90},"join_effort_statistics":{"x":-120,"y":410},"join_error_statisctics":{"x":-515,"y":300},"join_gait_controller":{"x":-655,"y":735},"join_pid_state_left_hip_aa":{"x":-675,"y":-905},"join_pid_state_left_hip_fe":{"x":-675,"y":-760},"join_pid_state_left_knee":{"x":-675,"y":-640},"join_pid_state_right_ankle":{"x":-675,"y":-525},"join_pid_state_right_hip_aa":{"x":-675,"y":-410},"join_pid_state_right_hip_fe":{"x":-675,"y":-310},"join_pid_state_right_knee":{"x":-675,"y":-205},"normalize_effort":{"x":-110,"y":-765},"remove_state_4":{"x":-745,"y":-50},"remove_state_aggregate_per_gait":{"x":-685,"y":1105},"remove_state_pid":{"x":null,"y":null},"source_effort_command":{"x":-70,"y":-1005},"source_gait_control":{"x":-970,"y":360},"source_imc":{"x":295,"y":-410},"source_joint":{"x":310,"y":-980},"source_pid_state_left_ankle":{"x":-675,"y":-1045},"source_pid_state_left_hip_aa":{"x":-445,"y":-1045},"source_pid_state_left_hip_fe":{"x":-445,"y":-900},"source_pid_state_left_knee":{"x":-450,"y":-755},"source_pid_state_right_ankle":{"x":-455,"y":-630},"source_pid_state_right_hip_aa":{"x":-435,"y":-535},"source_pid_state_right_hip_fe":{"x":-420,"y":-415},"source_pid_state_right_knee":{"x":-430,"y":-320}},"gait_analysis":{"RemoveState1":{"x":-2255,"y":-595},"absolute_jerk":{"x":-1200,"y":-1525},"aggregate_com":{"x":-1570,"y":-1360},"aggregate_gait":{"x":-2320,"y":-1370},"aggregate_imu":{"x":-2070,"y":-1365},"aggregate_joint":{"x":-1225,"y":-1355},"aggregate_over_gait":{"x":-2245,"y":-730},"aggregate_ps":{"x":-1825,"y":-1360},"join_gait":{"x":-2255,"y":-875},"join_imu":{"x":-1990,"y":-950},"join_joint_com":{"x":-1420,"y":-1175},"join_ps":{"x":-1690,"y":-1065},"source_com":{"x":-1545,"y":-1530},"source_gait":{"x":-2305,"y":-1510},"source_imu":{"x":-2080,"y":-1515},"source_joint":{"x":-1195,"y":-1660},"source_ps":{"x":-1815,"y":-1510}},"temperature_join":{"join_temperature_left_hip_aa":{"x":-505,"y":-245},"joint_temperature_left_hip_fe":{"x":-505,"y":-120},"joint_temperature_left_knee":{"x":-505,"y":0},"joint_temperature_right_ankle":{"x":-505,"y":115},"joint_temperature_right_hip_aa":{"x":-505,"y":240},"joint_temperature_right_hip_fe":{"x":-505,"y":365},"joint_temperature_right_knee":{"x":-505,"y":485},"source_temperature_left_ankle":{"x":-505,"y":-375},"source_temperature_left_hip_aa":{"x":-285,"y":-380},"source_temperature_left_hip_fe":{"x":-275,"y":-240},"source_temperature_left_knee":{"x":-280,"y":-135},"source_temperature_right_ankle":{"x":-275,"y":-10},"source_temperature_right_hip_aa":{"x":-275,"y":115},"source_temperature_right_hip_fe":{"x":-265,"y":230},"source_temperature_right_knee":{"x":-260,"y":365}}}</meta>
   </metadata>
   <properties>
@@ -1086,6 +1086,11 @@
           <schema>
             <fields>
               <field name="SEQUENCE" type="int64" key="true"/>
+              <field name="gait_name" type="string"/>
+              <field name="time_gait" type="stamp"/>
+              <field name="subgait_name" type="string"/>
+              <field name="version" type="string"/>
+              <field name="gait_type" type="string"/>
               <field name="min_com_x" type="double"/>
               <field name="min_com_y" type="double"/>
               <field name="min_com_z" type="double"/>
@@ -1102,17 +1107,22 @@
               <field name="max_roll" type="double"/>
               <field name="max_pitch" type="double"/>
               <field name="max_yaw" type="double"/>
-              <field name="ma_jerk_left_ankle" type="double"/>
-              <field name="ma_jerk_left_hip_aa" type="double"/>
-              <field name="ma_jerk_left_hip_fe" type="double"/>
-              <field name="ma_jerk_left_knee" type="double"/>
-              <field name="ma_jerk_right_ankle" type="double"/>
-              <field name="ma_jerk_right_hip_aa" type="double"/>
-              <field name="ma_jerk_right_hip_fe" type="double"/>
-              <field name="ma_jerk_right_knee" type="double"/>
+              <field name="max_jerk_left_ankle" type="double"/>
+              <field name="max_jerk_left_hip_aa" type="double"/>
+              <field name="max_jerk_left_hip_fe" type="double"/>
+              <field name="max_jerk_left_knee" type="double"/>
+              <field name="max_jerk_right_ankle" type="double"/>
+              <field name="max_jerk_right_hip_aa" type="double"/>
+              <field name="max_jerk_right_hip_fe" type="double"/>
+              <field name="max_jerk_right_knee" type="double"/>
             </fields>
           </schema>
           <output>
+            <field-expr><![CDATA[ESP_aLast(gait_name)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(time_gait)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(subgait_name)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(version)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(gait_type)]]></field-expr>
             <field-expr><![CDATA[ESP_aMin(com_x)]]></field-expr>
             <field-expr><![CDATA[ESP_aMin(com_y)]]></field-expr>
             <field-expr><![CDATA[ESP_aMin(com_z)]]></field-expr>
@@ -2230,7 +2240,7 @@
         </window-aggregate>
         <window-join pubsub="true" name="join_gait_controller">
           <description><![CDATA[Joins the last gait event to the controller statistics]]></description>
-          <join type="rightouter">
+          <join type="inner">
             <conditions>
               <fields left="dummy_key" right="dummy_key"/>
             </conditions>
@@ -2298,17 +2308,8 @@
             <field-selection name="actual_effort_right_hip_aa" source="r_actual_effort_right_hip_aa"/>
             <field-selection name="actual_effort_right_hip_fe" source="r_actual_effort_right_hip_fe"/>
             <field-selection name="actual_effort_right_knee" source="r_actual_effort_right_knee"/>
+            <field-selection name="join_time" source="r_join_time"/>
           </output>
-          <connectors>
-            <connector class="fs" name="test_join_gait">
-              <properties>
-                <property name="type"><![CDATA[sub]]></property>
-                <property name="snapshot"><![CDATA[false]]></property>
-                <property name="fsname"><![CDATA[test_join_gait.csv]]></property>
-                <property name="fstype"><![CDATA[csv]]></property>
-              </properties>
-            </connector>
-          </connectors>
         </window-join>
         <window-compute pubsub="true" name="compute_safety_limits_worked">
           <description><![CDATA[Checks whether the safety limits worked on the command]]></description>
@@ -2443,9 +2444,10 @@ return 0]]></udf>
           <description><![CDATA[Aggregates the controller statistics per subgait.]]></description>
           <schema>
             <fields>
-              <field name="subgait_name" type="string" key="true"/>
+              <field name="SEQUENCE" type="int64" key="true"/>
               <field name="gait_time" type="stamp"/>
               <field name="gait_name" type="string"/>
+              <field name="subgait_name" type="string"/>
               <field name="version" type="string"/>
               <field name="gait_type" type="string"/>
               <field name="min_left_ankle_error" type="double"/>
@@ -2512,11 +2514,14 @@ return 0]]></udf>
               <field name="mean_right_hip_aa_actual_effort" type="double"/>
               <field name="mean_left_knee_actual_effort" type="double"/>
               <field name="mean_right_knee_actual_effort" type="double"/>
+              <field name="min_join_time" type="stamp"/>
+              <field name="max_join_time" type="stamp"/>
             </fields>
           </schema>
           <output>
             <field-expr><![CDATA[ESP_aLast(time)]]></field-expr>
             <field-expr><![CDATA[ESP_aLast(gait_name)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(subgait_name)]]></field-expr>
             <field-expr><![CDATA[ESP_aLast(version)]]></field-expr>
             <field-expr><![CDATA[ESP_aLast(gait_type)]]></field-expr>
             <field-expr><![CDATA[ESP_aMin(left_ankle_error)]]></field-expr>
@@ -2583,6 +2588,8 @@ return 0]]></udf>
             <field-expr><![CDATA[ESP_aAve(actual_effort_right_hip_aa)]]></field-expr>
             <field-expr><![CDATA[ESP_aAve(actual_effort_left_knee)]]></field-expr>
             <field-expr><![CDATA[ESP_aAve(actual_effort_right_knee)]]></field-expr>
+            <field-expr><![CDATA[ESP_aFirst(join_time)]]></field-expr>
+            <field-expr><![CDATA[ESP_aLast(join_time)]]></field-expr>
           </output>
         </window-aggregate>
         <window-remove-state remove="deletes retentionUpdates retentionDeletes updateBlockDeletes" pubsub="true" name="RemoveState3"/>

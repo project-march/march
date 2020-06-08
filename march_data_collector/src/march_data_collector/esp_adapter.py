@@ -352,7 +352,7 @@ def get_time_str(timestamp):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9), 3)
+    time = round(timestamp.to_sec(), 3)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
@@ -361,7 +361,7 @@ def get_join_time_str(timestamp, frequency):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = round((timestamp.secs + timestamp.nsecs * 10 ** (-9)) * frequency) / frequency
+    time = round(timestamp.to_sec() * frequency) / frequency
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
