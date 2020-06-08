@@ -33,7 +33,7 @@ class BalanceGait(object):
                 rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
                 return
 
-        self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
+        self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
         self._capture_point_pose = {'left_leg': None, 'right_leg': None}
 
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
@@ -72,9 +72,9 @@ class BalanceGait(object):
 
         self._old_capture_point_msg_time[leg_name] = self._latest_capture_point_msg_time[leg_name]
 
-        _pose = self._capture_point_pose[leg_name]
-        _end_effector = self._end_effectors[leg_name]
-        self._move_group[leg_name].set_joint_value_target(_pose, _end_effector, True)
+        pose = self._capture_point_pose[leg_name]
+        end_effector = self._end_effectors[leg_name]
+        self._move_group[leg_name].set_joint_value_target(pose, end_effector, True)
 
         trajectory_plan = self._move_group[leg_name].plan()
         return trajectory_plan.joint_trajectory
