@@ -4,7 +4,8 @@
     <arg name="gain_tuning" default="sjaan_gait" doc="The configuration to use for gain scheduling. Only used when 'gain_scheduling' is true."/>
     <arg name="sounds" default="true" doc="Whether to use sounds."/>
 
-    <arg name="input-device" default="true" doc="Launches ros serial node to connect with input device."/>
+    <arg name="arduino_master" default="true" doc="Launches ros serial node to connect with arduino on master."/>
+    <arg name="input_device" default="true" doc="Launches ros serial node to connect with input device."/>
     <arg name="wireless" default="false" doc="Enables wireless connection to the input device."/>
 
     <arg name="gait_directory" default="training-v" doc="Gait files directory to use"/>

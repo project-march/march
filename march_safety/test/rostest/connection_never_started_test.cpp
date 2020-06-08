@@ -8,12 +8,7 @@
 #include <march_safety/temperature_safety.h>
 #include "error_counter.h"
 
-class TestConnectionNeverStarted : public ::testing::Test
-{
-protected:
-};
-
-TEST_F(TestConnectionNeverStarted, connectionNeverStarted)
+TEST(TestConnectionNeverStarted, connectionNeverStarted)
 {
   ros::Time::init();
   ros::NodeHandle nh;
