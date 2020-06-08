@@ -102,6 +102,7 @@
     <xacro:property name="foot_com_x" value="-0.020736"/>
     <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.169177}"/>
     <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.648891}"/>
+    <xacro:property name="foot_scale" value="1.35"/>
 
     <!-- Inertia of the parts -->
     <!-- Inertia's have been determined in Catia, see
@@ -192,9 +193,9 @@
     <!-- Hip-->
     <link name="hip_base">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -226,9 +227,9 @@
     <!-- Left Moving Hip-->
     <link name="hip_aa_frame_left_side">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} ${hip_base_height/2} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftHAA.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -265,9 +266,9 @@
     <!-- Upper Leg Left-->
     <link name="upper_leg_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${hip_base_height/2 + hip_aa_frame_height} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperLegLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperLeftLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -295,9 +296,9 @@
     <!-- Lower Leg Left -->
     <link name="lower_leg_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${hip_base_height/2 + hip_aa_frame_height} ${upper_leg_height}" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerLegLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerLeftLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -325,9 +326,12 @@
     <!-- Ankle plate Left -->
     <link name="ankle_plate_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0 ${hip_base_height/2 + hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/FootLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -370,9 +374,9 @@
     <!-- Right Moving Hip-->
     <link name="hip_aa_frame_right_side">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} ${-hip_base_height/2} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightHAA.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -409,9 +413,9 @@
     <!-- Upper Leg Right-->
     <link name="upper_leg_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${-hip_base_height/2 - hip_aa_frame_height} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperLegRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperRightLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -440,9 +444,9 @@
     <!-- Lower Leg Right -->
     <link name="lower_leg_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${-hip_base_height/2 - hip_aa_frame_height} ${upper_leg_height}" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerLegRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerRightLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -470,9 +474,12 @@
     <!-- Ankle Plate Right -->
     <link name="ankle_plate_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0 ${-hip_base_height/2 - hip_aa_frame_height} ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"/>
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/FootRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
             <material name="blue"/>
         </visual>
