@@ -51,7 +51,9 @@ class ESPAdapter:
         self.esp_publishers = {}
         self.ros_subscribers = {}
 
-        self.control_analysis_join_frequency = 250
+        self.previous_join_key = {}
+
+        self.control_analysis_join_frequency = 50
 
         basic_url = 'dfESP://localhost:9901'
         self.project = basic_url + '/project_march'
@@ -156,6 +158,7 @@ class ESPAdapter:
             self.esp_publishers[source] = (pub, schemaptr)
             rospy.logdebug('configured ESP source window for ' + source)
             self.ros_subscribers[source] = sub
+        self.previous_join_key[sources[0]] = None
 
     def send_to_esp(self, csv, sources):
         """Sends a csv string to the configured source window. Also adds standard stuff to the start of the csv string.
@@ -215,6 +218,11 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
+
+        if self.previous_join_key[sources[0]] == join_time_str:
+            return
+        self.previous_join_key[sources[0]] = join_time_str
+
         csv = list_to_str(['1', join_time_str, data.header.seq, time_str, list_to_str(data.effort_command)])
         self.send_to_esp(csv, sources)
 
@@ -271,9 +279,14 @@ class ESPAdapter:
         """
         time_str = get_time_str(data.header.stamp)
         join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
+
+        if self.previous_join_key[sources[0]] == join_time_str:
+            return
+        self.previous_join_key[sources[0]] = join_time_str
+
         csv = list_to_str([data.p_error, data.i_error, data.d_error, data.p_term, data.i_term,
                           data.d_term, data.output])
-        self.send_to_esp('{0}, {1}, {2}'.format(time_str, join_time_str, csv), sources)
+        self.send_to_esp('{0}, {1}, {2}, 1'.format(time_str, join_time_str, csv), sources)
 
     def imc_state_callback(self, data, sources):
         """Callback for IMotionCube data. Converts ROS message to csv string to send to the source window.
@@ -281,13 +294,22 @@ class ESPAdapter:
         :param data: ROS march_shared_resources.msgs.ImcErrorState message
         :param sources: list of source windows in the ESP engine
         """
+        time_str = get_time_str(data.header.stamp)
+        join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
+
+        if self.previous_join_key[sources[0]] == join_time_str:
+            return
+        self.previous_join_key[sources[0]] = join_time_str
+
         motor_current_str = ','.join([str(value) for value in data.motor_current])
         imc_voltage_str = ','.join([str(value) for value in data.imc_voltage])
         absolute_encoder_str = ','.join([str(value) for value in data.absolute_encoder_value])
         incremental_encoder_str = ','.join([str(value) for value in data.incremental_encoder_value])
-        time_str = get_time_str(data.header.stamp)
-        join_time_str = get_join_time_str(data.header.stamp, self.control_analysis_join_frequency)
-        csv = ','.join([time_str, imc_voltage_str, motor_current_str, absolute_encoder_str, incremental_encoder_str])
+        motor_voltage_str = ','.join([str(value) for value in data.motor_voltage])
+        absolute_velocity_str = ','.join([str(value) for value in data.absolute_velocity])
+        incremental_velocity_str = ','.join([str(value) for value in data.incremental_velocity])
+        csv = ','.join([time_str, motor_current_str, imc_voltage_str, motor_voltage_str, absolute_encoder_str,
+                        incremental_encoder_str, absolute_velocity_str, incremental_velocity_str])
         self.send_to_esp('{0}, {1}, 1, {2}'.format(join_time_str, data.header.seq, csv), sources)
 
     def gait_callback(self, data, sources):
@@ -330,7 +352,7 @@ def get_time_str(timestamp):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9), 3)
+    time = round(timestamp.to_sec(), 3)
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
@@ -339,7 +361,7 @@ def get_join_time_str(timestamp, frequency):
 
     :param data: ROS timestamp message std_msgs/stamp
     """
-    time = round(timestamp.secs + timestamp.nsecs * 10 ** (-9) * frequency) / frequency
+    time = round(timestamp.to_sec() * frequency) / frequency
     return datetime.datetime.fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S.%f')
 
 
