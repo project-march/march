@@ -106,3 +106,11 @@ class SubgaitTest(unittest.TestCase):
     def get_joint_names_test(self):
         self.assertIsInstance(self.subgait.get_joint_names()[0], str)
         self.assertEqual(len(self.subgait.get_joint_names()), 8)
+
+    def test_set_duration_with_scaling(self):
+        self.subgait.scale_timestamps_subgait(0.8)
+        self.assertEqual(self.subgait.duration, 0.8)
+
+    def test_set_duration_with_cut_off_instead_of_scaling(self):
+        self.subgait.scale_timestamps_subgait(0.8, rescale=False)
+        self.assertEqual(len(self.subgait.get_joint('left_knee').setpoints), 7)

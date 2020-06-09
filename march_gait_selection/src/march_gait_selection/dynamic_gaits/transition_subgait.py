@@ -93,10 +93,10 @@ class TransitionSubgait(Subgait):
         :returns:
              list of joints which hold the transition setpoints including position, velocity and duration
         """
-        max_duration = max([old_subgait.duration, new_subgait.duration])
+        max_duration = max(old_subgait.duration, new_subgait.duration)
 
-        old_subgait.scale_timestamps_subgaits(old_subgait, max_duration)
-        new_subgait.scale_timestamps_subgaits(new_subgait, max_duration)
+        old_subgait.scale_timestamps_subgait(max_duration)
+        new_subgait.scale_timestamps_subgait(max_duration)
 
         all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
         all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
@@ -109,7 +109,7 @@ class TransitionSubgait(Subgait):
 
             joint_name = old_joint.name
             new_joint = new_subgait.get_joint(joint_name)
-            limits = new_joint.get_joint_limits(robot, joint_name)
+            limits = new_subgait.get_joint_limits(robot, joint_name)
 
             setpoints = []
             number_setpoints = len(new_subgait[0].setpoints)

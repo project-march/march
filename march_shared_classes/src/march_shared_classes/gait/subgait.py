@@ -1,7 +1,7 @@
-
 from joint_trajectory import JointTrajectory
 from limits import Limits
 import rospy
+from setpoint import Setpoint
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
@@ -101,6 +101,7 @@ class Subgait(object):
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
 
         return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description)
+
     # endregion
 
     # region Create messages
@@ -165,6 +166,7 @@ class Subgait(object):
         subgait_msg.duration = rospy.Duration.from_sec(self.duration)
 
         return subgait_msg
+
     # endregion
 
     # region Validate subgait
@@ -191,31 +193,28 @@ class Subgait(object):
                 return False
 
         return True
+
     # endregion
 
     # region Manipulate subgait
-    def scale_timestamps_subgaits(self, new_duration, rescale=True):
+    def scale_timestamps_subgait(self, new_duration, rescale=True):
         """Scale or cut off all the setpoint to match the duration in both subgaits.
 
         :param new_duration: the new duration to scale the setpoints with
         :param rescale: set to true if all points should be rescaled, alternative is cut off after new duration
         """
-        old_duration = self.duration
+        new_duration = round(new_duration, Setpoint.digits)
 
-        if new_duration == old_duration:
-            pass
-        else:
-            for joint in self.joints:
-                joint.duration = new_duration
-                for setpoint in reversed(joint.setpoints):
-                    if rescale:
-                        setpoint.time = round((setpoint.time * new_duration / old_duration),
-                                              JointTrajectory.setpoint_class.digits)
-                    else:
-                        if setpoint.time > new_duration:
-                            joint.setpoints.remove(setpoint)
+        for joint in self.joints:
+            for setpoint in reversed(joint.setpoints):
+                if rescale:
+                    setpoint.time = round((setpoint.time * new_duration / self.duration), Setpoint.digits)
+                else:
+                    if setpoint.time > new_duration:
+                        joint.setpoints.remove(setpoint)
 
-            self.duration = new_duration
+            joint.duration = new_duration
+        self.duration = new_duration
 
     def equalize_amount_of_setpoints(self, timestamps):
         """Equalize the setpoints of the subgait match the given timestamps.
@@ -232,6 +231,7 @@ class Subgait(object):
                 new_joint_setpoints.append(joint.get_interpolated_setpoint(timestamp))
 
             joint.setpoints = new_joint_setpoints
+
     # endregion
 
     # region Get functions
@@ -257,7 +257,7 @@ class Subgait(object):
         timestamps = []
         for joint in self.joints:
             for setpoint in joint.setpoints:
-                timestamps.append(setpoint.time)
+                timestamps.append(round(setpoint.time, Setpoint.digits))
 
         return sorted(set(timestamps))
 
@@ -268,6 +268,7 @@ class Subgait(object):
     def get_joint_names(self):
         """Get the names of all the joints existing in the joint list."""
         return [joint.name for joint in self.joints]
+
     # endregion
 
     # region Class methods
