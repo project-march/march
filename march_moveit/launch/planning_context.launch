@@ -3,7 +3,7 @@
   <arg name="load_robot_description" default="false"/>
 
   <!-- The name of the parameter under which the URDF is loaded -->
-  <arg name="robot_description" default="robot_description"/>
+  <arg name="robot_description" default="/robot_description"/>
 
   <!-- Load universal robot description format (URDF) -->
   <param if="$(arg load_robot_description)" name="$(arg robot_description)" command="xacro  '$(find march_description)/urdf/march4.xacro'"/>
