@@ -127,7 +127,7 @@ class BalanceGait(object):
         subgait.scale_timestamps_subgaits(max_duration)
 
         all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
-        all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
+        all_timestamps.sort()
 
         balance_trajectory_subgait.equalize_amount_of_setpoints(all_timestamps)
         subgait.equalize_amount_of_setpoints(all_timestamps)
