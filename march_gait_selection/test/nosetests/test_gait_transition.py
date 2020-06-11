@@ -56,3 +56,13 @@ class TestTransitionTrajectory(unittest.TestCase):
     def test_transition_stairs_up_walk_small_right_swing(self):
         #  Test if the TransitionSubgait is created without an error
         TransitionSubgait.from_subgait_names(self.gait_selection, 'stairs_up', 'walk_small', 'right_swing')
+
+    def test_no_duplicate_duration_in_transition_subgait(self):
+        #  Test if the TransitionSubgait is created without an error
+        transition_subgait = TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small',
+                                                                  'walk_medium', 'right_swing')
+
+        for joint in transition_subgait.joints:
+            durations = [setpoint.time for setpoint in joint.setpoints]
+
+            self.assertLessEqual(len(durations), len(set(durations)), msg='Duplicate timestamps found in setpoints.')
