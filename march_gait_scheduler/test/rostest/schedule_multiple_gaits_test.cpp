@@ -102,7 +102,6 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleThreeNoOffset)
 {
   ros::Time::init();
   march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
-  ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
 
   const auto& gaitSitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitSitGoal);
 
@@ -121,7 +120,6 @@ TEST_F(ScheduleMultipleGaitsTest, ScheduleSecondGaitInThePast)
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitSitGoal = fake_sit_goal();
-  ros::Duration gaitDuration = gaitSitGoal.current_subgait.duration;
 
   const auto& gaitSitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitSitGoal);
 

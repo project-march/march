@@ -74,7 +74,7 @@ void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
     scheduler->gaitDone = false;
     ROS_DEBUG("follow joint trajectory action called");
   }
-  catch (std::runtime_error error)
+  catch (const std::runtime_error& error)
   {
     ROS_ERROR("When trying to schedule a trajectory the following error occurred: %s", error.what());
     ROS_ERROR("Gait scheduling ABORTED");
