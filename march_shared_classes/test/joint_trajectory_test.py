@@ -84,7 +84,7 @@ class JointTrajectoryTest(unittest.TestCase):
 
     def test_interpolation_mid_point_position(self):
         interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        mid_index = len(interpolated_list[1]) / 2
+        mid_index = len(interpolated_list[1]) // 2
         inter_position = (interpolated_list[1][mid_index] + interpolated_list[1][mid_index - 1]) / 2
         self.assertTrue(abs(inter_position - self.setpoints[1].position) <= 0.001,
                         msg='Interpolated midpoint position {inter_x} was too far from actual midpoint position '
@@ -92,7 +92,7 @@ class JointTrajectoryTest(unittest.TestCase):
 
     def test_interpolation_mid_point_velocity(self):
         interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        mid_index = len(interpolated_list[1]) / 2
+        mid_index = len(interpolated_list[1]) // 2
         self.assertTrue(abs(interpolated_list[2][mid_index] - self.setpoints[1].velocity) <= 0.1,
                         msg='Interpolated midpoint velocity {inter_v} was too far from actual midpoint velocity '
                             '{actual_v}'.format(inter_v=interpolated_list[2][mid_index],
