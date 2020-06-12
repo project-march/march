@@ -83,7 +83,7 @@ class Subgait(object):
         joint_list = []
         for joint_name in joint_trajectory['joint_names']:
             urdf_joint = cls._get_joint_from_urdf(robot, joint_name)
-            if urdf_joint is None:
+            if urdf_joint is None or urdf_joint.type == 'fixed':
                 rospy.logwarn('Not all joints in gait are in robot.')
                 continue
 
