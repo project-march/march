@@ -1,7 +1,7 @@
-
 from joint_trajectory import JointTrajectory
 from limits import Limits
 import rospy
+from setpoint import Setpoint
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
@@ -26,6 +26,7 @@ class Subgait(object):
         self.description = str(description)
         self.duration = duration
 
+    # region Create subgait
     @classmethod
     def from_file(cls, robot, file_name, *args):
         """Extract sub gait data of the given yaml.
@@ -101,14 +102,9 @@ class Subgait(object):
 
         return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description)
 
-    @staticmethod
-    def _get_joint_from_urdf(robot, joint_name):
-        """Get the name of the robot joint corresponding with the joint in the subgait."""
-        for urdf_joint in robot.joints:
-            if urdf_joint.name == joint_name:
-                return urdf_joint
-        return None
+    # endregion
 
+    # region Create messages
     def _to_joint_trajectory_msg(self):
         """Create trajectory msg for the publisher.
 
@@ -171,6 +167,9 @@ class Subgait(object):
 
         return subgait_msg
 
+    # endregion
+
+    # region Validate subgait
     def validate_subgait_transition(self, next_subgait):
         """Validate the trajectory transition of this gait to a given gait.
 
@@ -195,12 +194,70 @@ class Subgait(object):
 
         return True
 
+    # endregion
+
+    # region Manipulate subgait
+    def scale_timestamps_subgait(self, new_duration, rescale=True):
+        """Scale or cut off all the setpoint to match the duration in both subgaits.
+
+        :param new_duration: the new duration to scale the setpoints with
+        :param rescale: set to true if all points should be rescaled, alternative is cut off after new duration
+        """
+        new_duration = round(new_duration, Setpoint.digits)
+
+        for joint in self.joints:
+            for setpoint in reversed(joint.setpoints):
+                if rescale:
+                    setpoint.time = round((setpoint.time * new_duration / self.duration), Setpoint.digits)
+                else:
+                    if setpoint.time > new_duration:
+                        joint.setpoints.remove(setpoint)
+
+            joint.duration = new_duration
+        self.duration = new_duration
+
+    def equalize_amount_of_setpoints(self, timestamps):
+        """Equalize the setpoints of the subgait match the given timestamps.
+
+        :param timestamps: the new timestamps to use when creating the setpoints
+        """
+        for joint in self.joints:
+            new_joint_setpoints = []
+            for timestamp in timestamps:
+                if timestamp > self.duration:
+                    raise IndexError('Could not extrapolate timestamp outside max duration of subgait {sn}'
+                                     .format(sn=self.subgait_name))
+
+                new_joint_setpoints.append(joint.get_interpolated_setpoint(timestamp))
+
+            joint.setpoints = new_joint_setpoints
+
+    # endregion
+
+    # region Get functions
+    @staticmethod
+    def _get_joint_from_urdf(robot, joint_name):
+        """Get the name of the robot joint corresponding with the joint in the subgait."""
+        for urdf_joint in robot.joints:
+            if urdf_joint.name == joint_name:
+                return urdf_joint
+        return None
+
+    @staticmethod
+    def get_joint_limits(robot, joint_name):
+        """Use the parsed robot to get the defined joint limits."""
+        for urdf_joint in robot.joints:
+            if urdf_joint.name == joint_name:
+                return Limits(urdf_joint.safety_controller.soft_lower_limit,
+                              urdf_joint.safety_controller.soft_upper_limit,
+                              urdf_joint.limit.velocity)
+
     def get_unique_timestamps(self):
         """The timestamp that is unique to a setpoint."""
         timestamps = []
         for joint in self.joints:
             for setpoint in joint.setpoints:
-                timestamps.append(setpoint.time)
+                timestamps.append(round(setpoint.time, Setpoint.digits))
 
         return sorted(set(timestamps))
 
@@ -212,8 +269,12 @@ class Subgait(object):
         """Get the names of all the joints existing in the joint list."""
         return [joint.name for joint in self.joints]
 
+    # endregion
+
+    # region Class methods
     def __getitem__(self, index):
         return self.joints[index]
 
     def __len__(self):
         return len(self.joints)
+    # endregion
