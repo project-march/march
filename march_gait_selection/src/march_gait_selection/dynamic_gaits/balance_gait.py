@@ -2,6 +2,7 @@
 from copy import deepcopy
 import sys
 
+from geometry_msgs.msg import PoseStamped
 import moveit_commander
 import rospy
 from visualization_msgs.msg import Marker
@@ -23,7 +24,9 @@ class BalanceGait(object):
         if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
-            moveit_commander.PlanningSceneInterface()
+            planning_scene = moveit_commander.PlanningSceneInterface()
+
+            planning_scene.add_plane('ground', pose=PoseStamped(), normal=(0, 0, 1))
 
             try:
                 self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
@@ -126,8 +129,13 @@ class BalanceGait(object):
         balance_trajectory_subgait.scale_timestamps_subgaits(max_duration)
         subgait.scale_timestamps_subgaits(max_duration)
 
-        all_timestamps = list(set(balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()))
-        all_timestamps.sort()
+        all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
+        all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
+
+        if subgait.duration != all_timestamps[-1] or balance_trajectory_subgait != all_timestamps[-1]:
+            rospy.logwarn('Balance subgait {bd} or Subgait duration {sd} is not equal to largest timestamp {ts}.'
+                          .format(bd=str(balance_trajectory_subgait.duration), sd=str(subgait.duration),
+                                  ts=str(all_timestamps[-1])))
 
         balance_trajectory_subgait.equalize_amount_of_setpoints(all_timestamps)
         subgait.equalize_amount_of_setpoints(all_timestamps)
