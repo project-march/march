@@ -4,7 +4,10 @@ import sys
 
 from geometry_msgs.msg import PoseStamped
 import moveit_commander
+from moveit_msgs.msg import RobotState
 import rospy
+from sensor_msgs.msg import JointState
+from std_msgs.msg import Header
 from visualization_msgs.msg import Marker
 
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
@@ -29,13 +32,14 @@ class BalanceGait(object):
             planning_scene.add_plane('ground', pose=PoseStamped(), normal=(0, 0, 1))
 
             try:
-                self._move_group = {'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
+                self._move_group = {'all_legs': moveit_commander.MoveGroupCommander('all_legs'),
+                                    'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
                                     'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
             except RuntimeError:
                 rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
                 return
 
-        self._end_effectors = {'left_leg': 'left_foot', 'right_leg': 'right_foot'}
+        self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
         self._capture_point_pose = {'left_leg': None, 'right_leg': None}
 
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
@@ -55,7 +59,7 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_pose[leg_name] = msg.pose
 
-    def calculate_trajectory(self, leg_name):
+    def calculate_capture_point_trajectory(self, leg_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
         :param leg_name: The name of the used move group
@@ -76,10 +80,29 @@ class BalanceGait(object):
 
         pose = self._capture_point_pose[leg_name]
         end_effector = self._end_effectors[leg_name]
-        self._move_group[leg_name].set_joint_value_target(pose, end_effector, True)
 
-        trajectory_plan = self._move_group[leg_name].plan()
-        return trajectory_plan.joint_trajectory
+        self._move_group[leg_name].set_joint_value_target(pose, end_effector, True)
+        #
+        # trajectory_plan = self._move_group[leg_name].plan()
+        # return trajectory_plan.joint_trajectory
+
+    def calculate_normal_trajectory(self, leg_name, default_subgait):
+        side_prefix = 'right' if 'right' in default_subgait.subgait_name else 'left'
+
+        for joint in reversed(default_subgait.joints):
+            if side_prefix not in joint.name:
+                default_subgait.joints.remove(joint)
+
+        joint_state = JointState()
+        joint_state.header = Header()
+        joint_state.header.stamp = rospy.Time.now()
+        joint_state.name = [joint.name for joint in default_subgait.joints]
+        joint_state.position = [joint.setpoints[-1].position for joint in default_subgait]
+        joint_state.velocity = [joint.setpoints[-1].velocity for joint in default_subgait]
+        moveit_robot_state = RobotState()
+        moveit_robot_state.joint_state = joint_state
+
+        self._move_group[leg_name].set_start_state(moveit_robot_state)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
@@ -126,8 +149,8 @@ class BalanceGait(object):
         """
         max_duration = max(balance_trajectory_subgait.duration, subgait.duration)
 
-        balance_trajectory_subgait.scale_timestamps_subgaits(max_duration)
-        subgait.scale_timestamps_subgaits(max_duration)
+        balance_trajectory_subgait.scale_timestamps_subgait(max_duration)
+        subgait.scale_timestamps_subgait(max_duration)
 
         all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
         all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
@@ -151,31 +174,39 @@ class BalanceGait(object):
 
         return subgait
 
-    def construct_subgait(self, leg_name, subgait_name):
+    def construct_subgait(self, capture_point_leg_name, default_leg_name, subgait_name):
         """Construct a balance subgait.
 
-        :param leg_name: The name of the move group that should be used to create the balance subgait
+        :param capture_point_leg_name: The name of the move group that should be used to create the balance subgait
+        :param default_leg_name: the leg which should follow the normal subgait trajectory
         :param subgait_name: the normal subgait name
 
         :return: the balance subgait as a subgait object
         """
-        capture_point_trajectory = self.calculate_trajectory(leg_name)
         default_subgait = deepcopy(self.default_walk[subgait_name])
 
-        if not capture_point_trajectory:
-            rospy.logwarn('No capture point trajectory for {ln} received from capture point topic, '
-                          'returning default subgait'.format(ln=leg_name))
+        self.calculate_normal_trajectory(default_leg_name, default_subgait)
+        self.calculate_capture_point_trajectory(capture_point_leg_name)
+
+        balance_subgait = self._move_group['all_legs'].plan()
+        balance_trajectory = balance_subgait.joint_trajectory
+
+        if not balance_trajectory:
+            rospy.logwarn('No valid balance trajectory for {ln} received from capture point topic, '
+                          'returning default subgait'.format(ln=capture_point_leg_name))
             return default_subgait
 
-        if not capture_point_trajectory.points:
+        if not balance_trajectory.points:
             rospy.logwarn('Empty trajectory in {ln} received from capture point topic, '
-                          'returning default subgait'.format(ln=leg_name))
+                          'returning default subgait'.format(ln=capture_point_leg_name))
             return default_subgait
 
-        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, capture_point_trajectory)
-        balance_subgait = self.merge_subgaits(balance_trajectory_subgait, default_subgait)
+        default_subgait = deepcopy(self.default_walk[subgait_name])
 
-        return balance_subgait
+        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, balance_trajectory)
+        # balance_subgait = self.merge_subgaits(balance_trajectory_subgait, default_subgait)
+
+        return balance_trajectory_subgait
 
     def __getitem__(self, name):
         """Return the trajectory of a move group based on capture point in subgait msg format.
@@ -183,8 +214,8 @@ class BalanceGait(object):
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
         if name == 'left_swing':
-            return self.construct_subgait('left_leg', 'left_swing')
+            return self.construct_subgait('left_leg', 'right_leg', 'left_swing')
         elif name == 'right_swing':
-            return self.construct_subgait('right_leg', 'right_swing')
+            return self.construct_subgait('right_leg', 'left_leg', 'right_swing')
         else:
             return self.default_walk[name]
