@@ -8,4 +8,4 @@ moveit_setup_assistant_config:
   CONFIG:
     author_name: Project MARCH
     author_email: software@projectmarch.nl
-    generated_timestamp: 1591607727
+    generated_timestamp: 1591971130
