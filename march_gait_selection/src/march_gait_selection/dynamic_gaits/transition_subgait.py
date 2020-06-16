@@ -99,7 +99,7 @@ class TransitionSubgait(Subgait):
         new_subgait.scale_timestamps_subgait(max_duration)
 
         all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
-        all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
+        all_timestamps = sorted(set(all_timestamps))
 
         old_subgait.equalize_amount_of_setpoints(all_timestamps)
         new_subgait.equalize_amount_of_setpoints(all_timestamps)
