@@ -9,7 +9,6 @@ from visualization_msgs.msg import Marker
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
-from march_shared_resources import msg
 
 
 class BalanceGait(object):
@@ -80,20 +79,6 @@ class BalanceGait(object):
         return trajectory_plan.joint_trajectory
 
     @staticmethod
-    def to_subgait_msg(name, trajectory_msg, gait_type='walk_like', version='moveit',
-                       description='Subgait created using the moveit motion planning.'):
-        """Create a subgait message using the standard format in the march shared resources."""
-        subgait_msg = msg.Subgait()
-        subgait_msg.name = name
-        subgait_msg.description = description
-        subgait_msg.trajectory = trajectory_msg
-        subgait_msg.version = version
-        subgait_msg.gait_type = gait_type
-        subgait_msg.duration = subgait_msg.trajectory.points[-1].time_from_start
-
-        return subgait_msg
-
-    @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
                    subgait_name='balance_subgait', description='Subgait created using the moveit motion planning.'):
         """Create a subgait using the standard format in the march shared classes."""
@@ -128,55 +113,6 @@ class BalanceGait(object):
         return balance_subgait
 
     @staticmethod
-    def _equalize_amount_of_setpoints(first_subgait, second_subgait):
-        """Equalize the subgaits to have matching amount of setpoints on all the timestamps."""
-        max_duration = max(first_subgait.duration, second_subgait.duration)
-
-        first_subgait = BalanceGait._scale_timestamps_subgaits(first_subgait, max_duration)
-        second_subgait = BalanceGait._scale_timestamps_subgaits(second_subgait, max_duration)
-
-        unique_timestamps = BalanceGait._get_all_unique_timestamps(first_subgait, second_subgait)
-
-        for old_joint in first_subgait:
-            new_joint = second_subgait.get_joint(old_joint.name)
-
-            old_joint_setpoints = []
-            new_joint_setpoints = []
-
-            for timestamp in unique_timestamps:
-                old_joint_setpoints.append(old_joint.get_interpolated_setpoint(timestamp))
-                new_joint_setpoints.append(new_joint.get_interpolated_setpoint(timestamp))
-
-            old_joint.setpoints = old_joint_setpoints
-            new_joint.setpoints = new_joint_setpoints
-
-        return first_subgait, second_subgait
-
-    @staticmethod
-    def _scale_timestamps_subgaits(subgait, new_duration):
-        """Scale all the setpoint to match the duration in both subgaits."""
-        old_duration = subgait.duration
-
-        if new_duration == old_duration:
-            return subgait
-
-        for joint in subgait.joints:
-            for setpoint in joint.setpoints:
-                setpoint.time = setpoint.time * new_duration / old_duration
-
-            joint.duration = new_duration
-            joint.setpoints[-1].time = new_duration
-
-        subgait.duration = new_duration
-        return subgait
-
-    @staticmethod
-    def _get_all_unique_timestamps(first_subgait, second_subgait):
-        """Get all the timestamps from the subgaits, eliminate double."""
-        all_timestamps = first_subgait.get_unique_timestamps() + second_subgait.get_unique_timestamps()
-        return sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
-
-    @staticmethod
     def merge_subgaits(balance_trajectory_subgait, subgait):
         """Merge the balance subgait to the normal subgait to add the joints which are not in the move group.
 
@@ -185,8 +121,16 @@ class BalanceGait(object):
 
         :return: A combination of the balance subgait and the normal subgait in a single subgait object
         """
-        balance_trajectory_subgait, subgait = \
-            BalanceGait._equalize_amount_of_setpoints(balance_trajectory_subgait, subgait)
+        max_duration = max(balance_trajectory_subgait.duration, subgait.duration)
+
+        balance_trajectory_subgait.scale_timestamps_subgaits(max_duration)
+        subgait.scale_timestamps_subgaits(max_duration)
+
+        all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
+        all_timestamps = sorted(set(all_timestamps))
+
+        balance_trajectory_subgait.equalize_amount_of_setpoints(all_timestamps)
+        subgait.equalize_amount_of_setpoints(all_timestamps)
 
         if subgait.duration != balance_trajectory_subgait.duration:
             rospy.logwarn('Subgait trajectory and capture point trajectory do not have matching durations.')

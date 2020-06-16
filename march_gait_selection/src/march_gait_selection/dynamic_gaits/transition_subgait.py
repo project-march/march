@@ -4,7 +4,6 @@ from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError, SubgaitNameNotFound, TransitionError
 from march_shared_classes.gait.gait import Gait
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
-from march_shared_classes.gait.limits import Limits
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
 
@@ -38,8 +37,6 @@ class TransitionSubgait(Subgait):
         """
         old_subgait, new_subgait = cls._get_copy_of_subgaits(gait_selection, old_gait_name, new_gait_name,
                                                              new_subgait_name, old_subgait_name)
-
-        old_subgait, new_subgait = cls._equalize_amount_of_setpoints(old_subgait, new_subgait)
 
         transition_joints = cls._transition_joints(gait_selection.robot, old_subgait, new_subgait)
         transition_duration = new_subgait.duration
@@ -90,59 +87,29 @@ class TransitionSubgait(Subgait):
         return old_subgait, new_subgait
 
     @staticmethod
-    def _scale_timestamps_subgaits(subgait, new_duration):
-        """Scale all the setpoint to match the duration in both subgaits."""
-        old_duration = subgait.duration
-
-        if new_duration == old_duration:
-            return subgait
-
-        for joint in subgait.joints:
-            joint.duration = new_duration
-            for setpoint in joint.setpoints:
-                setpoint.time = round((setpoint.time * new_duration / old_duration), Setpoint.digits)
-
-        subgait.duration = new_duration
-        return subgait
-
-    @staticmethod
-    def _equalize_amount_of_setpoints(old_subgait, new_subgait):
-        """Equalize the subgaits to have matching amount of setpoints on all the timestamps."""
-        max_duration = max([old_subgait.duration, new_subgait.duration])
-
-        old_subgait = TransitionSubgait._scale_timestamps_subgaits(old_subgait, max_duration)
-        new_subgait = TransitionSubgait._scale_timestamps_subgaits(new_subgait, max_duration)
-
-        unique_timestamps = TransitionSubgait._get_all_unique_timestamps(old_subgait, new_subgait)
-
-        for old_joint in old_subgait:
-            new_joint = new_subgait.get_joint(old_joint.name)
-
-            old_joint_setpoints = []
-            new_joint_setpoints = []
-
-            for timestamp in unique_timestamps:
-                old_joint_setpoints.append(old_joint.get_interpolated_setpoint(timestamp))
-                new_joint_setpoints.append(new_joint.get_interpolated_setpoint(timestamp))
-
-            old_joint.setpoints = old_joint_setpoints
-            new_joint.setpoints = new_joint_setpoints
-
-        return old_subgait, new_subgait
-
-    @staticmethod
     def _transition_joints(robot, old_subgait, new_subgait):
         """Calculate a transition trajectory which starts at the old gait and ends with the endpoints of the new gait.
 
         :returns:
              list of joints which hold the transition setpoints including position, velocity and duration
         """
+        max_duration = max(old_subgait.duration, new_subgait.duration)
+
+        old_subgait.scale_timestamps_subgait(max_duration)
+        new_subgait.scale_timestamps_subgait(max_duration)
+
+        all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
+        all_timestamps = sorted(set(all_timestamps))
+
+        old_subgait.equalize_amount_of_setpoints(all_timestamps)
+        new_subgait.equalize_amount_of_setpoints(all_timestamps)
+
         joints = []
         for old_joint in old_subgait.joints:
 
             joint_name = old_joint.name
             new_joint = new_subgait.get_joint(joint_name)
-            limits = TransitionSubgait._get_limits(robot, joint_name)
+            limits = new_subgait.get_joint_limits(robot, joint_name)
 
             setpoints = []
             number_setpoints = len(new_subgait[0].setpoints)
@@ -160,17 +127,6 @@ class TransitionSubgait(Subgait):
         return joints
 
     @staticmethod
-    def _get_limits(robot, joint_name):
-        """Use the parsed robot to get the defined joint limits."""
-        for urdf_joint in robot.joints:
-            if urdf_joint.name == joint_name:
-                return Limits(urdf_joint.safety_controller.soft_lower_limit,
-                              urdf_joint.safety_controller.soft_upper_limit,
-                              urdf_joint.limit.velocity)
-
-        raise TransitionError('Robot does not contain joint {joint}'.format(joint=joint_name))
-
-    @staticmethod
     def _transition_setpoint(old_setpoint, new_setpoint, new_factor):
         """Create a transition setpoint with the use of the old setpoint, new setpoint and transition factor."""
         old_factor = 1.0 - new_factor
@@ -179,12 +135,6 @@ class TransitionSubgait(Subgait):
         velocity = (old_setpoint.velocity * old_factor) + (new_setpoint.velocity * new_factor)
 
         return Setpoint(new_setpoint.time, position, velocity)
-
-    @staticmethod
-    def _get_all_unique_timestamps(old_subgait, new_subgait):
-        """Get all the timestamps from the subgaits, eliminate double."""
-        all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
-        return sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
 
     @staticmethod
     def _validate_transition_gait(old_subgait, transition_subgait, new_subgait):
