@@ -24,6 +24,7 @@ class BalanceGait(object):
         self._is_balance_used = rospy.get_param('/balance', False)
 
         self._move_group = None
+
         if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
@@ -82,12 +83,14 @@ class BalanceGait(object):
         end_effector = self._end_effectors[leg_name]
 
         self._move_group[leg_name].set_joint_value_target(pose, end_effector, True)
-        #
-        # trajectory_plan = self._move_group[leg_name].plan()
-        # return trajectory_plan.joint_trajectory
 
     def calculate_normal_trajectory(self, leg_name, default_subgait):
-        side_prefix = 'right' if 'right' in default_subgait.subgait_name else 'left'
+        """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
+
+        :param leg_name: The name of the move group which does not use capture point
+        :param default_subgait: The default subgait which is normally used
+        """
+        side_prefix = 'right' if 'right' in leg_name else 'left'
 
         for joint in reversed(default_subgait.joints):
             if side_prefix not in joint.name:
@@ -99,10 +102,11 @@ class BalanceGait(object):
         joint_state.name = [joint.name for joint in default_subgait.joints]
         joint_state.position = [joint.setpoints[-1].position for joint in default_subgait]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in default_subgait]
+
         moveit_robot_state = RobotState()
         moveit_robot_state.joint_state = joint_state
 
-        self._move_group[leg_name].set_start_state(moveit_robot_state)
+        self._move_group[leg_name].set_joint_value_target(moveit_robot_state)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
@@ -138,42 +142,6 @@ class BalanceGait(object):
 
         return balance_subgait
 
-    @staticmethod
-    def merge_subgaits(balance_trajectory_subgait, subgait):
-        """Merge the balance subgait to the normal subgait to add the joints which are not in the move group.
-
-        :param balance_trajectory_subgait: The balance subgait with the move group joints
-        :param subgait: The normal subgait that would be used
-
-        :return: A combination of the balance subgait and the normal subgait in a single subgait object
-        """
-        max_duration = max(balance_trajectory_subgait.duration, subgait.duration)
-
-        balance_trajectory_subgait.scale_timestamps_subgait(max_duration)
-        subgait.scale_timestamps_subgait(max_duration)
-
-        all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
-        all_timestamps = sorted(set([round(timestamp, Setpoint.digits) for timestamp in all_timestamps]))
-
-        if subgait.duration != all_timestamps[-1] or balance_trajectory_subgait != all_timestamps[-1]:
-            rospy.logwarn('Balance subgait {bd} or Subgait duration {sd} is not equal to largest timestamp {ts}.'
-                          .format(bd=str(balance_trajectory_subgait.duration), sd=str(subgait.duration),
-                                  ts=str(all_timestamps[-1])))
-
-        balance_trajectory_subgait.equalize_amount_of_setpoints(all_timestamps)
-        subgait.equalize_amount_of_setpoints(all_timestamps)
-
-        if subgait.duration != balance_trajectory_subgait.duration:
-            rospy.logwarn('Subgait trajectory and capture point trajectory do not have matching durations.')
-            return None
-
-        joint_names = subgait.get_joint_names()
-        for joint in balance_trajectory_subgait:
-            joint_index = joint_names.index(joint.name)
-            subgait.joints[joint_index] = joint
-
-        return subgait
-
     def construct_subgait(self, capture_point_leg_name, default_leg_name, subgait_name):
         """Construct a balance subgait.
 
@@ -185,8 +153,8 @@ class BalanceGait(object):
         """
         default_subgait = deepcopy(self.default_walk[subgait_name])
 
-        self.calculate_normal_trajectory(default_leg_name, default_subgait)
         self.calculate_capture_point_trajectory(capture_point_leg_name)
+        self.calculate_normal_trajectory(default_leg_name, default_subgait)
 
         balance_subgait = self._move_group['all_legs'].plan()
         balance_trajectory = balance_subgait.joint_trajectory
@@ -202,9 +170,7 @@ class BalanceGait(object):
             return default_subgait
 
         default_subgait = deepcopy(self.default_walk[subgait_name])
-
         balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, balance_trajectory)
-        # balance_subgait = self.merge_subgaits(balance_trajectory_subgait, default_subgait)
 
         return balance_trajectory_subgait
 
