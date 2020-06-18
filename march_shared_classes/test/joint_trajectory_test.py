@@ -1,7 +1,5 @@
 import unittest
 
-import numpy as np
-
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.limits import Limits
 from march_shared_classes.gait.setpoint import Setpoint
@@ -66,7 +64,7 @@ class JointTrajectoryTest(unittest.TestCase):
         self.assertEqual(interpolated_setpoint, self.setpoints[-1])
 
     def test_interpolation_mid_point_position(self):
-        interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration/2)
+        interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration / 2)
         self.assertEqual(interpolated_setpoint, self.setpoints[1])
 
     # get_interpolated_setpoint tests
