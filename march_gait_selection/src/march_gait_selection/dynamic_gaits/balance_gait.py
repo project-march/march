@@ -1,10 +1,8 @@
-
 from copy import deepcopy
 import sys
 
-from geometry_msgs.msg import PoseStamped
+# from geometry_msgs.msg import PoseStamped
 import moveit_commander
-from moveit_msgs.msg import RobotState
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
@@ -28,9 +26,9 @@ class BalanceGait(object):
         if self._is_balance_used:
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
-            planning_scene = moveit_commander.PlanningSceneInterface()
+            moveit_commander.PlanningSceneInterface()
 
-            planning_scene.add_plane('ground', pose=PoseStamped(), normal=(0, 0, 1))
+            # planning_scene.add_plane('ground', pose=PoseStamped(), normal=(0, 0, 1))
 
             try:
                 self._move_group = {'all_legs': moveit_commander.MoveGroupCommander('all_legs'),
@@ -60,7 +58,7 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_pose[leg_name] = msg.pose
 
-    def calculate_capture_point_trajectory(self, leg_name):
+    def calculate_capture_point_trajectory(self, leg_name, default_subgait):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
         :param leg_name: The name of the used move group
@@ -103,10 +101,7 @@ class BalanceGait(object):
         joint_state.position = [joint.setpoints[-1].position for joint in default_subgait]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in default_subgait]
 
-        moveit_robot_state = RobotState()
-        moveit_robot_state.joint_state = joint_state
-
-        self._move_group[leg_name].set_joint_value_target(moveit_robot_state)
+        self._move_group[leg_name].set_joint_value_target(joint_state)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
@@ -152,11 +147,16 @@ class BalanceGait(object):
         :return: the balance subgait as a subgait object
         """
         default_subgait = deepcopy(self.default_walk[subgait_name])
+        self.calculate_capture_point_trajectory(capture_point_leg_name, default_subgait)
 
-        self.calculate_capture_point_trajectory(capture_point_leg_name)
+        default_subgait = deepcopy(self.default_walk[subgait_name])
         self.calculate_normal_trajectory(default_leg_name, default_subgait)
 
-        balance_subgait = self._move_group['all_legs'].plan()
+        targets = \
+            self._move_group['left_leg'].get_joint_value_target() + \
+            self._move_group['right_leg'].get_joint_value_target()
+
+        balance_subgait = self._move_group['all_legs'].plan(targets)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
