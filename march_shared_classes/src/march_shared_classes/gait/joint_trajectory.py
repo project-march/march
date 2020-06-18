@@ -1,4 +1,3 @@
-import numpy as np
 import rospy
 from scipy.interpolate import BPoly
 
@@ -15,6 +14,7 @@ class JointTrajectory(object):
         self.limits = limits
         self.setpoints = setpoints
         self.duration = duration
+        [self.interpolated_position, self.interpolated_velocity] = self.interpolate_setpoints()
 
     @classmethod
     def from_dict(cls, subgait_dict, joint_name, limits, duration, *args):
@@ -83,6 +83,9 @@ class JointTrajectory(object):
                (self.setpoints[-1].time == round(self.duration, Setpoint.digits) or self.setpoints[-1].velocity == 0)
 
     def interpolate_setpoints(self):
+        if len(self.setpoints) == 1:
+            return [lambda time: self.setpoints[0].position, lambda time: self.setpoints[0].velocity]
+
         time, position, velocity = self.get_setpoints_unzipped()
         yi = []
         for i in range(0, len(time)):
@@ -92,23 +95,17 @@ class JointTrajectory(object):
         # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
         position = BPoly.from_derivatives(time, yi)
         velocity = position.derivative()
-        indices = np.linspace(0, self.duration, self.duration * 100)
-        return [indices, position(indices), velocity(indices)]
+        return [position, velocity]
 
     def get_interpolated_setpoint(self, time):
-        # If we have a setpoint this exact time there is no need to interpolate.
-        for setpoint in self.setpoints:
-            if setpoint.time == time:
-                return setpoint
+        if time < 0:
+            rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
+            return self.setpoint_class(time, self.setpoints[0].position, 0)
+        if time > self.duration:
+            rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
+            return self.setpoint_class(time, self.setpoints[-1].position, 0)
 
-        interpolated_setpoints = self.interpolate_setpoints()
-        for i in range(0, len(interpolated_setpoints[0])):
-            if interpolated_setpoints[0][i] > time:
-                position = interpolated_setpoints[1][i - 1]
-                velocity = interpolated_setpoints[2][i - 1]
-                return self.setpoint_class(time, position, velocity)
-        rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
-        return self.setpoint_class(0, 0, 0)
+        return self.setpoint_class(time, self.interpolated_position(time), self.interpolated_velocity(time))
 
     def __getitem__(self, index):
         return self.setpoints[index]
