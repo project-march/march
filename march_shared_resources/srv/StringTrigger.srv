@@ -1,4 +1,0 @@
-string string
----
-bool success   # indicate a successful run of triggered service
-string message # possible error messages
