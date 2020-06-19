@@ -170,7 +170,7 @@ class BalanceGait(object):
             return default_subgait
 
         default_subgait = deepcopy(self.default_walk[subgait_name])
-        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, balance_trajectory)
+        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, balance_trajectory, subgait_name=subgait_name)
 
         return balance_trajectory_subgait
 
