@@ -107,10 +107,36 @@ class SubgaitTest(unittest.TestCase):
         self.assertIsInstance(self.subgait.get_joint_names()[0], str)
         self.assertEqual(len(self.subgait.get_joint_names()), 8)
 
-    def test_set_duration_with_scaling(self):
+    def test_set_duration_with_scaling_smaller_duration(self):
         self.subgait.scale_timestamps_subgait(0.8)
         self.assertEqual(self.subgait.duration, 0.8)
+
+    def test_set_duration_with_scaling_larger_duration(self):
+        self.subgait.scale_timestamps_subgait(1.8)
+        self.assertEqual(self.subgait.duration, 1.8)
 
     def test_set_duration_with_cut_off_instead_of_scaling(self):
         self.subgait.scale_timestamps_subgait(0.8, rescale=False)
         self.assertEqual(len(self.subgait.get_joint('left_knee').setpoints), 7)
+
+    def test_equalize_amount_of_setpoints_with_higher_duration_new_gait(self):
+        self.subgait.scale_timestamps_subgait(1.5)
+
+        timestamps = sorted(set(self.subgait.get_unique_timestamps() + [1.1, 1.2, 1.3]))
+        self.subgait.create_interpolated_setpoints([1.1, 1.2, 1.3])
+
+        self.assertEqual(timestamps, self.subgait.get_unique_timestamps(),
+                         msg='Scaling the function did not result in same timestamps and equal amount of setpoints'
+                             '\nold timestamps: {old} \nnew timestamps: {new}'
+                         .format(old=str(timestamps), new=str(self.subgait.get_unique_timestamps())))
+
+    def test_equalize_amount_of_setpoints_with_lower_duration_new_gait(self):
+        self.subgait.scale_timestamps_subgait(0.8)
+
+        timestamps = sorted(set(self.subgait.get_unique_timestamps() + [0.6, 0.7, 0.75]))
+        self.subgait.create_interpolated_setpoints([0.6, 0.7, 0.75])
+
+        self.assertEqual(timestamps, self.subgait.get_unique_timestamps(),
+                         msg='Scaling the function did not result in same timestamps and equal amount of setpoints'
+                             '\nold timestamps: {old} \nnew timestamps: {new}'
+                         .format(old=str(timestamps), new=str(self.subgait.get_unique_timestamps())))
