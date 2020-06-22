@@ -6,7 +6,7 @@ from urdf_parser_py import urdf
 import yaml
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
-from march_shared_classes.exceptions.gait_exceptions import GaitError
+from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
@@ -40,14 +40,20 @@ class GaitSelection(object):
         """Returns the mapping from gaits and subgaits to versions."""
         return self._gait_version_map
 
-    def set_gait_versions(self, gait_name, subgait_names, versions):
+    def set_gait_versions(self, gait_name, version_map):
         """Sets the subgait versions of given gait.
 
         :param str gait_name: Name of the gait to change versions
-        :param list(str) subgait_names: List of subgait names of which to change versions
-        :param list(str) versions: Names of the new versions
+        :param dict version_map: Mapping subgait names to versions
         """
-        pass
+        if gait_name not in self._loaded_gaits:
+            raise GaitNameNotFound(gait_name)
+
+        # Only update versions that are different
+        version_map = dict([(name, version) for name, version in version_map.items() if
+                            version != self._gait_version_map[gait_name][name]])
+        self._loaded_gaits[gait_name].set_subgait_versions(self._robot, self._gait_directory, version_map)
+        self._gait_version_map[gait_name].update(version_map)
 
     def scan_directory(self):
         """Scans the gait_directory recursively and create a dictionary of all subgait files.

@@ -1,7 +1,6 @@
 import rospy
 from std_srvs.srv import Trigger
 
-from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, SetGaitVersion
 
 from .gait_selection import GaitSelection
@@ -19,10 +18,14 @@ def set_gait_versions(msg, gait_selection):
     :type gait_selection: GaitSelection
     :rtype march_shared_resources.srv.SetGaitVersionResponse
     """
+    if len(msg.subgaits) != len(msg.versions):
+        return [False, '`subgaits` and `versions` array are not of equal length']
+
+    version_map = dict(zip(msg.subgaits, msg.versions))
     try:
-        gait_selection.set_gait_versions(msg.gait, msg.subgaits, msg.versions)
+        gait_selection.set_gait_versions(msg.gait, version_map)
         return [True, '']
-    except GaitError as e:
+    except Exception as e:
         return [False, str(e)]
 
 

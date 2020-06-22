@@ -133,15 +133,32 @@ class Gait(object):
     def set_subgait_versions(self, robot, gait_directory, version_map):
         """Updates the given subgait versions and verifies transitions.
 
+        :param robot: URDF matching subgaits
         :param str gait_directory: path to the gait directory
         :param dict version_map: Mapping subgait names to versions
         """
-        for subgait_name in version_map.keys():
-            if self.__getitem__(subgait_name) is None:
+        new_subgaits = {}
+        gait_path = os.path.join(gait_directory, self.gait_name)
+        for subgait_name, version in version_map.items():
+            if subgait_name not in self.subgaits:
                 raise SubgaitNameNotFound(subgait_name,
                                           'Subgait {0} does not exist for {1}'.format(subgait_name, self.gait_name))
+            subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
+            if not os.path.isfile(subgait_path):
+                raise FileNotFoundError(file_path=subgait_path)
+            new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
 
-        pass
+        for from_subgait_name, to_subgait_name in self.graph.items():
+            if (from_subgait_name in new_subgaits or to_subgait_name in new_subgaits) \
+                    and len({from_subgait_name, to_subgait_name} & {'start', 'end'}) == 0:
+                from_subgait = new_subgaits.get(from_subgait_name, self.subgaits[from_subgait_name])
+                to_subgait = new_subgaits.get(to_subgait_name, self.subgaits[to_subgait_name])
+
+                if not from_subgait.validate_subgait_transition(to_subgait):
+                    raise NonValidGaitContent(msg='End setpoint of subgait {sn} to subgait {ns} does not match'
+                                              .format(sn=from_subgait.subgait_name, ns=to_subgait.subgait_name))
+
+        self.subgaits.update(new_subgaits)
 
     def __getitem__(self, name):
         """Returns a subgait from the loaded subgaits."""
