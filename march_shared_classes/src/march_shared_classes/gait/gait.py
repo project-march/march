@@ -15,7 +15,7 @@ class Gait(object):
 
         :param str gait_name: Name of the gait
         :param dict subgaits: Mapping of names to subgait instances
-        :param dict graph: Mapping of subgait names transitions
+        :param list((str, str)) graph: Mapping of subgait names transitions
         """
         self._validate_gait_graph(gait_name, graph)
         self._validate_trajectory_transition(subgaits, graph)
@@ -71,7 +71,7 @@ class Gait(object):
         if len(from_subgaits_names) != len(to_subgaits_names):
             raise NonValidGaitContent('to_subgait and from_subgait are not of equal length')
 
-        graph = dict(zip(from_subgaits_names, to_subgaits_names))
+        graph = zip(from_subgaits_names, to_subgaits_names)
         cls._validate_gait_graph(gait_name, graph)
 
         subgait_names = set(from_subgaits_names + to_subgaits_names)
@@ -103,22 +103,29 @@ class Gait(object):
     def _validate_gait_graph(gait_name, graph):
         """Validate if the data in the gait file is valid.
 
-        :param dict graph: Mapping of subgaits that transition to other subgaits
+        :param list((str, str)) graph: Mapping of subgaits that transition to other subgaits
         """
-        if 'start' not in graph.keys() or 'start' in graph.values():
-            raise NonValidGaitContent(msg='Gait {gn} does not have valid starting subgaits'.format(gn=gait_name))
+        contains_start = False
+        contains_end = False
+        for (from_subgait, to_subgait) in graph:
+            if from_subgait == 'end' or to_subgait == 'start':
+                raise NonValidGaitContent(msg='Gait {gn} does not have valid transitions'.format(gn=gait_name))
+            if from_subgait == 'start':
+                contains_start = True
+            if to_subgait == 'end':
+                contains_end = True
 
-        if 'end' not in graph.values() or 'end' in graph.keys():
-            raise NonValidGaitContent(msg='Gait {gn} does not have valid ending subgaits'.format(gn=gait_name))
+        if not contains_start or not contains_end:
+            raise NonValidGaitContent(msg='Gait {gn} is missing `start` or `end`'.format(gn=gait_name))
 
     @staticmethod
     def _validate_trajectory_transition(subgaits, graph):
         """Compares and validates the trajectory end and start points.
 
         :param dict subgaits: Mapping of subgait names to subgait instances
-        :param dict graph: Mapping of subgaits transitions
+        :param list((str, str)) graph: Mapping of subgaits transitions
         """
-        for from_subgait_name, to_subgait_name in graph.items():
+        for from_subgait_name, to_subgait_name in graph:
 
             if any(name in ('start', 'end', None) for name in (from_subgait_name, to_subgait_name)):
                 continue  # a start or end point cannot be compared to a subgait
@@ -148,7 +155,7 @@ class Gait(object):
                 raise FileNotFoundError(file_path=subgait_path)
             new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
 
-        for from_subgait_name, to_subgait_name in self.graph.items():
+        for from_subgait_name, to_subgait_name in self.graph:
             if (from_subgait_name in new_subgaits or to_subgait_name in new_subgaits) \
                     and len({from_subgait_name, to_subgait_name} & {'start', 'end'}) == 0:
                 from_subgait = new_subgaits.get(from_subgait_name, self.subgaits[from_subgait_name])
