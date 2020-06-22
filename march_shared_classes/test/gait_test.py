@@ -87,3 +87,36 @@ class GaitTest(unittest.TestCase):
 
         with self.assertRaises(FileNotFoundError):
             Gait.load_subgait(self.robot, self.resources_folder, self.gait_name, 'right_open', self.gait_version_map)
+
+    def test_set_no_subgait_versions(self):
+        self.gait.set_subgait_versions(self.robot, self.resources_folder, {})
+
+    def test_set_one_new_subgait_version(self):
+        subgait_name = 'left_close'
+        new_version = 'MIV_final'
+        self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name].version)
+
+    def test_set_multiple_subgait_versions(self):
+        subgait_name1 = 'left_close'
+        subgait_name2 = 'left_swing'
+        new_version = 'MIV_final'
+        self.gait.set_subgait_versions(self.robot, self.resources_folder,
+                                       {subgait_name1: new_version, subgait_name2: new_version})
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name1].version)
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name2].version)
+
+    def test_set_version_non_existing_subgait(self):
+        with self.assertRaises(SubgaitNameNotFound):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {'this_subgait_does_not_exist': '1'})
+
+    def test_set_non_existing_version_subgait(self):
+        with self.assertRaises(FileNotFoundError):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {'left_swing': '1'})
+
+    def test_set_new_subgait_version_invalid_transition(self):
+        self.gait.subgaits['right_swing'].joints[0].setpoints[-1].position = 124
+        subgait_name = 'left_close'
+        new_version = 'MIV_final'
+        with self.assertRaises(NonValidGaitContent):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})
