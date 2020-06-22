@@ -5,7 +5,6 @@ import unittest
 
 from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_gait_selection.gait_selection import GaitSelection
-from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
 
@@ -32,34 +31,9 @@ class TestGaitSelection(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             GaitSelection(VALID_PACKAGE, 'wrong')
 
-    # gait version map setter tests
-    def test_set_gait_version_map_with_wrong_type(self):
-        with self.assertRaises(TypeError):
-            self.gait_selection.gait_version_map = 'wrong'
-
-    def test_set_gait_version_map_with_empty_version_map(self):
-        self.gait_version_map = {}
-        with self.assertRaises(GaitError):
-            self.gait_selection.gait_version_map = self.gait_version_map
-
-    def test_set_gait_version_map_with_non_existing_gait_name(self):
-        self.gait_version_map['wrong'] = self.gait_version_map['walk']
-        with self.assertRaises(GaitError):
-            self.gait_selection.gait_version_map = self.gait_version_map
-
-    def test_set_gait_version_map_with_non_existing_subgait_name(self):
-        self.gait_version_map['walk']['wrong'] = self.gait_version_map['walk']['right_open']
-        with self.assertRaises(GaitError):
-            self.gait_selection.gait_version_map = self.gait_version_map
-
-    def test_set_gait_version_map_with_wrong_subgait_version(self):
-        self.gait_version_map['walk']['right_open'] = 'wrong'
-        with self.assertRaises(GaitError):
-            self.gait_selection.gait_version_map = self.gait_version_map
-
     # load gaits tests
     def test_types_in_loaded_gaits(self):
-        for gait in self.gait_selection.loaded_gaits:
+        for gait in self.gait_selection._loaded_gaits:
             self.assertIsInstance(gait, (Gait, BalanceGait))
 
     # scan directory tests
