@@ -20,7 +20,6 @@ class TestGaitSelection(unittest.TestCase):
 
     def setUp(self):
         self.gait_selection = deepcopy(self._gait_selection)
-        self.gait_version_map = deepcopy(self._gait_selection.gait_version_map)
 
     # __init__ tests
     def test_init_with_wrong_package(self):
@@ -33,8 +32,8 @@ class TestGaitSelection(unittest.TestCase):
 
     # load gaits tests
     def test_types_in_loaded_gaits(self):
-        for gait in self.gait_selection._loaded_gaits:
-            self.assertIsInstance(gait, (Gait, BalanceGait))
+        for gait in self.gait_selection._loaded_gaits.values():
+            self.assertTrue(isinstance(gait, Gait) or isinstance(gait, BalanceGait))
 
     # scan directory tests
     def test_scan_directory_top_level_content(self):
@@ -43,8 +42,7 @@ class TestGaitSelection(unittest.TestCase):
 
     def test_scan_directory_subgait_versions(self):
         directory = self.gait_selection.scan_directory()
-        walk_subgaits = directory['walk']['subgaits']
-        self.assertEqual(walk_subgaits['left_swing'], ['MV_walk_leftswing_v2'])
+        self.assertEqual(directory['walk']['left_swing'], ['MV_walk_leftswing_v2'])
 
     # get item tests
     def test_get_item_with_wrong_name(self):

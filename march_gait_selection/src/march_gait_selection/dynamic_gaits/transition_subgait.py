@@ -38,7 +38,7 @@ class TransitionSubgait(Subgait):
         old_subgait, new_subgait = cls._get_copy_of_subgaits(gait_selection, old_gait_name, new_gait_name,
                                                              new_subgait_name, old_subgait_name)
 
-        transition_joints = cls._transition_joints(gait_selection.robot, old_subgait, new_subgait)
+        transition_joints = cls._transition_joints(gait_selection.get_robot(), old_subgait, new_subgait)
         transition_duration = new_subgait.duration
 
         transition_subgait = cls(transition_joints, transition_duration)

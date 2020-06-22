@@ -36,6 +36,9 @@ class GaitSelection(object):
         except rospkg.common.ResourceNotFound:
             raise PackageNotFoundError(package)
 
+    def get_robot(self):
+        return self._robot
+
     def get_gait_version_map(self):
         """Returns the mapping from gaits and subgaits to versions."""
         return self._gait_version_map
@@ -144,4 +147,4 @@ class GaitSelection(object):
 
     def __getitem__(self, name):
         """Returns a gait from the loaded gaits."""
-        return self._loaded_gaits[name]
+        return self._loaded_gaits.get(name)

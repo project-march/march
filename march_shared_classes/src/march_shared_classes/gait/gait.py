@@ -169,4 +169,4 @@ class Gait(object):
 
     def __getitem__(self, name):
         """Returns a subgait from the loaded subgaits."""
-        return self.subgaits[name]
+        return self.subgaits.get(name)
