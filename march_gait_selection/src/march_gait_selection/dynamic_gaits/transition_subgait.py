@@ -65,12 +65,8 @@ class TransitionSubgait(Subgait):
             raise GaitError(msg='{gn} not found in parsed gait names from gait selection'
                             .format(gn=new_gait_name))
 
-        if old_gait.to_subgaits_names != new_gait.to_subgaits_names:
-            raise GaitError(msg='To_subgait list do not match between gait: {cg} and gait: {ng}'
-                            .format(cg=old_gait_name, ng=new_gait_name))
-
-        if old_gait.from_subgaits_names != new_gait.from_subgaits_names:
-            raise GaitError(msg='From_subgait list do not match between gait: {cg} and gait: {ng}'
+        if old_gait.graph != new_gait.graph:
+            raise GaitError(msg='Subgait graphs do not match between gait: {cg} and gait: {ng}'
                             .format(cg=old_gait_name, ng=new_gait_name))
 
         old_subgait_name = new_subgait_name if old_subgait_name is None else old_subgait_name
@@ -139,13 +135,16 @@ class TransitionSubgait(Subgait):
     @staticmethod
     def _validate_transition_gait(old_subgait, transition_subgait, new_subgait):
         """Validate the transition point by creating a gait object which checks the trajectories."""
-        subgaits = [old_subgait, transition_subgait, new_subgait]
-        from_subgaits = ['start', old_subgait.subgait_name, transition_subgait.subgait_name,
-                         new_subgait.subgait_name]
-        to_subgaits = [old_subgait.subgait_name, transition_subgait.subgait_name, new_subgait.subgait_name, 'end']
+        subgaits = {old_subgait.subgait_name: old_subgait,
+                    transition_subgait.subgait_name: transition_subgait,
+                    new_subgait.subgait_name: new_subgait}
+        graph = {'start': old_subgait.subgait_name,
+                 old_subgait.subgait_name: transition_subgait.subgait_name,
+                 transition_subgait.subgait_name: new_subgait.subgait_name,
+                 new_subgait.subgait_name: 'end'}
 
         try:
-            Gait('transition', subgaits, from_subgaits, to_subgaits)
+            Gait('transition', subgaits, graph)
         except Exception as error:
             TransitionError('Error when creating transition: {er}'.format(er=error))
 
