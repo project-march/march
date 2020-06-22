@@ -12,9 +12,9 @@ class JointTrajectory(object):
     def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
         self.limits = limits
-        self.setpoints = setpoints
-        self.duration = duration
-        [self.interpolated_position, self.interpolated_velocity] = self.interpolate_setpoints()
+        self._setpoints = setpoints
+        self._duration = duration
+        self.interpolate_setpoints()
 
     @classmethod
     def from_dict(cls, subgait_dict, joint_name, limits, duration, *args):
@@ -39,6 +39,24 @@ class JointTrajectory(object):
                                                 point['velocities'][joint_index]))
 
         return cls(joint_name, limits, setpoints, duration, *args)
+
+    @property
+    def duration(self):
+        return self._duration
+
+    @duration.setter
+    def duration(self, duration):
+        self._duration = duration
+        self.interpolate_setpoints()
+
+    @property
+    def setpoints(self):
+        return self._setpoints
+
+    @setpoints.setter
+    def setpoints(self, setpoints):
+        self._setpoints = setpoints
+        self.interpolate_setpoints()
 
     def get_setpoints_unzipped(self):
         """Get all the listed attributes of the setpoints."""
@@ -93,9 +111,8 @@ class JointTrajectory(object):
 
         # We do a cubic spline here, just like the ros joint_trajectory_action_controller,
         # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
-        position = BPoly.from_derivatives(time, yi)
-        velocity = position.derivative()
-        return [position, velocity]
+        self.interpolated_position = BPoly.from_derivatives(time, yi)
+        self.interpolated_velocity = self.interpolated_position .derivative()
 
     def get_interpolated_setpoint(self, time):
         if time < 0:
