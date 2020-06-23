@@ -208,7 +208,7 @@ class Subgait(object):
         for joint in self.joints:
             for setpoint in reversed(joint.setpoints):
                 if rescale:
-                    setpoint.time = round((setpoint.time * new_duration / self.duration), Setpoint.digits)
+                    setpoint.time = setpoint.time * new_duration / self.duration
                 else:
                     if setpoint.time > new_duration:
                         joint.setpoints.remove(setpoint)
