@@ -20,9 +20,8 @@ class CPCalculator(object):
         self.prev_y = 0
         self.prev_t = rospy.Time.now()
 
-        self.times = RingBuffer(capacity=10, dtype=float64)
-        self.com_x = RingBuffer(capacity=10, dtype=float64)
-        self.com_y = RingBuffer(capacity=10, dtype=float64)
+        self.com_x = RingBuffer(capacity=3, dtype=float64)
+        self.com_y = RingBuffer(capacity=3, dtype=float64)
 
         self.marker = Marker()
 
@@ -45,20 +44,11 @@ class CPCalculator(object):
         current_time = com_mark.header.stamp
         time_difference = (current_time - self.prev_t).to_sec()
 
-
-
-        # rospy.loginfo(deriv_x[-1])
-        # rospy.loginfo(deriv_y[-1])
-
-
         if current_time is not self.prev_t:
-            x_dot = savgol_filter(self.com_x, window_length=3, polyorder=2, deriv=1, delta=time_difference, mode='nearest')[-1]
-            y_dot = savgol_filter(self.com_y, window_length=3, polyorder=2, deriv=1, delta=time_difference, mode='nearest')[-1]
-            x_dot2 = savgol_filter(self.com_x, window_length=9, polyorder=2, deriv=1, delta=time_difference, mode='interp')[-1]
-            y_dot2 = savgol_filter(self.com_y, window_length=9, polyorder=2, deriv=1, delta=time_difference, mode='interp')[-1]
-
-            # x_dot = (com_mark.pose.position.x - self.prev_x) / time_difference
-            # y_dot = (com_mark.pose.position.y - self.prev_y) / time_difference
+            x_dot = savgol_filter(self.com_x, window_length=3, polyorder=2, deriv=1, delta=time_difference,
+                                  mode='nearest')[-1]
+            y_dot = savgol_filter(self.com_y, window_length=3, polyorder=2, deriv=1, delta=time_difference,
+                                  mode='nearest')[-1]
 
             try:
                 trans = self.tf_buffer.lookup_transform('world', self.foot_link, rospy.Time())
@@ -72,17 +62,11 @@ class CPCalculator(object):
                 x_cp = trans.transform.translation.x + x_dot * multiplier
                 y_cp = trans.transform.translation.y + y_dot * multiplier
 
-                x_cp2 = trans.transform.translation.x + x_dot2 * multiplier
-                y_cp2 = trans.transform.translation.y + y_dot2 * multiplier
-
-                self.update_marker2(x_cp2, y_cp2)
+                # self.update_marker2(x_cp2, y_cp2)
 
                 self.update_marker(x_cp, y_cp)
 
-                # self.prev_x = com_mark.pose.position.x
-                # self.prev_y = com_mark.pose.position.y
-                # self.prev_t = current_time
-
+                self.prev_t = current_time
 
             except tf2_ros.TransformException as e:
                 rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
@@ -98,13 +82,3 @@ class CPCalculator(object):
         rospy.logdebug('capture point is at ' + str(self.marker.pose.position))
 
         self.publisher.publish(self.marker)
-
-    def update_marker2(self, x_cp, y_cp):
-        self.marker.header.stamp = rospy.get_rostime()
-        self.marker.pose.position.x = x_cp
-        self.marker.pose.position.y = y_cp
-        self.marker.pose.position.z = 0
-
-        rospy.logdebug('capture point is at ' + str(self.marker.pose.position))
-
-        self.publisher2.publish(self.marker)
