@@ -14,10 +14,6 @@ class CPCalculator(object):
         self.tf_buffer = tf_buffer
         self.foot_link = foot_link
         self.publisher = rospy.Publisher('/march/cp_marker_' + foot_link, Marker, queue_size=1)
-        self.publisher2 = rospy.Publisher('/march/cp_marker2_' + foot_link, Marker, queue_size=1)
-
-        self.prev_x = 0
-        self.prev_y = 0
         self.prev_t = rospy.Time.now()
 
         self.marker = Marker()
@@ -36,27 +32,27 @@ class CPCalculator(object):
         self.buffer_size = 25  # number of com's to use in estimation of velocity
         self.polyorder = 4  # order of the polynomial in Saviztky-Golay
 
-        self.com_x = RingBuffer(capacity=self.buffer_size, dtype=float64)
-        self.com_y = RingBuffer(capacity=self.buffer_size, dtype=float64)
+        self.com_x_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
+        self.com_y_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
 
     def calculate_cp(self, com_mark):
         current_time = com_mark.header.stamp
         if current_time is not self.prev_t:
 
-            self.com_x.append(com_mark.pose.position.x)
-            self.com_y.append(com_mark.pose.position.y)
+            self.com_x_buffer.append(com_mark.pose.position.x)
+            self.com_y_buffer.append(com_mark.pose.position.y)
 
             time_difference = (current_time - self.prev_t).to_sec()
 
             # window length should be odd, greater then poly order and greater or equal to to the buffer size
-            if len(self.com_x) <= self.polyorder:
+            if len(self.com_x_buffer) <= self.polyorder:
                 return self.marker
 
-            window_length = min(self.buffer_size, len(self.com_x))
+            window_length = min(self.buffer_size, len(self.com_x_buffer))
             window_length = window_length if window_length % 2 else window_length - 1
-            x_dot = savgol_filter(self.com_x, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
+            x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
                                   mode='interp')[-1]
-            y_dot = savgol_filter(self.com_y, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
+            y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
                                   mode='interp')[-1]
 
             try:
