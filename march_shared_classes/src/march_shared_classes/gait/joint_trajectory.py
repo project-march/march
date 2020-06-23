@@ -14,6 +14,8 @@ class JointTrajectory(object):
         self.limits = limits
         self._setpoints = setpoints
         self._duration = duration
+        self.interpolated_position = None
+        self.interpolated_velocity = None
         self.interpolate_setpoints()
 
     @classmethod
@@ -102,7 +104,9 @@ class JointTrajectory(object):
 
     def interpolate_setpoints(self):
         if len(self.setpoints) == 1:
-            return [lambda time: self.setpoints[0].position, lambda time: self.setpoints[0].velocity]
+            self.interpolated_position = lambda time: self.setpoints[0].position
+            self.interpolated_velocity = lambda time: self.setpoints[0].velocity
+            return
 
         time, position, velocity = self.get_setpoints_unzipped()
         yi = []
@@ -112,7 +116,7 @@ class JointTrajectory(object):
         # We do a cubic spline here, just like the ros joint_trajectory_action_controller,
         # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
         self.interpolated_position = BPoly.from_derivatives(time, yi)
-        self.interpolated_velocity = self.interpolated_position .derivative()
+        self.interpolated_velocity = self.interpolated_position.derivative()
 
     def get_interpolated_setpoint(self, time):
         if time < 0:
