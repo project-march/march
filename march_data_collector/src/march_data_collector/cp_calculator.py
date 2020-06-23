@@ -50,10 +50,10 @@ class CPCalculator(object):
 
             window_length = min(self.buffer_size, len(self.com_x_buffer))
             window_length = window_length if window_length % 2 else window_length - 1
-            x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
-                                  mode='interp')[-1]
-            y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=4, deriv=1, delta=time_difference,
-                                  mode='interp')[-1]
+            x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
+                                  delta=time_difference, mode='interp')[-1]
+            y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
+                                  delta=time_difference, mode='interp')[-1]
 
             try:
                 trans = self.tf_buffer.lookup_transform('world', self.foot_link, rospy.Time())
