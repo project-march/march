@@ -30,7 +30,7 @@ class CPCalculator(object):
 
         self.g = 9.81  # gravity constant
         self.buffer_size = 25  # number of com's to use in estimation of velocity
-        self.polyorder = 4  # order of the polynomial in Saviztky-Golay
+        self.polyorder = 4  # order of the polynomial in Savitzky-Golay
 
         self.com_x_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
         self.com_y_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
@@ -38,18 +38,17 @@ class CPCalculator(object):
     def calculate_cp(self, com_mark):
         current_time = com_mark.header.stamp
         if current_time is not self.prev_t:
-
             self.com_x_buffer.append(com_mark.pose.position.x)
             self.com_y_buffer.append(com_mark.pose.position.y)
 
             time_difference = (current_time - self.prev_t).to_sec()
 
-            # window length should be odd, greater then poly order and greater or equal to to the buffer size
+            # window length should be odd and greater than or equal to poly order
             if len(self.com_x_buffer) <= self.polyorder:
                 return self.marker
 
-            window_length = min(self.buffer_size, len(self.com_x_buffer))
-            window_length = window_length if window_length % 2 else window_length - 1
+            window_length = len(self.com_x_buffer)
+            window_length = window_length - 1 + window_length % 2
             x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
                                   delta=time_difference, mode='interp')[-1]
             y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
@@ -66,11 +65,8 @@ class CPCalculator(object):
 
                 x_cp = trans.transform.translation.x + x_dot * multiplier
                 y_cp = trans.transform.translation.y + y_dot * multiplier
-
                 self.update_marker(x_cp, y_cp)
-
                 self.prev_t = current_time
-
             except tf2_ros.TransformException as e:
                 rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
 
