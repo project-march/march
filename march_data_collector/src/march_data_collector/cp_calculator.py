@@ -17,7 +17,6 @@ class CPCalculator(object):
         self.prev_t = rospy.Time.now()
 
         self.marker = Marker()
-
         self.marker.header.frame_id = 'world'
         self.marker.type = self.marker.SPHERE
         self.marker.action = self.marker.ADD
@@ -31,6 +30,7 @@ class CPCalculator(object):
         self.g = 9.81  # gravity constant
         self.buffer_size = 25  # number of com's to use in estimation of velocity
         self.polyorder = 4  # order of the polynomial in Savitzky-Golay
+        self.time_difference = 0.04  # this is time interval between updates of the TF frames.
 
         self.com_x_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
         self.com_y_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
@@ -41,8 +41,6 @@ class CPCalculator(object):
             self.com_x_buffer.append(com_mark.pose.position.x)
             self.com_y_buffer.append(com_mark.pose.position.y)
 
-            time_difference = (current_time - self.prev_t).to_sec()
-
             # window length should be odd and greater than or equal to poly order
             if len(self.com_x_buffer) <= self.polyorder:
                 return self.marker
@@ -50,9 +48,9 @@ class CPCalculator(object):
             window_length = len(self.com_x_buffer)
             window_length = window_length - 1 + window_length % 2
             x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
-                                  delta=time_difference, mode='interp')[-1]
+                                  delta=self.time_difference, mode='interp')[-1]
             y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
-                                  delta=time_difference, mode='interp')[-1]
+                                  delta=self.time_difference, mode='interp')[-1]
 
             try:
                 trans = self.tf_buffer.lookup_transform('world', self.foot_link, rospy.Time())
