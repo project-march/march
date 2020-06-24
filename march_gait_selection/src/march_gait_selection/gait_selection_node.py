@@ -58,7 +58,7 @@ def main():
 
     # Use lambdas to process service calls inline
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
-                  lambda msg: [True, str(gait_selection.get_gait_version_map())])
+                  lambda msg: [True, str(gait_selection.gait_version_map)])
 
     rospy.Service('/march/gait_selection/set_gait_version', SetGaitVersion,
                   lambda msg: set_gait_versions(msg, gait_selection))

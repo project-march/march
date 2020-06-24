@@ -36,10 +36,12 @@ class GaitSelection(object):
         except rospkg.common.ResourceNotFound:
             raise PackageNotFoundError(package)
 
-    def get_robot(self):
+    @property
+    def robot(self):
         return self._robot
 
-    def get_gait_version_map(self):
+    @property
+    def gait_version_map(self):
         """Returns the mapping from gaits and subgaits to versions."""
         return self._gait_version_map
 
