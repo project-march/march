@@ -43,7 +43,7 @@ class CPCalculator(object):
 
             time_difference = (current_time - self.prev_t).to_sec()
 
-            # window length should be odd and greater than or equal to poly order
+            # window length should be odd and greater than poly order
             if len(self.com_x_buffer) <= self.polyorder:
                 return self.marker
 
