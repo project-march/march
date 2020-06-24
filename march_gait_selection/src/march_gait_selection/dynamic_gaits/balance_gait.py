@@ -129,8 +129,8 @@ class BalanceGait(object):
         all_timestamps = balance_trajectory_subgait.get_unique_timestamps() + subgait.get_unique_timestamps()
         all_timestamps = sorted(set(all_timestamps))
 
-        balance_trajectory_subgait.equalize_amount_of_setpoints(all_timestamps)
-        subgait.equalize_amount_of_setpoints(all_timestamps)
+        balance_trajectory_subgait.create_interpolated_setpoints(all_timestamps)
+        subgait.create_interpolated_setpoints(all_timestamps)
 
         if subgait.duration != balance_trajectory_subgait.duration:
             rospy.logwarn('Subgait trajectory and capture point trajectory do not have matching durations.')

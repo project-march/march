@@ -101,15 +101,15 @@ class TransitionSubgait(Subgait):
         all_timestamps = old_subgait.get_unique_timestamps() + new_subgait.get_unique_timestamps()
         all_timestamps = sorted(set(all_timestamps))
 
-        old_subgait.equalize_amount_of_setpoints(all_timestamps)
-        new_subgait.equalize_amount_of_setpoints(all_timestamps)
+        old_subgait.create_interpolated_setpoints(all_timestamps)
+        new_subgait.create_interpolated_setpoints(all_timestamps)
 
         joints = []
         for old_joint in old_subgait.joints:
 
             joint_name = old_joint.name
             new_joint = new_subgait.get_joint(joint_name)
-            limits = new_subgait.get_joint_limits(robot, joint_name)
+            limits = new_subgait.get_joint_limits_from_urdf(robot, joint_name)
 
             setpoints = []
             number_setpoints = len(new_subgait[0].setpoints)
