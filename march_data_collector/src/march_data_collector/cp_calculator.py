@@ -41,7 +41,7 @@ class CPCalculator(object):
             self.com_x_buffer.append(com_mark.pose.position.x)
             self.com_y_buffer.append(com_mark.pose.position.y)
 
-            # window length should be odd and greater than or equal to poly order
+            # window length should be odd and greater than poly order
             if len(self.com_x_buffer) <= self.polyorder:
                 return self.marker
 
