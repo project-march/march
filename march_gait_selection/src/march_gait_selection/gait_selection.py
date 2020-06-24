@@ -77,7 +77,7 @@ class GaitSelection(object):
             loaded_gait = Gait.from_file(gait, self.gait_directory, self.robot, self._gait_version_map)
             self.loaded_gaits.append(loaded_gait)
 
-        self.balance_gait.default_walk = self['walk']
+        self.balance_gait.default_walk = self['balance_walk']
 
     def scan_directory(self):
         """Scan the gait_directory recursively and create a dictionary of all subgait files.
