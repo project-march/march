@@ -48,12 +48,12 @@
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="hip_base_height" value="0.160"/>
-    <xacro:property name="hip_base_mass" value="8.677"/>
+    <xacro:property name="hip_base_mass" value="8.686"/>
     <!-- mass = Hip base + HAA actuators -->
 
     <xacro:property name="hip_aa_frame_height" value="0.170"/>
     <xacro:property name="hip_aa_frame_width" value="0.1395"/>
-    <xacro:property name="hip_aa_mass" value="3.186"/>
+    <xacro:property name="hip_aa_mass" value="2.982"/>
     <!-- mass = Moving hip -->
 
     <xacro:property name="upper_leg_height" value="0.385"/>
@@ -61,14 +61,14 @@
     <!-- mass = KFE joint + HFE joint + Upper leg -->
 
     <xacro:property name="lower_leg_height" value="0.385"/>
-    <xacro:property name="lower_leg_mass" value="4.455"/>
+    <xacro:property name="lower_leg_mass" value="4.458"/>
     <!-- mass = Ankle actuator + Lower leg -->
 
     <xacro:property name="ankle_plate_height" value="0.12"/>
 
     <xacro:property name="foot_height_forward" value="${0.184}"/>
     <xacro:property name="foot_height_backward" value="${0.059}"/>
-    <xacro:property name="foot_mass" value="1.552"/>
+    <xacro:property name="foot_mass" value="1.821"/>
     <xacro:property name="foot_mu1" value="1"/>
     <xacro:property name="foot_mu2" value="1"/>
     <!-- Minimum allowable depth before contact correction impulse is applied. -->
@@ -82,25 +82,25 @@
          translations to transfer it to the reference frame of each of the parts. Note that in the Catia x axis is
          the URDF y axis and the Catia y axis is the negative URDF x axis. The given CoM are for the right leg,
          the y coordinate will be inverted for the left leg. -->
-    <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.147398}"/>
-    <xacro:property name="hip_base_com_y" value="0.0000096"/>
-    <xacro:property name="hip_base_com_z" value="0.162659"/>
+    <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.147989}"/>
+    <xacro:property name="hip_base_com_y" value="0.016341"/>
+    <xacro:property name="hip_base_com_z" value="0.147761"/>
 
-    <xacro:property name="hip_aa_com_x" value="${-hip_aa_frame_width + 0.108336}"/>
-    <xacro:property name="hip_aa_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.196537}"/>
-    <xacro:property name="hip_aa_com_z" value="0.02943"/>
+    <xacro:property name="hip_aa_com_x" value="${-hip_aa_frame_width + 0.108094}"/>
+    <xacro:property name="hip_aa_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.197758}"/>
+    <xacro:property name="hip_aa_com_z" value="0.029507"/>
 
-    <xacro:property name="upper_leg_com_x" value="0.000827"/>
-    <xacro:property name="upper_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.214247}"/>
-    <xacro:property name="upper_leg_com_z" value="-0.191575"/>
+    <xacro:property name="upper_leg_com_x" value="0.000709"/>
+    <xacro:property name="upper_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.215254}"/>
+    <xacro:property name="upper_leg_com_z" value="-0.19205"/>
 
     <xacro:property name="lower_leg_com_x" value="-0.00321"/>
     <xacro:property name="lower_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.184081}"/>
     <xacro:property name="lower_leg_com_z" value="${upper_leg_height - 0.527082}"/>
 
-    <xacro:property name="foot_com_x" value="-0.020736"/>
-    <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.169177}"/>
-    <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.648891}"/>
+    <xacro:property name="foot_com_x" value="-0.028926"/>
+    <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.155916}"/>
+    <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.789788}"/>
     <xacro:property name="foot_scale" value="1.35"/>
 
     <!-- Inertia of the parts -->
@@ -110,18 +110,18 @@
          axis is the negative URDF x axis, see confluence for the impact. The given inertia's are for the right leg,
          Ixy and Iyz will be inverted for the left leg. -->
     <xacro:property name="hip_base_Ixx" value="0.141"/>
-    <xacro:property name="hip_base_Ixy" value="0.0000335"/>
+    <xacro:property name="hip_base_Ixy" value="0.0000336"/>
     <xacro:property name="hip_base_Ixz" value="-0.007"/>
     <xacro:property name="hip_base_Iyy" value="0.087"/>
     <xacro:property name="hip_base_Iyz" value="0.0005089"/>
-    <xacro:property name="hip_base_Izz" value="0.089"/>
+    <xacro:property name="hip_base_Izz" value="0.091"/>
 
-    <xacro:property name="hip_aa_Ixx" value="0.02"/>
-    <xacro:property name="hip_aa_Ixy" value="0.009"/>
+    <xacro:property name="hip_aa_Ixx" value="0.013"/>
+    <xacro:property name="hip_aa_Ixy" value="0.008"/>
     <xacro:property name="hip_aa_Ixz" value="0.005"/>
-    <xacro:property name="hip_aa_Iyy" value="0.031"/>
-    <xacro:property name="hip_aa_Iyz" value="-0.004"/>
-    <xacro:property name="hip_aa_Izz" value="0.03"/>
+    <xacro:property name="hip_aa_Iyy" value="0.023"/>
+    <xacro:property name="hip_aa_Iyz" value="-0.001"/>
+    <xacro:property name="hip_aa_Izz" value="0.028"/>
 
     <xacro:property name="upper_leg_Ixx" value="0.127"/>
     <xacro:property name="upper_leg_Ixy" value="0.0001291"/>
@@ -132,17 +132,17 @@
 
     <xacro:property name="lower_leg_Ixx" value="0.075"/>
     <xacro:property name="lower_leg_Ixy" value="-0.027"/>
-    <xacro:property name="lower_leg_Ixz" value="0.008"/>
+    <xacro:property name="lower_leg_Ixz" value="-0.008"/>
     <xacro:property name="lower_leg_Iyy" value="0.11"/>
     <xacro:property name="lower_leg_Iyz" value="-0.002"/>
     <xacro:property name="lower_leg_Izz" value="0.071" />
 
-    <xacro:property name="foot_Ixx" value="0.01"/>
+    <xacro:property name="foot_Ixx" value="0.021"/>
     <xacro:property name="foot_Ixy" value="-0.002"/>
-    <xacro:property name="foot_Ixz" value="0.005"/>
-    <xacro:property name="foot_Iyy" value="0.014"/>
-    <xacro:property name="foot_Iyz" value="0.002"/>
-    <xacro:property name="foot_Izz" value="0.007" />
+    <xacro:property name="foot_Ixz" value="0.02"/>
+    <xacro:property name="foot_Iyy" value="0.027"/>
+    <xacro:property name="foot_Iyz" value="0.004"/>
+    <xacro:property name="foot_Izz" value="0.01" />
 
 
     <!-- Joint properties -->

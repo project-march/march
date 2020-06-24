@@ -208,7 +208,7 @@ class Subgait(object):
         for joint in self.joints:
             for setpoint in reversed(joint.setpoints):
                 if rescale:
-                    setpoint.time = round((setpoint.time * new_duration / self.duration), Setpoint.digits)
+                    setpoint.time = setpoint.time * new_duration / self.duration
                 else:
                     if setpoint.time > new_duration:
                         joint.setpoints.remove(setpoint)
@@ -216,11 +216,13 @@ class Subgait(object):
             joint.duration = new_duration
         self.duration = new_duration
 
-    def equalize_amount_of_setpoints(self, timestamps):
+    def create_interpolated_setpoints(self, timestamps):
         """Equalize the setpoints of the subgait match the given timestamps.
 
         :param timestamps: the new timestamps to use when creating the setpoints
         """
+        timestamps = sorted(set(timestamps + self.get_unique_timestamps()))
+
         for joint in self.joints:
             new_joint_setpoints = []
             for timestamp in timestamps:
@@ -244,7 +246,7 @@ class Subgait(object):
         return None
 
     @staticmethod
-    def get_joint_limits(robot, joint_name):
+    def get_joint_limits_from_urdf(robot, joint_name):
         """Use the parsed robot to get the defined joint limits."""
         for urdf_joint in robot.joints:
             if urdf_joint.name == joint_name:
@@ -257,7 +259,7 @@ class Subgait(object):
         timestamps = []
         for joint in self.joints:
             for setpoint in joint.setpoints:
-                timestamps.append(round(setpoint.time, Setpoint.digits))
+                timestamps.append(setpoint.time)
 
         return sorted(set(timestamps))
 
