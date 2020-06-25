@@ -67,15 +67,11 @@ class JointTrajectoryTest(unittest.TestCase):
         interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration / 2)
         self.assertEqual(interpolated_setpoint, self.setpoints[1])
 
-    # get_interpolated_setpoint tests
     def test_get_interpolated_setpoints_invalid_time(self):
         setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration + 1)
         self.assertEqual(setpoint, Setpoint(self.duration + 1, self.setpoints[-1].position, 0))
 
-    def test_get_interpolated_setpoints_on_setpoint(self):
-        setpoint = self.joint_trajectory.get_interpolated_setpoint(self.times[1])
-        self.assertEqual(setpoint, self.setpoints[1])
-
-    def test_get_interpolated_setpoints(self):
-        setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration / 3.0)
-        self.assertIsInstance(setpoint, Setpoint)
+    def test_get_interpolated_setpoints_home_subgait(self):
+        self.joint_trajectory.setpoints = [Setpoint(3, 1, 1)]
+        setpoint = self.joint_trajectory.get_interpolated_setpoint(1)
+        self.assertEqual(setpoint, Setpoint(1, 1, 1))
