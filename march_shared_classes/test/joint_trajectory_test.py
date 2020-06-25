@@ -1,7 +1,5 @@
 import unittest
 
-import numpy as np
-
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.limits import Limits
 from march_shared_classes.gait.setpoint import Setpoint
@@ -57,56 +55,27 @@ class JointTrajectoryTest(unittest.TestCase):
         self.assertFalse(joint_trajectory._validate_boundary_points())
 
     # interpolate_setpoints tests
-    def test_interpolation_time_points(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        time_points = np.linspace(0, self.duration, len(interpolated_list[0]))
-        self.assertTrue((interpolated_list[0] == time_points).all())
+    def test_interpolation_start_point(self):
+        interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(0)
+        self.assertEqual(interpolated_setpoint, self.setpoints[0])
 
-    def test_interpolation_start_point_position(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        self.assertEqual(interpolated_list[1][0], self.setpoints[0].position)
-
-    def test_interpolation_start_point_velocity(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        self.assertTrue(abs(interpolated_list[2][0] - self.setpoints[0].velocity) <= 0.1,
-                        msg='Interpolated start velocity {inter_v} was too far from actual start velocity '
-                            '{actual_v}'.format(inter_v=interpolated_list[2][0], actual_v=self.setpoints[0].velocity))
-
-    def test_interpolation_end_point_position(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        self.assertEqual(interpolated_list[1][-1], self.setpoints[-1].position)
-
-    def test_interpolation_end_point_velocity(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        self.assertTrue(abs(interpolated_list[2][-1] - self.setpoints[-1].velocity) <= 0.1,
-                        msg='Interpolated end velocity {inter_v} was too far from actual end velocity '
-                            '{actual_v}'.format(inter_v=interpolated_list[2][-1], actual_v=self.setpoints[-1].velocity))
+    def test_interpolation_end_point(self):
+        interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration)
+        self.assertEqual(interpolated_setpoint, self.setpoints[-1])
 
     def test_interpolation_mid_point_position(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        mid_index = len(interpolated_list[1]) / 2
-        inter_position = (interpolated_list[1][mid_index] + interpolated_list[1][mid_index - 1]) / 2
-        self.assertTrue(abs(inter_position - self.setpoints[1].position) <= 0.001,
-                        msg='Interpolated midpoint position {inter_x} was too far from actual midpoint position '
-                            '{actual_x}'.format(inter_x=inter_position, actual_x=self.setpoints[1].position))
+        interpolated_setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration / 2)
+        self.assertEqual(interpolated_setpoint, self.setpoints[1])
 
-    def test_interpolation_mid_point_velocity(self):
-        interpolated_list = self.joint_trajectory.interpolate_setpoints()
-        mid_index = len(interpolated_list[1]) / 2
-        self.assertTrue(abs(interpolated_list[2][mid_index] - self.setpoints[1].velocity) <= 0.1,
-                        msg='Interpolated midpoint velocity {inter_v} was too far from actual midpoint velocity '
-                            '{actual_v}'.format(inter_v=interpolated_list[2][mid_index],
-                                                actual_v=self.setpoints[1].velocity))
-
-    # get_interpolated_setpoint tests
-    def test_get_interpolated_setpoints_invalid_time(self):
+    def test_get_interpolated_setpoints_invalid_time_too_high(self):
         setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration + 1)
-        self.assertEqual(setpoint, Setpoint(0, 0, 0))
+        self.assertEqual(setpoint, Setpoint(self.duration + 1, self.setpoints[-1].position, 0))
 
-    def test_get_interpolated_setpoints_on_setpoint(self):
-        setpoint = self.joint_trajectory.get_interpolated_setpoint(self.times[1])
-        self.assertEqual(setpoint, self.setpoints[1])
+    def test_get_interpolated_setpoints_invalid_time_too_low(self):
+        setpoint = self.joint_trajectory.get_interpolated_setpoint(-1)
+        self.assertEqual(setpoint, Setpoint(-1, self.setpoints[0].position, 0))
 
-    def test_get_interpolated_setpoints(self):
-        setpoint = self.joint_trajectory.get_interpolated_setpoint(self.duration / 3.0)
-        self.assertIsInstance(setpoint, Setpoint)
+    def test_get_interpolated_setpoints_home_subgait(self):
+        self.joint_trajectory.setpoints = [Setpoint(3, 1, 1)]
+        setpoint = self.joint_trajectory.get_interpolated_setpoint(1)
+        self.assertEqual(setpoint, Setpoint(1, 1, 1))
