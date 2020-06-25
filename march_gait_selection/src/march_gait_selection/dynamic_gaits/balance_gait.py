@@ -1,7 +1,6 @@
 from copy import deepcopy
 import sys
 
-# from geometry_msgs.msg import PoseStamped
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
@@ -27,8 +26,6 @@ class BalanceGait(object):
             moveit_commander.roscpp_initialize(sys.argv)
             moveit_commander.RobotCommander()
             moveit_commander.PlanningSceneInterface()
-
-            # planning_scene.add_plane('ground', pose=PoseStamped(), normal=(0, 0, 1))
 
             try:
                 self._move_group = {'all_legs': moveit_commander.MoveGroupCommander('all_legs'),
@@ -170,7 +167,9 @@ class BalanceGait(object):
             return default_subgait
 
         default_subgait = deepcopy(self.default_walk[subgait_name])
-        balance_trajectory_subgait = self.create_subgait_of_trajectory(default_subgait, balance_trajectory, subgait_name)
+
+        balance_trajectory_subgait = \
+            self.create_subgait_of_trajectory(default_subgait, balance_trajectory, subgait_name)
 
         return balance_trajectory_subgait
 
