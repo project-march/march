@@ -60,3 +60,12 @@ class TransitionError(Exception):
             msg = 'Subgaits can not transition'
 
         super(TransitionError, self).__init__(msg)
+
+
+class SubGaitInterpolationError(Exception):
+    def __init__(self, msg=None):
+        """Class to raise an error when it was not possible to interpolate between subgaits."""
+        if msg is None:
+            msg = 'An error occurred while trying to merge two subgaits.'
+
+        super(SubGaitInterpolationError, self).__init__(msg)

@@ -1,6 +1,8 @@
 import rospy
 from scipy.interpolate import BPoly
 
+
+from march_shared_classes.exceptions.gait_exceptions import SubgaitInterpolationError
 from .setpoint import Setpoint
 
 
@@ -143,9 +145,8 @@ class JointTrajectory(object):
     @classmethod
     def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
         if base_trajectory.limits != other_trajectory.limits:
-            rospy.logwarn('Not able to safely interpolate because limits are not equal for joint {0}'.format(
+            raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.format(
                 base_trajectory.name))
-            return None
         setpoints = []
         for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
             setpoints.append(cls.setpoint_class.interpolate_setpoint(base_setpoint, other_setpoint))

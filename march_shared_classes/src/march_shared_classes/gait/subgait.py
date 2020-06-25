@@ -5,7 +5,7 @@ from setpoint import Setpoint
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
-from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
+from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
 from march_shared_resources import msg as march_msg
 
 
@@ -234,17 +234,21 @@ class Subgait(object):
         if parameter == 0:
             return base_subgait
         if not (0 < parameter < 1):
-            #error
-            return None
+            raise SubgaitInterpolationError('Parameter for interpolation should be in the interval [0, 1], but is {0}'
+                                            .format(parameter))
 
         if len(base_subgait.joints) != len(other_subgait.joints):
-            #error
-            return None
+            raise SubgaitInterpolationError('The subgaits to interpolate do not ahve an equal amount of joints, base'
+                                            ' subgait has {0}, while other subgait has {1}'.format(len(base_subgait.joints), len(other_subgait.joints))
         duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
         joints = []
-        for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
-            if base_joint.name==other_joint.name:
-                joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
+        try:
+            for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
+                if base_joint.name==other_joint.name:
+                    joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
+        except SubgaitInterpolationError as e:
+            raise e
+
         description = 'Interpolation between base version {0}, and other version {1} with parameter{2}'.format(
             base_subgait.version, other_subgait.version, parameter)
 
