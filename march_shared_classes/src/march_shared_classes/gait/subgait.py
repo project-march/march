@@ -227,6 +227,30 @@ class Subgait(object):
 
             joint.setpoints = new_joint_setpoints
 
+    @classmethod
+    def interpolate_subgaits(cls, base_subgait, other_subgait, parameter):
+        if parameter == 1:
+            return other_subgait
+        if parameter == 0:
+            return base_subgait
+        if not (0 < parameter < 1):
+            #error
+            return None
+
+        if len(base_subgait.joints) != len(other_subgait.joints):
+            #error
+            return None
+        duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
+        joints = []
+        for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
+            if base_joint.name==other_joint.name:
+                joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
+        description = 'Interpolation between base version {0}, and other version {1} with parameter{2}'.format(
+            base_subgait.version, other_subgait.version, parameter)
+
+        return Subgait(joints, duration, base_subgait.gait_name, base_subgait.subgait_name, 'interpolated subgait', description)
+
+
     # endregion
 
     # region Get functions

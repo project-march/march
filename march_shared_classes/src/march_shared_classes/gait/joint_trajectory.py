@@ -139,3 +139,15 @@ class JointTrajectory(object):
 
     def __len__(self):
         return len(self.setpoints)
+
+    @classmethod
+    def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
+        if base_trajectory.limits != other_trajectory.limits:
+            rospy.logwarn('Not able to safely interpolate because limits are not equal for joint {0}'.format(
+                base_trajectory.name))
+            return None
+        setpoints = []
+        for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
+            setpoints.append(cls.setpoint_class.interpolate_setpoint(base_setpoint, other_setpoint))
+        duration = parameter * base_trajectory.duration + (1 - parameter) * other_trajectory.duration
+        return JointTrajectory(base_trajectory.name, base_trajectory.limits, setpoints, duration)
