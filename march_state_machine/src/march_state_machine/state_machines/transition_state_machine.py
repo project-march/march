@@ -2,8 +2,8 @@ import ast
 
 import rospy
 import smach
+from std_srvs.srv import Trigger
 
-from march_shared_resources.srv import Trigger
 from march_state_machine.states.transition_state import TransitionState
 
 

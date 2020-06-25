@@ -32,8 +32,7 @@ add_service_files(
     ContainsGait.srv
     CurrentState.srv
     PossibleGaits.srv
-    StringTrigger.srv
-    Trigger.srv
+    SetGaitVersion.srv
 )
 
 add_action_files(
