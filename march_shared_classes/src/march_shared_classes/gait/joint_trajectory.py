@@ -50,6 +50,7 @@ class JointTrajectory(object):
         for setpoint in reversed(self.setpoints):
             if rescale:
                 setpoint.time = setpoint.time * new_duration / self.duration
+                setpoint.velocity = setpoint.velocity * self.duration / new_duration
             else:
                 if setpoint.time > new_duration:
                     self.setpoints.remove(setpoint)

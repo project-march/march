@@ -19,6 +19,13 @@ class JointTrajectoryTest(unittest.TestCase):
         output = self.joint_trajectory.get_setpoints_unzipped()
         self.assertEqual(output, (self.times, [2 * t for t in self.times], [t / 2.0 for t in self.times]))
 
+    # set_duration tests
+    def test_set_duration(self):
+        expected = Setpoint(self.joint_trajectory.setpoints[-1].time * 2, self.joint_trajectory.setpoints[-1].position,
+                            self.joint_trajectory.setpoints[-1].velocity / 2)
+        self.joint_trajectory.set_duration(self.duration * 2)
+        self.assertEqual(self.joint_trajectory.setpoints[-1], expected)
+
     # validate_joint_transition() tests
     def test_valid_joint_transition(self):
         next_setpoints = [Setpoint(t, 2 * (self.duration - t), (self.duration - t) / 2.0) for t in self.times]
