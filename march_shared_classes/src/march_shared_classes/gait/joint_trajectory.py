@@ -46,9 +46,15 @@ class JointTrajectory(object):
     def duration(self):
         return self._duration
 
-    @duration.setter
-    def duration(self, duration):
-        self._duration = duration
+    def set_duration(self, new_duration, rescale=True):
+        for setpoint in reversed(self.setpoints):
+            if rescale:
+                setpoint.time = setpoint.time * new_duration / self.duration
+            else:
+                if setpoint.time > new_duration:
+                    self.setpoints.remove(setpoint)
+
+        self._duration = new_duration
         self.interpolate_setpoints()
 
     @property

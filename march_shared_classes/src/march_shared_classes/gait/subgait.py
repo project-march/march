@@ -206,14 +206,7 @@ class Subgait(object):
         new_duration = round(new_duration, Setpoint.digits)
 
         for joint in self.joints:
-            for setpoint in reversed(joint.setpoints):
-                if rescale:
-                    setpoint.time = setpoint.time * new_duration / self.duration
-                else:
-                    if setpoint.time > new_duration:
-                        joint.setpoints.remove(setpoint)
-
-            joint.duration = new_duration
+            joint.set_duration(new_duration, rescale)
         self.duration = new_duration
 
     def create_interpolated_setpoints(self, timestamps):
