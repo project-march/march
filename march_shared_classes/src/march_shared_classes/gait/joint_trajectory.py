@@ -9,7 +9,7 @@ class JointTrajectory(object):
 
     setpoint_class = Setpoint
 
-    def __init__(self, name, limits, setpoints, duration, *args):
+    def __init__(self, name, limits, setpoints, duration):
         self.name = name
         self.limits = limits
         self._setpoints = setpoints
@@ -19,7 +19,7 @@ class JointTrajectory(object):
         self.interpolate_setpoints()
 
     @classmethod
-    def from_dict(cls, subgait_dict, joint_name, limits, duration, *args):
+    def from_dict(cls, subgait_dict, joint_name, limits, duration):
         """Create class of JointTrajectory with filled attributes.
 
         :param subgait_dict:
@@ -40,7 +40,7 @@ class JointTrajectory(object):
             setpoints.append(cls.setpoint_class(time, point['positions'][joint_index],
                                                 point['velocities'][joint_index]))
 
-        return cls(joint_name, limits, setpoints, duration, *args)
+        return cls(joint_name, limits, setpoints, duration)
 
     @property
     def duration(self):

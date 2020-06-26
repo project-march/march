@@ -28,7 +28,7 @@ class Subgait(object):
 
     # region Create subgait
     @classmethod
-    def from_file(cls, robot, file_name, *args):
+    def from_file(cls, robot, file_name):
         """Extract sub gait data of the given yaml.
 
         :param robot:
@@ -54,10 +54,10 @@ class Subgait(object):
             rospy.logerr('Error occurred in subgait: {te}, {er} '.format(te=type(e), er=e))
             return None
 
-        return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version, *args)
+        return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version)
 
     @classmethod
-    def from_dict(cls, robot, subgait_dict, gait_name, subgait_name, version, *args):
+    def from_dict(cls, robot, subgait_dict, gait_name, subgait_name, version):
         """List parameters from the yaml file in organized lists.
 
         :param robot:
@@ -95,7 +95,7 @@ class Subgait(object):
                             urdf_joint.safety_controller.k_position,
                             urdf_joint.safety_controller.k_velocity)
 
-            joint_list.append(cls.joint_class.from_dict(subgait_dict, joint_name, limits, duration, *args))
+            joint_list.append(cls.joint_class.from_dict(subgait_dict, joint_name, limits, duration))
 
         subgait_type = subgait_dict['gait_type'] if subgait_dict.get('gait_type') else ''
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
