@@ -6,7 +6,6 @@ from trajectory_msgs import msg as trajectory_msg
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
-from march_shared_resources import msg as march_msg
 
 
 class Subgait(object):
@@ -105,7 +104,7 @@ class Subgait(object):
     # endregion
 
     # region Create messages
-    def _to_joint_trajectory_msg(self):
+    def to_joint_trajectory_msg(self):
         """Create trajectory msg for the publisher.
 
         :returns
@@ -134,38 +133,6 @@ class Subgait(object):
             joint_trajectory_msg.points.append(joint_trajectory_point)
 
         return joint_trajectory_msg
-
-    def _to_setpoints_msg(self):
-        """Define setpoints that correspond with the given timestamps."""
-        timestamps = self.get_unique_timestamps()
-
-        user_defined_setpoints = []
-        for timestamp in timestamps:
-            user_defined_setpoint = march_msg.Setpoint()
-            user_defined_setpoint.time_from_start = rospy.Duration.from_sec(timestamp)
-
-            for joint in self.joints:
-                for setpoint in joint.setpoints:
-                    if setpoint.time == timestamp:
-                        user_defined_setpoint.joint_names.append(joint.name)
-
-            user_defined_setpoints.append(user_defined_setpoint)
-
-        return user_defined_setpoints
-
-    def to_subgait_msg(self):
-        """Convert class attribute values back to ROS msg (necessary for publisher)."""
-        subgait_msg = march_msg.Subgait()
-
-        subgait_msg.name = self.subgait_name
-        subgait_msg.gait_type = self.gait_type
-        subgait_msg.trajectory = self._to_joint_trajectory_msg()
-        subgait_msg.setpoints = self._to_setpoints_msg()
-        subgait_msg.description = self.description
-        subgait_msg.version = self.version
-        subgait_msg.duration = rospy.Duration.from_sec(self.duration)
-
-        return subgait_msg
 
     # endregion
 

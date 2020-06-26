@@ -318,8 +318,8 @@ class ESPAdapter:
         :param data: ROS march_shared_resoruces.GaitActionGoal message
         :param sources: list of source windows in the ESP engine
         """
-        csv = list_to_str(['1, 1', get_time_str(data.header.stamp), data.goal.name, data.goal.current_subgait.name,
-                          data.goal.current_subgait.version, data.goal.current_subgait.gait_type])
+        csv = list_to_str(['1, 1', get_time_str(data.header.stamp), data.goal.gait_name, data.goal.subgait_name,
+                          data.goal.version, data.goal.gait_type])
         self.send_to_esp(csv, sources)
 
     def com_callback(self, data, sources):

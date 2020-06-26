@@ -2,8 +2,6 @@ import actionlib
 import rospy
 
 from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
-from march_shared_classes.exceptions.general_exceptions import MsgTypeError
-from march_shared_resources import msg
 from march_shared_resources.msg import GaitAction, GaitGoal, GaitNameAction
 
 SERVER_TIMEOUT = 5
@@ -39,8 +37,6 @@ class PerformGaitAction(object):
                                    .format(og=old_gait_name, ng=gait_name, sg=subgait_name))
                     subgait = TransitionSubgait.from_subgait_names(self.gait_selection, old_gait_name,
                                                                    gait_name, subgait_name)
-                if type(subgait) != msg.Subgait:
-                    subgait = subgait.to_subgait_msg()
                 trajectory_state = self.schedule_gait(subgait_goal_msg.name, subgait)
 
                 if trajectory_state == actionlib.GoalStatus.SUCCEEDED:
@@ -60,14 +56,15 @@ class PerformGaitAction(object):
 
     def schedule_gait(self, gait_name, subgait):
         """Construct the goal message and send."""
-        if type(subgait) != msg.Subgait:
-            raise MsgTypeError(msg='Given subgait is not of type msg.Subgait')
-
         gait_action_goal = GaitGoal()
-        gait_action_goal.name = gait_name
-        gait_action_goal.current_subgait = subgait
+        gait_action_goal.gait_name = gait_name
+        gait_action_goal.subgait_name = subgait.subgait_name
+        gait_action_goal.version = subgait.version
+        gait_action_goal.gait_type = subgait.gait_type
+        gait_action_goal.duration = rospy.Duration.from_sec(subgait.duration)
+        gait_action_goal.trajectory = subgait.to_joint_trajectory_msg()
 
         self.schedule_gait_client.send_goal(gait_action_goal)
-        self.schedule_gait_client.wait_for_result(timeout=subgait.duration + rospy.Duration(RESPONSE_TIMEOUT))
+        self.schedule_gait_client.wait_for_result(timeout=gait_action_goal.duration + rospy.Duration(RESPONSE_TIMEOUT))
 
         return self.schedule_gait_client.get_state()
