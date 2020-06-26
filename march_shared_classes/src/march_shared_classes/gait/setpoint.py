@@ -48,7 +48,7 @@ class Setpoint(object):
         return not self.__eq__(other)
 
     @staticmethod
-    def interpolate_setpoint(base_setpoint, other_setpoint, parameter):
+    def interpolate_setpoints(base_setpoint, other_setpoint, parameter):
         time = parameter * base_setpoint.time + (1 - parameter) * other_setpoint.time
         position = parameter * base_setpoint.position + (1 - parameter) * other_setpoint.position
         velocity = parameter * base_setpoint.velocity + (1 - parameter) * other_setpoint.velocity

@@ -62,7 +62,7 @@ class TransitionError(Exception):
         super(TransitionError, self).__init__(msg)
 
 
-class SubGaitInterpolationError(Exception):
+class SubgaitInterpolationError(Exception):
     def __init__(self, msg=None):
         """Class to raise an error when it was not possible to interpolate between subgaits."""
         if msg is None:
