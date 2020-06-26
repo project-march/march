@@ -239,22 +239,25 @@ class Subgait(object):
 
         if len(base_subgait.joints) != len(other_subgait.joints):
             raise SubgaitInterpolationError('The subgaits to interpolate do not ahve an equal amount of joints, base'
-                                            ' subgait has {0}, while other subgait has {1}'.format(len(base_subgait.joints), len(other_subgait.joints))
+                                            ' subgait has {0}, while other subgait has {1}'.format(len(
+                                                base_subgait.joints), len(other_subgait.joints)))
         duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
         joints = []
         try:
             for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
-                if base_joint.name==other_joint.name:
+                if base_joint.name == other_joint.name:
                     joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
+                else:
+                    raise SubgaitInterpolationError('Joint names do not match joint in base_subgait is {0} and in the '
+                                                    'other subgait is {1}'.format(base_joint.name, other_joint.name))
         except SubgaitInterpolationError as e:
             raise e
 
         description = 'Interpolation between base version {0}, and other version {1} with parameter{2}'.format(
             base_subgait.version, other_subgait.version, parameter)
 
-        return Subgait(joints, duration, base_subgait.gait_name, base_subgait.subgait_name, 'interpolated subgait', description)
-
-
+        return Subgait(joints, duration, base_subgait.gait_name, base_subgait.subgait_name, 'interpolated subgait',
+                       description)
     # endregion
 
     # region Get functions
