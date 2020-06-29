@@ -48,11 +48,6 @@ class BalanceGait(object):
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return cls()
 
-        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=cls.capture_point_cb,
-                         callback_args='left_leg')
-        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=cls.capture_point_cb,
-                         callback_args='right_leg')
-
         return cls(move_groups=move_groups)
 
     @property
@@ -200,9 +195,11 @@ class BalanceGait(object):
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
-        if name == 'left_swing':
-            return self.construct_subgait('left_leg', 'left_swing')
-        elif name == 'right_swing':
-            return self.construct_subgait('right_leg', 'right_swing')
+        if name == 'right_open_2':
+            return self.construct_subgait('right_leg', name)
+        elif name == 'left_swing_2':
+            return self.construct_subgait('left_leg', name)
+        elif name == 'right_swing_2':
+            return self.construct_subgait('right_leg', name)
         else:
             return self.default_walk[name]
