@@ -27,6 +27,11 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
         self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
 
+        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
+                         callback_args='left_leg')
+        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=self.capture_point_cb,
+                         callback_args='right_leg')
+
     @classmethod
     def create_balance_subgait(cls):
         """This class method should check if the balance variable is set and if so configure the motion planner."""
@@ -47,11 +52,6 @@ class BalanceGait(object):
         except RuntimeError:
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return cls()
-
-        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=cls.capture_point_cb,
-                         callback_args='left_leg')
-        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=cls.capture_point_cb,
-                         callback_args='right_leg')
 
         return cls(move_groups=move_groups)
 
