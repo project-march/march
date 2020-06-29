@@ -3,7 +3,7 @@ import unittest
 import rospkg
 from urdf_parser_py import urdf
 
-from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
+from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.subgait import Subgait
 
@@ -140,3 +140,70 @@ class SubgaitTest(unittest.TestCase):
                          msg='Scaling the function did not result in same timestamps and equal amount of setpoints'
                              '\nold timestamps: {old} \nnew timestamps: {new}'
                          .format(old=str(timestamps), new=str(self.subgait.get_unique_timestamps())))
+
+    # interpolate_subgaits tests
+    def load_interpolatable_subgaits(self, subgait_name='left_close', base_version='MV_walk_leftclose_v1',
+                                     other_version='MV_walk_leftclose_v2'):
+        base_subgait_path = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                              gait=self.gait_name,
+                                                                              subgait=subgait_name,
+                                                                              version=base_version)
+        base_subgait = Subgait.from_file(self.robot, base_subgait_path)
+        other_subgait_path = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                               gait=self.gait_name,
+                                                                               subgait=subgait_name,
+                                                                               version=other_version)
+        other_subgait = Subgait.from_file(self.robot, other_subgait_path)
+        return base_subgait, other_subgait
+
+    def test_interpolate_subgaits_wrong_parameter(self):
+        # should be 0 <= parameter <= 1
+        base_subgait, other_subgait = self.load_interpolatable_subgaits()
+        with self.assertRaises(SubgaitInterpolationError):
+            Subgait.interpolate_subgaits(base_subgait, other_subgait, 2)
+
+    def test_interpolate_subgaits_parameter_zero(self):
+        base_subgait, other_subgait = self.load_interpolatable_subgaits()
+        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, 0)
+        self.assertEqual(base_subgait, new_subgait)
+
+    def test_interpolate_subgaits_parameter_one(self):
+        base_subgait, other_subgait = self.load_interpolatable_subgaits()
+        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, 1)
+        self.assertEqual(other_subgait, new_subgait)
+
+    def test_interpolate_subgaits_interpolated(self):
+        # test whether each setpoint is between the setpoins
+        base_subgait, other_subgait = self.load_interpolatable_subgaits()
+        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, 1)
+        for i, joint in enumerate(new_subgait.joints):
+            for j, setpoint in enumerate(joint.setpoints):
+                base_setpoint = base_subgait.joints[i].setpoints[j]
+                other_setpoint = other_subgait.joints[i].setpoints[j]
+                self.assertTrue(min(base_setpoint.time, other_setpoint.time) <= setpoint.time
+                                <= max(base_setpoint.time, other_setpoint.time))
+
+                self.assertTrue(min(base_setpoint.position, other_setpoint.position) <= setpoint.position
+                                <= max(base_setpoint.position, other_setpoint.position))
+
+                self.assertTrue(min(base_setpoint.velocity, other_setpoint.velocity) <= setpoint.velocity
+                                <= max(base_setpoint.velocity, other_setpoint.velocity))
+
+    def test_interpolate_subgaits_wrong_amount_of_joints(self):
+        base_subgait, other_subgait = self.load_interpolatable_subgaits('right_close', 'MV_walk_rightclose_v2',
+                                                                        'MV_walk_rightclose_v2_seven_joints')
+        with self.assertRaises(SubgaitInterpolationError):
+            Subgait.interpolate_subgaits(base_subgait, other_subgait, 0.5)
+
+    def test_interpolate_subgaits_wrong_joint_names(self):
+        base_subgait, other_subgait = self.load_interpolatable_subgaits(
+            other_version='MV_walk_leftclose_v2_wrong_joint_name')
+        with self.assertRaises(SubgaitInterpolationError):
+            Subgait.interpolate_subgaits(base_subgait, other_subgait, 0.5)
+
+    def test_interpolate_subgaits_duration(self):
+        base_subgait, other_subgait = self.load_interpolatable_subgaits()
+        parameter = 0.2
+        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, parameter)
+        new_duration = parameter * base_subgait.duration + (1 - parameter) * other_subgait.duration
+        self.assertEqual(new_duration, new_subgait.duration)

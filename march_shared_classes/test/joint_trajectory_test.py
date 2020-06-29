@@ -95,7 +95,7 @@ class JointTrajectoryTest(unittest.TestCase):
             JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory, 0.5)
 
     def test_interpolate_trajectories_unequal_amount_setpoints(self):
-        other_trajectory = JointTrajectory(self.joint_name, self.limits, [self.setpoints[0], self.setpoints[0]],
+        other_trajectory = JointTrajectory(self.joint_name, self.limits, [self.setpoints[0], self.setpoints[-1]],
                                            self.duration)
         with self.assertRaises(SubgaitInterpolationError):
             JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory, 0.5)

@@ -153,6 +153,6 @@ class JointTrajectory(object):
             raise SubgaitInterpolationError('The amount of setpoints do not match for joint {0}'.
                                             format(base_trajectory.name))
         for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
-            setpoints.append(cls.setpoint_class.interpolate_setpoints(base_setpoint, other_setpoint))
+            setpoints.append(cls.setpoint_class.interpolate_setpoints(base_setpoint, other_setpoint, parameter))
         duration = parameter * base_trajectory.duration + (1 - parameter) * other_trajectory.duration
         return JointTrajectory(base_trajectory.name, base_trajectory.limits, setpoints, duration)
