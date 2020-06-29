@@ -112,16 +112,17 @@ class BalanceGait(object):
 
         default_subgait = deepcopy(self.default_walk[subgait_name])
 
-        for joint in reversed(default_subgait.joints):
-            if side_prefix not in joint.name:
-                default_subgait.joints.remove(joint)
+        non_capture_point_joints = []
+        for joint in default_subgait.joints:
+            if side_prefix in joint.name:
+                non_capture_point_joints.append(joint)
 
         joint_state = JointState()
         joint_state.header = Header()
         joint_state.header.stamp = rospy.Time.now()
-        joint_state.name = [joint.name for joint in default_subgait.joints]
-        joint_state.position = [joint.setpoints[-1].position for joint in default_subgait]
-        joint_state.velocity = [joint.setpoints[-1].velocity for joint in default_subgait]
+        joint_state.name = [joint.name for joint in non_capture_point_joints.joints]
+        joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
+        joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
 
         self._move_group[leg_name].set_joint_value_target(joint_state)
 
