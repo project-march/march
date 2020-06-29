@@ -24,3 +24,10 @@ class LimitsTest(unittest.TestCase):
 
     def test_k_velocity(self):
         self.assertEqual(self.limits.k_velocity, 5, 'k_velocity not initialised correctly.')
+
+    def test_equal_operator(self):
+        self.assertEqual(self.limits, Limits(0, 1, 2, 3, 4, 5))
+
+    def test_unequal_operator(self):
+        # first entry different
+        self.assertNotEqual(self.limits, Limits(1, 1, 2, 3, 4, 5))

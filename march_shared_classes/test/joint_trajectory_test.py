@@ -1,5 +1,6 @@
 import unittest
 
+from march_shared_classes.exceptions.gait_exceptions import SubgaitInterpolationError
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.limits import Limits
 from march_shared_classes.gait.setpoint import Setpoint
@@ -79,3 +80,15 @@ class JointTrajectoryTest(unittest.TestCase):
         self.joint_trajectory.setpoints = [Setpoint(3, 1, 1)]
         setpoint = self.joint_trajectory.get_interpolated_setpoint(1)
         self.assertEqual(setpoint, Setpoint(1, 1, 1))
+
+    def test_interpolate_trajectories_unequal_limits(self):
+        different_limits = Limits(-2, 3, 2)
+        other_trajectory = JointTrajectory(self.joint_name, different_limits, self.setpoints, self.duration)
+        with self.assertRaises(SubgaitInterpolationError):
+            JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory, 0.5)
+
+    def test_interpolate_trajectories_unequal_amount_setpoints(self):
+        other_trajectory = JointTrajectory(self.joint_name, self.limits, [self.setpoints[0], self.setpoints[0]],
+                                           self.duration)
+        with self.assertRaises(SubgaitInterpolationError):
+            JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory, 0.5)

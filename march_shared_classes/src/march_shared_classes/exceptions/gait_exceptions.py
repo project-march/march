@@ -68,4 +68,4 @@ class SubgaitInterpolationError(Exception):
         if msg is None:
             msg = 'An error occurred while trying to merge two subgaits.'
 
-        super(SubGaitInterpolationError, self).__init__(msg)
+        super(SubgaitInterpolationError, self).__init__(msg)

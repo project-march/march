@@ -42,6 +42,6 @@ class SetpointTest(unittest.TestCase):
     def test_interpolation_correct(self):
         parameter = 0.3
         other_setpoint = Setpoint(1, 1, 1)
-        expected_result = Setpoint(parameter * 1.1234 + (1- parameter) * 1, 0.03434 * parameter + (1 - parameter) * 1,
+        expected_result = Setpoint(parameter * 1.1234 + (1 - parameter) * 1, 0.03434 * parameter + (1 - parameter) * 1,
                                    123.1620 * parameter + (1 - parameter) * 1)
         self.assertEqual(expected_result, Setpoint.interpolate_setpoints(self.setpoint, other_setpoint, parameter))
