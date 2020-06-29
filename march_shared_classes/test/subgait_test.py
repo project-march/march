@@ -35,6 +35,19 @@ class SubgaitTest(unittest.TestCase):
     def test_from_file_no_robot(self):
         self.assertIsNone(Subgait.from_file(None, self.subgait_path))
 
+    # Subgait.from_files_interpolated tests
+    def test_from_files_interpolated_correct(self):
+        base_file_name = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                           gait=self.gait_name,
+                                                                           subgait='left_close',
+                                                                           version='MV_walk_leftclose_v1')
+        other_file_name = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                            gait=self.gait_name,
+                                                                            subgait='left_close',
+                                                                            version='MV_walk_leftclose_v2')
+        subgait = Subgait.from_files_interpolated(self.robot, base_file_name, other_file_name, 0.5)
+        self.assertIsInstance(subgait, Subgait)
+
     # to_subgait_msg tests
     def test_to_subgait_msg_name(self):
         self.assertEqual(self.subgait_msg.name, self.subgait_name)
@@ -141,7 +154,7 @@ class SubgaitTest(unittest.TestCase):
                              '\nold timestamps: {old} \nnew timestamps: {new}'
                          .format(old=str(timestamps), new=str(self.subgait.get_unique_timestamps())))
 
-    # interpolate_subgaits tests
+    # Subgait.interpolate_subgaits tests
     def load_interpolatable_subgaits(self, subgait_name='left_close', base_version='MV_walk_leftclose_v1',
                                      other_version='MV_walk_leftclose_v2'):
         base_subgait_path = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,

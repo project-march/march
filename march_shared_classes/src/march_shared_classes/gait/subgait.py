@@ -57,6 +57,12 @@ class Subgait(object):
         return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version, *args)
 
     @classmethod
+    def from_files_interpolated(cls, robot, file_name_base, file_name_other, parameter, *args):
+        base_subgait = cls.from_file(robot, file_name_base, *args)
+        other_subgait = cls.from_file(robot, file_name_other, *args)
+        return cls.interpolate_subgaits(base_subgait, other_subgait, parameter)
+
+    @classmethod
     def from_dict(cls, robot, subgait_dict, gait_name, subgait_name, version, *args):
         """List parameters from the yaml file in organized lists.
 
