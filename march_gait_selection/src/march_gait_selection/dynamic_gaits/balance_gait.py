@@ -120,7 +120,7 @@ class BalanceGait(object):
         joint_state = JointState()
         joint_state.header = Header()
         joint_state.header.stamp = rospy.Time.now()
-        joint_state.name = [joint.name for joint in non_capture_point_joints.joints]
+        joint_state.name = [joint.name for joint in non_capture_point_joints]
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
 
