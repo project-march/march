@@ -7,6 +7,8 @@
     <arg name="rqt_input" default="true" doc="Launches the rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
 
+    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
+
     <arg name="ground_gait" default="$(arg balance)" doc="Exoskeleton will ground gait in gazebo_ui if true."/>
     <arg name="unpause" default="$(eval not gazebo_ui)" doc="Unpause simulation when controller starts."/>
     <arg name="fixed" default="$(eval not ground_gait)" doc="Fixes the exoskeleton in the world in rviz"/>
@@ -18,7 +20,6 @@
 
     <arg name="rosbag" default="false" doc="Enables rosbag record node."/>
 
-    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
     <param name="balance" value="$(arg balance)" />
 
     <include file="$(dirname)/march.launch" pass_all_args="true">
