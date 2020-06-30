@@ -193,7 +193,7 @@ class BalanceGait(object):
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(balance_trajectory, subgait_name)
         balance_trajectory_max_joint_duration = max(joint.duration for joint in balance_trajectory_subgait.joints)
-        
+
         balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
         return balance_trajectory_subgait
 
