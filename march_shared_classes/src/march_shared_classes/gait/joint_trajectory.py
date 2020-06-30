@@ -145,13 +145,16 @@ class JointTrajectory(object):
 
     @classmethod
     def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
+        if base_trajectory.name != other_trajectory.name:
+            raise SubgaitInterpolationError('Not able to safely interpolate because the names do not match, base is {0}'
+                                            ', other is {1}'.format(base_trajectory.name, other_trajectory.name))
         if base_trajectory.limits != other_trajectory.limits:
             raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.
                                             format(base_trajectory.name))
-        setpoints = []
         if len(base_trajectory.setpoints) != len(other_trajectory.setpoints):
             raise SubgaitInterpolationError('The amount of setpoints do not match for joint {0}'.
                                             format(base_trajectory.name))
+        setpoints = []
         for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
             setpoints.append(cls.setpoint_class.interpolate_setpoints(base_setpoint, other_setpoint, parameter))
         duration = parameter * base_trajectory.duration + (1 - parameter) * other_trajectory.duration

@@ -240,28 +240,24 @@ class Subgait(object):
         if parameter == 0:
             return base_subgait
         if not (0 < parameter < 1):
-            raise SubgaitInterpolationError('Parameter for interpolation should be in the interval [0, 1], but is {0}'
-                                            .format(parameter))
+            raise ValueError('Parameter for interpolation should be in the interval [0, 1], but is {0}'
+                             .format(parameter))
 
         if len(base_subgait.joints) != len(other_subgait.joints):
-            raise SubgaitInterpolationError('The subgaits to interpolate do not ahve an equal amount of joints, base'
+            raise SubgaitInterpolationError('The subgaits to interpolate do not have an equal amount of joints, base'
                                             ' subgait has {0}, while other subgait has {1}'.format(len(
                                                 base_subgait.joints), len(other_subgait.joints)))
-        duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
         joints = []
         try:
             for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
-                if base_joint.name == other_joint.name:
-                    joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
-                else:
-                    raise SubgaitInterpolationError('Joint names do not match joint in base_subgait is {0} and in the '
-                                                    'other subgait is {1}'.format(base_joint.name, other_joint.name))
+                joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
         except SubgaitInterpolationError as e:
             raise e
 
         description = 'Interpolation between base version {0}, and other version {1} with parameter{2}'.format(
             base_subgait.version, other_subgait.version, parameter)
 
+        duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
         return Subgait(joints, duration, base_subgait.gait_name, base_subgait.subgait_name, 'interpolated subgait',
                        description)
     # endregion

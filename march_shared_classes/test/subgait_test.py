@@ -172,7 +172,7 @@ class SubgaitTest(unittest.TestCase):
     def test_interpolate_subgaits_wrong_parameter(self):
         # should be 0 <= parameter <= 1
         base_subgait, other_subgait = self.load_interpolatable_subgaits()
-        with self.assertRaises(SubgaitInterpolationError):
+        with self.assertRaises(ValueError):
             Subgait.interpolate_subgaits(base_subgait, other_subgait, 2)
 
     def test_interpolate_subgaits_parameter_zero(self):
@@ -186,7 +186,7 @@ class SubgaitTest(unittest.TestCase):
         self.assertEqual(other_subgait, new_subgait)
 
     def test_interpolate_subgaits_interpolated(self):
-        # test whether each setpoint is between the setpoins
+        # test whether each setpoint of the new subgait is between the setpoins
         base_subgait, other_subgait = self.load_interpolatable_subgaits()
         new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, 1)
         for i, joint in enumerate(new_subgait.joints):
