@@ -1,6 +1,9 @@
 from math import sqrt
 
+from numpy import float64
+from numpy_ringbuffer import RingBuffer
 import rospy
+from scipy.signal import savgol_filter
 import tf2_ros
 from visualization_msgs.msg import Marker
 
@@ -11,13 +14,9 @@ class CPCalculator(object):
         self.tf_buffer = tf_buffer
         self.foot_link = foot_link
         self.publisher = rospy.Publisher('/march/cp_marker_' + foot_link, Marker, queue_size=1)
-
-        self.prev_x = 0
-        self.prev_y = 0
         self.prev_t = rospy.Time.now()
 
         self.marker = Marker()
-
         self.marker.header.frame_id = 'world'
         self.marker.type = self.marker.SPHERE
         self.marker.action = self.marker.ADD
@@ -29,13 +28,29 @@ class CPCalculator(object):
         self.marker.scale.z = 0.03
 
         self.g = 9.81  # gravity constant
+        self.buffer_size = 25  # number of com's to use in estimation of velocity
+        self.polyorder = 4  # order of the polynomial in Savitzky-Golay
+        self.time_difference = 0.04  # this is time interval between updates of the TF frames.
+
+        self.com_x_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
+        self.com_y_buffer = RingBuffer(capacity=self.buffer_size, dtype=float64)
 
     def calculate_cp(self, com_mark):
         current_time = com_mark.header.stamp
-        time_difference = (current_time - self.prev_t).to_sec()
         if current_time is not self.prev_t:
-            x_dot = (com_mark.pose.position.x - self.prev_x) / time_difference
-            y_dot = (com_mark.pose.position.y - self.prev_y) / time_difference
+            self.com_x_buffer.append(com_mark.pose.position.x)
+            self.com_y_buffer.append(com_mark.pose.position.y)
+
+            # window length should be odd and greater than poly order
+            if len(self.com_x_buffer) <= self.polyorder:
+                return self.marker
+
+            window_length = len(self.com_x_buffer)
+            window_length = window_length - 1 + window_length % 2
+            x_dot = savgol_filter(self.com_x_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
+                                  delta=self.time_difference, mode='interp')[-1]
+            y_dot = savgol_filter(self.com_y_buffer, window_length=window_length, polyorder=self.polyorder, deriv=1,
+                                  delta=self.time_difference, mode='interp')[-1]
 
             try:
                 trans = self.tf_buffer.lookup_transform('world', self.foot_link, rospy.Time())
@@ -48,11 +63,7 @@ class CPCalculator(object):
 
                 x_cp = trans.transform.translation.x + x_dot * multiplier
                 y_cp = trans.transform.translation.y + y_dot * multiplier
-
                 self.update_marker(x_cp, y_cp)
-
-                self.prev_x = com_mark.pose.position.x
-                self.prev_y = com_mark.pose.position.y
                 self.prev_t = current_time
             except tf2_ros.TransformException as e:
                 rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
@@ -64,7 +75,5 @@ class CPCalculator(object):
         self.marker.pose.position.x = x_cp
         self.marker.pose.position.y = y_cp
         self.marker.pose.position.z = 0
-
-        rospy.logdebug('capture point is at ' + str(self.marker.pose.position))
 
         self.publisher.publish(self.marker)
