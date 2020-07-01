@@ -146,27 +146,43 @@
 
 
     <!-- Joint properties -->
-    <xacro:property name="hip_fe_rotation_lower_limit" value="${-20*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_fe_rotation_upper_limit" value="${100*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_fe_rotation_lower_limit" value="${-21.04431152*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_fe_rotation_upper_limit" value="${98.97033691*pi/180}"/> <!-- rad -->
+
+    <xacro:property name="right_hip_fe_rotation_lower_limit" value="${-20.23406982*pi/180}"/> <!-- rad -->
+    <xacro:property name="right_hip_fe_rotation_upper_limit" value="${99.48120117*pi/180}"/> <!-- rad -->
+
     <xacro:property name="hip_fe_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
     <xacro:property name="hip_fe_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
     <xacro:property name="hip_fe_velocity_limit" value="2.0"/> <!-- rad/s -->
 
-    <xacro:property name="hip_aa_rotation_lower_limit" value="${-18*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_aa_rotation_upper_limit" value="${17*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_aa_rotation_lower_limit" value="${-18.54492188*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_aa_rotation_upper_limit" value="${16.34765625*pi/180}"/> <!-- rad -->
+
+    <xacro:property name="right_hip_aa_rotation_lower_limit" value="${-18.10546875*pi/180}"/> <!-- rad -->
+    <xacro:property name="right_hip_aa_rotation_upper_limit" value="${15.99609375*pi/180}"/> <!-- rad -->
+
     <xacro:property name="hip_aa_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
     <xacro:property name="hip_aa_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
     <xacro:property name="hip_aa_velocity_limit" value="1.0"/> <!-- rad/s -->
 
-    <xacro:property name="knee_rotation_lower_limit" value="${-5*pi/180}"/>
-    <xacro:property name="knee_rotation_upper_limit" value="${115*pi/180}"/>
+    <xacro:property name="left_knee_rotation_lower_limit" value="${-5.012512207*pi/180}"/>
+    <xacro:property name="left_knee_rotation_upper_limit" value="${112.4230957*pi/180}"/>
+
+    <xacro:property name="right_knee_rotation_lower_limit" value="${-4.89440918*pi/180}"/>
+    <xacro:property name="right_knee_rotation_upper_limit" value="${115.3097534*pi/180}"/>
+
     <xacro:property name="knee_extension_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
     <xacro:property name="knee_flexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
     <xacro:property name="knee_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
     <xacro:property name="knee_velocity_limit" value="2.5"/>
 
-    <xacro:property name="ankle_rotation_lower_limit" value="${-25*pi/180}"/>
-    <xacro:property name="ankle_rotation_upper_limit" value="${15*pi/180}"/>
+    <xacro:property name="left_ankle_rotation_lower_limit" value="${-26.30401611*pi/180}"/>
+    <xacro:property name="left_ankle_rotation_upper_limit" value="${15.88348389*pi/180}"/>
+
+    <xacro:property name="right_ankle_rotation_lower_limit" value="${-23.203125*pi/180}"/>
+    <xacro:property name="right_ankle_rotation_upper_limit" value="${14.23828125*pi/180}"/>
+
     <xacro:property name="ankle_dorsalflexion_soft_buffer" value="${5*pi/180}"/> <!-- rad -->
     <xacro:property name="ankle_plantarflexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
     <xacro:property name="ankle_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
@@ -538,10 +554,10 @@
 
         <limit velocity="${hip_aa_velocity_limit}"
                effort="${hip_aa_effort_limit}"
-               lower="${hip_aa_rotation_lower_limit}"
-               upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
-                           soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
+               lower="${left_hip_aa_rotation_lower_limit}"
+               upper="${left_hip_aa_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
+                           soft_upper_limit="${left_hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
                            k_position="${k_position_value_haa}"
                            k_velocity="${k_velocity_value_haa}" />
     </joint>
@@ -560,10 +576,10 @@
 
         <limit velocity="${hip_fe_velocity_limit}"
                effort="${hip_fe_effort_limit}"
-               lower="${hip_fe_rotation_lower_limit}"
-               upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
-                           soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
+               lower="${left_hip_fe_rotation_lower_limit}"
+               upper="${left_hip_fe_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
+                           soft_upper_limit="${left_hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
                            k_position="${k_position_value_hfe}"
                            k_velocity="${k_velocity_value_hfe}" />
     </joint>
@@ -576,10 +592,10 @@
 
         <limit velocity="${knee_velocity_limit}"
                effort="${knee_effort_limit}"
-               lower="${knee_rotation_lower_limit}"
-               upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_extension_soft_buffer}"
-                           soft_upper_limit="${knee_rotation_upper_limit - knee_flexion_soft_buffer}"
+               lower="${left_knee_rotation_lower_limit}"
+               upper="${left_knee_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_knee_rotation_lower_limit + knee_extension_soft_buffer}"
+                           soft_upper_limit="${left_knee_rotation_upper_limit - knee_flexion_soft_buffer}"
                            k_position="${k_position_value_kfe}"
                            k_velocity="${k_velocity_value_kfe}" />
     </joint>
@@ -592,10 +608,10 @@
 
         <limit velocity="${ankle_velocity_limit}"
                effort="${ankle_effort_limit}"
-               lower="${ankle_rotation_lower_limit}"
-               upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
-                           soft_upper_limit="${ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
+               lower="${left_ankle_rotation_lower_limit}"
+               upper="${left_ankle_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
+                           soft_upper_limit="${left_ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
                            k_position="${k_position_value_adpf}"
                            k_velocity="${k_velocity_value_adpf}" />
     </joint>
@@ -614,10 +630,10 @@
 
         <limit velocity="${hip_aa_velocity_limit}"
                effort="${hip_aa_effort_limit}"
-               lower="${hip_aa_rotation_lower_limit}"
-               upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
-                           soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
+               lower="${right_hip_aa_rotation_lower_limit}"
+               upper="${right_hip_aa_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
+                           soft_upper_limit="${right_hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
                            k_position="${k_position_value_haa}"
                            k_velocity="${k_velocity_value_haa}" />
 
@@ -637,10 +653,10 @@
 
         <limit velocity="${hip_fe_velocity_limit}"
                effort="${hip_fe_effort_limit}"
-               lower="${hip_fe_rotation_lower_limit}"
-               upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
-                           soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
+               lower="${right_hip_fe_rotation_lower_limit}"
+               upper="${right_hip_fe_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
+                           soft_upper_limit="${right_hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
                            k_position="${k_position_value_hfe}"
                            k_velocity="${k_velocity_value_hfe}" />
 
@@ -654,10 +670,10 @@
 
         <limit velocity="${knee_velocity_limit}"
                effort="${knee_effort_limit}"
-               lower="${knee_rotation_lower_limit}"
-               upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_extension_soft_buffer}"
-                           soft_upper_limit="${knee_rotation_upper_limit - knee_flexion_soft_buffer}"
+               lower="${right_knee_rotation_lower_limit}"
+               upper="${right_knee_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_knee_rotation_lower_limit + knee_extension_soft_buffer}"
+                           soft_upper_limit="${right_knee_rotation_upper_limit - knee_flexion_soft_buffer}"
                            k_position="${k_position_value_kfe}"
                            k_velocity="${k_velocity_value_kfe}" />
     </joint>
@@ -670,10 +686,10 @@
 
         <limit velocity="${ankle_velocity_limit}"
                effort="${ankle_effort_limit}"
-               lower="${ankle_rotation_lower_limit}"
-               upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
-                           soft_upper_limit="${ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
+               lower="${right_ankle_rotation_lower_limit}"
+               upper="${right_ankle_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
+                           soft_upper_limit="${right_ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
                            k_position="${k_position_value_adpf}"
                            k_velocity="${k_velocity_value_adpf}" />
     </joint>
