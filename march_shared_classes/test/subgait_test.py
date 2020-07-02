@@ -37,15 +37,15 @@ class SubgaitTest(unittest.TestCase):
 
     # Subgait.from_files_interpolated tests
     def test_from_files_interpolated_correct(self):
-        base_file_name = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
-                                                                           gait=self.gait_name,
-                                                                           subgait='left_close',
-                                                                           version='MV_walk_leftclose_v1')
-        other_file_name = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
-                                                                            gait=self.gait_name,
-                                                                            subgait='left_close',
-                                                                            version='MV_walk_leftclose_v2')
-        subgait = Subgait.from_files_interpolated(self.robot, base_file_name, other_file_name, 0.5)
+        base_subgait_path = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                              gait=self.gait_name,
+                                                                              subgait='left_close',
+                                                                              version='MV_walk_leftclose_v1')
+        other_subgait_path = '{rsc}/{gait}/{subgait}/{version}.subgait'.format(rsc=self.resources_folder,
+                                                                               gait=self.gait_name,
+                                                                               subgait='left_close',
+                                                                               version='MV_walk_leftclose_v2')
+        subgait = Subgait.from_files_interpolated(self.robot, base_subgait_path, other_subgait_path, 0.5)
         self.assertIsInstance(subgait, Subgait)
 
     # to_subgait_msg tests
@@ -187,20 +187,18 @@ class SubgaitTest(unittest.TestCase):
 
     def test_interpolate_subgaits_interpolated(self):
         # test whether each setpoint of the new subgait is between the setpoins
+        parameter = 0.4
         base_subgait, other_subgait = self.load_interpolatable_subgaits()
-        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, 1)
+        new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, parameter)
         for i, joint in enumerate(new_subgait.joints):
             for j, setpoint in enumerate(joint.setpoints):
                 base_setpoint = base_subgait.joints[i].setpoints[j]
                 other_setpoint = other_subgait.joints[i].setpoints[j]
-                self.assertTrue(min(base_setpoint.time, other_setpoint.time) <= setpoint.time
-                                <= max(base_setpoint.time, other_setpoint.time))
-
-                self.assertTrue(min(base_setpoint.position, other_setpoint.position) <= setpoint.position
-                                <= max(base_setpoint.position, other_setpoint.position))
-
-                self.assertTrue(min(base_setpoint.velocity, other_setpoint.velocity) <= setpoint.velocity
-                                <= max(base_setpoint.velocity, other_setpoint.velocity))
+                self.assertTrue(base_setpoint.time * parameter + (1 - parameter) * other_setpoint.time, setpoint.time)
+                self.assertTrue(base_setpoint.position * parameter + (1 - parameter) * other_setpoint.position,
+                                setpoint.position)
+                self.assertTrue(base_setpoint.velocity * parameter + (1 - parameter) * other_setpoint.velocity,
+                                setpoint.velocity)
 
     def test_interpolate_subgaits_wrong_amount_of_joints(self):
         base_subgait, other_subgait = self.load_interpolatable_subgaits('right_close', 'MV_walk_rightclose_v2',

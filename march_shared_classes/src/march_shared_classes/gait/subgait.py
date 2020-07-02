@@ -251,7 +251,11 @@ class Subgait(object):
                                                 base_subgait.joints), len(other_subgait.joints)))
         joints = []
         try:
-            for base_joint, other_joint in zip(base_subgait.joints, other_subgait.joints):
+            for base_joint in base_subgait.joints:
+                other_joint = other_subgait.get_joint(base_joint.name)
+                if other_joint is None:
+                    raise SubgaitInterpolationError('Could not find a matching joint for base joint with name {0}.'.
+                                                    format(base_joint.name))
                 joints.append(cls.joint_class.interpolate_joint_trajectories(base_joint, other_joint, parameter))
         except SubgaitInterpolationError as e:
             raise e

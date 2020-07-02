@@ -145,9 +145,6 @@ class JointTrajectory(object):
 
     @classmethod
     def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
-        if base_trajectory.name != other_trajectory.name:
-            raise SubgaitInterpolationError('Not able to safely interpolate because the names do not match, base is {0}'
-                                            ', other is {1}'.format(base_trajectory.name, other_trajectory.name))
         if base_trajectory.limits != other_trajectory.limits:
             raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.
                                             format(base_trajectory.name))

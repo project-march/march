@@ -99,3 +99,12 @@ class JointTrajectoryTest(unittest.TestCase):
                                            self.duration)
         with self.assertRaises(SubgaitInterpolationError):
             JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory, 0.5)
+
+    def test_interpolate_trajectories_correct_duration(self):
+        parameter = 0.5
+        other_duration = self.setpoints[2].time
+        other_trajectory = JointTrajectory(self.joint_name, self.limits, [self.setpoints[0], self.setpoints[2]],
+                                           other_duration)
+        new_trajectory = JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory,
+                                                                        parameter)
+        self.assertEqual(new_trajectory.duration, self.duration * parameter + (1 - parameter) * other_duration)
