@@ -274,7 +274,7 @@ class Subgait(object):
             raise SubgaitInterpolationError('The subgaits to interpolate do not have the same joints, base'
                                             ' subgait has {0}, while other subgait has {1}'.
                                             format(sorted(base_subgait.get_joint_names()),
-                                                          sorted(other_subgait.get_joint_names())))
+                                                   sorted(other_subgait.get_joint_names())))
         joints = []
         try:
             for base_joint in base_subgait.joints:
