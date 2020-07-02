@@ -186,7 +186,7 @@ class SubgaitTest(unittest.TestCase):
         self.assertEqual(other_subgait, new_subgait)
 
     def test_interpolate_subgaits_interpolated(self):
-        # test whether each setpoint of the new subgait is between the setpoins
+        # test whether each setpoint is correctly interpolated
         parameter = 0.4
         base_subgait, other_subgait = self.load_interpolatable_subgaits()
         new_subgait = Subgait.interpolate_subgaits(base_subgait, other_subgait, parameter)
@@ -194,11 +194,12 @@ class SubgaitTest(unittest.TestCase):
             for j, setpoint in enumerate(joint.setpoints):
                 base_setpoint = base_subgait.joints[i].setpoints[j]
                 other_setpoint = other_subgait.joints[i].setpoints[j]
-                self.assertTrue(base_setpoint.time * parameter + (1 - parameter) * other_setpoint.time, setpoint.time)
-                self.assertTrue(base_setpoint.position * parameter + (1 - parameter) * other_setpoint.position,
-                                setpoint.position)
-                self.assertTrue(base_setpoint.velocity * parameter + (1 - parameter) * other_setpoint.velocity,
-                                setpoint.velocity)
+                self.assertAlmostEqual(base_setpoint.time * parameter + (1 - parameter) * other_setpoint.time,
+                                       setpoint.time, places=4)
+                self.assertAlmostEqual(base_setpoint.position * parameter + (1 - parameter) * other_setpoint.position,
+                                       setpoint.position, places=4)
+                self.assertAlmostEqual(base_setpoint.velocity * parameter + (1 - parameter) * other_setpoint.velocity,
+                                       setpoint.velocity, places=4)
 
     def test_interpolate_subgaits_wrong_amount_of_joints(self):
         base_subgait, other_subgait = self.load_interpolatable_subgaits('right_close', 'MV_walk_rightclose_v2',

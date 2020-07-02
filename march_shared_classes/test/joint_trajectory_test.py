@@ -102,8 +102,10 @@ class JointTrajectoryTest(unittest.TestCase):
 
     def test_interpolate_trajectories_correct_duration(self):
         parameter = 0.5
-        other_duration = self.setpoints[2].time
-        other_trajectory = JointTrajectory(self.joint_name, self.limits, [self.setpoints[0], self.setpoints[2]],
+        other_duration = self.duration + 1
+        other_times = [0, other_duration / 2.0, other_duration]
+        other_setpoints = [Setpoint(t, 2 * t, t / 2.0) for t in other_times]
+        other_trajectory = JointTrajectory(self.joint_name, self.limits, other_setpoints,
                                            other_duration)
         new_trajectory = JointTrajectory.interpolate_joint_trajectories(self.joint_trajectory, other_trajectory,
                                                                         parameter)
