@@ -145,6 +145,18 @@ class JointTrajectory(object):
 
     @classmethod
     def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
+        """Linearly interpolate two joint trajectories with the parameter.
+
+        :param base_trajectory:
+            base trajectory, return value if parameter is equal to zero
+        :param other_trajectory:
+            other trajectory, return value if parameter is equal to one
+        :param parameter:
+            The parameter to use for interpolation. Should be 0 <= parameter <= 1
+
+        :return:
+            The interpolated trajectory
+        """
         if base_trajectory.limits != other_trajectory.limits:
             raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.
                                             format(base_trajectory.name))

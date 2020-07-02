@@ -10,7 +10,7 @@ from march_shared_resources import msg as march_msg
 
 
 class Subgait(object):
-    """Base class for usage of the defined sub gaits."""
+    """Base class for usage of the defined subgaits."""
 
     joint_class = JointTrajectory
 
@@ -32,9 +32,9 @@ class Subgait(object):
         """Extract sub gait data of the given yaml.
 
         :param robot:
-            The robot corresponding to the given sub-gait file
+            The robot corresponding to the given subgait file
         :param file_name:
-            The .yaml file name of the sub gait
+            The .yaml file name of the subgait
 
         :returns
             A populated Subgait object
@@ -58,6 +58,19 @@ class Subgait(object):
 
     @classmethod
     def from_files_interpolated(cls, robot, file_name_base, file_name_other, parameter, *args):
+        """Extract two subgaits from files and interpolate.
+
+        :param robot:
+            The robot corresponding to the given subgait file
+        :param file_name_base:
+            The .yaml file name of the base subgait
+        :param file_name_other:
+        :param parameter:
+            The parameter to use for interpolation. Should be 0 <= parameter <= 1
+
+        :return:
+            A populated Subgait object
+        """
         base_subgait = cls.from_file(robot, file_name_base, *args)
         other_subgait = cls.from_file(robot, file_name_other, *args)
         return cls.interpolate_subgaits(base_subgait, other_subgait, parameter)
@@ -237,6 +250,18 @@ class Subgait(object):
 
     @classmethod
     def interpolate_subgaits(cls, base_subgait, other_subgait, parameter):
+        """Linearly interpolate two subgaits with the parameter to get a new subgait.
+
+        :param base_subgait:
+            base subgait, return value if parameter is equal to zero
+        :param other_subgait:
+            other subgait, return value if parameter is equal to one
+        :param parameter:
+            The parameter to use for interpolation. Should be 0 <= parameter <= 1
+
+        :return:
+            The interpolated subgait
+        """
         if parameter == 1:
             return other_subgait
         if parameter == 0:
@@ -245,10 +270,11 @@ class Subgait(object):
             raise ValueError('Parameter for interpolation should be in the interval [0, 1], but is {0}'
                              .format(parameter))
 
-        if len(base_subgait.joints) != len(other_subgait.joints):
-            raise SubgaitInterpolationError('The subgaits to interpolate do not have an equal amount of joints, base'
-                                            ' subgait has {0}, while other subgait has {1}'.format(len(
-                                                base_subgait.joints), len(other_subgait.joints)))
+        if sorted(base_subgait.get_joint_names()) != sorted(other_subgait.get_joint_names()):
+            raise SubgaitInterpolationError('The subgaits to interpolate do not have the same joints, base'
+                                            ' subgait has {0}, while other subgait has {1}'.
+                                            format(sorted(base_subgait.get_joint_names()),
+                                                          sorted(other_subgait.get_joint_names())))
         joints = []
         try:
             for base_joint in base_subgait.joints:

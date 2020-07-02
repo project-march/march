@@ -49,6 +49,17 @@ class Setpoint(object):
 
     @staticmethod
     def interpolate_setpoints(base_setpoint, other_setpoint, parameter):
+        """Linearly interpolate two setpoints.
+
+        :param base_setpoint:
+            base setpoint, return value if parameter is zero
+        :param other_setpoint:
+            other setpoint, return value if parameter is one
+        :param parameter:
+            parameter for linear interpolation, 0 <= parameter <= 1
+        :return:
+            The interpolated setpoint
+        """
         time = parameter * base_setpoint.time + (1 - parameter) * other_setpoint.time
         position = parameter * base_setpoint.position + (1 - parameter) * other_setpoint.position
         velocity = parameter * base_setpoint.velocity + (1 - parameter) * other_setpoint.velocity
