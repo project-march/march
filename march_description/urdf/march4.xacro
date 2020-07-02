@@ -146,6 +146,7 @@
 
 
     <!-- Joint properties -->
+    <!-- For limit calculations, see https://confluence.projectmarch.nl:8443/pages/viewpage.action?pageId=268697604 -->
     <xacro:property name="left_hip_fe_rotation_lower_limit" value="${-21.04431152*pi/180}"/> <!-- rad -->
     <xacro:property name="left_hip_fe_rotation_upper_limit" value="${98.97033691*pi/180}"/> <!-- rad -->
 
