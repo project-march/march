@@ -23,7 +23,7 @@ class GaitSelection(object):
             raise FileNotFoundError(file_path=self._default_yaml)
 
         self._robot = urdf.Robot.from_parameter_server('/robot_description')
-        self._balance_gait = BalanceGait()
+        self._balance_gait = BalanceGait.create_balance_subgait()
 
         self._gait_version_map = self._load_version_map()
         self._loaded_gaits = self._load_gaits()
