@@ -4,7 +4,8 @@ import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
-from march_shared_classes.gait.subgait import Subgait
+
+from .subgait import Subgait
 
 
 class Gait(object):

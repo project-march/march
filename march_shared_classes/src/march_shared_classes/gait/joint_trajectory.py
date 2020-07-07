@@ -1,6 +1,7 @@
 import rospy
 from scipy.interpolate import BPoly
 
+from .limits import Limits
 from .setpoint import Setpoint
 
 
@@ -19,28 +20,40 @@ class JointTrajectory(object):
         self.interpolate_setpoints()
 
     @classmethod
-    def from_dict(cls, subgait_dict, joint_name, limits, duration):
-        """Create class of JointTrajectory with filled attributes.
+    def from_setpoints(cls, robot, setpoints, joint_names, duration):
+        """Creates a list of joint trajectories.
 
-        :param subgait_dict:
-            The dictionary extracted from the yaml file
-        :param joint_name:
-            The name of the joint corresponding to this specific object
-        :param limits:
-            Defined soft limits of the urdf file
+        :param robot:
+            The robot corresponding to the given sub-gait file
+        :param setpoints:
+            A list of setpoints from the subgait configuration
+        :param joint_names:
+            The names of the joint corresponding included in the subgait
         :param duration:
             The timestamps of the subgait file
         """
-        joint_trajectory = subgait_dict['trajectory']
-        joint_index = joint_trajectory['joint_names'].index(joint_name)
+        joints = dict([(name, []) for name in joint_names])
+        for setpoint in setpoints:
+            time = rospy.Duration(setpoint['time_from_start']['secs'], setpoint['time_from_start']['nsecs'])
+            for n, p, v in zip(setpoint['joint_names'], setpoint['positions'], setpoint['velocities']):
+                joints[n].append(cls.setpoint_class(time.to_sec(), p, v))
 
-        setpoints = []
-        for point in joint_trajectory['points']:
-            time = rospy.Duration(point['time_from_start']['secs'], point['time_from_start']['nsecs']).to_sec()
-            setpoints.append(cls.setpoint_class(time, point['positions'][joint_index],
-                                                point['velocities'][joint_index]))
+        trajectories = []
+        for name, points in joints.items():
+            urdf_joint = cls._get_joint_from_urdf(robot, name)
+            if urdf_joint is None or urdf_joint.type == 'fixed':
+                rospy.logwarn('Joint {0} is not in the robot description. Skipping joint.')
+                continue
+            trajectories.append(cls(name, Limits.from_urdf_joint(urdf_joint), points, duration))
+        return trajectories
 
-        return cls(joint_name, limits, setpoints, duration)
+    @staticmethod
+    def _get_joint_from_urdf(robot, joint_name):
+        """Get the name of the robot joint corresponding with the joint in the subgait."""
+        for urdf_joint in robot.joints:
+            if urdf_joint.name == joint_name:
+                return urdf_joint
+        return None
 
     @property
     def duration(self):
