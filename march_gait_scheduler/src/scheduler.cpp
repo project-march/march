@@ -76,8 +76,7 @@ control_msgs::FollowJointTrajectoryGoal Scheduler::scheduleGait(const march_shar
     throw std::runtime_error("There is already a gait scheduled in the future.");
   }
   ros::Time start_time = this->getStartTime(offset);
-  trajectory_msgs::JointTrajectory trajectory =
-      this->setStartTimeGait(gait_goal->trajectory, start_time);
+  trajectory_msgs::JointTrajectory trajectory = this->setStartTimeGait(gait_goal->trajectory, start_time);
   control_msgs::FollowJointTrajectoryGoal trajectory_msg;
   trajectory_msg.trajectory = trajectory;
 
