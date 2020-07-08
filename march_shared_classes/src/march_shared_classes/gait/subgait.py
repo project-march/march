@@ -200,6 +200,22 @@ class Subgait(object):
 
     # endregion
 
+    def to_yaml(self):
+        """Returns a YAML string representation of the subgait."""
+        output = {
+            'description': self.description,
+            'duration': rospy.Duration.from_sec(self.duration),
+            'gait_type': self.gait_type,
+            'joints': dict([(joint.name, [{
+                'position': setpoint.position,
+                'time_from_start': rospy.Duration.from_sec(setpoint.time),
+                'velocity': setpoint.velocity}
+                for setpoint in joint.setpoints]) for joint in self.joints]),
+            'name': self.subgait_name,
+            'version': self.version,
+        }
+        return yaml.dump(output)
+
     # region Class methods
     def __getitem__(self, index):
         return self.joints[index]
