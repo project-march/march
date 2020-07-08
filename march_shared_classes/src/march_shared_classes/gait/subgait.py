@@ -210,13 +210,20 @@ class Subgait(object):
 
     def to_yaml(self):
         """Returns a YAML string representation of the subgait."""
+        duration = rospy.Duration.from_sec(self.duration)
         output = {
             'description': self.description,
-            'duration': rospy.Duration.from_sec(self.duration),
+            'duration': {
+                'nsecs': duration.nsecs,
+                'secs': duration.secs,
+            },
             'gait_type': self.gait_type,
             'joints': dict([(joint.name, [{
                 'position': setpoint.position,
-                'time_from_start': rospy.Duration.from_sec(setpoint.time),
+                'time_from_start': {
+                    'nsecs': rospy.Duration.from_sec(setpoint.time).nsecs,
+                    'secs': int(setpoint.time),
+                },
                 'velocity': setpoint.velocity}
                 for setpoint in joint.setpoints]) for joint in self.joints]),
             'name': self.subgait_name,
