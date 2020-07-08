@@ -35,6 +35,14 @@ class SetpointTest(unittest.TestCase):
         other_setpoint = Setpoint(1.1234, -0.0343, 123.1621)
         self.assertNotEqual(self.setpoint, other_setpoint)
 
-    def test_eunqual_velocity(self):
+    def test_unequal_velocity(self):
         other_setpoint = Setpoint(1.1234, 0.0343, 0)
         self.assertNotEqual(self.setpoint, other_setpoint)
+
+    def test_interpolation_correct(self):
+        parameter = 0.3
+        other_setpoint = Setpoint(1, 1, 1)
+        expected_result = Setpoint(self.setpoint.time * parameter + (1 - parameter) * 1,
+                                   self.setpoint.position * parameter + (1 - parameter) * 1,
+                                   self.setpoint.velocity * parameter + (1 - parameter) * 1)
+        self.assertEqual(expected_result, Setpoint.interpolate_setpoints(self.setpoint, other_setpoint, parameter))
