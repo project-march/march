@@ -5,6 +5,7 @@ import yaml
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
 
 from .joint_trajectory import JointTrajectory
+from .limits import Limits
 from .setpoint import Setpoint
 
 
@@ -79,9 +80,14 @@ class Subgait(object):
 
         duration = rospy.Duration(subgait_dict['duration']['secs'], subgait_dict['duration']['nsecs']).to_sec()
 
-        joint_list = cls.joint_class.from_setpoints(robot, subgait_dict['setpoints'], subgait_dict['joint_names'],
-                                                    duration)
-
+        joint_list = []
+        for name, points in subgait_dict['joints'].items():
+            urdf_joint = cls.joint_class.get_joint_from_urdf(robot, name)
+            if urdf_joint is None or urdf_joint.type == 'fixed':
+                rospy.logwarn('Joint {0} is not in the robot description. Skipping joint.')
+                continue
+            limits = Limits.from_urdf_joint(urdf_joint)
+            joint_list.append(cls.joint_class.from_setpoints(name, limits, points, duration))
         subgait_type = subgait_dict['gait_type'] if subgait_dict.get('gait_type') else ''
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
 
