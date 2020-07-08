@@ -105,7 +105,6 @@ class TransitionSubgait(Subgait):
 
             joint_name = old_joint.name
             new_joint = new_subgait.get_joint(joint_name)
-            limits = new_subgait.get_joint_limits_from_urdf(robot, joint_name)
 
             setpoints = []
             number_setpoints = len(new_subgait[0].setpoints)
@@ -118,7 +117,7 @@ class TransitionSubgait(Subgait):
                 transition_setpoint = TransitionSubgait._transition_setpoint(old_setpoint, new_setpoint, factor)
                 setpoints.append(transition_setpoint)
 
-            joints.append(JointTrajectory(joint_name, limits, setpoints, old_joint.duration))
+            joints.append(JointTrajectory(joint_name, old_joint.limits, setpoints, old_joint.duration))
 
         return joints
 
