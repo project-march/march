@@ -19,7 +19,7 @@ class Gait(object):
         :param list((str, str)) graph: Mapping of subgait names transitions
         """
         self._validate_gait_graph(gait_name, graph)
-        self._validate_trajectory_transition(subgaits, graph)
+        self._validate_trajectory_transition(gait_name, subgaits, graph)
 
         self.gait_name = gait_name
         self.subgaits = subgaits
@@ -70,7 +70,8 @@ class Gait(object):
         from_subgaits_names = gait_content['from_subgait']
         to_subgaits_names = gait_content['to_subgait']
         if len(from_subgaits_names) != len(to_subgaits_names):
-            raise NonValidGaitContent('to_subgait and from_subgait are not of equal length')
+            raise NonValidGaitContent('Gait {gait} has to_subgait and from_subgait which are not of  equal length'
+                                      .format(gait=gait_name))
 
         graph = zip(from_subgaits_names, to_subgaits_names)
         cls._validate_gait_graph(gait_name, graph)
@@ -91,7 +92,7 @@ class Gait(object):
         if gait_name not in gait_version_map:
             raise GaitNameNotFound(gait_name)
         if subgait_name not in gait_version_map[gait_name]:
-            raise SubgaitNameNotFound(subgait_name)
+            raise SubgaitNameNotFound(subgait_name, gait_name)
 
         version = gait_version_map[gait_name][subgait_name]
         subgait_path = os.path.join(gait_directory, gait_name, subgait_name, version + '.subgait')
@@ -120,7 +121,7 @@ class Gait(object):
             raise NonValidGaitContent(msg='Gait {gn} is missing `start` or `end`'.format(gn=gait_name))
 
     @staticmethod
-    def _validate_trajectory_transition(subgaits, graph):
+    def _validate_trajectory_transition(gait_name, subgaits, graph):
         """Compares and validates the trajectory end and start points.
 
         :param dict subgaits: Mapping of subgait names to subgait instances
@@ -135,8 +136,9 @@ class Gait(object):
             to_subgait = subgaits[to_subgait_name]
 
             if not from_subgait.validate_subgait_transition(to_subgait):
-                raise NonValidGaitContent(msg='End setpoint of subgait {sn} to subgait {ns} does not match'
-                                          .format(sn=from_subgait.subgait_name, ns=to_subgait.subgait_name))
+                raise NonValidGaitContent(msg='Gait {gait} with end setpoint of subgait {sn} to subgait {ns} '
+                                              'does not match'.format(gait=gait_name, sn=from_subgait.subgait_name,
+                                                                      ns=to_subgait.subgait_name))
 
     def set_subgait_versions(self, robot, gait_directory, version_map):
         """Updates the given subgait versions and verifies transitions.
@@ -149,8 +151,7 @@ class Gait(object):
         gait_path = os.path.join(gait_directory, self.gait_name)
         for subgait_name, version in version_map.items():
             if subgait_name not in self.subgaits:
-                raise SubgaitNameNotFound(subgait_name,
-                                          'Subgait {0} does not exist for {1}'.format(subgait_name, self.gait_name))
+                raise SubgaitNameNotFound(subgait_name, self.gait_name)
             subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
             if not os.path.isfile(subgait_path):
                 raise FileNotFoundError(file_path=subgait_path)
@@ -163,8 +164,10 @@ class Gait(object):
                 to_subgait = new_subgaits.get(to_subgait_name, self.subgaits[to_subgait_name])
 
                 if not from_subgait.validate_subgait_transition(to_subgait):
-                    raise NonValidGaitContent(msg='End setpoint of subgait {sn} to subgait {ns} does not match'
-                                              .format(sn=from_subgait.subgait_name, ns=to_subgait.subgait_name))
+                    raise NonValidGaitContent(msg='Gait {gait} with end setpoint of subgait {sn} to subgait {ns} does '
+                                                  'not match'.format(gait=self.gait_name,
+                                                                     sn=from_subgait.subgait_name,
+                                                                     ns=to_subgait.subgait_name))
 
         self.subgaits.update(new_subgaits)
 

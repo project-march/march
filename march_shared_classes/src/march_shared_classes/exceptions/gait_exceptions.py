@@ -18,20 +18,21 @@ class GaitNameNotFound(GaitError):
             The message to display.
         """
         if msg is None:
-            msg = 'Could not find gait name: {gn} in map.'.format(gn=gait_name)
+            msg = 'Could not find gait name: {gait} in map.'.format(gait=gait_name)
 
         super(GaitNameNotFound, self).__init__(msg)
 
 
 class SubgaitNameNotFound(GaitError):
-    def __init__(self, subgait_name=None, msg=None):
+    def __init__(self, subgait_name, gait_name, msg=None):
         """Class to raise an error when given subgait name does not exists .
 
         :param msg:
             The message to display.
         """
         if msg is None:
-            msg = 'Could not find subgait name: {gn} in map.'.format(gn=subgait_name)
+            msg = 'Could not find subgait name {subgait} of gait {gait} in map.'.format(subgait=subgait_name,
+                                                                                        gait=gait_name)
 
         super(SubgaitNameNotFound, self).__init__(msg)
 

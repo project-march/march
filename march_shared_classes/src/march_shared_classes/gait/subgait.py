@@ -140,8 +140,10 @@ class Subgait(object):
         to_subgait_joint_names = set(next_subgait.get_joint_names())
 
         if from_subgait_joint_names != to_subgait_joint_names:
-            raise NonValidGaitContent(msg='Structure of joints does not match between subgait {fn} and subgait {tn}'
-                                      .format(fn=self.subgait_name, tn=next_subgait.subgait_name))
+            raise NonValidGaitContent(msg='Gait {gait}, structure of joints does not match between '
+                                          'subgait {fn} and subgait {tn}'.format(gait=self.gait_name,
+                                                                                 fn=self.subgait_name,
+                                                                                 tn=next_subgait.subgait_name))
 
         for joint_name in to_subgait_joint_names:
             from_joint = self.get_joint(joint_name)
@@ -177,8 +179,8 @@ class Subgait(object):
             new_joint_setpoints = []
             for timestamp in timestamps:
                 if timestamp > self.duration:
-                    raise IndexError('Could not extrapolate timestamp outside max duration of subgait {sn}'
-                                     .format(sn=self.subgait_name))
+                    raise IndexError('Gait {gait}, subgait {subgait} could not extrapolate timestamp outside max '
+                                     'duration'.format(gait=self.gait_name, subgait=self.subgait_name))
 
                 new_joint_setpoints.append(joint.get_interpolated_setpoint(timestamp))
 

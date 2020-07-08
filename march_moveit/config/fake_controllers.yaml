@@ -17,3 +17,16 @@ controller_list:
   - name: fake_foot_left_controller
     joints:
       []
+  - name: fake_all_legs_controller
+    joints:
+      - left_hip_aa
+      - left_hip_fe
+      - left_knee
+      - left_ankle
+      - right_hip_aa
+      - right_hip_fe
+      - right_knee
+      - right_ankle
+initial:  # Define initial robot poses.
+#  - group: right_leg
+#    pose: home

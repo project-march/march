@@ -75,10 +75,10 @@ class TransitionSubgait(Subgait):
         new_subgait = deepcopy(new_gait[new_subgait_name])
 
         if old_subgait is None:
-            raise SubgaitNameNotFound(subgait_name=old_subgait_name)
+            raise SubgaitNameNotFound(old_subgait_name, 'transition_gait')
 
         if new_subgait is None:
-            raise SubgaitNameNotFound(subgait_name=new_subgait_name)
+            raise SubgaitNameNotFound(new_subgait_name, 'transition_gait')
 
         return old_subgait, new_subgait
 
