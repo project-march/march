@@ -17,3 +17,11 @@ class Limits(object):
                    urdf_joint.limit.effort,
                    urdf_joint.safety_controller.k_position,
                    urdf_joint.safety_controller.k_velocity)
+
+    def __eq__(self, other):
+        return self.lower == other.lower and self.upper == other.upper and self.velocity == other.velocity and  \
+            self.effort == other.effort and self.k_position == other.k_position and \
+            self.k_velocity == other.k_velocity
+
+    def __ne__(self, other):
+        return not self == other

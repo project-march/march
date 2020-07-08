@@ -1,6 +1,8 @@
 import rospy
 from scipy.interpolate import BPoly
 
+from march_shared_classes.exceptions.gait_exceptions import SubgaitInterpolationError
+
 from .setpoint import Setpoint
 
 
@@ -139,3 +141,29 @@ class JointTrajectory(object):
 
     def __len__(self):
         return len(self.setpoints)
+
+    @classmethod
+    def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
+        """Linearly interpolate two joint trajectories with the parameter.
+
+        :param base_trajectory:
+            base trajectory, return value if parameter is equal to zero
+        :param other_trajectory:
+            other trajectory, return value if parameter is equal to one
+        :param parameter:
+            The parameter to use for interpolation. Should be 0 <= parameter <= 1
+
+        :return:
+            The interpolated trajectory
+        """
+        if base_trajectory.limits != other_trajectory.limits:
+            raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.
+                                            format(base_trajectory.name))
+        if len(base_trajectory.setpoints) != len(other_trajectory.setpoints):
+            raise SubgaitInterpolationError('The amount of setpoints do not match for joint {0}'.
+                                            format(base_trajectory.name))
+        setpoints = []
+        for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
+            setpoints.append(cls.setpoint_class.interpolate_setpoints(base_setpoint, other_setpoint, parameter))
+        duration = parameter * base_trajectory.duration + (1 - parameter) * other_trajectory.duration
+        return JointTrajectory(base_trajectory.name, base_trajectory.limits, setpoints, duration)
