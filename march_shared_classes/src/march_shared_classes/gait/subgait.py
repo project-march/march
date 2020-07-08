@@ -81,7 +81,7 @@ class Subgait(object):
         duration = rospy.Duration(subgait_dict['duration']['secs'], subgait_dict['duration']['nsecs']).to_sec()
 
         joint_list = []
-        for name, points in subgait_dict['joints'].items():
+        for name, points in sorted(subgait_dict['joints'].items(), key=lambda item: item[0]):
             urdf_joint = cls.joint_class.get_joint_from_urdf(robot, name)
             if urdf_joint is None or urdf_joint.type == 'fixed':
                 rospy.logwarn('Joint {0} is not in the robot description. Skipping joint.')
