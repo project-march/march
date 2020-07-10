@@ -15,7 +15,7 @@ class Subgait(object):
     joint_class = JointTrajectory
 
     def __init__(self, joints, duration, gait_type='walk_like', gait_name='Walk', subgait_name='right_open',
-                 version='First try', description='Just a simple gait'):
+                 version='First try', description='Just a simple gait', *args):
 
         self.joints = joints
         self.gait_type = gait_type
@@ -28,7 +28,7 @@ class Subgait(object):
 
     # region Create subgait
     @classmethod
-    def from_file(cls, robot, file_name):
+    def from_file(cls, robot, file_name, *args):
         """Extract sub gait data of the given yaml.
 
         :param robot:
@@ -54,10 +54,10 @@ class Subgait(object):
             rospy.logerr('Error occurred in subgait: {te}, {er} '.format(te=type(e), er=e))
             return None
 
-        return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version)
+        return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version, *args)
 
     @classmethod
-    def from_files_interpolated(cls, robot, file_name_base, file_name_other, parameter):
+    def from_files_interpolated(cls, robot, file_name_base, file_name_other, parameter, *args):
         """Extract two subgaits from files and interpolate.
 
         :param robot:
@@ -71,12 +71,12 @@ class Subgait(object):
         :return:
             A populated Subgait object
         """
-        base_subgait = cls.from_file(robot, file_name_base)
-        other_subgait = cls.from_file(robot, file_name_other)
+        base_subgait = cls.from_file(robot, file_name_base, *args)
+        other_subgait = cls.from_file(robot, file_name_other, *args)
         return cls.interpolate_subgaits(base_subgait, other_subgait, parameter)
 
     @classmethod
-    def from_dict(cls, robot, subgait_dict, gait_name, subgait_name, version):
+    def from_dict(cls, robot, subgait_dict, gait_name, subgait_name, version, *args):
         """List parameters from the yaml file in organized lists.
 
         :param robot:
@@ -106,11 +106,11 @@ class Subgait(object):
                 rospy.logwarn('Joint {0} is not in the robot description. Skipping joint.')
                 continue
             limits = Limits.from_urdf_joint(urdf_joint)
-            joint_list.append(cls.joint_class.from_setpoints(name, limits, points, duration))
+            joint_list.append(cls.joint_class.from_setpoints(name, limits, points, duration, *args))
         subgait_type = subgait_dict['gait_type'] if subgait_dict.get('gait_type') else ''
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
 
-        return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description)
+        return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description, *args)
 
     # endregion
 

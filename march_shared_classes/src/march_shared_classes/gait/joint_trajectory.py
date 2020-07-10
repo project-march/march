@@ -11,7 +11,7 @@ class JointTrajectory(object):
 
     setpoint_class = Setpoint
 
-    def __init__(self, name, limits, setpoints, duration):
+    def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
         self.limits = limits
         self._setpoints = setpoints
@@ -21,7 +21,7 @@ class JointTrajectory(object):
         self.interpolate_setpoints()
 
     @classmethod
-    def from_setpoints(cls, name, limits, setpoints, duration):
+    def from_setpoints(cls, name, limits, setpoints, duration, *args):
         """Creates a list of joint trajectories.
 
         :param str name: Name of the joint
@@ -33,7 +33,7 @@ class JointTrajectory(object):
             cls.setpoint_class(
                 rospy.Duration(setpoint['time_from_start']['secs'], setpoint['time_from_start']['nsecs']).to_sec(),
                 setpoint['position'], setpoint['velocity']) for setpoint in setpoints]
-        return cls(name, limits, setpoints, duration)
+        return cls(name, limits, setpoints, duration, *args)
 
     @staticmethod
     def get_joint_from_urdf(robot, joint_name):
