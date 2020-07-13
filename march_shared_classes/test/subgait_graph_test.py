@@ -28,3 +28,31 @@ class SubgaitGraphTest(unittest.TestCase):
     def test_invalid_graph(self, name, graph):
         with self.assertRaises(NonValidGaitContent):
             SubgaitGraph(graph)
+
+    def test_contained_subgait(self):
+        subgait = 'test'
+        graph = SubgaitGraph({'start': {'to': subgait}, subgait: {'to': 'end'}})
+        self.assertTrue(subgait in graph)
+
+    def test_not_contained_subgait(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        self.assertFalse('test' in graph)
+
+    def test_get_correct_to_transition(self):
+        subgait = 'test'
+        graph = SubgaitGraph({'start': {'to': subgait}, subgait: {'to': 'end'}})
+        self.assertEqual(graph[(subgait, 'to')], 'end')
+
+    def test_get_correct_stop_transition(self):
+        subgait = 'test'
+        graph = SubgaitGraph({'start': {'to': subgait}, subgait: {'stop': 'end'}})
+        self.assertEqual(graph[(subgait, 'stop')], 'end')
+
+    def test_get_no_subgait(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        with self.assertRaises(KeyError):
+            graph[('2', 'to')]
+
+    def test_get_invalid_transition(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        self.assertIsNone(graph[('1', 'stop')])

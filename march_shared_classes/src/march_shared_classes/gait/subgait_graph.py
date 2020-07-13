@@ -65,8 +65,21 @@ class SubgaitGraph(object):
         if len(visited[self.END]) != len(self._graph):
             raise NonValidGaitContent(msg='`end` is not reachable from all subgaits')
 
-    def __getitem__(self, item):
-        pass
+    def __contains__(self, subgait_name):
+        """Checks if the given subgait name is contained in the graph."""
+        return subgait_name in self._graph
+
+    def __getitem__(self, transition):
+        """Returns the subgait the given subgait transitions to.
+
+        :param (str, str) transition: Tuple of subgait name and type of transition, can be either 'to' or 'stop'
+        :rtype str
+        :returns Name of subgait that the given transition transitions to
+        """
+        subgait_name, transition_type = transition
+        if subgait_name not in self._graph:
+            raise KeyError('Gait does not contain subgait {0}'.format(subgait_name))
+        return self._graph[subgait_name].get(transition_type)
 
     def __iter__(self):
         pass
