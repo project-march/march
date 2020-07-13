@@ -28,9 +28,9 @@ TEST_F(EndTimeTest, NothingScheduled)
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.subgait_name = "sit";
   Scheduler scheduler;
   ASSERT_NEAR(current_time.toSec(), scheduler.getEndTimeCurrentGait().toSec(), 0.1);
 }
@@ -41,10 +41,10 @@ TEST_F(EndTimeTest, OnGaitScheduled)
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.current_subgait.duration = ros::Duration().fromSec(duration);
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.duration = ros::Duration().fromSec(duration);
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
@@ -60,10 +60,10 @@ TEST_F(EndTimeTest, TwoGaitsScheduled)
   ros::Time::init();
   ros::Time current_time = ros::Time::now();
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.current_subgait.duration = ros::Duration().fromSec(duration);
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.duration = ros::Duration().fromSec(duration);
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
