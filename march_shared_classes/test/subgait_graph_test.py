@@ -56,3 +56,11 @@ class SubgaitGraphTest(unittest.TestCase):
     def test_get_invalid_transition(self):
         graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
         self.assertIsNone(graph[('1', 'stop')])
+
+    def test_iter_transitions(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': '2'}, '2': {'to': '1', 'stop': 'end'}})
+        self.assertListEqual(list(iter(graph)), [('1', '2'), ('start', '1'), ('2', '1'), ('2', 'end')])
+
+    def test_iter_transitions_without_subgaits(self):
+        graph = SubgaitGraph({'start': {'to': 'end'}})
+        self.assertListEqual(list(iter(graph)), [('start', 'end')])
