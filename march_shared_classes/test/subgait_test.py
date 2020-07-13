@@ -20,7 +20,6 @@ class SubgaitTest(unittest.TestCase):
                                                                               subgait=self.subgait_name,
                                                                               version=self.version)
         self.subgait = Subgait.from_file(self.robot, self.subgait_path)
-        self.subgait_msg = self.subgait.to_subgait_msg()
 
     # Subgait.from_file tests
     def test_from_file_valid_path(self):
@@ -47,35 +46,6 @@ class SubgaitTest(unittest.TestCase):
                                                                                version='MV_walk_leftclose_v2')
         subgait = Subgait.from_files_interpolated(self.robot, base_subgait_path, other_subgait_path, 0.5)
         self.assertIsInstance(subgait, Subgait)
-
-    # to_subgait_msg tests
-    def test_to_subgait_msg_name(self):
-        self.assertEqual(self.subgait_msg.name, self.subgait_name)
-
-    def test_to_subgait_msg_gait_type(self):
-        self.assertEqual(self.subgait_msg.gait_type, 'walk_like')
-
-    def test_to_subgait_msg_gait_trajectory_joint_names(self):
-        self.assertEqual(len(self.subgait_msg.trajectory.joint_names), 8)
-
-    def test_to_subgait_msg_gait_trajectory_points(self):
-        self.assertEqual(len(self.subgait_msg.trajectory.points), 9)
-
-    def test_to_subgait_msg_gait_trajectory_points_positions(self):
-        self.assertEqual(len(self.subgait_msg.trajectory.points[1].positions), 8)
-
-    def test_to_subgait_msg_setpoints(self):
-        self.assertEqual(len(self.subgait_msg.setpoints), 9)
-
-    def test_to_subgait_msg_setpoints_joint_names(self):
-        self.assertEqual(len(self.subgait_msg.setpoints[1].joint_names), 8)
-
-    def test_to_subgait_msg_description(self):
-        self.assertEqual(self.subgait_msg.description, 'The MIV walking gait, but with a somewhat faster swing.')
-
-    def test_to_subgait_msg_gait_duration(self):
-        self.assertEqual(self.subgait_msg.duration.secs, 1)
-        self.assertEqual(self.subgait_msg.duration.nsecs, 100000000)
 
     # validate_subgait_transition tests
     def test_valid_subgait_transition(self):
@@ -130,7 +100,7 @@ class SubgaitTest(unittest.TestCase):
 
     def test_set_duration_with_cut_off_instead_of_scaling(self):
         self.subgait.scale_timestamps_subgait(0.8, rescale=False)
-        self.assertEqual(len(self.subgait.get_joint('left_knee').setpoints), 7)
+        self.assertEqual(len(self.subgait.get_joint('left_knee')), 2)
 
     def test_equalize_amount_of_setpoints_with_higher_duration_new_gait(self):
         self.subgait.scale_timestamps_subgait(1.5)
