@@ -15,7 +15,7 @@ class Subgait(object):
     joint_class = JointTrajectory
 
     def __init__(self, joints, duration, gait_type='walk_like', gait_name='Walk', subgait_name='right_open',
-                 version='First try', description='Just a simple gait', *args):
+                 version='First try', description='Just a simple gait'):
 
         self.joints = joints
         self.gait_type = gait_type
@@ -110,7 +110,7 @@ class Subgait(object):
         subgait_type = subgait_dict['gait_type'] if subgait_dict.get('gait_type') else ''
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
 
-        return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description, *args)
+        return cls(joint_list, duration, subgait_type, gait_name, subgait_name, version, subgait_description)
 
     # endregion
 
