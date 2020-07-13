@@ -38,7 +38,8 @@ class TestGaitSelection(unittest.TestCase):
     # scan directory tests
     def test_scan_directory_top_level_content(self):
         directory = self.gait_selection.scan_directory()
-        self.assertEqual(['walk_medium', 'walk_small', 'balance_walk', 'stairs_up', 'walk'], directory.keys())
+        directory_gaits = ['walk_medium', 'balance_walk', 'stairs_up', 'walk_small', 'walk']
+        self.assertTrue(all(gait in directory_gaits for gait in directory.keys()))
 
     def test_scan_directory_subgait_versions(self):
         directory = self.gait_selection.scan_directory()
