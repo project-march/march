@@ -96,28 +96,22 @@ class InvertedPendulum(object):
 
     @classmethod
     def step_numeric_solve(cls, x0, y0, z0, vx0, vy0, dt=0.0001):
+        r = math.sqrt(x0**2 + y0**2 + z0**2)
         if z0 < 0.000001:
-            vx1 = 0
-            vy1 = 0
+            vz0 = 0
         else:
-            last_term = -(vx0**2 + vy0**2) / z0 + (x0 * vx0 + y0 * vy0)**2 / (2 * z0**3) + cls.g
-            vx1 = vx0 + dt * (x0 * z0 * (z0**2 + y0**2)) * last_term / (z0**4 + x0**4 + x0**2 * y0**2)
-            vy1 = vy0 + dt * (y0 * z0 * (z0**2 + x0**2)) * last_term / (z0**4 + y0**4 + x0**2 * y0**2)
+            vz0 = - (x0 * vx0 + y0 * vy0) / z0
+        v = math.sqrt(vx0**2 + vy0**2 + vz0**2)
 
-            # ddotx = (x0 * z0 * (z0**2 + y0**2)) * last_term / (z0**4 + x0**4 + x0**2 * y0**2)
-            # print("x'' = ", ddotx)
+        ax = x0 * (cls.g * z0 - v)
+        ay = y0 * (cls.g * z0 - v)
+
+        vx1 = vx0 + dt * ax
+        vy1 = vy0 + dt * ay
 
         x1 = x0 + dt * 0.5 * (vx0 + vx1)
         y1 = y0 + dt * 0.5 * (vy0 + vy1)
-        r = math.sqrt(x0**2 + y0**2 + z0**2)
         z1 = math.sqrt(max(r**2 - x1**2 - y1**2, 0))
-
-        # last_term = -(vx1**2 + vy1**2) / z1 + (x1 * vx1 + y1 * vy1)**2 / (2 * z1**3) + cls.g
-        # ddotx2 = (x1 * z1 * (z1**2 + y1**2)) * last_term / (z1**4 + x1**4 + x1**2 * y1**2)
-        # dddotx = (ddotx2 - ddotx) / dt
-        #
-        # print("x''' = ", dddotx)
-
 
         return x1, y1, z1, vx1, vy1
 
@@ -128,21 +122,26 @@ class InvertedPendulum(object):
         ddoty = []
         for i in range(order - 1):
             if z0 < 0.000001:
-                vx1 = 0
-                vy1 = 0
+                vz0 = 0
             else:
-                last_term = (-vx0**2 - vy0**2 + (x0 * vx0 + y0 * vy0)**2 / (2 * z0**2) + cls.g) / (z0**4 + z0**2 * x0**1 + z0**2 * y0**2)
-                vx1 = vx0 + dt * (x0 * (z0**2 + y0**2)) * last_term
-                vy1 = vy0 + dt * (y0 * (z0**2 + x0**2)) * last_term
+                vz0 = - (x0 * vx0 + y0 * vy0) / z0
+            v = math.sqrt(vx0**2 + vy0**2 + vz0**2)
 
-                ddotx.append((x0 * (z0**2 + y0**2)) * last_term)
-                ddoty.append((y0 * (z0**2 + x0**2)) * last_term)
+            ax = x0 * (cls.g * z0 - v**2) / r**2
+            ay = y0 * (cls.g * z0 - v**2) / r**2
+            ddotx.append(ax)
+            ddoty.append(ay)
+
+            vx1 = vx0 + dt * ax
+            vy1 = vy0 + dt * ay
 
             x0 = x0 + dt * 0.5 * (vx0 + vx1)
             y0 = y0 + dt * 0.5 * (vy0 + vy1)
             z0 = math.sqrt(max(r**2 - x0**2 - y0**2, 0))
             vx0 = vx1
             vy0 = vy1
+
+        # print(ddotx)
 
         derivative_x = 0
         derivative_y = 0
