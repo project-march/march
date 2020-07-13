@@ -1,6 +1,10 @@
 #goal definition
-string name
-Graph graph
-Subgait current_subgait
+string gait_name
+string subgait_name
+string version
+string gait_type
+
+duration duration
+trajectory_msgs/JointTrajectory trajectory
 ---
 ---

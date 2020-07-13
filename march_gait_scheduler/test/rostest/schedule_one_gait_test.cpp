@@ -26,9 +26,9 @@ TEST_F(ScheduleOneGaitTest, ScheduleNow)
 {
   ros::Time::init();
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
@@ -43,9 +43,9 @@ TEST_F(ScheduleOneGaitTest, ScheduledTrajectoryTheSameAsRequested)
   ros::Time::init();
   march_shared_resources::GaitGoal gaitGoal;
   const trajectory_msgs::JointTrajectory& trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.trajectory = trajectory;
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = trajectory;
+  gaitGoal.gait_name = "sit";
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
@@ -71,9 +71,9 @@ TEST_F(ScheduleOneGaitTest, ScheduleInTheFuture)
   ros::Time futureTime = currentTime + offset;
 
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;
@@ -90,9 +90,9 @@ TEST_F(ScheduleOneGaitTest, ScheduleInThePast)
   ros::Duration offset = ros::Duration().fromSec(-50);
 
   march_shared_resources::GaitGoal gaitGoal;
-  gaitGoal.current_subgait.trajectory = fake_sit_trajectory();
-  gaitGoal.current_subgait.name = "sit";
-  gaitGoal.name = "sit";
+  gaitGoal.trajectory = fake_sit_trajectory();
+  gaitGoal.gait_name = "sit";
+  gaitGoal.subgait_name = "sit";
   const auto& gaitGoalConst = const_cast<const march_shared_resources::GaitGoal&>(gaitGoal);
 
   Scheduler scheduler;

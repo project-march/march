@@ -26,10 +26,10 @@ protected:
     jointTrajectory.points = { point };
 
     march_shared_resources::GaitGoal sitGaitGoal;
-    sitGaitGoal.current_subgait.trajectory = jointTrajectory;
-    sitGaitGoal.current_subgait.name = "sit";
-    sitGaitGoal.current_subgait.duration = ros::Duration().fromSec(3);
-    sitGaitGoal.name = "sit";
+    sitGaitGoal.trajectory = jointTrajectory;
+    sitGaitGoal.gait_name = "sit";
+    sitGaitGoal.duration = ros::Duration().fromSec(3);
+    sitGaitGoal.subgait_name = "sit";
     return sitGaitGoal;
   }
 };

@@ -8,6 +8,16 @@ class Limits(object):
         self.k_position = k_position
         self.k_velocity = k_velocity
 
+    @classmethod
+    def from_urdf_joint(cls, urdf_joint):
+        """Creates limits from a given URDF joint."""
+        return cls(urdf_joint.safety_controller.soft_lower_limit,
+                   urdf_joint.safety_controller.soft_upper_limit,
+                   urdf_joint.limit.velocity,
+                   urdf_joint.limit.effort,
+                   urdf_joint.safety_controller.k_position,
+                   urdf_joint.safety_controller.k_velocity)
+
     def __eq__(self, other):
         return self.lower == other.lower and self.upper == other.upper and self.velocity == other.velocity and  \
             self.effort == other.effort and self.k_position == other.k_position and \
