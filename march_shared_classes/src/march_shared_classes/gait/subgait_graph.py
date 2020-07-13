@@ -82,7 +82,11 @@ class SubgaitGraph(object):
         return self._graph[subgait_name].get(transition_type)
 
     def __iter__(self):
-        """Returns an iterator over all possible transitions in arbitrary order."""
+        """Returns an iterator over all possible transitions in arbitrary order.
+
+        Excludes 'start' and 'end'.
+        """
         return iter([(from_subgait, to_subgait)
                      for from_subgait, transitions in self._graph.items()
-                     for to_subgait in transitions.values()])
+                     for to_subgait in transitions.values()
+                     if len({from_subgait, to_subgait} & {self.START, self.END}) == 0])
