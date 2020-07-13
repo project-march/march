@@ -16,15 +16,12 @@ add_message_files(
     Error.msg
     GaitInstruction.msg
     GaitInstructionResponse.msg
-    Graph.msg
     HighVoltageNet.msg
     ImcState.msg
     JointValues.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
     PressureSole.msg
-    Setpoint.msg
-    Subgait.msg
 )
 
 add_service_files(

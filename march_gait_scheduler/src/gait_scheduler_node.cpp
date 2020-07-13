@@ -64,8 +64,7 @@ void feedbackCallback(const control_msgs::FollowJointTrajectoryFeedbackConstPtr&
 
 void scheduleGaitCallback(const march_shared_resources::GaitGoalConstPtr& goal)
 {
-  ROS_DEBUG("Gait Scheduler received msg to schedule: %s of %s", goal->current_subgait.name.c_str(),
-            goal->name.c_str());
+  ROS_DEBUG("Gait Scheduler received msg to schedule: %s of %s", goal->subgait_name.c_str(), goal->gait_name.c_str());
   try
   {
     control_msgs::FollowJointTrajectoryGoal trajectoryMsg =

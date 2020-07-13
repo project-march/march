@@ -20,7 +20,7 @@ class DynamicPIDReconfigurer:
         self._gradient = rospy.get_param('~linear_slope')
 
     def gait_selection_callback(self, data):
-        new_gait_type = data.goal.current_subgait.gait_type
+        new_gait_type = data.goal.gait_type
         if new_gait_type is None or new_gait_type == '':
             new_gait_type = 'walk_like'
             rospy.logwarn('The gait has no gait type, default is set to walk_like')
