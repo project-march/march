@@ -1,11 +1,14 @@
 from collections import deque
 
-from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent
+from march_shared_classes.exceptions.gait_exceptions import SubgaitGraphError
 
 
 class SubgaitGraph(object):
     START = 'start'
     END = 'end'
+    TO = 'to'
+    STOP = 'stop'
+    TRANSITIONS = [TO, STOP]
 
     def __init__(self, graph):
         self._graph = graph
@@ -21,8 +24,9 @@ class SubgaitGraph(object):
         4. Checks that all subgaits do not have equal `stop` and `to` transitions
         """
         if self.START not in self._graph:
-            raise NonValidGaitContent(msg='There is no start state')
+            raise SubgaitGraphError('There is no state {s}'.format(s=self.START))
 
+        # Do a breadth-first search to check for validity
         queue = deque([(self.START, set())])
         visited = {}
         while len(queue) != 0:
@@ -37,33 +41,34 @@ class SubgaitGraph(object):
 
             self._validate_subgait(name)
             subgait = self._graph[name]
-            if 'to' in subgait:
-                from_subgaits = from_subgaits.copy()
-                from_subgaits.add(name)
-                queue.append((subgait['to'], from_subgaits))
-            if 'stop' in subgait:
-                from_subgaits = from_subgaits.copy()
-                from_subgaits.add(name)
-                queue.append((subgait['stop'], from_subgaits))
+            for transition in self.TRANSITIONS:
+                if transition in subgait:
+                    from_subgaits = from_subgaits.copy()
+                    from_subgaits.add(name)
+                    queue.append((subgait[transition], from_subgaits))
 
         self._validate_visited(visited)
 
     def _validate_subgait(self, name):
         subgait = self._graph.get(name)
         if subgait is None:
-            raise NonValidGaitContent(msg='Subgait {n} is not a subgait in the graph'.format(n=name))
-        if 'to' not in subgait and 'stop' not in subgait:
-            raise NonValidGaitContent(msg='Subgait {n} has no transitions'.format(n=name))
-        if subgait.get('to') == subgait.get('stop'):
-            raise NonValidGaitContent(msg='`to` and `stop` transition cannot be the same')
+            raise SubgaitGraphError('Subgait {n} is not a subgait in the graph'.format(n=name))
+        if not any([transition in subgait for transition in self.TRANSITIONS]):
+            raise SubgaitGraphError('Subgait {n} has no transitions'.format(n=name))
+        if not all([transition in self.TRANSITIONS for transition in subgait]):
+            raise SubgaitGraphError(
+                'Subgait {n} has unknown transitions. Available transitions {t}'.format(n=name, t=self.TRANSITIONS))
+        if len(set(subgait.values())) != len(subgait):
+            raise SubgaitGraphError('Subgait {n} transitions cannot be equal'.format(n=name))
 
     def _validate_visited(self, visited):
         if len(visited[self.START]) != 0:
-            raise NonValidGaitContent(msg='Transition to start is not allowed')
+            raise SubgaitGraphError('Transition to `{s}` is not allowed'.format(s=self.START))
         if self.END not in visited:
-            raise NonValidGaitContent(msg='There are no transitions to `end`')
+            raise SubgaitGraphError('There are no transitions to `{e}`'.format(e=self.END))
         if len(visited[self.END]) != len(self._graph):
-            raise NonValidGaitContent(msg='`end` is not reachable from all subgaits')
+            not_covered = set(self._graph).difference(visited[self.END])
+            raise SubgaitGraphError('`{e}` is not reachable from {s}'.format(e=self.END, s=not_covered))
 
     def __contains__(self, subgait_name):
         """Checks if the given subgait name is contained in the graph."""
