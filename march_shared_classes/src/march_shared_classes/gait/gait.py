@@ -4,7 +4,9 @@ import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
-from march_shared_classes.gait.subgait import Subgait
+
+from .subgait import Subgait
+from .subgait_graph import SubgaitGraph
 
 
 class Gait(object):
@@ -15,14 +17,13 @@ class Gait(object):
 
         :param str gait_name: Name of the gait
         :param dict subgaits: Mapping of names to subgait instances
-        :param list((str, str)) graph: Mapping of subgait names transitions
+        :param SubgaitGraph graph: Mapping of subgait names transitions
         """
-        self._validate_gait_graph(gait_name, graph)
-        self._validate_trajectory_transition(gait_name, subgaits, graph)
-
         self.gait_name = gait_name
         self.subgaits = subgaits
         self.graph = graph
+
+        self._validate_trajectory_transition()
 
     @classmethod
     def from_file(cls, gait_name, gait_directory, robot, gait_version_map):
@@ -64,20 +65,11 @@ class Gait(object):
             If the data in the files is validated a gait object is returned
         """
         gait_name = gait_dictionary['name']
-        gait_content = gait_dictionary['graph']
+        subgaits = gait_dictionary['subgaits']
 
-        from_subgaits_names = gait_content['from_subgait']
-        to_subgaits_names = gait_content['to_subgait']
-        if len(from_subgaits_names) != len(to_subgaits_names):
-            raise NonValidGaitContent('Gait {gait} has to_subgait and from_subgait which are not of  equal length'
-                                      .format(gait=gait_name))
-
-        graph = zip(from_subgaits_names, to_subgaits_names)
-        cls._validate_gait_graph(gait_name, graph)
-
-        subgait_names = set(from_subgaits_names + to_subgaits_names)
+        graph = SubgaitGraph(subgaits)
         subgaits = dict([(name, cls.load_subgait(robot, gait_directory, gait_name, name, gait_version_map))
-                         for name in subgait_names if name not in ('start', 'end')])
+                         for name in subgaits if name not in ('start', 'end')])
 
         return cls(gait_name, subgaits, graph)
 
@@ -100,43 +92,15 @@ class Gait(object):
 
         return Subgait.from_file(robot, subgait_path)
 
-    @staticmethod
-    def _validate_gait_graph(gait_name, graph):
-        """Validate if the data in the gait file is valid.
-
-        :param list((str, str)) graph: Mapping of subgaits that transition to other subgaits
-        """
-        contains_start = False
-        contains_end = False
-        for (from_subgait, to_subgait) in graph:
-            if from_subgait == 'end' or to_subgait == 'start':
-                raise NonValidGaitContent(msg='Gait {gn} does not have valid transitions'.format(gn=gait_name))
-            if from_subgait == 'start':
-                contains_start = True
-            if to_subgait == 'end':
-                contains_end = True
-
-        if not contains_start or not contains_end:
-            raise NonValidGaitContent(msg='Gait {gn} is missing `start` or `end`'.format(gn=gait_name))
-
-    @staticmethod
-    def _validate_trajectory_transition(gait_name, subgaits, graph):
-        """Compares and validates the trajectory end and start points.
-
-        :param dict subgaits: Mapping of subgait names to subgait instances
-        :param list((str, str)) graph: Mapping of subgaits transitions
-        """
-        for from_subgait_name, to_subgait_name in graph:
-
-            if any(name in ('start', 'end', None) for name in (from_subgait_name, to_subgait_name)):
-                continue  # a start or end point cannot be compared to a subgait
-
-            from_subgait = subgaits[from_subgait_name]
-            to_subgait = subgaits[to_subgait_name]
+    def _validate_trajectory_transition(self):
+        """Compares and validates the trajectory end and start points."""
+        for from_subgait_name, to_subgait_name in self.graph:
+            from_subgait = self.subgaits[from_subgait_name]
+            to_subgait = self.subgaits[to_subgait_name]
 
             if not from_subgait.validate_subgait_transition(to_subgait):
                 raise NonValidGaitContent(msg='Gait {gait} with end setpoint of subgait {sn} to subgait {ns} '
-                                              'does not match'.format(gait=gait_name, sn=from_subgait.subgait_name,
+                                              'does not match'.format(gait=self.gait_name, sn=from_subgait.subgait_name,
                                                                       ns=to_subgait.subgait_name))
 
     def set_subgait_versions(self, robot, gait_directory, version_map):
@@ -157,8 +121,7 @@ class Gait(object):
             new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
 
         for from_subgait_name, to_subgait_name in self.graph:
-            if (from_subgait_name in new_subgaits or to_subgait_name in new_subgaits) \
-                    and len({from_subgait_name, to_subgait_name} & {'start', 'end'}) == 0:
+            if from_subgait_name in new_subgaits or to_subgait_name in new_subgaits:
                 from_subgait = new_subgaits.get(from_subgait_name, self.subgaits[from_subgait_name])
                 to_subgait = new_subgaits.get(to_subgait_name, self.subgaits[to_subgait_name])
 
