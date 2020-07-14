@@ -8,7 +8,7 @@ class InvertedPendulum(object):
     def taylor2_to_t(cls, x0, y0, z0, x1, y1, t):
         r = math.sqrt(x0**2 + y0**2 + z0**2)
         z1 = - (x0 * x1 + y0 * y1) / z0
-        a2 = x0 * (cls.g * z0 - 2 * z1**2 - x1**2 - y1**2) / (2 * r**2)
+        a2 = x0 * (cls.g * z0 - z1**2 - x1**2 - y1**2) / (2 * r**2)
         b2 = y0 * a2 / x0
 
         x = x0 + x1 * t + a2 * t**2
@@ -16,7 +16,7 @@ class InvertedPendulum(object):
         z = math.sqrt(max(r**2 - x**2 - y**2, 0))
         vx = x1 + 2 * a2 * t
         vy = y1 + 2 * b2 * t
-        if z < 0.000001:
+        if abs(z )< 0.000001:
             vz = 0
         else:
             vz = - (x * vx + y * vy) / z
@@ -26,16 +26,16 @@ class InvertedPendulum(object):
     def taylor3_to_t(cls, x0, y0, z0, x1, y1, t):
         r = math.sqrt(x0**2 + y0**2 + z0**2)
         z1 = - (x0 * x1 + y0 * y1) / z0
-        a2 = x0 * (cls.g * z0 - 2 * z1**2 - x1**2 - y1**2) / (2 * r**2)
-        if a2 < 0.000001:
+        a2 = x0 * (cls.g * z0 - z1**2 - x1**2 - y1**2) / (2 * r**2)
+        if abs(a2) < 0.000001:
             b2 = 0
         else:
             b2 = y0 * a2 / x0
 
-        z2 = - (2 * z1**2 + x1**2 + y1**2 + 2 * x0 * a2 + 2 * y0 * b2) / (2 * z0)
+        z2 = - (z1**2 + x1**2 + y1**2 + 2 * x0 * a2 + 2 * y0 * b2) / (2 * z0)
         a3 = - z0 * (z1 * a2 / 3 + \
-                     ((x0 * y1 - x1 * y0) * y0 / (z0**2) - x1) * (cls.g + 2 * z2) / 6 - \
-                     x0 * (z1**3 / (z0**2) - z1 * z2 / z0 - (2 * x1 * a2 + 2 * y1 * b2) / (2 * z0))) / (r**2)
+                     ((x0 * y1 - x1 * y0) * y0 / (z0**2) - x1) * (cls.g + 2 * z2) / 6 + \
+                     x0 * (z1 * z2 / z0 + (2 * x1 * a2 + 2 * y1 * b2) / (2 * z0))) / (r**2)
         b3 = y0 * a3 / x0 + (y1 - y0 * x1 / x0) * (cls.g + 2 * z2) / (6 * z0)
 
         # print("a2 = ", a2)
@@ -52,7 +52,7 @@ class InvertedPendulum(object):
         z = math.sqrt(max(r**2 - x**2 - y**2, 0))
         vx = x1 + 2 * a2 * t + 3 * a3 * t**2
         vy = y1 + 2 * b2 * t + 3 * b3 * t**2
-        if z < 0.000001:
+        if abs(z )< 0.000001:
             vz = 0
         else:
             vz = - (x * vx + y * vy) / z
@@ -66,14 +66,14 @@ class InvertedPendulum(object):
         vx = x1
         vy = y1
         for o in range(2, order+1):
-            derivative_x, derivative_y = cls.numeric_derivative(o, x0, y0, z0, x1, y1)
+            derivative_x, derivative_y = cls.numeric_derivative(o, x0, y0, z0, x1, y1, dt)
             x = x + derivative_x * t**o / math.factorial(o)
             y = y + derivative_y * t**o / math.factorial(o)
             vx = vx + o * derivative_x * t**(o-1) / math.factorial(o)
             vy = vy + o * derivative_y * t**(o-1) / math.factorial(o)
 
         z = math.sqrt(max(r**2 - x**2 - y**2, 0))
-        if z < 0.000001:
+        if abs(z )< 0.000001:
             vz = 0
         else:
             vz = - (x * vx + y * vy) / z
@@ -97,7 +97,7 @@ class InvertedPendulum(object):
     @classmethod
     def step_numeric_solve(cls, x0, y0, z0, vx0, vy0, dt=0.0001):
         r = math.sqrt(x0**2 + y0**2 + z0**2)
-        if z0 < 0.000001:
+        if abs(z0) < 0.000001:
             vz0 = 0
         else:
             vz0 = - (x0 * vx0 + y0 * vy0) / z0
@@ -121,7 +121,7 @@ class InvertedPendulum(object):
         ddotx = []
         ddoty = []
         for i in range(order - 1):
-            if z0 < 0.000001:
+            if abs(z0) < 0.000001:
                 vz0 = 0
             else:
                 vz0 = - (x0 * vx0 + y0 * vy0) / z0
