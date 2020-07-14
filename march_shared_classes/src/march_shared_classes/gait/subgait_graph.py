@@ -100,4 +100,4 @@ class SubgaitGraph(object):
         return isinstance(other, SubgaitGraph) and self._graph == other._graph
 
     def __ne__(self, other):
-        return not self == other
+        return not self.__eq__(other)
