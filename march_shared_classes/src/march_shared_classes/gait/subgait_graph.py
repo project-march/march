@@ -95,3 +95,9 @@ class SubgaitGraph(object):
                      for from_subgait, transitions in self._graph.items()
                      for to_subgait in transitions.values()
                      if len({from_subgait, to_subgait} & {self.START, self.END}) == 0])
+
+    def __eq__(self, other):
+        return isinstance(other, SubgaitGraph) and self._graph == other._graph
+
+    def __ne__(self, other):
+        return not self == other
