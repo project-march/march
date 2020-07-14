@@ -21,28 +21,27 @@ class JointTrajectory(object):
         self.interpolate_setpoints()
 
     @classmethod
-    def from_dict(cls, subgait_dict, joint_name, limits, duration, *args):
-        """Create class of JointTrajectory with filled attributes.
+    def from_setpoints(cls, name, limits, setpoints, duration, *args):
+        """Creates a list of joint trajectories.
 
-        :param subgait_dict:
-            The dictionary extracted from the yaml file
-        :param joint_name:
-            The name of the joint corresponding to this specific object
-        :param limits:
-            Defined soft limits of the urdf file
-        :param duration:
-            The timestamps of the subgait file
+        :param str name: Name of the joint
+        :param limits: Joint limits from the URDF
+        :param list(dict) setpoints: A list of setpoints from the subgait configuration
+        :param duration: The total duration of the trajectory
         """
-        joint_trajectory = subgait_dict['trajectory']
-        joint_index = joint_trajectory['joint_names'].index(joint_name)
+        setpoints = [
+            cls.setpoint_class(
+                rospy.Duration(setpoint['time_from_start']['secs'], setpoint['time_from_start']['nsecs']).to_sec(),
+                setpoint['position'], setpoint['velocity']) for setpoint in setpoints]
+        return cls(name, limits, setpoints, duration, *args)
 
-        setpoints = []
-        for point in joint_trajectory['points']:
-            time = rospy.Duration(point['time_from_start']['secs'], point['time_from_start']['nsecs']).to_sec()
-            setpoints.append(cls.setpoint_class(time, point['positions'][joint_index],
-                                                point['velocities'][joint_index]))
-
-        return cls(joint_name, limits, setpoints, duration, *args)
+    @staticmethod
+    def get_joint_from_urdf(robot, joint_name):
+        """Get the name of the robot joint corresponding with the joint in the subgait."""
+        for urdf_joint in robot.joints:
+            if urdf_joint.name == joint_name:
+                return urdf_joint
+        return None
 
     @property
     def duration(self):

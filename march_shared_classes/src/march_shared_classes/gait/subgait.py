@@ -1,12 +1,12 @@
-from joint_trajectory import JointTrajectory
-from limits import Limits
 import rospy
-from setpoint import Setpoint
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
-from march_shared_resources import msg as march_msg
+
+from .joint_trajectory import JointTrajectory
+from .limits import Limits
+from .setpoint import Setpoint
 
 
 class Subgait(object):
@@ -97,25 +97,16 @@ class Subgait(object):
             rospy.logerr('Cannot create gait without a loaded robot.')
             return None
 
-        joint_trajectory = subgait_dict['trajectory']
         duration = rospy.Duration(subgait_dict['duration']['secs'], subgait_dict['duration']['nsecs']).to_sec()
 
         joint_list = []
-        for joint_name in joint_trajectory['joint_names']:
-            urdf_joint = cls._get_joint_from_urdf(robot, joint_name)
+        for name, points in sorted(subgait_dict['joints'].items(), key=lambda item: item[0]):
+            urdf_joint = cls.joint_class.get_joint_from_urdf(robot, name)
             if urdf_joint is None or urdf_joint.type == 'fixed':
-                rospy.logwarn('Not all joints in gait are in robot.')
+                rospy.logwarn('Joint {0} is not in the robot description. Skipping joint.')
                 continue
-
-            limits = Limits(urdf_joint.safety_controller.soft_lower_limit,
-                            urdf_joint.safety_controller.soft_upper_limit,
-                            urdf_joint.limit.velocity,
-                            urdf_joint.limit.effort,
-                            urdf_joint.safety_controller.k_position,
-                            urdf_joint.safety_controller.k_velocity)
-
-            joint_list.append(cls.joint_class.from_dict(subgait_dict, joint_name, limits, duration, *args))
-
+            limits = Limits.from_urdf_joint(urdf_joint)
+            joint_list.append(cls.joint_class.from_setpoints(name, limits, points, duration, *args))
         subgait_type = subgait_dict['gait_type'] if subgait_dict.get('gait_type') else ''
         subgait_description = subgait_dict['description'] if subgait_dict.get('description') else ''
 
@@ -124,7 +115,7 @@ class Subgait(object):
     # endregion
 
     # region Create messages
-    def _to_joint_trajectory_msg(self):
+    def to_joint_trajectory_msg(self):
         """Create trajectory msg for the publisher.
 
         :returns
@@ -132,14 +123,12 @@ class Subgait(object):
         """
         joint_trajectory_msg = trajectory_msg.JointTrajectory()
 
+        joint_trajectory_msg.joint_names = [joint.name for joint in self.joints]
+
         timestamps = self.get_unique_timestamps()
-
-        for joint in self.joints:
-            joint_trajectory_msg.joint_names.append(joint.name)
-
         for timestamp in timestamps:
             joint_trajectory_point = trajectory_msg.JointTrajectoryPoint()
-            joint_trajectory_point.time_from_start = rospy.Duration(timestamp)
+            joint_trajectory_point.time_from_start = rospy.Duration.from_sec(timestamp)
 
             for joint in self.joints:
                 interpolated_setpoint = joint.get_interpolated_setpoint(timestamp)
@@ -153,38 +142,6 @@ class Subgait(object):
             joint_trajectory_msg.points.append(joint_trajectory_point)
 
         return joint_trajectory_msg
-
-    def _to_setpoints_msg(self):
-        """Define setpoints that correspond with the given timestamps."""
-        timestamps = self.get_unique_timestamps()
-
-        user_defined_setpoints = []
-        for timestamp in timestamps:
-            user_defined_setpoint = march_msg.Setpoint()
-            user_defined_setpoint.time_from_start = rospy.Duration.from_sec(timestamp)
-
-            for joint in self.joints:
-                for setpoint in joint.setpoints:
-                    if setpoint.time == timestamp:
-                        user_defined_setpoint.joint_names.append(joint.name)
-
-            user_defined_setpoints.append(user_defined_setpoint)
-
-        return user_defined_setpoints
-
-    def to_subgait_msg(self):
-        """Convert class attribute values back to ROS msg (necessary for publisher)."""
-        subgait_msg = march_msg.Subgait()
-
-        subgait_msg.name = self.subgait_name
-        subgait_msg.gait_type = self.gait_type
-        subgait_msg.trajectory = self._to_joint_trajectory_msg()
-        subgait_msg.setpoints = self._to_setpoints_msg()
-        subgait_msg.description = self.description
-        subgait_msg.version = self.version
-        subgait_msg.duration = rospy.Duration.from_sec(self.duration)
-
-        return subgait_msg
 
     # endregion
 
@@ -295,23 +252,6 @@ class Subgait(object):
     # endregion
 
     # region Get functions
-    @staticmethod
-    def _get_joint_from_urdf(robot, joint_name):
-        """Get the name of the robot joint corresponding with the joint in the subgait."""
-        for urdf_joint in robot.joints:
-            if urdf_joint.name == joint_name:
-                return urdf_joint
-        return None
-
-    @staticmethod
-    def get_joint_limits_from_urdf(robot, joint_name):
-        """Use the parsed robot to get the defined joint limits."""
-        for urdf_joint in robot.joints:
-            if urdf_joint.name == joint_name:
-                return Limits(urdf_joint.safety_controller.soft_lower_limit,
-                              urdf_joint.safety_controller.soft_upper_limit,
-                              urdf_joint.limit.velocity)
-
     def get_unique_timestamps(self):
         """The timestamp that is unique to a setpoint."""
         timestamps = []
@@ -330,6 +270,29 @@ class Subgait(object):
         return [joint.name for joint in self.joints]
 
     # endregion
+
+    def to_yaml(self):
+        """Returns a YAML string representation of the subgait."""
+        duration = rospy.Duration.from_sec(self.duration)
+        output = {
+            'description': self.description,
+            'duration': {
+                'nsecs': duration.nsecs,
+                'secs': duration.secs,
+            },
+            'gait_type': self.gait_type,
+            'joints': dict([(joint.name, [{
+                'position': setpoint.position,
+                'time_from_start': {
+                    'nsecs': rospy.Duration.from_sec(setpoint.time).nsecs,
+                    'secs': int(setpoint.time),
+                },
+                'velocity': setpoint.velocity}
+                for setpoint in joint.setpoints]) for joint in self.joints]),
+            'name': self.subgait_name,
+            'version': self.version,
+        }
+        return yaml.dump(output)
 
     # region Class methods
     def __getitem__(self, index):
