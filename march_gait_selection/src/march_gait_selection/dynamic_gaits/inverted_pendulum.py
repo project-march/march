@@ -11,7 +11,7 @@ class InvertedPendulum(object):
         while time < t:
             x, y, z, vx, vy = cls.step_numeric_solve(x, y, z, vx, vy, dt)
             time += dt
-        if abs(z) < EPSILON:
+        if abs(z) < cls.EPSILON:
             vz = 0
         else:
             vz = - (x * vx + y * vy) / z
@@ -20,7 +20,7 @@ class InvertedPendulum(object):
     @classmethod
     def step_numeric_solve(cls, x0, y0, z0, vx0, vy0, dt=0.01):
         r = math.sqrt(x0**2 + y0**2 + z0**2)
-        if abs(z0) < EPSILON:
+        if abs(z0) < cls.EPSILON:
             vz0 = 0
         else:
             vz0 = - (x0 * vx0 + y0 * vy0) / z0
