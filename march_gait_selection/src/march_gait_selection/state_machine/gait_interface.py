@@ -7,8 +7,16 @@ class GaitInterface(object):
         """
         pass
 
-    def get_final_position(self):
+    def starting_position(self):
+        """Returns the starting position of all joints."""
+        pass
+
+    def final_position(self):
         """Returns the position of all the joints after the gait has ended."""
+        pass
+
+    def name(self):
+        """Returns the name of the gait."""
         pass
 
     def update(self, elapsed_time):

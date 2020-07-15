@@ -150,3 +150,7 @@ class GaitSelection(object):
     def __getitem__(self, name):
         """Returns a gait from the loaded gaits."""
         return self._loaded_gaits.get(name)
+
+    def __iter__(self):
+        """Returns an iterator over all loaded gaits."""
+        return self._loaded_gaits.values()
