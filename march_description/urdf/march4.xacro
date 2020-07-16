@@ -19,8 +19,8 @@
         </gazebo>
     </xacro:if>
 
-    <!-- The max effort of the rotary joints is lower then the value corresponding to 25A, because it has been shown
-    that the chances of a short-circuit when applying the theoretical max effort for a long time are significant. -->
+    <!-- The max effort of the rotary joints is lower then the value corresponding to 25A, because short-circuit errors
+    have occured while applying the theoretical max effort for a long time. -->
     <xacro:arg name="max_effort_rotary" default="18000.0" />
     <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
     <xacro:property name="max_effort_rotary" value="$(arg max_effort_rotary)" />
