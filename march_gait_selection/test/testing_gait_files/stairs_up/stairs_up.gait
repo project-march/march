@@ -1,5 +1,16 @@
 name: stairs_up
-
-graph:
-  from_subgait: [start,     right_open, left_swing, right_swing, left_close, start, right_open, left_swing, right_close]
-  to_subgait:   [right_open, left_swing, right_swing, left_close, end, right_open, left_swing, right_close, end]
+subgaits:
+  start:
+    to: right_open
+  right_open:
+    to: left_swing
+  left_swing:
+    to: right_swing
+    stop: right_close
+  right_swing:
+    to: left_swing
+    stop: left_close
+  left_close:
+    to: end
+  right_close:
+    to: end

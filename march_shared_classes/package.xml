@@ -15,4 +15,6 @@
   <exec_depend>march_description</exec_depend>
   <exec_depend>python-scipy</exec_depend>
   <exec_depend>rospy</exec_depend>
+
+  <test_depend>python-parameterized</test_depend>
 </package>
