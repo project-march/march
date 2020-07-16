@@ -19,7 +19,9 @@
         </gazebo>
     </xacro:if>
 
-    <xacro:arg name="max_effort_rotary" default="20475.0" />  <!-- = 25 A -->
+    <!-- The max effort of the rotary joints is lower then the value corresponding to 25A, because it has been shown
+    that the chances of a short-circuit when applying the theoretical max effort for a long time are significant. -->
+    <xacro:arg name="max_effort_rotary" default="18000.0" />
     <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
     <xacro:property name="max_effort_rotary" value="$(arg max_effort_rotary)" />
     <xacro:property name="max_effort_linear" value="$(arg max_effort_linear)" />
@@ -154,7 +156,7 @@
     <xacro:property name="right_hip_fe_rotation_upper_limit" value="${99.48120117*pi/180}"/> <!-- rad -->
 
     <xacro:property name="hip_fe_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_fe_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
+    <xacro:property name="hip_fe_effort_limit" value="${max_effort_rotary}"/> <!-- IU -->
     <xacro:property name="hip_fe_velocity_limit" value="2.0"/> <!-- rad/s -->
 
     <xacro:property name="left_hip_aa_rotation_lower_limit" value="${-18.54492188*pi/180}"/> <!-- rad -->
@@ -164,7 +166,7 @@
     <xacro:property name="right_hip_aa_rotation_upper_limit" value="${15.99609375*pi/180}"/> <!-- rad -->
 
     <xacro:property name="hip_aa_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_aa_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
+    <xacro:property name="hip_aa_effort_limit" value="${max_effort_linear}"/> <!-- IU -->
     <xacro:property name="hip_aa_velocity_limit" value="1.0"/> <!-- rad/s -->
 
     <xacro:property name="left_knee_rotation_lower_limit" value="${-5.012512207*pi/180}"/>
@@ -175,7 +177,7 @@
 
     <xacro:property name="knee_extension_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
     <xacro:property name="knee_flexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="knee_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
+    <xacro:property name="knee_effort_limit" value="${max_effort_rotary}"/> <!-- IU -->
     <xacro:property name="knee_velocity_limit" value="2.5"/>
 
     <xacro:property name="left_ankle_rotation_lower_limit" value="${-26.30401611*pi/180}"/>
@@ -186,7 +188,7 @@
 
     <xacro:property name="ankle_dorsalflexion_soft_buffer" value="${5*pi/180}"/> <!-- rad -->
     <xacro:property name="ankle_plantarflexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="ankle_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
+    <xacro:property name="ankle_effort_limit" value="${max_effort_linear}"/> <!-- IU -->
     <xacro:property name="ankle_velocity_limit" value="1.0"/>
 
 
