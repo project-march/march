@@ -50,6 +50,11 @@ class NonValidGaitContent(GaitError):
         super(NonValidGaitContent, self).__init__(msg)
 
 
+class SubgaitGraphError(GaitError):
+    def __init__(self, msg):
+        super(SubgaitGraphError, self).__init__(msg)
+
+
 class TransitionError(Exception):
     def __init__(self, msg=None):
         """Class to raise an error when transition between two subgaits has an error .
