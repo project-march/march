@@ -24,10 +24,10 @@ class InvertedPendulum(object):
             vz0 = 0
         else:
             vz0 = - (x0 * vx0 + y0 * vy0) / z0
-        v = math.sqrt(vx0**2 + vy0**2 + vz0**2)
+        vsquared = vx0**2 + vy0**2 + vz0**2
 
-        ax = x0 * (cls.G * z0 - v)
-        ay = y0 * (cls.G * z0 - v)
+        ax = x0 * (cls.G * z0 - vsquared) / r**2
+        ay = y0 * (cls.G * z0 - vsquared) / r**2
 
         vx1 = vx0 + dt * ax
         vy1 = vy0 + dt * ay
