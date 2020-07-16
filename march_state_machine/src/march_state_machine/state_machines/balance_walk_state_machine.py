@@ -9,13 +9,17 @@ class BalanceWalkStateMachine(GaitStateMachine):
         """Initializes the walking pattern gait.
 
         The gait will be initialized with the following subgaits:
-        * right_open
-        * right_swing
-        * left_swing
+        * right_open_1
+        * right_open_2
+        * right_swing_1
+        * right_swing_2
+        * left_swing_1
+        * left_swing_2
         * right_close
         * left_close
-        Where right_swing and left_swing can be stopped and will transition
-        to either right_close or left_close.
+
+        The balanced walking pattern is identical to a normal walk but with divided subgaits.
+        This is necessar because capture point is used for the second part of the subgait.
 
         :type gait_name: str
         :param gait_name: Name of the balanced walking pattern gait
