@@ -19,7 +19,7 @@ class BalanceWalkStateMachine(GaitStateMachine):
         * left_close
 
         The balanced walking pattern is identical to a normal walk but with divided subgaits.
-        This is necessar because capture point is used for the second part of the subgait.
+        This is necessary because capture point is used for the second part of the subgait.
 
         :type gait_name: str
         :param gait_name: Name of the balanced walking pattern gait
