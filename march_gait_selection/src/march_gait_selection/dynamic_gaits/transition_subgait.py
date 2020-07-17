@@ -2,7 +2,6 @@ from copy import deepcopy
 
 from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError, SubgaitNameNotFound, TransitionError
-from march_shared_classes.gait.gait import Gait
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
@@ -133,17 +132,11 @@ class TransitionSubgait(Subgait):
 
     @staticmethod
     def _validate_transition_gait(old_subgait, transition_subgait, new_subgait):
-        """Validate the transition point by creating a gait object which checks the trajectories."""
-        subgaits = {old_subgait.subgait_name: old_subgait,
-                    transition_subgait.subgait_name: transition_subgait,
-                    new_subgait.subgait_name: new_subgait}
-        graph = {'start': old_subgait.subgait_name,
-                 old_subgait.subgait_name: transition_subgait.subgait_name,
-                 transition_subgait.subgait_name: new_subgait.subgait_name,
-                 new_subgait.subgait_name: 'end'}
-
+        """Validates the transition point."""
         try:
-            Gait('transition', subgaits, graph)
+            if (not old_subgait.validate_subgait_transition(transition_subgait)
+                    or not transition_subgait.validate_subgait_transition(new_subgait)):
+                raise TransitionError('Transition subgaits do not match')
         except Exception as error:
             TransitionError('Error when creating transition: {er}'.format(er=error))
 

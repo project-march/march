@@ -55,8 +55,8 @@ class HealthyStateMachine(smach.StateMachine):
         self.add('UNKNOWN', IdleState(gait_outcomes=['home_sit', 'home_stand']),
                  transitions={'home_sit': 'HOME SIT', 'home_stand': 'HOME STAND', 'failed': 'UNKNOWN'})
 
-        self.add_state('HOME SIT', StepStateMachine('home', ['home_sit']), 'SITTING', rejected='UNKNOWN')
-        self.add_state('HOME STAND', StepStateMachine('home', ['home_stand']), 'STANDING', rejected='UNKNOWN')
+        self.add_state('HOME SIT', StepStateMachine('home_sit', ['home_sit']), 'SITTING', rejected='UNKNOWN')
+        self.add_state('HOME STAND', StepStateMachine('home_stand', ['home_stand']), 'STANDING', rejected='UNKNOWN')
 
         walking_state_machine = StateMachineWithTransition(['walk_small', 'walk', 'walk_large'])
         walking_state_machine.add('walk', WalkStateMachine('walk', is_transition_active=True))
