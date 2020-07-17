@@ -7,11 +7,10 @@ from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
 from visualization_msgs.msg import Marker
 
+from march_gait_selection.state_machine.gait_interface import GaitInterface
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
-
-from march_gait_selection.state_machine.gait_interface import GaitInterface
 
 
 class BalanceGait(GaitInterface):

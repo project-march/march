@@ -26,7 +26,7 @@ class GaitSelection(object):
         self._robot = urdf.Robot.from_parameter_server('/robot_description')
         self._balance_gait = BalanceGait.create_balance_subgait()
 
-        self._gait_version_map = self._load_version_map()
+        self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()
 
     @staticmethod
@@ -45,6 +45,11 @@ class GaitSelection(object):
     def gait_version_map(self):
         """Returns the mapping from gaits and subgaits to versions."""
         return self._gait_version_map
+
+    @property
+    def positions(self):
+        """Returns the named idle positions."""
+        return self._positions
 
     def set_gait_versions(self, gait_name, version_map):
         """Sets the subgait versions of given gait.
@@ -88,11 +93,11 @@ class GaitSelection(object):
 
     def update_default_versions(self):
         """Updates the default.yaml file with the current loaded gait versions."""
-        new_default_dict = {'gaits': self._gait_version_map}
+        new_default_dict = {'gaits': self._gait_version_map, 'positions': self._positions}
 
         try:
             with open(self._default_yaml, 'w') as default_yaml_content:
-                yaml_content = yaml.dump(new_default_dict)
+                yaml_content = yaml.dump(new_default_dict, default_flow_style=False)
                 default_yaml_content.write(yaml_content)
             return [True, 'New default values were written to: {pn}'.format(pn=self._default_yaml)]
 
@@ -112,8 +117,8 @@ class GaitSelection(object):
         self._balance_gait.default_walk = gaits['walk']
         return gaits
 
-    def _load_version_map(self):
-        """Loads and verifies the version map from the default version map."""
+    def _load_configuration(self):
+        """Loads and verifies the gaits configuration."""
         with open(self._default_yaml, 'r') as default_yaml_file:
             default_config = yaml.load(default_yaml_file, Loader=yaml.SafeLoader)
 
@@ -125,7 +130,7 @@ class GaitSelection(object):
         if not self._validate_version_map(version_map):
             raise GaitError(msg='Gait version map: {gm}, is not valid'.format(gm=version_map))
 
-        return version_map
+        return version_map, default_config['positions']
 
     def _validate_version_map(self, version_map):
         """Validates if the current versions exist.
