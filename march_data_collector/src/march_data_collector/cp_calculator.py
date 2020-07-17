@@ -9,6 +9,7 @@ from visualization_msgs.msg import Marker
 class CPCalculator(object):
 
     def __init__(self, tf_buffer, foot_link):
+        """Base class to calculate capture point for the exoskeleton."""
         self._tf_buffer = tf_buffer
         self._foot_link = foot_link
 
@@ -44,7 +45,7 @@ class CPCalculator(object):
     def center_of_mass_marker(self, updated_center_of_mass):
         """Center of mass property setter."""
         if not isinstance(updated_center_of_mass, Marker):
-            raise TypeError("Given center of mass is not of type; Marker")
+            raise TypeError('Given center of mass is not of type; Marker')
 
         self._center_of_mass_marker = updated_center_of_mass
 
@@ -92,7 +93,7 @@ class CPCalculator(object):
     def get_capture_point(self, duration):
         """Service call function to return the capture point pose.
 
-          :param duration:
+        :param duration:
             the amount of seconds away from the current time the capture point should be calculated=
         """
         self._calculate_capture_point(duration)
