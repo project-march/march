@@ -11,8 +11,10 @@ from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
 
+from march_gait_selection.state_machine.gait_interface import GaitInterface
 
-class BalanceGait(object):
+
+class BalanceGait(GaitInterface):
     """Base class to create a gait using the moveit motion planning."""
 
     def __init__(self, gait_name='gait_balanced_walk', move_groups=None):
@@ -208,3 +210,13 @@ class BalanceGait(object):
             return self.construct_subgait('right_leg', 'right_swing')
         else:
             return self.default_walk[name]
+
+    # GaitInterface
+    def starting_position(self):
+        return self._default_walk.starting_position()
+
+    def final_position(self):
+        return self._default_walk.final_position()
+
+    def name(self):
+        return self.gait_name

@@ -5,10 +5,11 @@ import rospy
 from urdf_parser_py import urdf
 import yaml
 
-from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
-from march_shared_classes.gait.gait import Gait
+
+from .dynamic_gaits.balance_gait import BalanceGait
+from .state_machine.setpoints_gait import SetpointsGait
 
 
 class GaitSelection(object):
@@ -106,7 +107,7 @@ class GaitSelection(object):
         gaits = {self._balance_gait.gait_name: self._balance_gait}
 
         for gait in self._gait_version_map:
-            gaits[gait] = Gait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
+            gaits[gait] = SetpointsGait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
 
         self._balance_gait.default_walk = gaits['walk']
         return gaits
@@ -153,4 +154,4 @@ class GaitSelection(object):
 
     def __iter__(self):
         """Returns an iterator over all loaded gaits."""
-        return self._loaded_gaits.values()
+        return iter(self._loaded_gaits.values())
