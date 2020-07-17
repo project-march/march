@@ -46,11 +46,18 @@ class GaitStateMachine(object):
                 self._gait_transitions[gait_name].add(idle_name)
             else:
                 self._gait_transitions[gait_name] = {idle_name}
+
+        self._validate_transitions()
+
+        self._generate_home_gaits(idle_positions)
+
+    def _validate_transitions(self):
         for name, idles in self._gait_transitions.items():
             for idle in idles:
                 if idle not in self._idle_transitions:
                     rospy.logwarn('{0} does not have transitions'.format(idle))
 
+    def _generate_home_gaits(self, idle_positions):
         self._idle_transitions[self.UNKNOWN] = set()
         home_gaits = {}
         for idle_name, position in idle_positions.items():
