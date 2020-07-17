@@ -4,8 +4,8 @@ from std_srvs.srv import Empty, EmptyRequest
 
 from march_shared_resources.srv import CurrentState, PossibleGaits
 
-from .gaits import slope_down_sm
 from .gaits import slope_down_fixed_sm
+from .gaits import slope_down_sm
 from .gaits import tilted_path_left_flexed_knee_step_sm
 from .gaits import tilted_path_left_knee_bend_sm
 from .gaits import tilted_path_left_straight_sm
