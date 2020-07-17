@@ -34,6 +34,18 @@ class SubgaitGraphTest(unittest.TestCase):
         with self.assertRaises(SubgaitGraphError):
             SubgaitGraph(graph)
 
+    def test_subgaits_from_start(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        self.assertListEqual(graph.start_subgaits(), ['1'])
+
+    def test_subgait_transition_to_end(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        self.assertListEqual(graph.end_subgaits(), ['1'])
+
+    def test_subgait_transitions_to_end(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end', 'stop': '2'}, '2': {'to': 'end'}})
+        self.assertListEqual(graph.end_subgaits(), ['1', '2'])
+
     def test_contained_subgait(self):
         subgait = 'test'
         graph = SubgaitGraph({'start': {'to': subgait}, subgait: {'to': 'end'}})
