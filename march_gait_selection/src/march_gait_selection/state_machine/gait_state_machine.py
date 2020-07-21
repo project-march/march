@@ -61,15 +61,15 @@ class GaitStateMachine(object):
     def _process_idle_state(self):
         if self._input.gait_requested():
             gait_name = self._input.gait_name()
-            rospy.loginfo('Requested gait ' + gait_name)
+            rospy.loginfo('Requested gait `{0}`'.format(gait_name))
             if gait_name in self._idle_transitions[self._current_state]:
                 self._current_state = gait_name
                 self._is_idle = False
                 self._input.gait_accepted()
-                rospy.loginfo('Accepted')
+                rospy.loginfo('Accepted gait `{0}`'.format(gait_name))
             else:
                 self._input.gait_rejected()
-                rospy.loginfo('Rejected')
+                rospy.loginfo('Cannot execute gait `{0}` from idle state `{1}`'.format(gait_name, self._current_state))
 
     def _process_gait_state(self, elapsed_time):
         if self._current_gait is None:
@@ -78,10 +78,13 @@ class GaitStateMachine(object):
             else:
                 self._current_gait = self._gait_selection[self._current_state]
             self._current_gait.start()
-            rospy.loginfo('Executing ' + self._current_gait.name())
+            rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name()))
 
         if self._input.stop_requested():
-            self._current_gait.stop()
+            if self._current_gait.stop():
+                rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name()))
+            else:
+                rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name()))
 
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
@@ -90,8 +93,9 @@ class GaitStateMachine(object):
             self._current_state = self._gait_transitions[self._current_state]
             self._is_idle = True
             self._current_gait.end()
-            self._current_gait = None
             self._input.gait_finished()
+            rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name()))
+            self._current_gait = None
 
     def _generate_graph(self):
         self._idle_transitions = {}
