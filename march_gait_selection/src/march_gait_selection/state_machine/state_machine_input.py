@@ -45,7 +45,7 @@ class StateMachineInput(object):
         """Returns True when the input requests a gait transition, otherwise False."""
         return self._transition_index != 0
 
-    def gait_selected(self):
+    def gait_requested(self):
         """Returns True when the input has a gait selected, otherwise False."""
         return self._gait is not None
 

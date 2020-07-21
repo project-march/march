@@ -1,14 +1,25 @@
 import rospy
 
+from march_gait_selection.gait_selection import GaitSelection
+
 from .gait_state_machine_error import GaitStateMachineError
 from .home_gait import HomeGait
+from .state_machine_input import StateMachineInput
 
 
 class GaitStateMachine(object):
     UNKNOWN = 'unknown'
 
-    def __init__(self, gait_selection):
+    def __init__(self, gait_selection, state_input):
+        """Generates a state machine from given gaits and resets it to UNKNOWN state.
+
+        In order to start the state machine see `run`.
+
+        :param GaitSelection gait_selection: Selection of loaded gaits to build from
+        :param StateMachineInput state_input: Input interface for controlling the states
+        """
         self._gait_selection = gait_selection
+        self._input = state_input
         self._home_gaits = {}
         self._idle_transitions = {}
         self._gait_transitions = {}
@@ -16,6 +27,35 @@ class GaitStateMachine(object):
 
         self._current_state = self.UNKNOWN
         self._is_idle = True
+        self._shutdown_requested = False
+
+    def run(self):
+        """Runs the state machine until shutdown is requested."""
+        while not self._shutdown_requested:
+            if self._is_idle:
+                self._process_idle_state()
+            else:
+                self._process_gait_state()
+
+    def request_shutdown(self):
+        """Requests shutdown, which will terminate the state machine as soon as possible."""
+        self._shutdown_requested = True
+
+    def _process_idle_state(self):
+        if self._input.gait_requested():
+            gait_name = self._input.gait_name()
+            rospy.loginfo('Requested gait ' + gait_name)
+            if gait_name in self._idle_transitions[self._current_state]:
+                self._current_state = gait_name
+                self._is_idle = False
+                self._input.gait_accepted()
+                rospy.loginfo('Accepted')
+            else:
+                self._input.gait_rejected()
+                rospy.loginfo('Rejected')
+
+    def _process_gait_state(self):
+        pass
 
     def _generate_graph(self):
         self._idle_transitions = {}
