@@ -1,5 +1,6 @@
 import os
 
+import re
 import rospkg
 import rospy
 from urdf_parser_py import urdf
@@ -117,6 +118,7 @@ class GaitSelection(object):
             default_config = yaml.load(default_yaml_file, Loader=yaml.SafeLoader)
 
         version_map = default_config['gaits']
+        print(version_map)
 
         if not isinstance(version_map, dict):
             raise TypeError('Gait version map should be of type; dictionary')
@@ -140,11 +142,21 @@ class GaitSelection(object):
 
             for subgait_name in version_map[gait_name]:
                 version = version_map[gait_name][subgait_name]
-                subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
+                if version[0] == '%':
+                    #handel parametric
+                    versions = re.findall('(.*)', str)
+                    for version in versions:
+                        subgait_path = os.path.join(gait_path, subgait_name, version[2:-2] + '.subgait')
 
-                if not os.path.isfile(subgait_path):
-                    rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
-                    return False
+                        if not os.path.isfile(subgait_path):
+                            rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
+                            return False
+                else:
+                    subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
+
+                    if not os.path.isfile(subgait_path):
+                        rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
+                        return False
         return True
 
     def __getitem__(self, name):

@@ -1,8 +1,10 @@
 import os
 
+import re
 import yaml
 
-from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
+from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent,\
+    SubgaitInterpolationError, SubgaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
 
 from .subgait import Subgait
@@ -86,11 +88,18 @@ class Gait(object):
             raise SubgaitNameNotFound(subgait_name, gait_name)
 
         version = gait_version_map[gait_name][subgait_name]
-        subgait_path = os.path.join(gait_directory, gait_name, subgait_name, version + '.subgait')
-        if not os.path.isfile(subgait_path):
-            raise FileNotFoundError(file_path=subgait_path)
+        if version[0] == '%':
+            base_version, other_version, parameter = self.unpack_parametric_version(version)
+            base_path = os.path.join(gait_directory, gait_name, subgait_name, base_version + '.subgait')
+            other_path = os.path.join(gait_directory, gait_name, subgait_name, other_version + '.subgait')
 
-        return Subgait.from_file(robot, subgait_path)
+            return Subgait.from_files_interpolated(robot, base_path, other_path, parameter)
+        else:
+            subgait_path = os.path.join(gait_directory, gait_name, subgait_name, version + '.subgait')
+            if not os.path.isfile(subgait_path):
+                raise FileNotFoundError(file_path=subgait_path)
+
+            return Subgait.from_file(robot, subgait_path)
 
     def _validate_trajectory_transition(self):
         """Compares and validates the trajectory end and start points."""
@@ -115,10 +124,23 @@ class Gait(object):
         for subgait_name, version in version_map.items():
             if subgait_name not in self.subgaits:
                 raise SubgaitNameNotFound(subgait_name, self.gait_name)
-            subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
-            if not os.path.isfile(subgait_path):
-                raise FileNotFoundError(file_path=subgait_path)
-            new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
+            if version[0] == '%':
+                print('found a parametric subgait')
+                base_version, other_version, parameter = self.unpack_parametric_version(version)
+                base_version_path = os.path.join(gait_path, subgait_name, base_version + '.subgait')
+                other_version_path = os.path.join(gait_path, subgait_name, other_version + '.subgait')
+                # parametric subgait
+                try:
+                    new_subgaits[subgait_name] = Subgait.from_files_interpolated(robot, base_version_path,
+                                                                                 other_version_path)
+                except SubgaitInterpolationError:
+                    #what error to do here ?
+                    pass
+            else:
+                subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
+                if not os.path.isfile(subgait_path):
+                    raise FileNotFoundError(file_path=subgait_path)
+                new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
 
         for from_subgait_name, to_subgait_name in self.graph:
             if from_subgait_name in new_subgaits or to_subgait_name in new_subgaits:
@@ -136,3 +158,13 @@ class Gait(object):
     def __getitem__(self, name):
         """Returns a subgait from the loaded subgaits."""
         return self.subgaits.get(name)
+
+    @staticmethod
+    def unpack_parametric_version(str):
+        print(str)
+        parameter_str = re.search('\%*[0-9.]_', str).group(0)
+        parameter = float(parameter_str[2:-2])
+        versions = re.findall('(.*)', str)
+        base_version = versions[0][2:-2]
+        other_version = versions[1][2:-2]
+        return base_version, other_version, parameter
