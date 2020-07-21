@@ -27,7 +27,7 @@ class GaitInterface(object):
                  set as the new goal for the controller, can be None. The flag
                  indicates whether the gait has finished.
         """
-        return None, False
+        return None, True
 
     def stop(self):
         """Called when the gait has been instructed to stop.

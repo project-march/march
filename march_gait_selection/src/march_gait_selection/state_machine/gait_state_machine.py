@@ -26,16 +26,23 @@ class GaitStateMachine(object):
         self._generate_graph()
 
         self._current_state = self.UNKNOWN
+        self._current_gait = None
         self._is_idle = True
         self._shutdown_requested = False
 
     def run(self):
         """Runs the state machine until shutdown is requested."""
+        rate = rospy.Rate(30.0)
+        last_update_time = rospy.Time.now()
         while not self._shutdown_requested:
+            now = rospy.Time.now()
+            elapsed_time = now - last_update_time
+            last_update_time = now
             if self._is_idle:
                 self._process_idle_state()
             else:
-                self._process_gait_state()
+                self._process_gait_state(elapsed_time.to_sec())
+            rate.sleep()
 
     def request_shutdown(self):
         """Requests shutdown, which will terminate the state machine as soon as possible."""
@@ -54,8 +61,27 @@ class GaitStateMachine(object):
                 self._input.gait_rejected()
                 rospy.loginfo('Rejected')
 
-    def _process_gait_state(self):
-        pass
+    def _process_gait_state(self, elapsed_time):
+        if self._current_gait is None:
+            if self._current_state in self._home_gaits:
+                self._current_gait = self._home_gaits[self._current_state]
+            else:
+                self._current_gait = self._gait_selection[self._current_state]
+            self._current_gait.start()
+            rospy.loginfo('Executing ' + self._current_gait.name())
+
+        if self._input.stop_requested():
+            self._current_gait.stop()
+
+        trajectory, should_stop = self._current_gait.update(elapsed_time)
+        # schedule trajectory if any
+
+        if should_stop:
+            self._current_state = self._gait_transitions[self._current_state]
+            self._is_idle = True
+            self._current_gait.end()
+            self._current_gait = None
+            self._input.gait_finished()
 
     def _generate_graph(self):
         self._idle_transitions = {}
@@ -82,20 +108,16 @@ class GaitStateMachine(object):
                 rospy.logwarn('No named position given for final position of gait `{gn}`, creating `{n}`'
                               .format(gn=gait_name, n=idle_name))
                 idle_positions[idle_name] = final_position
-            if gait_name in self._gait_transitions:
-                self._gait_transitions[gait_name].add(idle_name)
-            else:
-                self._gait_transitions[gait_name] = {idle_name}
+            self._gait_transitions[gait_name] = idle_name
 
         self._validate_transitions()
 
         self._generate_home_gaits(idle_positions)
 
     def _validate_transitions(self):
-        for name, idles in self._gait_transitions.items():
-            for idle in idles:
-                if idle not in self._idle_transitions:
-                    rospy.logwarn('{0} does not have transitions'.format(idle))
+        for name, idle in self._gait_transitions.items():
+            if idle not in self._idle_transitions:
+                rospy.logwarn('{0} does not have transitions'.format(idle))
 
     def _generate_home_gaits(self, idle_positions):
         self._idle_transitions[self.UNKNOWN] = set()

@@ -4,12 +4,12 @@ from std_srvs.srv import Trigger
 from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, SetGaitVersion
 
 from .gait_selection import GaitSelection
-from .perform_gait_action import PerformGaitAction
 from .state_machine.gait_state_machine import GaitStateMachine
+from .state_machine.state_machine_input import StateMachineInput
 
 NODE_NAME = 'gait_selection'
 GAIT_FILES_MAP_NAME = 'march_gait_files'
-GAIT_DIRECTORY_NAME = 'gait'
+GAIT_DIRECTORY_NAME = 'minimal'
 
 
 def set_gait_versions(msg, gait_selection):
@@ -57,7 +57,10 @@ def main():
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
-    gait_state_machine = GaitStateMachine(gait_selection)
+    state_input = StateMachineInput()
+    gait_state_machine = GaitStateMachine(gait_selection, state_input)
+
+    rospy.core.add_preshutdown_hook(lambda s: gait_state_machine.request_shutdown())
 
     # Use lambdas to process service calls inline
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
@@ -75,5 +78,4 @@ def main():
     rospy.Service('/march/gait_selection/contains_gait', ContainsGait,
                   lambda msg: contains_gait(msg, gait_selection))
 
-    PerformGaitAction(gait_selection)
-    rospy.spin()
+    gait_state_machine.run()
