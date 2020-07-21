@@ -70,6 +70,11 @@ class GaitStateMachine(object):
             else:
                 self._input.gait_rejected()
                 rospy.loginfo('Cannot execute gait `{0}` from idle state `{1}`'.format(gait_name, self._current_state))
+        elif self._input.unknown_requested():
+            self._input.gait_accepted()
+            self._current_state = self.UNKNOWN
+            self._input.gait_finished()
+            rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _process_gait_state(self, elapsed_time):
         if self._current_gait is None:
