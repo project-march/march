@@ -1,14 +1,15 @@
 import os
-
 import re
+
 import yaml
 
-from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent,\
-    SubgaitInterpolationError, SubgaitNameNotFound
+from march_shared_classes.exceptions.gait_exceptions import GaitNameNotFound, NonValidGaitContent, SubgaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
 
 from .subgait import Subgait
 from .subgait_graph import SubgaitGraph
+
+PARAMETRIC_GATIS_CHARACTER = '_'
 
 
 class Gait(object):
@@ -88,8 +89,8 @@ class Gait(object):
             raise SubgaitNameNotFound(subgait_name, gait_name)
 
         version = gait_version_map[gait_name][subgait_name]
-        if version[0] == '%':
-            base_version, other_version, parameter = self.unpack_parametric_version(version)
+        if version[0] == PARAMETRIC_GATIS_CHARACTER:
+            base_version, other_version, parameter = unpack_parametric_version(version)
             base_path = os.path.join(gait_directory, gait_name, subgait_name, base_version + '.subgait')
             other_path = os.path.join(gait_directory, gait_name, subgait_name, other_version + '.subgait')
 
@@ -124,18 +125,13 @@ class Gait(object):
         for subgait_name, version in version_map.items():
             if subgait_name not in self.subgaits:
                 raise SubgaitNameNotFound(subgait_name, self.gait_name)
-            if version[0] == '%':
-                print('found a parametric subgait')
-                base_version, other_version, parameter = self.unpack_parametric_version(version)
+            if version[0] == PARAMETRIC_GATIS_CHARACTER:
+                base_version, other_version, parameter = unpack_parametric_version(version)
                 base_version_path = os.path.join(gait_path, subgait_name, base_version + '.subgait')
                 other_version_path = os.path.join(gait_path, subgait_name, other_version + '.subgait')
-                # parametric subgait
-                try:
-                    new_subgaits[subgait_name] = Subgait.from_files_interpolated(robot, base_version_path,
-                                                                                 other_version_path)
-                except SubgaitInterpolationError:
-                    #what error to do here ?
-                    pass
+                new_subgaits[subgait_name] = Subgait.from_files_interpolated(robot, base_version_path,
+                                                                             other_version_path, parameter)
+
             else:
                 subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
                 if not os.path.isfile(subgait_path):
@@ -159,12 +155,11 @@ class Gait(object):
         """Returns a subgait from the loaded subgaits."""
         return self.subgaits.get(name)
 
-    @staticmethod
-    def unpack_parametric_version(str):
-        print(str)
-        parameter_str = re.search('\%*[0-9.]_', str).group(0)
-        parameter = float(parameter_str[2:-2])
-        versions = re.findall('(.*)', str)
-        base_version = versions[0][2:-2]
-        other_version = versions[1][2:-2]
-        return base_version, other_version, parameter
+
+def unpack_parametric_version(version):
+    parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GATIS_CHARACTER), version).group(0)
+    parameter = float(parameter_str[1:-1])
+    versions = re.findall(r'\([^\)]*\)', version)
+    base_version = versions[0][1:-1]
+    other_version = versions[1][1:-1]
+    return base_version, other_version, parameter

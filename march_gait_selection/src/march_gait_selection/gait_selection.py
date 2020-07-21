@@ -1,6 +1,6 @@
 import os
-
 import re
+
 import rospkg
 import rospy
 from urdf_parser_py import urdf
@@ -10,6 +10,8 @@ from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
+
+PARAMETRIC_GATIS_CHARACTER = '_'
 
 
 class GaitSelection(object):
@@ -118,7 +120,6 @@ class GaitSelection(object):
             default_config = yaml.load(default_yaml_file, Loader=yaml.SafeLoader)
 
         version_map = default_config['gaits']
-        print(version_map)
 
         if not isinstance(version_map, dict):
             raise TypeError('Gait version map should be of type; dictionary')
@@ -142,14 +143,14 @@ class GaitSelection(object):
 
             for subgait_name in version_map[gait_name]:
                 version = version_map[gait_name][subgait_name]
-                if version[0] == '%':
-                    #handel parametric
-                    versions = re.findall('(.*)', str)
+                if version[0] == PARAMETRIC_GATIS_CHARACTER:
+                    versions = re.findall(r'\([^\)]*\)', version)
                     for version in versions:
-                        subgait_path = os.path.join(gait_path, subgait_name, version[2:-2] + '.subgait')
+                        subgait_path = os.path.join(gait_path, subgait_name, version[1:-1] + '.subgait')
 
                         if not os.path.isfile(subgait_path):
                             rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
+
                             return False
                 else:
                     subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
