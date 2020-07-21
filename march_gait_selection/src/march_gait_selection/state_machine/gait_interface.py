@@ -1,10 +1,6 @@
 class GaitInterface(object):
-    def start(self, starting_position):
-        """Called when the gait has been selected for execution.
-
-        The gait should start at the given starting position.
-        :param starting_position: starting positions of all joints
-        """
+    def start(self):
+        """Called when the gait has been selected for execution."""
         pass
 
     def starting_position(self):
