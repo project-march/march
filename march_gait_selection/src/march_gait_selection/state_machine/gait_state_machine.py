@@ -30,6 +30,16 @@ class GaitStateMachine(object):
         self._is_idle = True
         self._shutdown_requested = False
 
+    def get_possible_gaits(self):
+        """Returns possible names of gaits that can be executed.
+
+        :returns List of names, or empty list when a gait is executing.
+        """
+        if self._is_idle:
+            return list(self._idle_transitions[self._current_state])
+        else:
+            return []
+
     def run(self):
         """Runs the state machine until shutdown is requested."""
         rate = rospy.Rate(30.0)
@@ -121,11 +131,11 @@ class GaitStateMachine(object):
 
     def _generate_home_gaits(self, idle_positions):
         self._idle_transitions[self.UNKNOWN] = set()
-        home_gaits = {}
+        self._home_gaits = {}
         for idle_name, position in idle_positions.items():
             home_gait = HomeGait(idle_name, position)
             home_gait_name = home_gait.name()
-            home_gaits[home_gait_name] = home_gait
+            self._home_gaits[home_gait_name] = home_gait
             if home_gait_name in self._gait_transitions:
                 raise GaitStateMachineError('Gaits cannot have the same name as home gait `{0}`'.format(home_gait_name))
             self._gait_transitions[home_gait_name] = idle_name

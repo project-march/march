@@ -1,7 +1,8 @@
 import rospy
 from std_srvs.srv import Trigger
 
-from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, SetGaitVersion
+from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
+                                        SetGaitVersion)
 
 from .gait_selection import GaitSelection
 from .state_machine.gait_state_machine import GaitStateMachine
@@ -77,5 +78,8 @@ def main():
 
     rospy.Service('/march/gait_selection/contains_gait', ContainsGait,
                   lambda msg: contains_gait(msg, gait_selection))
+
+    rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
+                  lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
 
     gait_state_machine.run()
