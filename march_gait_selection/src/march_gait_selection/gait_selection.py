@@ -142,6 +142,7 @@ class GaitSelection(object):
             for subgait_name in version_map[gait_name]:
                 version = version_map[gait_name][subgait_name]
                 if not Subgait.validate_version(gait_path, subgait_name, version):
+                    rospy.logwarn('{0}, {1} does not exist'.format(subgait_name, version))
                     return False
         return True
 

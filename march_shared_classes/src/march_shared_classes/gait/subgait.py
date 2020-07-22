@@ -66,6 +66,16 @@ class Subgait(object):
 
     @classmethod
     def from_name_and_version(cls, robot, gait_dir, gait_name, subgait_name, version, *args):
+        """Load subgait based from file(s) based on name and version.
+
+        :param robot: The robot corresponding to the given subgait file
+        :param gait_dir: The directory with all the gaits
+        :param gait_name: The name of the corresponding gait
+        :param subgait_name: The name of the subgait to load
+        :param version: The version to use, this can be parametric
+        :param args:
+        :return: A populated Subgait object.
+        """
         if version[0] == PARAMETRIC_GATIS_CHARACTER:
             base_version, other_version, parameter = unpack_parametric_version(version)
             base_path = os.path.join(gait_dir, gait_name, subgait_name, base_version + '.subgait')
@@ -322,12 +332,12 @@ class Subgait(object):
     # endregion
 
     @staticmethod
-    def validate_versions(gait_path, subgait_name, version):
+    def validate_version(gait_path, subgait_name, version):
+        """Check whether a gait exists for the gait."""
         if version[0] == PARAMETRIC_GATIS_CHARACTER:
             base_version, other_version, _ = unpack_parametric_version(version)
             base_subgait_path = os.path.join(gait_path, subgait_name, base_version + '.subgait')
             other_subgait_path = os.path.join(gait_path, subgait_name, other_version + '.subgait')
-
             for subgait_path in [base_subgait_path, other_subgait_path]:
                 if not os.path.isfile(subgait_path):
                     rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
@@ -337,9 +347,11 @@ class Subgait(object):
             if not os.path.isfile(subgait_path):
                 rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
                 return False
+        return True
 
 
 def unpack_parametric_version(version):
+    """Unpack a version to base version, other version and parameter."""
     parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GATIS_CHARACTER), version).group(0)
     parameter = float(parameter_str[1:-1])
     versions = re.findall(r'\([^\)]*\)', version)
