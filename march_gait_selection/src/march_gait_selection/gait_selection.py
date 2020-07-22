@@ -1,5 +1,4 @@
 import os
-import re
 
 import rospkg
 import rospy
@@ -10,8 +9,7 @@ from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.gait import Gait
-
-PARAMETRIC_GATIS_CHARACTER = '_'
+from march_shared_classes.gait.subgait import Subgait
 
 
 class GaitSelection(object):
@@ -143,21 +141,8 @@ class GaitSelection(object):
 
             for subgait_name in version_map[gait_name]:
                 version = version_map[gait_name][subgait_name]
-                if version[0] == PARAMETRIC_GATIS_CHARACTER:
-                    versions = re.findall(r'\([^\)]*\)', version)
-                    for version in versions:
-                        subgait_path = os.path.join(gait_path, subgait_name, version[1:-1] + '.subgait')
-
-                        if not os.path.isfile(subgait_path):
-                            rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
-
-                            return False
-                else:
-                    subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
-
-                    if not os.path.isfile(subgait_path):
-                        rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
-                        return False
+                if not Subgait.validate_version(gait_path, subgait_name, version):
+                    return False
         return True
 
     def __getitem__(self, name):

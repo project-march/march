@@ -1,12 +1,18 @@
+import os
+import re
+
 import rospy
 from trajectory_msgs import msg as trajectory_msg
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
+from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
 
 from .joint_trajectory import JointTrajectory
 from .limits import Limits
 from .setpoint import Setpoint
+
+PARAMETRIC_GATIS_CHARACTER = '_'
 
 
 class Subgait(object):
@@ -39,6 +45,8 @@ class Subgait(object):
         :returns
             A populated Subgait object
         """
+        if not os.path.isfile(file_name):
+            raise FileNotFoundError(file_path=file_name)
         if file_name is None or file_name == '':
             return None
 
@@ -55,6 +63,17 @@ class Subgait(object):
             return None
 
         return cls.from_dict(robot, subgait_dict, gait_name, subgait_name, version, *args)
+
+    @classmethod
+    def from_name_and_version(cls, robot, gait_dir, gait_name, subgait_name, version, *args):
+        if version[0] == PARAMETRIC_GATIS_CHARACTER:
+            base_version, other_version, parameter = unpack_parametric_version(version)
+            base_path = os.path.join(gait_dir, gait_name, subgait_name, base_version + '.subgait')
+            other_path = os.path.join(gait_dir, gait_name, subgait_name, other_version + '.subgait')
+            return cls.from_files_interpolated(robot, base_path, other_path, parameter)
+        else:
+            subgait_path = os.path.join(gait_dir, gait_name, subgait_name, version + '.subgait')
+            return cls.from_file(robot, subgait_path, *args)
 
     @classmethod
     def from_files_interpolated(cls, robot, file_name_base, file_name_other, parameter, *args):
@@ -301,3 +320,29 @@ class Subgait(object):
     def __len__(self):
         return len(self.joints)
     # endregion
+
+    @staticmethod
+    def validate_versions(gait_path, subgait_name, version):
+        if version[0] == PARAMETRIC_GATIS_CHARACTER:
+            base_version, other_version, _ = unpack_parametric_version(version)
+            base_subgait_path = os.path.join(gait_path, subgait_name, base_version + '.subgait')
+            other_subgait_path = os.path.join(gait_path, subgait_name, other_version + '.subgait')
+
+            for subgait_path in [base_subgait_path, other_subgait_path]:
+                if not os.path.isfile(subgait_path):
+                    rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
+                    return False
+        else:
+            subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
+            if not os.path.isfile(subgait_path):
+                rospy.logwarn('{sp} does not exist'.format(sp=subgait_path))
+                return False
+
+
+def unpack_parametric_version(version):
+    parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GATIS_CHARACTER), version).group(0)
+    parameter = float(parameter_str[1:-1])
+    versions = re.findall(r'\([^\)]*\)', version)
+    base_version = versions[0][1:-1]
+    other_version = versions[1][1:-1]
+    return base_version, other_version, parameter
