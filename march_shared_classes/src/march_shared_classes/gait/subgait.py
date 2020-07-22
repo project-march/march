@@ -45,10 +45,11 @@ class Subgait(object):
         :returns
             A populated Subgait object
         """
+
+        if file_name is None or file_name == '':
+            raise FileNotFoundError(file_path=file_name)
         if not os.path.isfile(file_name):
             raise FileNotFoundError(file_path=file_name)
-        if file_name is None or file_name == '':
-            return None
 
         try:
             gait_name = file_name.split('/')[-3]
