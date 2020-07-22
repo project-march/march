@@ -1,10 +1,7 @@
 import rospy
 
-from march_gait_selection.gait_selection import GaitSelection
-
 from .gait_state_machine_error import GaitStateMachineError
 from .home_gait import HomeGait
-from .state_machine_input import StateMachineInput
 
 
 class GaitStateMachine(object):
@@ -88,11 +85,14 @@ class GaitStateMachine(object):
         if self._input.stop_requested():
             if self._current_gait.stop():
                 rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name()))
+                self._input.stop_accepted()
             else:
                 rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name()))
 
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
+        if trajectory is not None:
+            rospy.loginfo('Received new trajectory to schedule')
 
         if should_stop:
             self._current_state = self._gait_transitions[self._current_state]
