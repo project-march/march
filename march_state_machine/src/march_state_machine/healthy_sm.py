@@ -4,6 +4,7 @@ from std_srvs.srv import Empty, EmptyRequest
 
 from march_shared_resources.srv import CurrentState, PossibleGaits
 
+from .gaits import slope_down_fixed_sm
 from .gaits import slope_down_sm
 from .gaits import tilted_path_left_flexed_knee_step_sm
 from .gaits import tilted_path_left_knee_bend_sm
@@ -111,6 +112,7 @@ class HealthyStateMachine(smach.StateMachine):
         # RD stands for Ramp and Door
         self.add_state('GAIT RD SLOPE UP', SlopeStateMachine('ramp_door_slope_up'), 'STANDING')
         self.add_state('GAIT RD SLOPE DOWN', slope_down_sm.create(), 'STANDING')
+        self.add_state('GAIT RD SLOPE DOWN FIXED', slope_down_fixed_sm.create(), 'STANDING')
 
         # TP stands for Tilted Path
         self.add_state('GAIT TP LEFT STRAIGHT', tilted_path_left_straight_sm.create(), 'STANDING')
@@ -142,6 +144,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                       'gait_rough_terrain_second_middle_step',
                                                       'gait_rough_terrain_third_middle_step',
                                                       'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
+                                                      'gait_ramp_door_slope_down_fixed',
                                                       'gait_tilted_path_left_straight_start',
                                                       'gait_tilted_path_left_flexed_knee_step',
                                                       'gait_tilted_path_left_knee_bend',
@@ -174,6 +177,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_rough_terrain_third_middle_step': 'GAIT RT THIRD MIDDLE STEP',
                               'gait_ramp_door_slope_up': 'GAIT RD SLOPE UP',
                               'gait_ramp_door_slope_down': 'GAIT RD SLOPE DOWN',
+                              'gait_ramp_door_slope_down_fixed': 'GAIT RD SLOPE DOWN FIXED',
                               'gait_tilted_path_left_straight_start': 'GAIT TP LEFT STRAIGHT',
                               'gait_tilted_path_left_flexed_knee_step': 'GAIT TP LEFT FLEXED KNEE STEP',
                               'gait_tilted_path_left_knee_bend': 'GAIT TP LEFT KNEE BEND',
