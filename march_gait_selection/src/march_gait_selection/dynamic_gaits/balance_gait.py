@@ -211,11 +211,14 @@ class BalanceGait(GaitInterface):
             return self.default_walk[name]
 
     # GaitInterface
-    def starting_position(self):
-        return self._default_walk.starting_position()
-
-    def final_position(self):
-        return self._default_walk.final_position()
-
+    @property
     def name(self):
         return self.gait_name
+
+    @property
+    def starting_position(self):
+        return self._default_walk.starting_position
+
+    @property
+    def final_position(self):
+        return self._default_walk.final_position

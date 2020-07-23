@@ -6,11 +6,14 @@ class HomeGait(GaitInterface):
         self._name = 'home_{name}'.format(name=name)
         self._position = position
 
+    @property
     def name(self):
         return self._name
 
+    @property
     def starting_position(self):
-        return self._position
+        return None
 
+    @property
     def final_position(self):
         return self._position
