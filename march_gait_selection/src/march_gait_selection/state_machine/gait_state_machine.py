@@ -92,7 +92,7 @@ class GaitStateMachine(object):
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
         if trajectory is not None:
-            rospy.loginfo('Received new trajectory to schedule')
+            rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
 
         if should_stop:
             self._current_state = self._gait_transitions[self._current_state]
