@@ -10,12 +10,13 @@ class JointTrajectory(object):
     """Base class for joint trajectory of a gait."""
 
     setpoint_class = Setpoint
+    digits = 4
 
     def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
         self.limits = limits
         self._setpoints = setpoints
-        self._duration = duration
+        self._duration = round(duration, self.digits)
         self.interpolated_position = None
         self.interpolated_velocity = None
         self.interpolate_setpoints()
@@ -56,7 +57,7 @@ class JointTrajectory(object):
                 if setpoint.time > new_duration:
                     self.setpoints.remove(setpoint)
 
-        self._duration = new_duration
+        self._duration = round(new_duration, self.digits)
         self.interpolate_setpoints()
 
     @property
