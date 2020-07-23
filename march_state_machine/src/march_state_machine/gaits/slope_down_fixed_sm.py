@@ -9,8 +9,9 @@ def create():
     sm_slope_down_fixed.register_io_keys(['sounds'])
     with sm_slope_down_fixed:
         smach.StateMachine.add('GAIT RD SLOPE DOWN FIXED', StepStateMachine('ramp_door_slope_down_fixed',
-                                                                            ['right_open', 'left_swing',
-                                                                             'right_swing', 'left_close']),
+                                                                            ['right_open', 'left_swing_1',
+                                                                             'right_swing_1', 'left_swing_2',
+                                                                             'right_swing_2','left_close']),
                                transitions={'succeeded': 'STANDING SLOPE DOWN'})
 
         smach.StateMachine.add('GAIT RD SLOPE DOWN SINGLE', StepStateMachine('ramp_door_slope_down_single'),
