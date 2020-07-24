@@ -71,7 +71,7 @@
             <arg name="ping_safety_node" value="true"/>
         </include>
 
-        <include file="$(find march_data_collector)/launch/march_data_collector.launch" if="$(eval data_collector or esp)">
+        <include file="$(find march_data_collector)/launch/march_data_collector.launch" if="$(eval data_collector or esp or balance)">
             <arg name="esp" value="$(arg esp)"/>
             <arg name="pressure_soles" value="$(arg pressure_soles)"/>
             <arg name="moticon_ip" value="$(arg moticon_ip)"/>
