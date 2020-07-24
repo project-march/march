@@ -1,0 +1,68 @@
+description: The left swing cut in half, this is the first part.
+duration: {nsecs: 550000000, secs: 0}
+gait_type: walk_like
+joints:
+  left_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  left_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  left_hip_fe:
+  - position: -0.1667
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.4365
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.8411
+  left_knee:
+  - position: 0.1396
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.8727
+    time_from_start: {nsecs: 462000000, secs: 0}
+    velocity: 0.0
+  - position: 0.8102
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: -1.2691
+  right_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  right_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  right_hip_fe:
+  - position: 0.288
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: -0.3491
+  - position: 0.0062
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: -0.5287
+  right_knee:
+  - position: 0.1396
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.2094
+    time_from_start: {nsecs: 220000000, secs: 0}
+    velocity: 0.0
+  - position: 0.1609
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: -0.1843
+name: left_swing_1
+version: MV_balancewalk_leftswing1_v2
