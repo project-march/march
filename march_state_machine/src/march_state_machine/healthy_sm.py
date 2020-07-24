@@ -14,6 +14,7 @@ from .gaits import tilted_path_right_knee_bend_sm
 from .gaits import tilted_path_right_straight_sm
 from .gaits import tilted_path_sideways_end_sm
 from .gaits import tilted_path_sideways_start_sm
+from .state_machines.balance_walk_state_machine import BalanceWalkStateMachine
 from .state_machines.slope_state_machine import SlopeStateMachine
 from .state_machines.step_state_machine import StepStateMachine
 from .state_machines.transition_state_machine import StateMachineWithTransition
@@ -126,8 +127,7 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
         # Balance gait based on Capture Point
-        self.add_state('GAIT BALANCED WALK',
-                       WalkStateMachine('gait_balanced_walk', check_gait_content=False), 'STANDING')
+        self.add_state('GAIT BALANCED WALK', BalanceWalkStateMachine('gait_balanced_walk'), 'STANDING')
 
         self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
