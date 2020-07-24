@@ -78,7 +78,7 @@ class DataCollectorNode(object):
         com = self._com_calculator.calculate_com()
         self._com_marker_publisher.publish(com)
         for cp_calculator in self._cp_calculators:
-            cp_calculator.center_of_mass = com
+            cp_calculator.center_of_mass_marker = com
         if self.pressure_soles_on:
             self.send_udp(data.actual.positions)
 

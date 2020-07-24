@@ -1,19 +1,22 @@
 from copy import deepcopy
 import sys
 
+from geometry_msgs.msg import Pose
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
-from visualization_msgs.msg import Marker
 
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
+from march_shared_resources.srv import CapturePointPose
 
 
 class BalanceGait(object):
     """Base class to create a gait using the moveit motion planning."""
+
+    CAPTURE_POINT_SERVICE_TIMEOUT = 1
 
     def __init__(self, gait_name='gait_balanced_walk', move_groups=None):
         self.gait_name = gait_name
@@ -27,10 +30,8 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
         self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
 
-        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
-                         callback_args='left_leg')
-        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=self.capture_point_cb,
-                         callback_args='right_leg')
+        self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/cp_marker_foot_left', CapturePointPose),
+                                       'right_leg': rospy.ServiceProxy('/march/cp_marker_foot_right', CapturePointPose)}
 
     @classmethod
     def create_balance_subgait(cls):
@@ -78,27 +79,25 @@ class BalanceGait(object):
         self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
         self._capture_point_pose[leg_name] = msg.pose
 
-    def calculate_capture_point_trajectory(self, leg_name):
+    def calculate_capture_point_trajectory(self, leg_name, subgait_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
         :param leg_name: The name of the used move group
-
-        :return:
-            A joint trajectory which can be used in a subgait or subgait msg
+        :param subgait_name: the normal subgait name
         """
-        if self._capture_point_pose[leg_name] is None:
-            rospy.logwarn('No messages received from the capture point topic of {lg}'.format(lg=leg_name))
+        subgait_duration = self.default_walk[subgait_name].duration
+        capture_point_pose = self._capture_point_service[leg_name](duration=str(subgait_duration))
+
+        if not capture_point_pose.success:
+            rospy.logwarn('No messages received from the capture point service of {lg}'.format(lg=leg_name))
             return None
 
-        if self._old_capture_point_msg_time[leg_name]:
-            if self._old_capture_point_msg_time[leg_name] == self._latest_capture_point_msg_time[leg_name]:
-                rospy.logwarn('No new capture point messages received from cp topic of {lg}'.format(lg=leg_name))
-                return None
-
-        self._old_capture_point_msg_time[leg_name] = self._latest_capture_point_msg_time[leg_name]
-
-        pose = self._capture_point_pose[leg_name]
         end_effector = self._end_effectors[leg_name]
+
+        pose = Pose()
+        pose.position.x = float(capture_point_pose.x)
+        pose.position.y = float(capture_point_pose.y)
+        pose.position.z = float(capture_point_pose.z)
 
         self.move_group[leg_name].set_joint_value_target(pose, end_effector, True)
 
@@ -171,7 +170,7 @@ class BalanceGait(object):
         """
         non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
 
-        self.calculate_capture_point_trajectory(capture_point_leg_name)
+        self.calculate_capture_point_trajectory(capture_point_leg_name, subgait_name)
         self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
 
         targets = \

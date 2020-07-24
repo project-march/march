@@ -1,0 +1,9 @@
+# Service for setting subgait versions of a gait.
+
+string duration
+---
+bool success
+string message
+string x
+string y
+string z

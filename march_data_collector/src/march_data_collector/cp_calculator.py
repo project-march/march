@@ -5,6 +5,8 @@ import rospy
 import tf2_ros
 from visualization_msgs.msg import Marker
 
+from march_shared_resources.srv import CapturePointPose
+
 
 class CPCalculator(object):
 
@@ -13,13 +15,18 @@ class CPCalculator(object):
         self._tf_buffer = tf_buffer
         self._foot_link = foot_link
 
-        rospy.Service('/march/cp_marker_{fl}'.format(fl=foot_link), Marker, self.get_capture_point)
+        self.cp_service = rospy.Service('/march/cp_marker_{fl}'.format(fl=foot_link), CapturePointPose,
+                                        lambda msg: self.get_capture_point(msg))
 
         self._gravity_constant = 9.81
-
         self._prev_t = rospy.Time.now()
-        self._prev_x = 0
-        self._prev_y = 0
+        self._delta_t = 0
+
+        self.x = 0
+        self.y = 0
+        self.z = 0
+        self.vx = 0
+        self.vy = 0
 
         self._center_of_mass_marker = Marker()
         self._capture_point_marker = Marker()
@@ -47,7 +54,21 @@ class CPCalculator(object):
         if not isinstance(updated_center_of_mass, Marker):
             raise TypeError('Given center of mass is not of type; Marker')
 
+        current_time = updated_center_of_mass.header.stamp
+        self._delta_t = (current_time - self._prev_t).to_sec()
+
+        if self._delta_t == 0:
+            return
+
+        self.vx = (updated_center_of_mass.pose.position.x - self._center_of_mass_marker.pose.position.x) / self._delta_t
+        self.vy = (updated_center_of_mass.pose.position.y - self._center_of_mass_marker.pose.position.y) / self._delta_t
+
+        self.x = self._center_of_mass_marker.pose.position.x
+        self.y = self._center_of_mass_marker.pose.position.y
+        self.z = self._center_of_mass_marker.pose.position.z
+
         self._center_of_mass_marker = updated_center_of_mass
+        self._prev_t = updated_center_of_mass.header.stamp
 
     def _calculate_capture_point(self, duration):
         """Calculate a future capture point pose using the inverted pendulum and center of mass.
@@ -55,32 +76,20 @@ class CPCalculator(object):
         :param duration:
             the amount of seconds away from the current time the capture point should be calculated
         """
-        current_time = self._center_of_mass_marker.header.stamp
-
-        if current_time is not self._prev_t:
-            time_difference = (current_time - self._prev_t).to_sec()
-            vx = (self._center_of_mass_marker.pose.position.x - self._prev_x) / time_difference
-            vy = (self._center_of_mass_marker.pose.position.y - self._prev_y) / time_difference
-
-            x = self._center_of_mass_marker.pose.position.x
-            y = self._center_of_mass_marker.pose.position.y
-            z = self._center_of_mass_marker.pose.position.z
-
-            future_center_of_mass = InvertedPendulum.numeric_solve_to_t(x, y, z, vx, vy, duration)
+        rospy.logdebug('time diff: {td}'.format(td=str(self._delta_t)))
+        if self._delta_t == 0:
+            rospy.loginfo('Calculating future center of mass for capture point pose.')
+            new_center_of_mass = InvertedPendulum.numeric_solve_to_t(self.x, self.y, self.z, self.vx, self.vy, duration)
 
             try:
                 world_transform = self._tf_buffer.lookup_transform('world', self._foot_link, rospy.Time())
-                if future_center_of_mass.pose.position.z <= 0:
+                if new_center_of_mass.z <= 0:
                     rospy.logdebug_throttle(1, 'Cannot calculate capture point; center of mass < 0')
 
-                capture_point_multiplier = sqrt(future_center_of_mass.z / self._gravity_constant)
+                capture_point_multiplier = sqrt(new_center_of_mass.z / self._gravity_constant)
 
-                x_cp = world_transform.transform.translation.x + future_center_of_mass.vx * capture_point_multiplier
-                y_cp = world_transform.transform.translation.y + future_center_of_mass.vy * capture_point_multiplier
-
-                self._prev_t = current_time
-                self._prev_x = future_center_of_mass.x
-                self._prev_y = future_center_of_mass.y
+                x_cp = world_transform.transform.translation.x + new_center_of_mass.vx * capture_point_multiplier
+                y_cp = world_transform.transform.translation.y + new_center_of_mass.vy * capture_point_multiplier
 
                 self._capture_point_marker.header.stamp = rospy.get_rostime()
                 self._capture_point_marker.pose.position.x = x_cp
@@ -90,11 +99,16 @@ class CPCalculator(object):
             except tf2_ros.TransformException as e:
                 rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
 
-    def get_capture_point(self, duration):
-        """Service call function to return the capture point pose.
+        return {'time': self._center_of_mass_marker.header.stamp, 'x': self.x, 'y': self.y, 'z': self.z}
 
-        :param duration:
-            the amount of seconds away from the current time the capture point should be calculated=
-        """
+    def get_capture_point(self, capture_point_request_msg):
+        """Service call function to return the capture point pose positions."""
+        rospy.logdebug('Request capture point in {duration}'.format(duration=capture_point_request_msg.duration))
+
+        duration = float(capture_point_request_msg.duration)
         self._calculate_capture_point(duration)
-        return self._capture_point_marker
+
+        return [True, 'Pose response from the capture point calculation.',
+                str(self._capture_point_marker.pose.position.x),
+                str(self._capture_point_marker.pose.position.y),
+                str(self._capture_point_marker.pose.position.z)]
