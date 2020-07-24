@@ -5,6 +5,7 @@ from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, SetGa
 
 from .gait_selection import GaitSelection
 from .perform_gait_action import PerformGaitAction
+from .state_machine.gait_state_machine import GaitStateMachine
 
 NODE_NAME = 'gait_selection'
 GAIT_FILES_MAP_NAME = 'march_gait_files'
@@ -55,6 +56,8 @@ def main():
 
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
+
+    gait_state_machine = GaitStateMachine(gait_selection)
 
     # Use lambdas to process service calls inline
     rospy.Service('/march/gait_selection/get_version_map', Trigger,

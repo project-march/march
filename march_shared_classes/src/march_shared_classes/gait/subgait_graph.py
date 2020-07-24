@@ -70,6 +70,16 @@ class SubgaitGraph(object):
             not_covered = set(self._graph).difference(visited[self.END])
             raise SubgaitGraphError('`{e}` is not reachable from {s}'.format(e=self.END, s=not_covered))
 
+    def start_subgaits(self):
+        """Returns a list of subgait names that transition from the `start` state."""
+        return self._graph[self.START].values()
+
+    def end_subgaits(self):
+        """Returns a list of subgait names that transition to the `end` state."""
+        return [from_subgait
+                for from_subgait, transitions in self._graph.items()
+                if self.END in transitions.values()]
+
     def __contains__(self, subgait_name):
         """Checks if the given subgait name is contained in the graph."""
         return subgait_name in self._graph
