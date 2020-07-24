@@ -52,7 +52,10 @@ class GaitStateMachine(object):
                 self._process_idle_state()
             else:
                 self._process_gait_state(elapsed_time.to_sec())
-            rate.sleep()
+            try:
+                rate.sleep()
+            except rospy.ROSInterruptException:
+                return
 
     def request_shutdown(self):
         """Requests shutdown, which will terminate the state machine as soon as possible."""
