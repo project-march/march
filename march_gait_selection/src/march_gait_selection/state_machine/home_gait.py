@@ -12,12 +12,15 @@ class HomeGait(GaitInterface):
         self._elapsed_time = 0.0
         self._has_started = False
 
+    @property
     def name(self):
         return self._name
 
+    @property
     def starting_position(self):
-        return self._position
+        return None
 
+    @property
     def final_position(self):
         return self._position
 

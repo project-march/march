@@ -10,21 +10,24 @@ class SetpointsGait(GaitInterface, Gait):
         self._should_stop = False
         self._subgait_duration = 0.0
 
-    def start(self):
-        self._current_subgait = None
-        self._should_stop = False
-        self._subgait_duration = 0.0
+    @property
+    def name(self):
+        return self.gait_name
 
+    @property
     def starting_position(self):
         subgait = self.subgaits[self.graph.start_subgaits()[0]]
         return dict([(joint.name, joint.setpoints[0].position) for joint in subgait.joints])
 
+    @property
     def final_position(self):
         subgait = self.subgaits[self.graph.end_subgaits()[0]]
         return dict([(joint.name, joint.setpoints[-1].position) for joint in subgait.joints])
 
-    def name(self):
-        return self.gait_name
+    def start(self):
+        self._current_subgait = None
+        self._should_stop = False
+        self._subgait_duration = 0.0
 
     def update(self, elapsed_time):
         if self._current_subgait is None:

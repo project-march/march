@@ -1,18 +1,21 @@
 class GaitInterface(object):
-    def start(self):
-        """Called when the gait has been selected for execution."""
-        pass
-
-    def starting_position(self):
-        """Returns the starting position of all joints."""
-        pass
-
-    def final_position(self):
-        """Returns the position of all the joints after the gait has ended."""
-        pass
-
+    @property
     def name(self):
         """Returns the name of the gait."""
+        return None
+
+    @property
+    def starting_position(self):
+        """Returns the starting position of all joints."""
+        return None
+
+    @property
+    def final_position(self):
+        """Returns the position of all the joints after the gait has ended."""
+        return None
+
+    def start(self):
+        """Called when the gait has been selected for execution."""
         pass
 
     def update(self, elapsed_time):
