@@ -17,9 +17,9 @@ class BalanceGait(object):
 
     def __init__(self, gait_name='gait_balanced_walk', move_groups=None):
         self.gait_name = gait_name
+        self.move_group = move_groups
 
         self._default_walk = None
-        self._move_group = move_groups
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
         self._capture_point_pose = {'left_leg': None, 'right_leg': None}
@@ -100,7 +100,7 @@ class BalanceGait(object):
         pose = self._capture_point_pose[leg_name]
         end_effector = self._end_effectors[leg_name]
 
-        self._move_group[leg_name].set_joint_value_target(pose, end_effector, True)
+        self.move_group[leg_name].set_joint_value_target(pose, end_effector, True)
 
     def calculate_normal_trajectory(self, leg_name, subgait_name):
         """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
@@ -124,7 +124,7 @@ class BalanceGait(object):
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
 
-        self._move_group[leg_name].set_joint_value_target(joint_state)
+        self.move_group[leg_name].set_joint_value_target(joint_state)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
@@ -175,10 +175,10 @@ class BalanceGait(object):
         self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
 
         targets = \
-            self._move_group['left_leg'].get_joint_value_target() + \
-            self._move_group['right_leg'].get_joint_value_target()
+            self.move_group['left_leg'].get_joint_value_target() + \
+            self.move_group['right_leg'].get_joint_value_target()
 
-        balance_subgait = self._move_group['all_legs'].plan(targets)
+        balance_subgait = self.move_group['all_legs'].plan(targets)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
@@ -202,9 +202,11 @@ class BalanceGait(object):
 
         :param name: the name of the subgait (in this case only left_swing and right_swing should be used)
         """
-        if name == 'left_swing':
-            return self.construct_subgait('left_leg', 'left_swing')
-        elif name == 'right_swing':
-            return self.construct_subgait('right_leg', 'right_swing')
+        if name == 'right_open_2':
+            return self.construct_subgait('right_leg', name)
+        elif name == 'left_swing_2':
+            return self.construct_subgait('left_leg', name)
+        elif name == 'right_swing_2':
+            return self.construct_subgait('right_leg', name)
         else:
             return self.default_walk[name]

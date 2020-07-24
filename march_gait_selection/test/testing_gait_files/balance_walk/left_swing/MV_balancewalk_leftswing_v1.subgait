@@ -1,0 +1,89 @@
+description: This is version 2 of the swing of the normal walk.
+duration: {nsecs: 100000000, secs: 1}
+gait_type: walk_like
+joints:
+  left_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: -0.0
+  left_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 412500000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: -0.0
+  left_hip_fe:
+  - position: -0.1667
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.4887
+    time_from_start: {nsecs: 660000000, secs: 0}
+    velocity: 0.1396
+  - position: 0.288
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: -0.3491
+  left_knee:
+  - position: 0.1396
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.8727
+    time_from_start: {nsecs: 462000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0969
+    time_from_start: {nsecs: 990000000, secs: 0}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: 0.0
+  right_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: -0.0
+  right_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 412500000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 550000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: -0.0
+  right_hip_fe:
+  - position: 0.288
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: -0.3491
+  - position: -0.1667
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: 0.0
+  right_knee:
+  - position: 0.1396
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.2094
+    time_from_start: {nsecs: 220000000, secs: 0}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 748000000, secs: 0}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 100000000, secs: 1}
+    velocity: 0.0
+name: left_swing
+version: MV_balancewalk_leftswing_v1

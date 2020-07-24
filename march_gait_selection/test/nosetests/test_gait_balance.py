@@ -24,4 +24,4 @@ class TestBalanceGait(unittest.TestCase):
         self.assertIsInstance(self.gait_selection['gait_balanced_walk'], BalanceGait)
 
     def test_move_group_initiate(self):
-        self.assertIsNotNone(self.gait_selection['gait_balanced_walk']._move_group)
+        self.assertIsNotNone(self.gait_selection['gait_balanced_walk'].move_group)

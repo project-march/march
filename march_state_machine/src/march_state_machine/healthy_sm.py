@@ -4,6 +4,7 @@ from std_srvs.srv import Empty, EmptyRequest
 
 from march_shared_resources.srv import CurrentState, PossibleGaits
 
+from .gaits import slope_down_fixed_sm
 from .gaits import slope_down_sm
 from .gaits import tilted_path_left_flexed_knee_step_sm
 from .gaits import tilted_path_left_knee_bend_sm
@@ -13,6 +14,7 @@ from .gaits import tilted_path_right_knee_bend_sm
 from .gaits import tilted_path_right_straight_sm
 from .gaits import tilted_path_sideways_end_sm
 from .gaits import tilted_path_sideways_start_sm
+from .state_machines.balance_walk_state_machine import BalanceWalkStateMachine
 from .state_machines.slope_state_machine import SlopeStateMachine
 from .state_machines.step_state_machine import StepStateMachine
 from .state_machines.transition_state_machine import StateMachineWithTransition
@@ -110,6 +112,7 @@ class HealthyStateMachine(smach.StateMachine):
         # RD stands for Ramp and Door
         self.add_state('GAIT RD SLOPE UP', SlopeStateMachine('ramp_door_slope_up'), 'STANDING')
         self.add_state('GAIT RD SLOPE DOWN', slope_down_sm.create(), 'STANDING')
+        self.add_state('GAIT RD SLOPE DOWN FIXED', slope_down_fixed_sm.create(), 'STANDING')
 
         # TP stands for Tilted Path
         self.add_state('GAIT TP LEFT STRAIGHT', tilted_path_left_straight_sm.create(), 'STANDING')
@@ -124,8 +127,7 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT TP SIDEWAYS END', tilted_path_sideways_end_sm.create(), 'STANDING')
 
         # Balance gait based on Capture Point
-        self.add_state('GAIT BALANCED WALK',
-                       WalkStateMachine('gait_balanced_walk', check_gait_content=False), 'STANDING')
+        self.add_state('GAIT BALANCED WALK', BalanceWalkStateMachine('gait_balanced_walk'), 'STANDING')
 
         self.add('SITTING', IdleState(gait_outcomes=['gait_stand']),
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
@@ -142,6 +144,7 @@ class HealthyStateMachine(smach.StateMachine):
                                                       'gait_rough_terrain_second_middle_step',
                                                       'gait_rough_terrain_third_middle_step',
                                                       'gait_ramp_door_slope_up', 'gait_ramp_door_slope_down',
+                                                      'gait_ramp_door_slope_down_fixed',
                                                       'gait_tilted_path_left_straight_start',
                                                       'gait_tilted_path_left_flexed_knee_step',
                                                       'gait_tilted_path_left_knee_bend',
@@ -174,6 +177,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_rough_terrain_third_middle_step': 'GAIT RT THIRD MIDDLE STEP',
                               'gait_ramp_door_slope_up': 'GAIT RD SLOPE UP',
                               'gait_ramp_door_slope_down': 'GAIT RD SLOPE DOWN',
+                              'gait_ramp_door_slope_down_fixed': 'GAIT RD SLOPE DOWN FIXED',
                               'gait_tilted_path_left_straight_start': 'GAIT TP LEFT STRAIGHT',
                               'gait_tilted_path_left_flexed_knee_step': 'GAIT TP LEFT FLEXED KNEE STEP',
                               'gait_tilted_path_left_knee_bend': 'GAIT TP LEFT KNEE BEND',
