@@ -36,6 +36,8 @@ class HomeGait(GaitInterface):
         self._elapsed_time += elapsed_time
         if self._elapsed_time >= self._duration:
             return None, True
+        else:
+            return None, False
 
     def _get_trajectory_msg(self):
         msg = JointTrajectory()
