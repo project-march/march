@@ -1,0 +1,22 @@
+name: balance_walk
+subgaits:
+  start:
+    to: right_open_1
+  right_open_1:
+    to: right_open_2
+  right_open_2:
+    to: left_swing_1
+  left_swing_1:
+    to: left_swing_2
+  left_swing_2:
+    to: right_swing_1
+    stop: right_close
+  right_swing_1:
+    to: right_swing_2
+  right_swing_2:
+    to: left_swing_1
+    stop: left_close
+  left_close:
+    to: end
+  right_close:
+    to: end
