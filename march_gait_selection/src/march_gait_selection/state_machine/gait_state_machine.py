@@ -7,16 +7,19 @@ from .home_gait import HomeGait
 class GaitStateMachine(object):
     UNKNOWN = 'unknown'
 
-    def __init__(self, gait_selection, state_input):
+    def __init__(self, gait_selection, state_input, update_rate):
         """Generates a state machine from given gaits and resets it to UNKNOWN state.
 
         In order to start the state machine see `run`.
 
         :param GaitSelection gait_selection: Selection of loaded gaits to build from
         :param StateMachineInput state_input: Input interface for controlling the states
+        :param float update_rate: update rate in Hz
         """
         self._gait_selection = gait_selection
         self._input = state_input
+        self._update_rate = update_rate
+
         self._home_gaits = {}
         self._idle_transitions = {}
         self._gait_transitions = {}
@@ -39,7 +42,7 @@ class GaitStateMachine(object):
 
     def run(self):
         """Runs the state machine until shutdown is requested."""
-        rate = rospy.Rate(30.0)
+        rate = rospy.Rate(self._update_rate)
         last_update_time = rospy.Time.now()
         while not self._shutdown_requested:
             now = rospy.Time.now()

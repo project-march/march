@@ -11,6 +11,7 @@ from .state_machine.state_machine_input import StateMachineInput
 NODE_NAME = 'gait_selection'
 GAIT_FILES_MAP_NAME = 'march_gait_files'
 GAIT_DIRECTORY_NAME = 'minimal'
+DEFAULT_UPDATE_RATE = 30.0
 
 
 def set_gait_versions(msg, gait_selection):
@@ -54,14 +55,15 @@ def main():
     rospy.init_node(NODE_NAME)
     gait_package = rospy.get_param('~gait_package', GAIT_FILES_MAP_NAME)
     gait_directory = rospy.get_param('~gait_directory', GAIT_DIRECTORY_NAME)
+    update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
 
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
     state_input = StateMachineInput()
-    gait_state_machine = GaitStateMachine(gait_selection, state_input)
+    gait_state_machine = GaitStateMachine(gait_selection, state_input, update_rate)
 
-    rospy.core.add_preshutdown_hook(lambda s: gait_state_machine.request_shutdown())
+    rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
 
     # Use lambdas to process service calls inline
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
