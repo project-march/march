@@ -12,7 +12,7 @@ from .joint_trajectory import JointTrajectory
 from .limits import Limits
 from .setpoint import Setpoint
 
-PARAMETRIC_GATIS_CHARACTER = '_'
+PARAMETRIC_GAITS_CHARACTER = '_'
 
 
 class Subgait(object):
@@ -45,11 +45,8 @@ class Subgait(object):
         :returns
             A populated Subgait object
         """
-        if file_name is None or file_name == '':
+        if file_name is None or not os.path.isfile(file_name):
             raise FileNotFoundError(file_path=file_name)
-        if not os.path.isfile(file_name):
-            raise FileNotFoundError(file_path=file_name)
-
         try:
             gait_name = file_name.split('/')[-3]
             subgait_name = file_name.split('/')[-2]
@@ -76,7 +73,7 @@ class Subgait(object):
         :param args:
         :return: A populated Subgait object.
         """
-        if version[0] == PARAMETRIC_GATIS_CHARACTER:
+        if version.startswith(PARAMETRIC_GAITS_CHARACTER):
             base_version, other_version, parameter = unpack_parametric_version(version)
             base_path = os.path.join(gait_dir, gait_name, subgait_name, base_version + '.subgait')
             other_path = os.path.join(gait_dir, gait_name, subgait_name, other_version + '.subgait')
@@ -334,8 +331,8 @@ class Subgait(object):
     @staticmethod
     def validate_version(gait_path, subgait_name, version):
         """Check whether a gait exists for the gait."""
-        if version[0] == PARAMETRIC_GATIS_CHARACTER:
-            base_version, other_version, _ = unpack_parametric_version(version)
+        if version[0] == PARAMETRIC_GAITS_CHARACTER:
+            base_version, other_version, _ = Subgait.unpack_parametric_version(version)
             base_subgait_path = os.path.join(gait_path, subgait_name, base_version + '.subgait')
             other_subgait_path = os.path.join(gait_path, subgait_name, other_version + '.subgait')
             for subgait_path in [base_subgait_path, other_subgait_path]:
@@ -349,12 +346,12 @@ class Subgait(object):
                 return False
         return True
 
-
-def unpack_parametric_version(version):
-    """Unpack a version to base version, other version and parameter."""
-    parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GATIS_CHARACTER), version).group(0)
-    parameter = float(parameter_str[1:-1])
-    versions = re.findall(r'\([^\)]*\)', version)
-    base_version = versions[0][1:-1]
-    other_version = versions[1][1:-1]
-    return base_version, other_version, parameter
+    @staticmethod
+    def unpack_parametric_version(version):
+        """Unpack a version to base version, other version and parameter."""
+        parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GAITS_CHARACTER), version).group(0)
+        parameter = float(parameter_str[1:-1])
+        versions = re.findall(r'\([^\)]*\)', version)
+        base_version = versions[0][1:-1]
+        other_version = versions[1][1:-1]
+        return base_version, other_version, parameter
