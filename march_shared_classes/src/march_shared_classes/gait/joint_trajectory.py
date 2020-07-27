@@ -57,7 +57,7 @@ class JointTrajectory(object):
                 if setpoint.time > new_duration:
                     self.setpoints.remove(setpoint)
 
-        self._duration = round(new_duration, self.self.setpoint_class.digits)
+        self._duration = round(new_duration, self.setpoint_class.digits)
         self.interpolate_setpoints()
 
     @property
