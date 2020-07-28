@@ -10,7 +10,6 @@ class JointTrajectory(object):
     """Base class for joint trajectory of a gait."""
 
     setpoint_class = Setpoint
-    digits = 4
 
     def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
