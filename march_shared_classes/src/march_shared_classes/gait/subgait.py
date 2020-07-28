@@ -74,7 +74,7 @@ class Subgait(object):
         :return: A populated Subgait object.
         """
         if version.startswith(PARAMETRIC_GAITS_CHARACTER):
-            base_version, other_version, parameter = unpack_parametric_version(version)
+            base_version, other_version, parameter = Subgait.unpack_parametric_version(version)
             base_path = os.path.join(gait_dir, gait_name, subgait_name, base_version + '.subgait')
             other_path = os.path.join(gait_dir, gait_name, subgait_name, other_version + '.subgait')
             return cls.from_files_interpolated(robot, base_path, other_path, parameter)
