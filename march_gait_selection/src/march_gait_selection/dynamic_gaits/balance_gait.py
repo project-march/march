@@ -123,7 +123,9 @@ class BalanceGait(object):
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
 
-        self.move_group[leg_name].set_joint_value_target(joint_state)
+        end_effector = self._end_effectors[leg_name]
+
+        self.move_group[leg_name].set_joint_value_target(joint_state, end_effector, True)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
