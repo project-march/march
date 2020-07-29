@@ -47,12 +47,6 @@
     <node name="rviz" pkg="rviz" type="rviz" if="$(eval not headless and rviz)"/>
 
     <group ns="march">
-        <include file="$(find march_state_machine)/launch/state_machine.launch">
-            <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
-            <arg name="unpause" value="$(eval configuration == 'simulation' and unpause)"/>
-            <arg name="sounds" value="$(arg sounds)"/>		
-        </include>
-
         <include file="$(find march_safety)/launch/march_safety.launch"/>
 
         <node name="sound_play" pkg="sound_play" type="soundplay_node.py" if="$(arg sounds)" output="screen"/>
@@ -60,8 +54,6 @@
         <include file="$(find march_gait_selection)/launch/march_gait_selection.launch">
             <arg name="gait_directory" value="$(arg gait_directory)"/>
         </include>
-
-        <node name="gait_scheduler_node" pkg="march_gait_scheduler" type="march_gait_scheduler_node" output="screen" required="true"/>
 
         <include file="$(find march_gain_scheduling)/launch/march_gain_scheduling.launch" if="$(arg gain_scheduling)">
             <arg name="configuration" value="$(arg gain_tuning)"/>
