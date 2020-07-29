@@ -94,6 +94,7 @@ class GaitStateMachine(object):
                 self._input.stop_accepted()
             else:
                 rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name))
+                self._input.stop_rejected()
 
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any

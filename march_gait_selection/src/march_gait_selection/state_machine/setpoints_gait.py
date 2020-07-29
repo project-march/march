@@ -41,7 +41,10 @@ class SetpointsGait(GaitInterface, Gait):
         else:
             if self._should_stop:
                 next_subgait = self.graph[(self._current_subgait, self.graph.STOP)]
-                self._should_stop = False
+                if next_subgait is None:
+                    next_subgait = self.graph[(self._current_subgait, self.graph.TO)]
+                else:
+                    self._should_stop = False
             else:
                 next_subgait = self.graph[(self._current_subgait, self.graph.TO)]
 
@@ -53,8 +56,7 @@ class SetpointsGait(GaitInterface, Gait):
             return trajectory, False
 
     def stop(self):
-        transition = self.graph[(self._current_subgait, self.graph.STOP)]
-        if transition is not None:
+        if self.graph.is_stoppable():
             self._should_stop = True
             return True
         else:

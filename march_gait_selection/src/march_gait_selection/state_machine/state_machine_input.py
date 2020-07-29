@@ -64,6 +64,9 @@ class StateMachineInput(object):
     def stop_accepted(self):
         self._stopped = False
 
+    def stop_rejected(self):
+        self._stopped = False
+
     def gait_accepted(self):
         """Callback called when the state machine accepts the requested gait."""
         response = GaitInstructionResponse(result=GaitInstructionResponse.GAIT_ACCEPTED)
