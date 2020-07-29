@@ -68,6 +68,9 @@ class HealthyStateMachine(smach.StateMachine):
         self.add_state('GAIT WALK SMALL', walking_state_machine, 'STANDING', custom_start_label='walk_small')
         self.add_state('GAIT WALK LARGE', walking_state_machine, 'STANDING', custom_start_label='walk_large')
 
+        # Separate walking gait for the slalom obstacle
+        self.add_state('GAIT SLALOM WALK', WalkStateMachine('slalom_walk'), 'STANDING')
+
         self.add_state('GAIT SIT', StepStateMachine('sit', ['sit_down', 'sit_home']), 'SITTING', rejected='STANDING')
         self.add_state('GAIT STAND', StepStateMachine('stand', ['prepare_stand_up', 'stand_up']), 'STANDING',
                        rejected='SITTING')
@@ -153,7 +156,8 @@ class HealthyStateMachine(smach.StateMachine):
                                                       'gait_tilted_path_right_knee_bend',
                                                       'gait_tilted_path_first_start',
                                                       'gait_tilted_path_first_end',
-                                                      'gait_balanced_walk'],
+                                                      'gait_balanced_walk',
+                                                      'gait_slalom_walk'],
                                        balance_gaits=['gait_balanced_walk']),
                  transitions={'gait_sit': 'GAIT SIT',
                               'gait_walk': 'GAIT WALK',
@@ -187,6 +191,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_tilted_path_first_start': 'GAIT TP SIDEWAYS START',
                               'gait_tilted_path_first_end': 'GAIT TP SIDEWAYS END',
                               'gait_balanced_walk': 'GAIT BALANCED WALK',
+                              'gait_slalom_walk': 'GAIT SLALOM WALK',
                               'failed': 'UNKNOWN'})
         self.close()
 
