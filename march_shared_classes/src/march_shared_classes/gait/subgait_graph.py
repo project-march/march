@@ -12,6 +12,7 @@ class SubgaitGraph(object):
 
     def __init__(self, graph):
         self._graph = graph
+        self._stoppable = False
         self.validate()
 
     def validate(self):
@@ -46,6 +47,8 @@ class SubgaitGraph(object):
                     from_subgaits = from_subgaits.copy()
                     from_subgaits.add(name)
                     queue.append((subgait[transition], from_subgaits))
+                    if transition == self.STOP:
+                        self._stoppable = True
 
         self._validate_visited(visited)
 
@@ -69,6 +72,10 @@ class SubgaitGraph(object):
         if len(visited[self.END]) != len(self._graph):
             not_covered = set(self._graph).difference(visited[self.END])
             raise SubgaitGraphError('`{e}` is not reachable from {s}'.format(e=self.END, s=not_covered))
+
+    def is_stoppable(self):
+        """Returns True when the graph contains a stop transition, False otherwise."""
+        return self._stoppable
 
     def start_subgaits(self):
         """Returns a list of subgait names that transition from the `start` state."""

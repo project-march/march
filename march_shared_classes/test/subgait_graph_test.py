@@ -34,6 +34,14 @@ class SubgaitGraphTest(unittest.TestCase):
         with self.assertRaises(SubgaitGraphError):
             SubgaitGraph(graph)
 
+    def test_stoppable_graph(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': '2'}, '2': {'to': '1', 'stop': 'end'}})
+        self.assertTrue(graph.is_stoppable())
+
+    def test_not_stoppable_graph(self):
+        graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
+        self.assertFalse(graph.is_stoppable())
+
     def test_subgaits_from_start(self):
         graph = SubgaitGraph({'start': {'to': '1'}, '1': {'to': 'end'}})
         self.assertListEqual(graph.start_subgaits(), ['1'])
