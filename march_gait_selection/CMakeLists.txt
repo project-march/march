@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.0.2)
 project(march_gait_selection)
 
 find_package(catkin REQUIRED COMPONENTS
+    control_msgs
     march_shared_resources
     std_msgs
 )
@@ -9,6 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_python_setup()
 
 catkin_package(CATKIN_DEPENDS
+    control_msgs
     march_shared_resources
     std_msgs
 )
