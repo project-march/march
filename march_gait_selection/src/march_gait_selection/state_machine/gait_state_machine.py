@@ -75,9 +75,8 @@ class GaitStateMachine(object):
                 rospy.loginfo('Cannot execute gait `{0}` from idle state `{1}`'.format(gait_name, self._current_state))
         elif self._input.unknown_requested():
             self._input.gait_accepted()
-            self._current_state = self.UNKNOWN
+            self._transition_to_unknown()
             self._input.gait_finished()
-            rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _process_gait_state(self, elapsed_time):
         if self._current_gait is None:
@@ -111,6 +110,11 @@ class GaitStateMachine(object):
             self._input.gait_finished()
             rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
             self._current_gait = None
+
+    def _transition_to_unknown(self):
+        self._current_state = self.UNKNOWN
+        self._is_idle = True
+        rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _generate_graph(self):
         self._idle_transitions = {}
