@@ -3,6 +3,7 @@
     <arg name="gain_scheduling" default="true" doc="Whether to use gain scheduling, which changes PID values based on executed gait."/>
     <arg name="gain_tuning" default="sjaan_gait" doc="The configuration to use for gain scheduling. Only used when 'gain_scheduling' is true."/>
     <arg name="sounds" default="true" doc="Whether to use sounds."/>
+    <arg name="data_collector" default="false" doc="Launches the data collector when true."/>
 
     <arg name="arduino_master" default="true" doc="Launches ros serial node to connect with arduino on master."/>
     <arg name="input_device" default="true" doc="Launches ros serial node to connect with input device."/>
