@@ -273,7 +273,10 @@ class Subgait(object):
             base_subgait.version, other_subgait.version, parameter)
 
         duration = base_subgait.duration * parameter + (1 - parameter) * other_subgait.duration
-        return Subgait(joints, duration, base_subgait.gait_name, base_subgait.subgait_name, 'interpolated subgait',
+        gait_type = base_subgait.gait_type if parameter <= 0.5 else other_subgait.gait_type
+        version = '{0}{1}_({2})_({3})'.format(PARAMETRIC_GAITS_CHARACTER, parameter, base_subgait.version,
+                                              other_subgait.version)
+        return Subgait(joints, duration, gait_type, base_subgait.gait_name, base_subgait.subgait_name, version,
                        description)
     # endregion
 
