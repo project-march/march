@@ -8,7 +8,7 @@ class SetpointsGait(GaitInterface, Gait):
         super(SetpointsGait, self).__init__(gait_name, subgaits, graph)
         self._current_subgait = None
         self._should_stop = False
-        self._subgait_duration = 0.0
+        self._time_since_start = 0.0
 
     @property
     def name(self):
@@ -27,16 +27,16 @@ class SetpointsGait(GaitInterface, Gait):
     def start(self):
         self._current_subgait = None
         self._should_stop = False
-        self._subgait_duration = 0.0
+        self._time_since_start = 0.0
 
     def update(self, elapsed_time):
         if self._current_subgait is None:
             self._current_subgait = self.graph.start_subgaits()[0]
-            self._subgait_duration = 0.0
+            self._time_since_start = 0.0
             return self.subgaits[self._current_subgait].to_joint_trajectory_msg(), False
 
-        self._subgait_duration += elapsed_time
-        if self._subgait_duration < self.subgaits[self._current_subgait].duration:
+        self._time_since_start += elapsed_time
+        if self._time_since_start < self.subgaits[self._current_subgait].duration:
             return None, False
         else:
             if self._should_stop:
@@ -52,7 +52,7 @@ class SetpointsGait(GaitInterface, Gait):
                 return None, True
             trajectory = self.subgaits[next_subgait].to_joint_trajectory_msg()
             self._current_subgait = next_subgait
-            self._subgait_duration = 0.0
+            self._time_since_start = 0.0
             return trajectory, False
 
     def stop(self):
