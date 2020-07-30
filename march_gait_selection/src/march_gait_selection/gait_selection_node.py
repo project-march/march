@@ -9,8 +9,8 @@ from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
 
 NODE_NAME = 'gait_selection'
-GAIT_FILES_MAP_NAME = 'march_gait_files'
-GAIT_DIRECTORY_NAME = 'minimal'
+DEFAULT_GAIT_FILES_PACKAGE = 'march_gait_files'
+DEFAULT_GAIT_DIRECTORY = 'minimal'
 DEFAULT_UPDATE_RATE = 30.0
 
 
@@ -53,8 +53,8 @@ def contains_gait(request, gait_selection):
 
 def main():
     rospy.init_node(NODE_NAME)
-    gait_package = rospy.get_param('~gait_package', GAIT_FILES_MAP_NAME)
-    gait_directory = rospy.get_param('~gait_directory', GAIT_DIRECTORY_NAME)
+    gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
+    gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
     update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
 
     gait_selection = GaitSelection(gait_package, gait_directory)
