@@ -352,8 +352,8 @@ class Subgait(object):
     @staticmethod
     def unpack_parametric_version(version):
         """Unpack a version to base version, other version and parameter."""
-        parameter_str = re.search(r'{0}[0-9.]*_'.format(PARAMETRIC_GAITS_PREFIX), version).group(0)
-        parameter = float(parameter_str[1:-1])
+        parameter_str = re.search(r'^{0}(\d+\.\d+)_'.format(PARAMETRIC_GAITS_PREFIX), version).group(1)
+        parameter = float(parameter_str)
         versions = re.findall(r'\([^\)]*\)', version)
         base_version = versions[0][1:-1]
         other_version = versions[1][1:-1]
