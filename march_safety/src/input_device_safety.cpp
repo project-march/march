@@ -38,7 +38,15 @@ void InputDeviceSafety::update(const ros::Time& now)
     if (is_connected && timed_out)
     {
       this->connected_devices_.erase(id);
-      ROS_WARN_STREAM("Input device `" << id << "` lost");
+      if (id == "crutch" && !this->connected_devices_.empty())
+        {
+	        this->safety_handler_->publishNonFatal("Crutch input device lost");
+		      ROS_ERROR_STREAM("Input device `" << id << "` lost");
+        }
+      else
+      	{
+					ROS_WARN_STREAM("Input device `" << id << "` lost");
+        }
     }
     else if (!is_connected && !timed_out)
     {
