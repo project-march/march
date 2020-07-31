@@ -1,6 +1,7 @@
 import rospy
 from std_srvs.srv import Trigger
 
+from march_shared_resources.msg import CurrentState
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
 
@@ -83,5 +84,12 @@ def main():
 
     rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
                   lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
+
+    current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
+
+    def current_state(state, is_idle):
+        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
+
+    gait_state_machine.add_transition_hook(current_state)
 
     gait_state_machine.run()

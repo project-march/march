@@ -25,6 +25,8 @@ class GaitStateMachine(object):
         self._gait_transitions = {}
         self._generate_graph()
 
+        self._transition_hooks = []
+
         self._current_state = self.UNKNOWN
         self._current_gait = None
         self._is_idle = True
@@ -39,6 +41,14 @@ class GaitStateMachine(object):
             return list(self._idle_transitions[self._current_state])
         else:
             return []
+
+    def add_transition_hook(self, hook):
+        """Adds a callback function that will be called when a transition to a state happens.
+
+        :param hook: method that accepts a name of the state and a boolean if it is an idle state.
+        """
+        if callable(hook):
+            self._transition_hooks.append(hook)
 
     def run(self):
         """Runs the state machine until shutdown is requested."""
@@ -69,6 +79,7 @@ class GaitStateMachine(object):
                 self._current_state = gait_name
                 self._is_idle = False
                 self._input.gait_accepted()
+                self._call_transition_hooks()
                 rospy.loginfo('Accepted gait `{0}`'.format(gait_name))
             else:
                 self._input.gait_rejected()
@@ -77,6 +88,7 @@ class GaitStateMachine(object):
             self._input.gait_accepted()
             self._current_state = self.UNKNOWN
             self._input.gait_finished()
+            self._call_transition_hooks()
             rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _process_gait_state(self, elapsed_time):
@@ -109,8 +121,13 @@ class GaitStateMachine(object):
             self._is_idle = True
             self._current_gait.end()
             self._input.gait_finished()
+            self._call_transition_hooks()
             rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
             self._current_gait = None
+
+    def _call_transition_hooks(self):
+        for hook in self._transition_hooks:
+            hook(self._current_state, self._is_idle)
 
     def _generate_graph(self):
         self._idle_transitions = {}
