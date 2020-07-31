@@ -85,8 +85,11 @@ class GaitStateMachine(object):
                 self._current_gait = self._home_gaits[self._current_state]
             else:
                 self._current_gait = self._gait_selection[self._current_state]
-            self._current_gait.start()
             rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name))
+            trajectory = self._current_gait.start()
+            if trajectory is not None:
+                rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+            elapsed_time = 0.0
 
         if self._input.stop_requested():
             if self._current_gait.stop():

@@ -16,7 +16,6 @@ class HomeGait(GaitInterface):
         self._position = position
         self._duration = duration
         self._time_since_start = 0.0
-        self._has_started = False
 
     @property
     def name(self):
@@ -32,13 +31,9 @@ class HomeGait(GaitInterface):
 
     def start(self):
         self._time_since_start = 0.0
-        self._has_started = False
+        return self._get_trajectory_msg()
 
     def update(self, elapsed_time):
-        if not self._has_started:
-            self._has_started = True
-            return self._get_trajectory_msg(), False
-
         self._time_since_start += elapsed_time
         if self._time_since_start >= self._duration:
             return None, True

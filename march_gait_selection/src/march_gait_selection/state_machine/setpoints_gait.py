@@ -25,16 +25,12 @@ class SetpointsGait(GaitInterface, Gait):
         return dict([(joint.name, joint.setpoints[-1].position) for joint in subgait.joints])
 
     def start(self):
-        self._current_subgait = None
+        self._current_subgait = self.graph.start_subgaits()[0]
         self._should_stop = False
         self._time_since_start = 0.0
+        return self.subgaits[self._current_subgait].to_joint_trajectory_msg()
 
     def update(self, elapsed_time):
-        if self._current_subgait is None:
-            self._current_subgait = self.graph.start_subgaits()[0]
-            self._time_since_start = 0.0
-            return self.subgaits[self._current_subgait].to_joint_trajectory_msg(), False
-
         self._time_since_start += elapsed_time
         if self._time_since_start < self.subgaits[self._current_subgait].duration:
             return None, False
