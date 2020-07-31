@@ -89,7 +89,8 @@ class GaitStateMachine(object):
             rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name))
             trajectory = self._current_gait.start()
             if trajectory is not None:
-                rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+                rospy.loginfo('Received new trajectory to schedule')
+                self._trajectory_scheduler.schedule(trajectory)
             elapsed_time = 0.0
 
         if self._trajectory_scheduler.failed():
