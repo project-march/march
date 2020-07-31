@@ -114,7 +114,9 @@ class GaitSelection(object):
         for gait in self._gait_version_map:
             gaits[gait] = SetpointsGait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
 
-        self._balance_gait.default_walk = gaits['walk']
+        if self._balance_gait.move_group:
+            self._balance_gait.default_walk = gaits['balance_walk']
+
         return gaits
 
     def _load_configuration(self):
