@@ -6,7 +6,6 @@ exclude = .git
 application-package-names =
     march_description,
     march_gain_scheduling,
-    march_gait_scheduler,
     march_gait_selection,
     march_launch,
     march_safety,
