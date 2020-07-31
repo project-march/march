@@ -29,6 +29,7 @@ class GaitStateMachine(object):
         self._current_gait = None
         self._is_idle = True
         self._shutdown_requested = False
+        self._should_stop = False
 
     def get_possible_gaits(self):
         """Returns possible names of gaits that can be executed.
@@ -61,6 +62,11 @@ class GaitStateMachine(object):
         """Requests shutdown, which will terminate the state machine as soon as possible."""
         self._shutdown_requested = True
 
+    def stop(self):
+        """Requests a stop from the current executing gait, but keeps the state machine running."""
+        if not self._is_idle:
+            self._should_stop = True
+
     def _process_idle_state(self):
         if self._input.gait_requested():
             gait_name = self._input.gait_name()
@@ -68,6 +74,7 @@ class GaitStateMachine(object):
             if gait_name in self._idle_transitions[self._current_state]:
                 self._current_state = gait_name
                 self._is_idle = False
+                self._should_stop = False
                 self._input.gait_accepted()
                 rospy.loginfo('Accepted gait `{0}`'.format(gait_name))
             else:
@@ -91,7 +98,8 @@ class GaitStateMachine(object):
                 rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
             elapsed_time = 0.0
 
-        if self._input.stop_requested():
+        if self._input.stop_requested() or self._should_stop:
+            self._should_stop = False
             if self._current_gait.stop():
                 rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name))
                 self._input.stop_accepted()
