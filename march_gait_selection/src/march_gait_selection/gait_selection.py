@@ -8,7 +8,6 @@ import yaml
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 
-from .dynamic_gaits.balance_gait import BalanceGait
 from .state_machine.setpoints_gait import SetpointsGait
 
 
@@ -24,7 +23,6 @@ class GaitSelection(object):
             raise FileNotFoundError(file_path=self._default_yaml)
 
         self._robot = urdf.Robot.from_parameter_server('/robot_description')
-        self._balance_gait = BalanceGait.create_balance_subgait()
 
         self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()
@@ -109,13 +107,10 @@ class GaitSelection(object):
 
         :returns dict: A dictionary mapping gait name to gait instance
         """
-        gaits = {self._balance_gait.gait_name: self._balance_gait}
+        gaits = {}
 
         for gait in self._gait_version_map:
             gaits[gait] = SetpointsGait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
-
-        if self._balance_gait.move_group:
-            self._balance_gait.default_walk = gaits['balance_walk']
 
         return gaits
 
