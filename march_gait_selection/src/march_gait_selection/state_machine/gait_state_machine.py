@@ -7,15 +7,110 @@ from .home_gait import HomeGait
 class GaitStateMachine(object):
     UNKNOWN = 'unknown'
 
-    def __init__(self, gait_selection):
+    def __init__(self, gait_selection, state_input, update_rate):
+        """Generates a state machine from given gaits and resets it to UNKNOWN state.
+
+        In order to start the state machine see `run`.
+
+        :param GaitSelection gait_selection: Selection of loaded gaits to build from
+        :param StateMachineInput state_input: Input interface for controlling the states
+        :param float update_rate: update rate in Hz
+        """
         self._gait_selection = gait_selection
+        self._input = state_input
+        self._update_rate = update_rate
+
         self._home_gaits = {}
         self._idle_transitions = {}
         self._gait_transitions = {}
         self._generate_graph()
 
         self._current_state = self.UNKNOWN
+        self._current_gait = None
         self._is_idle = True
+        self._shutdown_requested = False
+
+    def get_possible_gaits(self):
+        """Returns possible names of gaits that can be executed.
+
+        :returns List of names, or empty list when a gait is executing.
+        """
+        if self._is_idle:
+            return list(self._idle_transitions[self._current_state])
+        else:
+            return []
+
+    def run(self):
+        """Runs the state machine until shutdown is requested."""
+        rate = rospy.Rate(self._update_rate)
+        last_update_time = rospy.Time.now()
+        while not self._shutdown_requested:
+            now = rospy.Time.now()
+            elapsed_time = now - last_update_time
+            last_update_time = now
+            if self._is_idle:
+                self._process_idle_state()
+            else:
+                self._process_gait_state(elapsed_time.to_sec())
+            try:
+                rate.sleep()
+            except rospy.ROSInterruptException:
+                return
+
+    def request_shutdown(self):
+        """Requests shutdown, which will terminate the state machine as soon as possible."""
+        self._shutdown_requested = True
+
+    def _process_idle_state(self):
+        if self._input.gait_requested():
+            gait_name = self._input.gait_name()
+            rospy.loginfo('Requested gait `{0}`'.format(gait_name))
+            if gait_name in self._idle_transitions[self._current_state]:
+                self._current_state = gait_name
+                self._is_idle = False
+                self._input.gait_accepted()
+                rospy.loginfo('Accepted gait `{0}`'.format(gait_name))
+            else:
+                self._input.gait_rejected()
+                rospy.loginfo('Cannot execute gait `{0}` from idle state `{1}`'.format(gait_name, self._current_state))
+        elif self._input.unknown_requested():
+            self._input.gait_accepted()
+            self._current_state = self.UNKNOWN
+            self._input.gait_finished()
+            rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
+
+    def _process_gait_state(self, elapsed_time):
+        if self._current_gait is None:
+            if self._current_state in self._home_gaits:
+                self._current_gait = self._home_gaits[self._current_state]
+            else:
+                self._current_gait = self._gait_selection[self._current_state]
+            rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name))
+            trajectory = self._current_gait.start()
+            if trajectory is not None:
+                rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+            elapsed_time = 0.0
+
+        if self._input.stop_requested():
+            if self._current_gait.stop():
+                rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name))
+                self._input.stop_accepted()
+            else:
+                rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name))
+                self._input.stop_rejected()
+
+        trajectory, should_stop = self._current_gait.update(elapsed_time)
+        # schedule trajectory if any
+        if trajectory is not None:
+            rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+
+        if should_stop:
+            self._current_state = self._gait_transitions[self._current_state]
+            self._is_idle = True
+            self._current_gait.end()
+            self._input.gait_finished()
+            rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
+            self._current_gait = None
 
     def _generate_graph(self):
         self._idle_transitions = {}

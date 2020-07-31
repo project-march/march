@@ -1,15 +1,17 @@
 import rospy
 from std_srvs.srv import Trigger
 
-from march_shared_resources.srv import ContainsGait, ContainsGaitResponse, SetGaitVersion
+from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
+                                        SetGaitVersion)
 
 from .gait_selection import GaitSelection
-from .perform_gait_action import PerformGaitAction
 from .state_machine.gait_state_machine import GaitStateMachine
+from .state_machine.state_machine_input import StateMachineInput
 
 NODE_NAME = 'gait_selection'
-GAIT_FILES_MAP_NAME = 'march_gait_files'
-GAIT_DIRECTORY_NAME = 'gait'
+DEFAULT_GAIT_FILES_PACKAGE = 'march_gait_files'
+DEFAULT_GAIT_DIRECTORY = 'minimal'
+DEFAULT_UPDATE_RATE = 30.0
 
 
 def set_gait_versions(msg, gait_selection):
@@ -51,13 +53,17 @@ def contains_gait(request, gait_selection):
 
 def main():
     rospy.init_node(NODE_NAME)
-    gait_package = rospy.get_param('~gait_package', GAIT_FILES_MAP_NAME)
-    gait_directory = rospy.get_param('~gait_directory', GAIT_DIRECTORY_NAME)
+    gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
+    gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
+    update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
 
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
-    gait_state_machine = GaitStateMachine(gait_selection)
+    state_input = StateMachineInput()
+    gait_state_machine = GaitStateMachine(gait_selection, state_input, update_rate)
+
+    rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
 
     # Use lambdas to process service calls inline
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
@@ -75,5 +81,7 @@ def main():
     rospy.Service('/march/gait_selection/contains_gait', ContainsGait,
                   lambda msg: contains_gait(msg, gait_selection))
 
-    PerformGaitAction(gait_selection)
-    rospy.spin()
+    rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
+                  lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
+
+    gait_state_machine.run()

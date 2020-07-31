@@ -15,8 +15,8 @@ class GaitInterface(object):
         return None
 
     def start(self):
-        """Called when the gait has been selected for execution."""
-        pass
+        """Called when the gait has been selected for execution and returns an optional starting trajectory."""
+        return None
 
     def update(self, elapsed_time):
         """Called in a loop with the elapsed time since the last update.
