@@ -4,6 +4,7 @@ import rospkg
 from urdf_parser_py import urdf
 
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
+from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.subgait import Subgait
 
@@ -26,10 +27,12 @@ class SubgaitTest(unittest.TestCase):
         self.assertIsInstance(self.subgait, Subgait)
 
     def test_from_file_invalid_path(self):
-        self.assertIsNone(Subgait.from_file(self.robot, self.resources_folder + '/MV_walk_leftswing_v2.subgait'))
+        with self.assertRaises(FileNotFoundError):
+            Subgait.from_file(self.robot, self.resources_folder + '/MV_walk_leftswing_v2.subgait')
 
     def test_from_file_none_path(self):
-        self.assertIsNone(Subgait.from_file(self.robot, None))
+        with self.assertRaises(FileNotFoundError):
+            Subgait.from_file(self.robot, None)
 
     def test_from_file_no_robot(self):
         self.assertIsNone(Subgait.from_file(None, self.subgait_path))

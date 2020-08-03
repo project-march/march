@@ -1,7 +1,7 @@
 import rospy
 from std_srvs.srv import Trigger
 
-from march_shared_resources.msg import CurrentGait, CurrentState
+from march_shared_resources.msg import CurrentGait, CurrentState, Error
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
 
@@ -52,6 +52,15 @@ def contains_gait(request, gait_selection):
     return ContainsGaitResponse(True)
 
 
+def error_cb(gait_state_machine, msg):
+    if msg.type == Error.NON_FATAL:
+        rospy.logerr('Stopping current gait. reason: {0}'.format(msg.error_message))
+        gait_state_machine.stop()
+    elif msg.type == Error.FATAL:
+        rospy.logerr('Requesting shutdown. reason: {0}'.format(msg.error_message))
+        gait_state_machine.request_shutdown()
+
+
 def main():
     rospy.init_node(NODE_NAME)
     gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
@@ -85,6 +94,9 @@ def main():
 
     rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
                   lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
+
+    # Subscribers
+    rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
 
     # Publishers
     current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
