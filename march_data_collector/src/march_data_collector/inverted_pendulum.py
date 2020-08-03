@@ -37,3 +37,11 @@ class InvertedPendulum(object):
         z1 = math.sqrt(max(r**2 - x1**2 - y1**2, 0))
 
         return x1, y1, z1, vx1, vy1
+
+    @classmethod
+    def calculate_falling_time(cls, x, y, z, vx, vy, dt=0.01):
+        time = 0
+        while z > 0:
+            x, y, z, vx, vy = cls.step_numeric_solve(x, y, z, vx, vy, dt)
+            time += dt
+        return time

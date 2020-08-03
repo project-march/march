@@ -82,6 +82,11 @@ class CPCalculator(object):
             world_transform = self._tf_buffer.lookup_transform('world', self._foot_link, rospy.Time())
 
             if self._delta_t != 0:
+                falling_time = InvertedPendulum.calculate_falling_time(self.x - world_transform.transform.translation.x,
+                                                                       self.y - world_transform.transform.translation.y,
+                                                                       self.z - world_transform.transform.translation.z,
+                                                                       self.vx, self.vy)
+
                 rospy.loginfo('Calculating future center of mass for capture point pose.')
                 new_center_of_mass = InvertedPendulum.numeric_solve_to_t(self.x - world_transform.transform.translation.x,
                                                                          self.y - world_transform.transform.translation.y,
