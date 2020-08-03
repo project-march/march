@@ -1,3 +1,4 @@
+Header header
 # Name of the current state
 string state
 # Type of the current state. Can be either of the constants below
