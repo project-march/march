@@ -22,6 +22,13 @@ class SetpointsGait(GaitInterface, Gait):
             return None
 
     @property
+    def version(self):
+        if self._current_subgait in self.subgaits:
+            return self.subgaits[self._current_subgait].version
+        else:
+            return None
+
+    @property
     def gait_type(self):
         if self._current_subgait in self.subgaits:
             return self.subgaits[self._current_subgait].gait_type

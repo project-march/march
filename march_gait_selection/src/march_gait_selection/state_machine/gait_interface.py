@@ -10,6 +10,11 @@ class GaitInterface(object):
         return None
 
     @property
+    def version(self):
+        """Returns the version of the currently executing trajectory."""
+        return None
+
+    @property
     def gait_type(self):
         """Returns a gait type of the currently executing trajectory."""
         return None

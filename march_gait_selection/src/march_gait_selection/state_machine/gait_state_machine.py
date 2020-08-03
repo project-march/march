@@ -60,7 +60,7 @@ class GaitStateMachine(object):
         The given method should be running as shortly as possible, since they
         will be called from within the main loop.
 
-        :param cb: Callable method that accepts 3 strings: gait name, subgait name and gait type.
+        :param cb: Callable method that accepts 4 strings: gait name, subgait name, version and gait type.
         """
         self._add_callback(self._gait_callbacks, cb)
 
@@ -154,7 +154,7 @@ class GaitStateMachine(object):
     def _call_gait_callbacks(self):
         if self._current_gait is not None:
             self._call_callbacks(self._gait_callbacks, self._current_gait.name, self._current_gait.subgait_name,
-                                 self._current_gait.gait_type)
+                                 self._current_gait.version, self._current_gait.gait_type)
 
     def _generate_graph(self):
         self._idle_transitions = {}
