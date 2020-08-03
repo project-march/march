@@ -5,6 +5,16 @@ class GaitInterface(object):
         return None
 
     @property
+    def subgait_name(self):
+        """Returns the name of the currently executing trajectory."""
+        return None
+
+    @property
+    def gait_type(self):
+        """Returns a gait type of the currently executing trajectory."""
+        return None
+
+    @property
     def starting_position(self):
         """Returns the starting position of all joints."""
         return None

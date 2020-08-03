@@ -25,7 +25,8 @@ class GaitStateMachine(object):
         self._gait_transitions = {}
         self._generate_graph()
 
-        self._transition_hooks = []
+        self._transition_callbacks = []
+        self._gait_callbacks = []
 
         self._current_state = self.UNKNOWN
         self._current_gait = None
@@ -42,13 +43,25 @@ class GaitStateMachine(object):
         else:
             return []
 
-    def add_transition_hook(self, hook):
+    def add_transition_callback(self, cb):
         """Adds a callback function that will be called when a transition to a state happens.
 
-        :param hook: method that accepts a name of the state and a boolean if it is an idle state.
+        The given method should be running as shortly as possible, since they
+        will be called from within the main loop.
+
+        :param cb: method that accepts a name of the state and a boolean if it is an idle state.
         """
-        if callable(hook):
-            self._transition_hooks.append(hook)
+        self._add_callback(self._transition_callbacks, cb)
+
+    def add_gait_callback(self, cb):
+        """Adds a callback function that will be called when a trajectory of a gait is being scheduled.
+
+        The given method should be running as shortly as possible, since they
+        will be called from within the main loop.
+
+        :param cb: Callable method that accepts 3 strings: gait name, subgait name and gait type.
+        """
+        self._add_callback(self._gait_callbacks, cb)
 
     def run(self):
         """Runs the state machine until shutdown is requested."""
@@ -79,7 +92,7 @@ class GaitStateMachine(object):
                 self._current_state = gait_name
                 self._is_idle = False
                 self._input.gait_accepted()
-                self._call_transition_hooks()
+                self._call_transition_callbacks()
                 rospy.loginfo('Accepted gait `{0}`'.format(gait_name))
             else:
                 self._input.gait_rejected()
@@ -88,7 +101,7 @@ class GaitStateMachine(object):
             self._input.gait_accepted()
             self._current_state = self.UNKNOWN
             self._input.gait_finished()
-            self._call_transition_hooks()
+            self._call_transition_callbacks()
             rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _process_gait_state(self, elapsed_time):
@@ -100,6 +113,7 @@ class GaitStateMachine(object):
             rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name))
             trajectory = self._current_gait.start()
             if trajectory is not None:
+                self._call_gait_callbacks()
                 rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
             elapsed_time = 0.0
 
@@ -114,6 +128,7 @@ class GaitStateMachine(object):
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
         if trajectory is not None:
+            self._call_gait_callbacks()
             rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
 
         if should_stop:
@@ -121,13 +136,17 @@ class GaitStateMachine(object):
             self._is_idle = True
             self._current_gait.end()
             self._input.gait_finished()
-            self._call_transition_hooks()
+            self._call_transition_callbacks()
             rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
             self._current_gait = None
 
-    def _call_transition_hooks(self):
-        for hook in self._transition_hooks:
-            hook(self._current_state, self._is_idle)
+    def _call_transition_callbacks(self):
+        self._call_callbacks(self._transition_callbacks, self._current_state, self._is_idle)
+
+    def _call_gait_callbacks(self):
+        if self._current_gait is not None:
+            self._call_callbacks(self._gait_callbacks, self._current_gait.name, self._current_gait.subgait_name,
+                                 self._current_gait.gait_type)
 
     def _generate_graph(self):
         self._idle_transitions = {}
@@ -177,3 +196,15 @@ class GaitStateMachine(object):
                 raise GaitStateMachineError('Gaits cannot have the same name as home gait `{0}`'.format(home_gait_name))
             self._gait_transitions[home_gait_name] = idle_name
             self._idle_transitions[self.UNKNOWN].add(home_gait_name)
+
+    @staticmethod
+    def _add_callback(callbacks, cb):
+        """Adds a method to a list if it is callable."""
+        if callable(cb):
+            callbacks.append(cb)
+
+    @staticmethod
+    def _call_callbacks(callbacks, *args):
+        """Calls multiple methods with same set of arguments."""
+        for cb in callbacks:
+            cb(*args)
