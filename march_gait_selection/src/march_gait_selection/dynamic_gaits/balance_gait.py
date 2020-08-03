@@ -1,4 +1,5 @@
 from copy import deepcopy
+import os
 import sys
 
 from geometry_msgs.msg import Pose
@@ -159,6 +160,7 @@ class BalanceGait(object):
             balance_joints.append(JointTrajectory(joint_name, normal_joint.limits, setpoints, balance_duration))
 
         balance_subgait = BalanceGait.to_subgait(balance_joints, balance_duration, subgait_name=subgait_name)
+        self.export_to_file(balance_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_subgait
 
@@ -211,3 +213,22 @@ class BalanceGait(object):
             return self.construct_subgait('right_leg', name)
         else:
             return self.default_walk[name]
+
+    def export_to_file(self, subgait, gait_directory):
+        if gait_directory is None or gait_directory == '':
+            return
+
+        output_file_directory = os.path.join(gait_directory,
+                                             subgait.gait_name.replace(' ', '_'),
+                                             subgait.subgait_name.replace(' ', '_'))
+        output_file_path = os.path.join(output_file_directory,
+                                        subgait.version.replace(' ', '_') + '.subgait')
+
+        rospy.loginfo('Writing gait to ' + output_file_path)
+
+        if not os.path.isdir(output_file_directory):
+            os.makedirs(output_file_directory)
+
+        with open(output_file_path, 'w') as output_file:
+            output_file.write(subgait.to_yaml())
+
