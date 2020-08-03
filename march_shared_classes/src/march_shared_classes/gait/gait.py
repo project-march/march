@@ -86,11 +86,7 @@ class Gait(object):
             raise SubgaitNameNotFound(subgait_name, gait_name)
 
         version = gait_version_map[gait_name][subgait_name]
-        subgait_path = os.path.join(gait_directory, gait_name, subgait_name, version + '.subgait')
-        if not os.path.isfile(subgait_path):
-            raise FileNotFoundError(file_path=subgait_path)
-
-        return Subgait.from_file(robot, subgait_path)
+        return Subgait.from_name_and_version(robot, gait_directory, gait_name, subgait_name, version)
 
     def _validate_trajectory_transition(self):
         """Compares and validates the trajectory end and start points."""
@@ -111,14 +107,11 @@ class Gait(object):
         :param dict version_map: Mapping subgait names to versions
         """
         new_subgaits = {}
-        gait_path = os.path.join(gait_directory, self.gait_name)
         for subgait_name, version in version_map.items():
             if subgait_name not in self.subgaits:
                 raise SubgaitNameNotFound(subgait_name, self.gait_name)
-            subgait_path = os.path.join(gait_path, subgait_name, version + '.subgait')
-            if not os.path.isfile(subgait_path):
-                raise FileNotFoundError(file_path=subgait_path)
-            new_subgaits[subgait_name] = Subgait.from_file(robot, subgait_path)
+            new_subgaits[subgait_name] = Subgait.from_name_and_version(robot, gait_directory, self.gait_name,
+                                                                       subgait_name, version)
 
         for from_subgait_name, to_subgait_name in self.graph:
             if from_subgait_name in new_subgaits or to_subgait_name in new_subgaits:

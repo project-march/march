@@ -21,7 +21,8 @@ class DynamicPIDReconfigurer:
 
     def gait_selection_callback(self, data):
         new_gait_type = data.goal.gait_type
-        if new_gait_type is None or not rospy.has_param('~gait_types/{gait_type}'.format(gait_type=new_gait_type)):
+        if new_gait_type is None or new_gait_type == '' \
+                or not rospy.has_param('~gait_types/{gait_type}'.format(gait_type=new_gait_type)):
             rospy.logwarn('The gait has unknown gait type of `{gait_type}`, default is set to walk_like'.format(
                 gait_type=new_gait_type))
             new_gait_type = 'walk_like'
