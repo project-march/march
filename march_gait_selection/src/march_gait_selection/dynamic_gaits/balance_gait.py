@@ -102,6 +102,8 @@ class BalanceGait(object):
 
         self.move_group[leg_name].set_joint_value_target(pose, end_effector, True)
 
+        return float(capture_point_pose.duration)
+
     def calculate_normal_trajectory(self, leg_name, subgait_name):
         """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
 
@@ -124,9 +126,9 @@ class BalanceGait(object):
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
 
-        end_effector = self._end_effectors[leg_name]
-
         self.move_group[leg_name].set_joint_value_target(joint_state)
+
+        return default_subgait.duration
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',
@@ -174,8 +176,8 @@ class BalanceGait(object):
         """
         non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
 
-        self.calculate_capture_point_trajectory(capture_point_leg_name, subgait_name)
-        self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
+        cp_duration = self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
+        sg_duration = self.calculate_capture_point_trajectory(capture_point_leg_name, subgait_name)
 
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
@@ -195,9 +197,11 @@ class BalanceGait(object):
             return self.default_walk[subgait_name]
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(balance_trajectory, subgait_name)
-        balance_trajectory_max_joint_duration = max(joint.duration for joint in balance_trajectory_subgait.joints)
+        balance_trajectory_max_joint_duration = min(sg_duration, cp_duration)
 
+        rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_max_joint_duration)))
         balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
+
         return balance_trajectory_subgait
 
     def __getitem__(self, name):
@@ -214,7 +218,8 @@ class BalanceGait(object):
         else:
             return self.default_walk[name]
 
-    def export_to_file(self, subgait, gait_directory):
+    @staticmethod
+    def export_to_file(subgait, gait_directory):
         if gait_directory is None or gait_directory == '':
             return
 
@@ -231,4 +236,3 @@ class BalanceGait(object):
 
         with open(output_file_path, 'w') as output_file:
             output_file.write(subgait.to_yaml())
-

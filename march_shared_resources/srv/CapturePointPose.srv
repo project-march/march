@@ -4,6 +4,7 @@ string duration
 ---
 bool success
 string message
+string duration
 string x
 string y
 string z
