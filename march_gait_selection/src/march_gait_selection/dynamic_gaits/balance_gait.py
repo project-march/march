@@ -125,7 +125,7 @@ class BalanceGait(object):
 
         end_effector = self._end_effectors[leg_name]
 
-        self.move_group[leg_name].set_joint_value_target(joint_state, end_effector, True)
+        self.move_group[leg_name].set_joint_value_target(joint_state)
 
     @staticmethod
     def to_subgait(joints, duration, gait_name='balance_gait', gait_type='walk_like', version='moveit',

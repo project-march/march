@@ -88,13 +88,13 @@ class CPCalculator(object):
                                                                          self.z - world_transform.transform.translation.z,
                                                                          self.vx, self.vy, duration)
 
-                if new_center_of_mass.z <= 0:
+                if new_center_of_mass['z'] <= 0:
                     rospy.logdebug_throttle(1, 'Cannot calculate capture point; center of mass < 0')
 
-                capture_point_multiplier = sqrt(new_center_of_mass.z / self._gravity_constant)
+                capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
 
-                x_cp = new_center_of_mass.x + new_center_of_mass.vx * capture_point_multiplier
-                y_cp = new_center_of_mass.y + new_center_of_mass.vy * capture_point_multiplier
+                x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
+                y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
 
                 self._capture_point_marker.header.stamp = rospy.get_rostime()
                 self._capture_point_marker.pose.position.x = x_cp + world_transform.transform.translation.x
