@@ -8,6 +8,7 @@ from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, Poss
 from .gait_selection import GaitSelection
 from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
+from .state_machine.trajectory_scheduler import TrajectoryScheduler
 
 NODE_NAME = 'gait_selection'
 DEFAULT_GAIT_FILES_PACKAGE = 'march_gait_files'
@@ -70,8 +71,10 @@ def main():
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
+    scheduler = TrajectoryScheduler('/march/controller/trajectory/follow_joint_trajectory')
+
     state_input = StateMachineInput()
-    gait_state_machine = GaitStateMachine(gait_selection, state_input, update_rate)
+    gait_state_machine = GaitStateMachine(gait_selection, scheduler, state_input, update_rate)
     rospy.loginfo('Gait state machine successfully generated')
 
     rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())

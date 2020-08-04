@@ -7,13 +7,11 @@
     <arg name="sounds" default="true" doc="Whether to use sounds."/>
 
     <arg name="rviz" default="false" doc="Launches RViz."/>
-    <arg name="state_machine_viewer" default="false" doc="Launches the SMACH viewer."/>
     <arg name="rqt_input" default="true" doc="Launches the march rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
 
     <arg name="ground_gait" default="false" doc="Exoskeleton will ground gait in gazebo_ui if true."/>
     <arg name="obstacle" default="none" doc="Obstacle to load in the simulation."/>
-    <arg name="unpause" default="true" doc="Unpause simulation when controller starts."/>
     <arg name="fixed" default="true" doc="Fixes the exoskeleton in the world in rviz"/>
 
     <arg name="arduino_master" default="false" doc="Launches ros serial node to connect with arduino on master."/>
@@ -47,12 +45,6 @@
     <node name="rviz" pkg="rviz" type="rviz" if="$(eval not headless and rviz)"/>
 
     <group ns="march">
-        <include file="$(find march_state_machine)/launch/state_machine.launch">
-            <arg name="state_machine_viewer" value="$(eval not headless and state_machine_viewer)"/>
-            <arg name="unpause" value="$(eval configuration == 'simulation' and unpause)"/>
-            <arg name="sounds" value="$(arg sounds)"/>		
-        </include>
-
         <include file="$(find march_safety)/launch/march_safety.launch"/>
 
         <node name="sound_play" pkg="sound_play" type="soundplay_node.py" if="$(arg sounds)" output="screen"/>
@@ -60,8 +52,6 @@
         <include file="$(find march_gait_selection)/launch/march_gait_selection.launch">
             <arg name="gait_directory" value="$(arg gait_directory)"/>
         </include>
-
-        <node name="gait_scheduler_node" pkg="march_gait_scheduler" type="march_gait_scheduler_node" output="screen" required="true"/>
 
         <include file="$(find march_gain_scheduling)/launch/march_gain_scheduling.launch" if="$(arg gain_scheduling)">
             <arg name="configuration" value="$(arg gain_tuning)"/>
@@ -92,7 +82,6 @@
             <arg name="fixed" value="$(arg fixed)"/>
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
-            <arg name="balance" value="$(arg balance)"/>
         </include>
     </group>
 

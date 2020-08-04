@@ -33,16 +33,8 @@ add_service_files(
     SetGaitVersion.srv
 )
 
-add_action_files(
-    DIRECTORY action
-    FILES
-    Gait.action
-    GaitName.action
-)
-
 generate_messages(
     DEPENDENCIES
-    actionlib_msgs
     control_msgs
     std_msgs
     trajectory_msgs
@@ -50,7 +42,6 @@ generate_messages(
 
 catkin_package(
     CATKIN_DEPENDS
-    actionlib_msgs
     control_msgs
     message_runtime
     std_msgs
