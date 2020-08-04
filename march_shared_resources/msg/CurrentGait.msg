@@ -3,7 +3,9 @@ Header header
 string gait
 # Subgait name that is executing, if the gait has subgaits, else empty string
 string subgait
-# Optional version name of the gait/subgait that is executing
+# Optional version name of the gait/subgait
 string version
-# Optional gait type name of the gait/subgait that is executing
+# Optional duration of the gait/subgait
+duration duration
+# Optional gait type name of the gait/subgait
 string gait_type

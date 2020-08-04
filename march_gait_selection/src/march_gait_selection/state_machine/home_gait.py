@@ -22,6 +22,10 @@ class HomeGait(GaitInterface):
         return self._name
 
     @property
+    def duration(self):
+        return self._duration
+
+    @property
     def starting_position(self):
         return None
 

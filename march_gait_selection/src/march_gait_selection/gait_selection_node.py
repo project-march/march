@@ -105,8 +105,9 @@ def main():
     def current_state_cb(state, is_idle):
         current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
 
-    def current_gait_cb(gait_name, subgait_name, version, gait_type):
-        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version, gait_type=gait_type)
+    def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
+        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
+                                 duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
 
     gait_state_machine.add_transition_callback(current_state_cb)
     gait_state_machine.add_gait_callback(current_gait_cb)
