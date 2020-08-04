@@ -1,4 +1,5 @@
 from math import sqrt
+import copy
 
 from march_data_collector.inverted_pendulum import InvertedPendulum
 import rospy
@@ -72,7 +73,7 @@ class CPCalculator(object):
         self.y = self._center_of_mass_marker.pose.position.y
         self.z = self._center_of_mass_marker.pose.position.z
 
-        self._center_of_mass_marker = updated_center_of_mass
+        self._center_of_mass_marker = copy.deepcopy(updated_center_of_mass)
         self._prev_t = updated_center_of_mass.header.stamp
 
     def _calculate_capture_point(self, duration):
@@ -87,17 +88,18 @@ class CPCalculator(object):
             world_transform = self._tf_buffer.lookup_transform('world', self._swing_foot_link, rospy.Time())
 
             if self._delta_t != 0:
-                self._capture_point_duration = InvertedPendulum.calculate_falling_time(
+                falling_time = 0.5 * InvertedPendulum.calculate_falling_time(
                     self.x - world_transform.transform.translation.x,
                     self.y - world_transform.transform.translation.y,
                     self.z - world_transform.transform.translation.z,
                     self.vx, self.vy)
+                self._capture_point_duration = min(duration, falling_time)
 
                 new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
                     self.x - world_transform.transform.translation.x,
                     self.y - world_transform.transform.translation.y,
                     self.z - world_transform.transform.translation.z,
-                    self.vx, self.vy, duration)
+                    self.vx, self.vy, self._capture_point_duration)
 
                 if new_center_of_mass['z'] <= 0:
                     rospy.logdebug_throttle(1, 'Cannot calculate capture point; center of mass < 0')
