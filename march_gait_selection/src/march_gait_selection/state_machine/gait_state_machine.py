@@ -7,16 +7,18 @@ from .home_gait import HomeGait
 class GaitStateMachine(object):
     UNKNOWN = 'unknown'
 
-    def __init__(self, gait_selection, state_input, update_rate):
+    def __init__(self, gait_selection, trajectory_scheduler, state_input, update_rate):
         """Generates a state machine from given gaits and resets it to UNKNOWN state.
 
         In order to start the state machine see `run`.
 
         :param GaitSelection gait_selection: Selection of loaded gaits to build from
+        :param TrajectoryScheduler trajectory_scheduler: Scheduler interface for scheduling trajectories
         :param StateMachineInput state_input: Input interface for controlling the states
         :param float update_rate: update rate in Hz
         """
         self._gait_selection = gait_selection
+        self._trajectory_scheduler = trajectory_scheduler
         self._input = state_input
         self._update_rate = update_rate
 
@@ -82,9 +84,8 @@ class GaitStateMachine(object):
                 rospy.loginfo('Cannot execute gait `{0}` from idle state `{1}`'.format(gait_name, self._current_state))
         elif self._input.unknown_requested():
             self._input.gait_accepted()
-            self._current_state = self.UNKNOWN
+            self._transition_to_unknown()
             self._input.gait_finished()
-            rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _process_gait_state(self, elapsed_time):
         if self._current_gait is None:
@@ -95,8 +96,17 @@ class GaitStateMachine(object):
             rospy.loginfo('Executing gait `{0}`'.format(self._current_gait.name))
             trajectory = self._current_gait.start()
             if trajectory is not None:
-                rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+                rospy.loginfo('Received new trajectory to schedule')
+                self._trajectory_scheduler.schedule(trajectory)
             elapsed_time = 0.0
+
+        if self._trajectory_scheduler.failed():
+            self._trajectory_scheduler.reset()
+            self._current_gait.end()
+            self._current_gait = None
+            self._transition_to_unknown()
+            self._input.gait_finished()
+            return
 
         if self._input.stop_requested() or self._should_stop:
             self._should_stop = False
@@ -110,7 +120,8 @@ class GaitStateMachine(object):
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
         if trajectory is not None:
-            rospy.loginfo('Received new trajectory to schedule: ' + str(trajectory))
+            rospy.loginfo('Received new trajectory to schedule')
+            self._trajectory_scheduler.schedule(trajectory)
 
         if should_stop:
             self._current_state = self._gait_transitions[self._current_state]
@@ -119,6 +130,11 @@ class GaitStateMachine(object):
             self._input.gait_finished()
             rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
             self._current_gait = None
+
+    def _transition_to_unknown(self):
+        self._current_state = self.UNKNOWN
+        self._is_idle = True
+        rospy.loginfo('Transitioned to `{0}`'.format(self.UNKNOWN))
 
     def _generate_graph(self):
         self._idle_transitions = {}

@@ -11,9 +11,11 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>python3-setuptools</buildtool_depend>
 
+  <depend>control_msgs</depend>
   <depend>march_shared_resources</depend>
   <depend>std_msgs</depend>
 
+  <exec_depend>actionlib</exec_depend>
   <exec_depend>march_description</exec_depend>
   <exec_depend>march_moveit</exec_depend>
   <exec_depend>march_shared_classes</exec_depend>
