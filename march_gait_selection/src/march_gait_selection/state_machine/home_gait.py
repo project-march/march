@@ -22,6 +22,10 @@ class HomeGait(GaitInterface):
         return self._name
 
     @property
+    def subgait_name(self):
+        return self._name
+
+    @property
     def duration(self):
         return self._duration
 
