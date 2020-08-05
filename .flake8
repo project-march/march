@@ -11,8 +11,6 @@ application-package-names =
     march_safety,
     march_shared_classes,
     march_shared_resources,
-    march_sound_scheduler,
-    march_state_machine
 import-order-style = appnexus
 ignore =
     # D100: Missing docstring in public module
