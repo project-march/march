@@ -93,11 +93,7 @@ class CPCalculator(object):
                     self.y - world_transform.transform.translation.y,
                     self.z - world_transform.transform.translation.z,
                     self.vx, self.vy)
-                print(InvertedPendulum.calculate_falling_time(
-                    self.x - world_transform.transform.translation.x,
-                    self.y - world_transform.transform.translation.y,
-                    self.z - world_transform.transform.translation.z,
-                    self.vx, self.vy))
+
                 print("\nFalling time = " + str(falling_time))
                 self._capture_point_duration = min(duration, 0.5 * falling_time)
 
