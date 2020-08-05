@@ -69,9 +69,6 @@ def main():
     gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
     update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
 
-    if rospy.get_param('~sounds', False):
-        sounds = Sounds(['start', 'error', 'gait_start', 'gait_end', 'gait_stop'])
-
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
@@ -118,5 +115,21 @@ def main():
 
     gait_state_machine.add_transition_callback(current_state_cb)
     gait_state_machine.add_gait_callback(current_gait_cb)
+
+    if rospy.get_param('~sounds', False):
+        sounds = Sounds(['start', 'gait_start', 'gait_end', 'gait_stop'])
+
+        def play_gait_sound(_state, is_idle):
+            if is_idle:
+                sounds.play('gait_end')
+            else:
+                sounds.play('gait_start')
+
+        gait_state_machine.add_transition_callback(play_gait_sound)
+        gait_state_machine.add_stop_accepted_callback(lambda: sounds.play('gait_stop'))
+
+        # Short sleep is necessary to wait for the sound topic to initialize
+        rospy.sleep(0.5)
+        sounds.play('start')
 
     gait_state_machine.run()

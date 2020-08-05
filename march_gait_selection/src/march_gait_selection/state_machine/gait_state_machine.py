@@ -29,6 +29,7 @@ class GaitStateMachine(object):
 
         self._transition_callbacks = []
         self._gait_callbacks = []
+        self._stop_accepted_callbacks = []
 
         self._current_state = self.UNKNOWN
         self._current_gait = None
@@ -65,6 +66,16 @@ class GaitStateMachine(object):
         :param cb: Callable method that accepts 5 args: gait name, subgait name, version, duration and gait type.
         """
         self._add_callback(self._gait_callbacks, cb)
+
+    def add_stop_accepted_callback(self, cb):
+        """Adds a callback function that will be called when a gait accepts the stop command.
+
+        The given method should be running as shortly as possible, since they
+        will be called from within the main loop.
+
+        :param cb: Callable method that accepts no arguments and returns None.
+        """
+        self._add_callback(self._stop_accepted_callbacks, cb)
 
     def run(self):
         """Runs the state machine until shutdown is requested."""
@@ -139,6 +150,7 @@ class GaitStateMachine(object):
             if self._current_gait.stop():
                 rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name))
                 self._input.stop_accepted()
+                self._call_callbacks(self._stop_accepted_callbacks)
             else:
                 rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name))
                 self._input.stop_rejected()
