@@ -98,7 +98,7 @@ class CPCalculator(object):
                     self.y - world_transform.transform.translation.y,
                     self.z - world_transform.transform.translation.z,
                     self.vx, self.vy))
-                print("\nFalling time = " + falling_time)
+                print("\nFalling time = " + str(falling_time))
                 self._capture_point_duration = min(duration, 0.5 * falling_time)
 
                 new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
@@ -132,6 +132,10 @@ class CPCalculator(object):
                 self._capture_point_marker.pose.position.x = x_cp + world_transform.transform.translation.x
                 self._capture_point_marker.pose.position.y = y_cp + world_transform.transform.translation.y
                 self._capture_point_marker.pose.position.z = 0
+
+                print(self._capture_point_marker.pose.position.y)
+                print(y_cp)
+                print(world_transform.transform.translation.y)
 
                 self.cp_publisher.publish(self._capture_point_marker)
 
