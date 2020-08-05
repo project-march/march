@@ -6,6 +6,7 @@ from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, Poss
                                         SetGaitVersion)
 
 from .gait_selection import GaitSelection
+from .sounds import Sounds
 from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
 from .state_machine.trajectory_scheduler import TrajectoryScheduler
@@ -67,6 +68,9 @@ def main():
     gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
     gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
     update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
+
+    if rospy.get_param('~sounds', False):
+        sounds = Sounds(['start', 'error', 'gait_start', 'gait_end', 'gait_stop'])
 
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))

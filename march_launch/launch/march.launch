@@ -51,6 +51,7 @@
 
         <include file="$(find march_gait_selection)/launch/march_gait_selection.launch">
             <arg name="gait_directory" value="$(arg gait_directory)"/>
+            <param name="sounds" value="$(arg sounds)"/>
         </include>
 
         <include file="$(find march_gain_scheduling)/launch/march_gain_scheduling.launch" if="$(arg gain_scheduling)">
