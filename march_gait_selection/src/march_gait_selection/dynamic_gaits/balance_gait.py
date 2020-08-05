@@ -100,7 +100,8 @@ class BalanceGait(object):
         pose.position.y = float(capture_point_pose.y)
         pose.position.z = float(capture_point_pose.z)
 
-        self.move_group[leg_name].set_joint_value_target(pose, end_effector, True)
+        self.move_group[leg_name].set_position_target([float(capture_point_pose.x), float(capture_point_pose.y),
+                                                       float(capture_point_pose.z)])
 
         return float(capture_point_pose.duration)
 
