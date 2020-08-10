@@ -106,8 +106,8 @@ def main():
     current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
     current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
 
-    def current_state_cb(state, is_idle):
-        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
+    def current_state_cb(state, next_is_idle):
+        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if next_is_idle else CurrentState.GAIT)
 
     def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
         current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
@@ -119,8 +119,8 @@ def main():
     if rospy.get_param('~sounds', False):
         sounds = Sounds(['start', 'gait_start', 'gait_end', 'gait_stop'])
 
-        def play_gait_sound(_state, is_idle):
-            if is_idle:
+        def play_gait_sound(_state, next_is_idle):
+            if next_is_idle:
                 sounds.play('gait_end')
             else:
                 sounds.play('gait_start')
