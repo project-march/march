@@ -13,6 +13,8 @@ add_message_files(
     FILES
     AfterLimitJointCommand.msg
     Alive.msg
+    CurrentGait.msg
+    CurrentState.msg
     Error.msg
     GaitInstruction.msg
     GaitInstructionResponse.msg
@@ -27,7 +29,6 @@ add_message_files(
 add_service_files(
     FILES
     ContainsGait.srv
-    CurrentState.srv
     PossibleGaits.srv
     SetGaitVersion.srv
 )

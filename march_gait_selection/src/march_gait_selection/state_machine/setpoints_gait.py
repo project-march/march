@@ -15,6 +15,34 @@ class SetpointsGait(GaitInterface, Gait):
         return self.gait_name
 
     @property
+    def subgait_name(self):
+        if self._current_subgait in self.subgaits:
+            return self.subgaits[self._current_subgait].subgait_name
+        else:
+            return None
+
+    @property
+    def version(self):
+        if self._current_subgait in self.subgaits:
+            return self.subgaits[self._current_subgait].version
+        else:
+            return None
+
+    @property
+    def duration(self):
+        if self._current_subgait in self.subgaits:
+            return self.subgaits[self._current_subgait].duration
+        else:
+            return None
+
+    @property
+    def gait_type(self):
+        if self._current_subgait in self.subgaits:
+            return self.subgaits[self._current_subgait].gait_type
+        else:
+            return None
+
+    @property
     def starting_position(self):
         subgait = self.subgaits[self.graph.start_subgaits()[0]]
         return dict([(joint.name, joint.setpoints[0].position) for joint in subgait.joints])
@@ -57,3 +85,6 @@ class SetpointsGait(GaitInterface, Gait):
             return True
         else:
             return False
+
+    def end(self):
+        self._current_subgait = None

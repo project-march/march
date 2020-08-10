@@ -1,7 +1,7 @@
 import rospy
 from std_srvs.srv import Trigger
 
-from march_shared_resources.msg import Error
+from march_shared_resources.msg import CurrentGait, CurrentState, Error
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
 
@@ -75,12 +75,11 @@ def main():
 
     state_input = StateMachineInput()
     gait_state_machine = GaitStateMachine(gait_selection, scheduler, state_input, update_rate)
+    rospy.loginfo('Gait state machine successfully generated')
 
     rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
 
-    rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
-
-    # Use lambdas to process service calls inline
+    # Services
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
                   lambda msg: [True, str(gait_selection.gait_version_map)])
 
@@ -98,5 +97,22 @@ def main():
 
     rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
                   lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
+
+    # Subscribers
+    rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
+
+    # Publishers
+    current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
+    current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
+
+    def current_state_cb(state, is_idle):
+        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
+
+    def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
+        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
+                                 duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
+
+    gait_state_machine.add_transition_callback(current_state_cb)
+    gait_state_machine.add_gait_callback(current_gait_cb)
 
     gait_state_machine.run()
