@@ -1,10 +1,10 @@
-# Service for setting subgait versions of a gait.
+# Service for getting the position of the center of mass after falling for time duration
 
-string duration
+float64 duration
 ---
 bool success
 string message
-string duration
-string x
-string y
-string z
+float64 duration
+float64 x
+float64 y
+float64 z

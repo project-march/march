@@ -87,21 +87,14 @@ class BalanceGait(object):
         :param subgait_name: the normal subgait name
         """
         subgait_duration = self.default_walk[subgait_name].duration
-        capture_point_pose = self._capture_point_service[leg_name](duration=str(subgait_duration))
+        capture_point_pose = self._capture_point_service[leg_name](duration=subgait_duration)
 
         if not capture_point_pose.success:
             rospy.logwarn('No messages received from the capture point service of {lg}'.format(lg=leg_name))
             return None
 
-        end_effector = self._end_effectors[leg_name]
-
-        pose = Pose()
-        pose.position.x = float(capture_point_pose.x)
-        pose.position.y = float(capture_point_pose.y)
-        pose.position.z = float(capture_point_pose.z)
-
-        self.move_group[leg_name].set_position_target([float(capture_point_pose.x), float(capture_point_pose.y),
-                                                       float(capture_point_pose.z)])
+        self.move_group[leg_name].set_position_target([capture_point_pose.x, capture_point_pose.y,
+                                                       capture_point_pose.z])
 
         return float(capture_point_pose.duration)
 

@@ -82,8 +82,6 @@ class CPCalculator(object):
         :param duration:
             the amount of seconds away from the current time the capture point should be calculated
         """
-        rospy.logdebug('time diff: {td}'.format(td=str(self._delta_t)))
-
         try:
             world_transform = self._tf_buffer.lookup_transform('world', self._swing_foot_link, rospy.Time())
 
@@ -148,7 +146,7 @@ class CPCalculator(object):
         self._calculate_capture_point(duration)
 
         return [True, 'Pose response from the capture point calculation.',
-                str(self._capture_point_duration),
-                str(self._capture_point_marker.pose.position.x),
-                str(self._capture_point_marker.pose.position.y),
-                str(self._capture_point_marker.pose.position.z)]
+                self._capture_point_duration,
+                self._capture_point_marker.pose.position.x,
+                self._capture_point_marker.pose.position.y,
+                self._capture_point_marker.pose.position.z]
