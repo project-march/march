@@ -179,25 +179,26 @@ class GaitStateMachine(object):
         for gait in self._gait_selection:
             gait_name = gait.name
             starting_position = gait.starting_position
-            from_idle_name = next((name for name, position in idle_positions.items() if position == starting_position),
-                                  None)
+            from_idle_name = next(
+                (name for name, position in idle_positions.items() if position['joints'] == starting_position), None)
             if from_idle_name is None:
                 from_idle_name = 'unknown_idle_{0}'.format(len(idle_positions))
                 rospy.logwarn('No named position given for starting position of gait `{gn}`, creating `{n}`'
                               .format(gn=gait_name, n=from_idle_name))
-                idle_positions[from_idle_name] = starting_position
+                idle_positions[from_idle_name] = {'gait_type': '', 'joints': starting_position}
             if from_idle_name in self._idle_transitions:
                 self._idle_transitions[from_idle_name].add(gait_name)
             else:
                 self._idle_transitions[from_idle_name] = {gait_name}
 
             final_position = gait.final_position
-            to_idle_name = next((name for name, position in idle_positions.items() if position == final_position), None)
+            to_idle_name = next(
+                (name for name, position in idle_positions.items() if position['joints'] == final_position), None)
             if to_idle_name is None:
                 to_idle_name = 'unknown_idle_{0}'.format(len(idle_positions))
                 rospy.logwarn('No named position given for final position of gait `{gn}`, creating `{n}`'
                               .format(gn=gait_name, n=to_idle_name))
-                idle_positions[to_idle_name] = final_position
+                idle_positions[to_idle_name] = {'gait_type': '', 'joints': final_position}
             self._gait_transitions[gait_name] = to_idle_name
 
         self._validate_transitions()
@@ -213,7 +214,7 @@ class GaitStateMachine(object):
         self._idle_transitions[self.UNKNOWN] = set()
         self._home_gaits = {}
         for idle_name, position in idle_positions.items():
-            home_gait = HomeGait(idle_name, position)
+            home_gait = HomeGait(idle_name, position['joints'], position['gait_type'])
             home_gait_name = home_gait.name
             self._home_gaits[home_gait_name] = home_gait
             if home_gait_name in self._gait_transitions:

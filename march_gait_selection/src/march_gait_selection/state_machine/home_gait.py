@@ -5,15 +5,17 @@ from .gait_interface import GaitInterface
 
 
 class HomeGait(GaitInterface):
-    def __init__(self, name, position, duration=3.0):
+    def __init__(self, name, position, gait_type, duration=3.0):
         """Initializes an executable home gait with given positions.
 
         :param str name: Name of the idle position this gait homes to. Will be prefixed with `home_`
         :param dict position: Mapping of joint names to positions
+        :param str gait_type: Gait type to use for home gait
         :param float duration: Duration of the gait in seconds. Defaults to 3 seconds.
         """
         self._name = 'home_{name}'.format(name=name)
         self._position = position
+        self._gait_type = gait_type
         self._duration = duration
         self._time_since_start = 0.0
 
@@ -28,6 +30,10 @@ class HomeGait(GaitInterface):
     @property
     def duration(self):
         return self._duration
+
+    @property
+    def gait_type(self):
+        return self._gait_type
 
     @property
     def starting_position(self):
