@@ -1,10 +1,10 @@
 import rospy
 from std_srvs.srv import Trigger
+from urdf_parser_py import urdf
 
 from march_shared_resources.msg import CurrentGait, CurrentState, Error
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
-from urdf_parser_py import urdf
 
 from .dynamic_gaits.balance_gait import BalanceGait
 from .gait_selection import GaitSelection

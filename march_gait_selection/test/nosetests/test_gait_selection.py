@@ -3,7 +3,6 @@ from copy import deepcopy
 import unittest
 
 import rospkg
-
 from urdf_parser_py import urdf
 
 from march_gait_selection.gait_selection import GaitSelection

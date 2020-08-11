@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import rosunit
 
-from nosetests.test_gait_selection import TestGaitSelection
-from nosetests.test_gait_transition import TestTransitionTrajectory
+from .test_gait_selection import TestGaitSelection
+from .test_gait_transition import TestTransitionTrajectory
 
 PKG = 'march_gait_selection'
 
