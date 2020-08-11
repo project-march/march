@@ -21,9 +21,12 @@
 
     <arg name="rosbag" default="false" doc="Enables rosbag record node."/>
 
+    <arg name="controller" default="effort_control" doc="Changes the controller used by simulation."/>
+
     <param name="balance" value="$(arg balance)"/>
 
     <include file="$(dirname)/march.launch" pass_all_args="true">
         <arg name="configuration" value="simulation"/>
+        <arg name="controller" value="$(arg controller)"/>
     </include>
 </launch>
