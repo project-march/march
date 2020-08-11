@@ -5,6 +5,7 @@ from march_shared_resources.msg import CurrentGait, CurrentState, Error
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
 
+from .dynamic_gaits.balance_gait import BalanceGait
 from .gait_selection import GaitSelection
 from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
@@ -70,6 +71,11 @@ def main():
 
     gait_selection = GaitSelection(gait_package, gait_directory)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
+
+    balance_gait = BalanceGait.create_balance_subgait()
+    if balance_gait is not None:
+        balance_gait.default_walk = gait_selection['balance_walk']
+        gait_selection.add_gait(balance_gait)
 
     scheduler = TrajectoryScheduler('/march/controller/trajectory/follow_joint_trajectory')
 

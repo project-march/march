@@ -103,6 +103,16 @@ class GaitSelection(object):
         except IOError:
             return [False, 'Error occurred when writing to file path: {pn}'.format(pn=self._default_yaml)]
 
+    def add_gait(self, gait):
+        """Adds a gait to the loaded gaits if it does not already exist.
+
+        The to be added gait should implement `GaitInterface`.
+        """
+        if gait.name in self._loaded_gaits:
+            rospy.logwarn('Gait `{gait}` already exists in gait selection'.format(gait=gait.name))
+        else:
+            self._loaded_gaits[gait.name] = gait
+
     def _load_gaits(self):
         """Loads the gaits in the specified gait directory.
 
