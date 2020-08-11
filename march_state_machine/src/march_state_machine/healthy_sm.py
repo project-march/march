@@ -77,6 +77,7 @@ class HealthyStateMachine(smach.StateMachine):
 
         self.add_state('GAIT SINGLE STEP SMALL', StepStateMachine('single_step_small'), 'STANDING')
         self.add_state('GAIT SINGLE STEP NORMAL', StepStateMachine('single_step_normal'), 'STANDING')
+        self.add_state('GAIT SINGLE STEP MINI', StepStateMachine('single_step_mini'), 'STANDING')
 
         self.add_state('GAIT SIDE STEP LEFT',
                        StepStateMachine('side_step_left', ['left_open', 'right_close']),
@@ -136,6 +137,7 @@ class HealthyStateMachine(smach.StateMachine):
                  transitions={'gait_stand': 'GAIT STAND', 'failed': 'UNKNOWN'})
         self.add('STANDING', IdleState(gait_outcomes=['gait_sit', 'gait_walk', 'gait_walk_small',
                                                       'gait_single_step_small', 'gait_walk_large',
+                                                      'gait_single_step_mini',
                                                       'gait_single_step_normal', 'gait_side_step_left',
                                                       'gait_side_step_right', 'gait_side_step_left_small',
                                                       'gait_side_step_right_small', 'gait_sofa_sit',
@@ -165,6 +167,7 @@ class HealthyStateMachine(smach.StateMachine):
                               'gait_walk_large': 'GAIT WALK LARGE',
                               'gait_single_step_small': 'GAIT SINGLE STEP SMALL',
                               'gait_single_step_normal': 'GAIT SINGLE STEP NORMAL',
+                              'gait_single_step_mini': 'GAIT SINGLE STEP MINI',
                               'gait_side_step_left': 'GAIT SIDE STEP LEFT',
                               'gait_side_step_right': 'GAIT SIDE STEP RIGHT',
                               'gait_side_step_left_small': 'GAIT SIDE STEP LEFT SMALL',
