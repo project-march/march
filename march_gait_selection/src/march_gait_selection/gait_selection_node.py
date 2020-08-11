@@ -4,6 +4,7 @@ from std_srvs.srv import Trigger
 from march_shared_resources.msg import CurrentGait, CurrentState, Error
 from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, PossibleGaits, PossibleGaitsResponse,
                                         SetGaitVersion)
+from urdf_parser_py import urdf
 
 from .dynamic_gaits.balance_gait import BalanceGait
 from .gait_selection import GaitSelection
@@ -68,8 +69,9 @@ def main():
     gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
     gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
     update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
+    robot = urdf.Robot.from_parameter_server('/robot_description')
 
-    gait_selection = GaitSelection(gait_package, gait_directory)
+    gait_selection = GaitSelection(gait_package, gait_directory, robot)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
     balance_gait = BalanceGait.create_balance_subgait()

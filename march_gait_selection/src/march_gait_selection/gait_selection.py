@@ -2,7 +2,6 @@ import os
 
 import rospkg
 import rospy
-from urdf_parser_py import urdf
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
@@ -15,7 +14,7 @@ from .state_machine.setpoints_gait import SetpointsGait
 class GaitSelection(object):
     """Base class for the gait selection module."""
 
-    def __init__(self, package, directory):
+    def __init__(self, package, directory, robot):
         package_path = self.get_ros_package_path(package)
         self._gait_directory = os.path.join(package_path, directory)
         self._default_yaml = os.path.join(self._gait_directory, 'default.yaml')
@@ -23,7 +22,7 @@ class GaitSelection(object):
         if not os.path.isfile(self._default_yaml):
             raise FileNotFoundError(file_path=self._default_yaml)
 
-        self._robot = urdf.Robot.from_parameter_server('/robot_description')
+        self._robot = robot
 
         self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()

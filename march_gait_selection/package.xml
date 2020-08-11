@@ -11,6 +11,8 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>python3-setuptools</buildtool_depend>
 
+  <build_depend>rostest</build_depend>
+
   <depend>control_msgs</depend>
   <depend>march_shared_resources</depend>
   <depend>std_msgs</depend>
@@ -23,6 +25,5 @@
   <exec_depend>rospy</exec_depend>
   <exec_depend>urdfdom_py</exec_depend>
 
-  <test_depend>rostest</test_depend>
   <test_depend>rosunit</test_depend>
 </package>
