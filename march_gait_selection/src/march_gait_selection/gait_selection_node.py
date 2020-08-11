@@ -6,6 +6,7 @@ from march_shared_resources.srv import (ContainsGait, ContainsGaitResponse, Poss
                                         SetGaitVersion)
 
 from .gait_selection import GaitSelection
+from .sounds import Sounds
 from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
 from .state_machine.trajectory_scheduler import TrajectoryScheduler
@@ -62,24 +63,7 @@ def error_cb(gait_state_machine, msg):
         gait_state_machine.request_shutdown()
 
 
-def main():
-    rospy.init_node(NODE_NAME)
-    gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
-    gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
-    update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
-
-    gait_selection = GaitSelection(gait_package, gait_directory)
-    rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
-
-    scheduler = TrajectoryScheduler('/march/controller/trajectory/follow_joint_trajectory')
-
-    state_input = StateMachineInput()
-    gait_state_machine = GaitStateMachine(gait_selection, scheduler, state_input, update_rate)
-    rospy.loginfo('Gait state machine successfully generated')
-
-    rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
-
-    # Services
+def create_services(gait_selection, gait_state_machine):
     rospy.Service('/march/gait_selection/get_version_map', Trigger,
                   lambda msg: [True, str(gait_selection.gait_version_map)])
 
@@ -98,15 +82,17 @@ def main():
     rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
                   lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
 
-    # Subscribers
+
+def create_subscribers(gait_state_machine):
     rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
 
-    # Publishers
+
+def create_publishers(gait_state_machine):
     current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
     current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
 
-    def current_state_cb(state, is_idle):
-        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
+    def current_state_cb(state, next_is_idle):
+        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if next_is_idle else CurrentState.GAIT)
 
     def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
         current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
@@ -114,5 +100,46 @@ def main():
 
     gait_state_machine.add_transition_callback(current_state_cb)
     gait_state_machine.add_gait_callback(current_gait_cb)
+
+
+def create_sounds(gait_state_machine):
+    if rospy.get_param('~sounds', False):
+        sounds = Sounds(['start', 'gait_start', 'gait_end', 'gait_stop'])
+
+        def play_gait_sound(_state, next_is_idle):
+            if next_is_idle:
+                sounds.play('gait_end')
+            else:
+                sounds.play('gait_start')
+
+        gait_state_machine.add_transition_callback(play_gait_sound)
+        gait_state_machine.add_stop_accepted_callback(lambda: sounds.play('gait_stop'))
+
+        # Short sleep is necessary to wait for the sound topic to initialize
+        rospy.sleep(0.5)
+        sounds.play('start')
+
+
+def main():
+    rospy.init_node(NODE_NAME)
+    gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
+    gait_directory = rospy.get_param('~gait_directory', DEFAULT_GAIT_DIRECTORY)
+    update_rate = rospy.get_param('~update_rate', DEFAULT_UPDATE_RATE)
+
+    gait_selection = GaitSelection(gait_package, gait_directory)
+    rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
+
+    scheduler = TrajectoryScheduler('/march/controller/trajectory/follow_joint_trajectory')
+
+    state_input = StateMachineInput()
+    gait_state_machine = GaitStateMachine(gait_selection, scheduler, state_input, update_rate)
+    rospy.loginfo('Gait state machine successfully generated')
+
+    rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
+
+    create_services(gait_selection, gait_state_machine)
+    create_subscribers(gait_state_machine)
+    create_publishers(gait_state_machine)
+    create_sounds(gait_state_machine)
 
     gait_state_machine.run()

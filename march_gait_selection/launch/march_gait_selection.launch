@@ -10,6 +10,7 @@
             default="training-v"
             doc="The directory where the gait files are located, relative to the above package"
     />
+    <arg name="sounds" default="false" doc="Whether to use sounds."/>
 
     <node
             name="gait_selection_node"
@@ -19,5 +20,6 @@
             required="true">
         <param name="gait_package" value="$(arg gait_package)"/>
         <param name="gait_directory" value="$(arg gait_directory)"/>
+        <param name="sounds" value="$(arg sounds)"/>
     </node>
 </launch>
