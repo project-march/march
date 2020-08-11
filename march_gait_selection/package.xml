@@ -22,7 +22,9 @@
   <exec_depend>march_moveit</exec_depend>
   <exec_depend>march_shared_classes</exec_depend>
   <exec_depend>moveit_commander</exec_depend>
+  <exec_depend>roslib</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>sound_play</exec_depend>
   <exec_depend>urdfdom_py</exec_depend>
 
   <test_depend>rosunit</test_depend>

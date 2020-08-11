@@ -6,11 +6,15 @@ from sound_play.libsoundplay import SoundClient
 
 
 class Sounds(object):
-    def __init__(self):
+    def __init__(self, sound_names=None):
         self._sound_client = SoundClient()
 
         self._sounds = {}
-        self._sounds_dir = os.path.join(roslib.packages.get_pkg_dir('march_state_machine'), 'sounds')
+        self._sounds_dir = os.path.join(roslib.packages.get_pkg_dir('march_gait_selection'), 'sounds')
+
+        if sound_names is not None:
+            for name in sound_names:
+                self.add_sound(name)
 
     def add_sound(self, sound):
         """

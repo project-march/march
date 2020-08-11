@@ -8,6 +8,7 @@ from urdf_parser_py import urdf
 
 from .dynamic_gaits.balance_gait import BalanceGait
 from .gait_selection import GaitSelection
+from .sounds import Sounds
 from .state_machine.gait_state_machine import GaitStateMachine
 from .state_machine.state_machine_input import StateMachineInput
 from .state_machine.trajectory_scheduler import TrajectoryScheduler
@@ -64,6 +65,63 @@ def error_cb(gait_state_machine, msg):
         gait_state_machine.request_shutdown()
 
 
+def create_services(gait_selection, gait_state_machine):
+    rospy.Service('/march/gait_selection/get_version_map', Trigger,
+                  lambda msg: [True, str(gait_selection.gait_version_map)])
+
+    rospy.Service('/march/gait_selection/set_gait_version', SetGaitVersion,
+                  lambda msg: set_gait_versions(msg, gait_selection))
+
+    rospy.Service('/march/gait_selection/get_directory_structure', Trigger,
+                  lambda msg: [True, str(gait_selection.scan_directory())])
+
+    rospy.Service('/march/gait_selection/update_default_versions', Trigger,
+                  lambda msg: gait_selection.update_default_versions())
+
+    rospy.Service('/march/gait_selection/contains_gait', ContainsGait,
+                  lambda msg: contains_gait(msg, gait_selection))
+
+    rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
+                  lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
+
+
+def create_subscribers(gait_state_machine):
+    rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
+
+
+def create_publishers(gait_state_machine):
+    current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
+    current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
+
+    def current_state_cb(state, next_is_idle):
+        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if next_is_idle else CurrentState.GAIT)
+
+    def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
+        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
+                                 duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
+
+    gait_state_machine.add_transition_callback(current_state_cb)
+    gait_state_machine.add_gait_callback(current_gait_cb)
+
+
+def create_sounds(gait_state_machine):
+    if rospy.get_param('~sounds', False):
+        sounds = Sounds(['start', 'gait_start', 'gait_end', 'gait_stop'])
+
+        def play_gait_sound(_state, next_is_idle):
+            if next_is_idle:
+                sounds.play('gait_end')
+            else:
+                sounds.play('gait_start')
+
+        gait_state_machine.add_transition_callback(play_gait_sound)
+        gait_state_machine.add_stop_accepted_callback(lambda: sounds.play('gait_stop'))
+
+        # Short sleep is necessary to wait for the sound topic to initialize
+        rospy.sleep(0.5)
+        sounds.play('start')
+
+
 def main():
     rospy.init_node(NODE_NAME)
     gait_package = rospy.get_param('~gait_package', DEFAULT_GAIT_FILES_PACKAGE)
@@ -87,40 +145,9 @@ def main():
 
     rospy.core.add_preshutdown_hook(lambda reason: gait_state_machine.request_shutdown())
 
-    # Services
-    rospy.Service('/march/gait_selection/get_version_map', Trigger,
-                  lambda msg: [True, str(gait_selection.gait_version_map)])
-
-    rospy.Service('/march/gait_selection/set_gait_version', SetGaitVersion,
-                  lambda msg: set_gait_versions(msg, gait_selection))
-
-    rospy.Service('/march/gait_selection/get_directory_structure', Trigger,
-                  lambda msg: [True, str(gait_selection.scan_directory())])
-
-    rospy.Service('/march/gait_selection/update_default_versions', Trigger,
-                  lambda msg: gait_selection.update_default_versions())
-
-    rospy.Service('/march/gait_selection/contains_gait', ContainsGait,
-                  lambda msg: contains_gait(msg, gait_selection))
-
-    rospy.Service('/march/gait_selection/get_possible_gaits', PossibleGaits,
-                  lambda msg: PossibleGaitsResponse(gaits=gait_state_machine.get_possible_gaits()))
-
-    # Subscribers
-    rospy.Subscriber('/march/error', Error, lambda msg: error_cb(gait_state_machine, msg))
-
-    # Publishers
-    current_state_pub = rospy.Publisher('/march/gait_selection/current_state', CurrentState, queue_size=10)
-    current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
-
-    def current_state_cb(state, is_idle):
-        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if is_idle else CurrentState.GAIT)
-
-    def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
-        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
-                                 duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
-
-    gait_state_machine.add_transition_callback(current_state_cb)
-    gait_state_machine.add_gait_callback(current_gait_cb)
+    create_services(gait_selection, gait_state_machine)
+    create_subscribers(gait_state_machine)
+    create_publishers(gait_state_machine)
+    create_sounds(gait_state_machine)
 
     gait_state_machine.run()

@@ -18,7 +18,7 @@ catkin_package(CATKIN_DEPENDS
 catkin_install_python(PROGRAMS scripts/${PROJECT_NAME}_node
     DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-install(DIRECTORY launch
+install(DIRECTORY launch sounds
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
