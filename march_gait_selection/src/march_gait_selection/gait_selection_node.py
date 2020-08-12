@@ -132,9 +132,8 @@ def main():
     gait_selection = GaitSelection(gait_package, gait_directory, robot)
     rospy.loginfo('Gait selection initialized with package {0} of directory {1}'.format(gait_package, gait_directory))
 
-    balance_gait = BalanceGait.create_balance_subgait()
+    balance_gait = BalanceGait.create_balance_subgait(gait_selection['balance_walk'])
     if balance_gait is not None:
-        balance_gait.default_walk = gait_selection['balance_walk']
         gait_selection.add_gait(balance_gait)
 
     scheduler = TrajectoryScheduler('/march/controller/trajectory/follow_joint_trajectory')

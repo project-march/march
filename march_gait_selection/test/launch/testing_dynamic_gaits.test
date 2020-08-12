@@ -4,6 +4,6 @@
 
     <group ns="march">
         <include file="$(find march_moveit)/launch/march_moveit.launch"/>
-        <test test-name="test_gait_selection" pkg="march_gait_selection" type="test_gait_balance.py"/>
+        <test test-name="test_gait_balance" pkg="march_gait_selection" type="test_gait_balance.py"/>
     </group>
 </launch>

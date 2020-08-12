@@ -13,11 +13,11 @@ from march_gait_selection.state_machine.gait_interface import GaitInterface
 class BalanceGait(GaitInterface):
     """Base class to create a gait using the moveit motion planning."""
 
-    def __init__(self, gait_name='balanced_walk', move_groups=None):
+    def __init__(self, gait_name='balanced_walk', move_groups=None, default_walk=None):
         self.gait_name = gait_name
         self.move_group = move_groups
 
-        self._default_walk = None
+        self._default_walk = default_walk
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
         self._capture_point_pose = {'left_leg': None, 'right_leg': None}
@@ -35,8 +35,11 @@ class BalanceGait(GaitInterface):
                          callback_args='right_leg')
 
     @classmethod
-    def create_balance_subgait(cls):
-        """This class method should check if the balance variable is set and if so configure the motion planner."""
+    def create_balance_subgait(cls, default_walk):
+        """This class method should check if the balance variable is set and if so configure the motion planner.
+
+        :param default_walk: gait object to base the balance gait on.
+        """
         if not rospy.get_param('/balance', False):
             return None
 
@@ -53,7 +56,7 @@ class BalanceGait(GaitInterface):
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return None
 
-        return cls(move_groups=move_groups)
+        return cls(move_groups=move_groups, default_walk=default_walk)
 
     @property
     def default_walk(self):

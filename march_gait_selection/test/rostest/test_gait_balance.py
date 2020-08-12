@@ -14,7 +14,7 @@ class TestBalanceGait(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.balance_gait = BalanceGait.create_balance_subgait()
+        cls.balance_gait = BalanceGait.create_balance_subgait(None)
 
     def test_move_group_initiate(self):
         self.assertIsNotNone(self.balance_gait.move_group)
