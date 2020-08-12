@@ -2,7 +2,6 @@ import os
 
 import rospkg
 import rospy
-from urdf_parser_py import urdf
 import yaml
 
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
@@ -15,7 +14,7 @@ from .state_machine.setpoints_gait import SetpointsGait
 class GaitSelection(object):
     """Base class for the gait selection module."""
 
-    def __init__(self, package, directory):
+    def __init__(self, package, directory, robot):
         package_path = self.get_ros_package_path(package)
         self._gait_directory = os.path.join(package_path, directory)
         self._default_yaml = os.path.join(self._gait_directory, 'default.yaml')
@@ -23,7 +22,7 @@ class GaitSelection(object):
         if not os.path.isfile(self._default_yaml):
             raise FileNotFoundError(file_path=self._default_yaml)
 
-        self._robot = urdf.Robot.from_parameter_server('/robot_description')
+        self._robot = robot
 
         self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()
@@ -102,6 +101,16 @@ class GaitSelection(object):
 
         except IOError:
             return [False, 'Error occurred when writing to file path: {pn}'.format(pn=self._default_yaml)]
+
+    def add_gait(self, gait):
+        """Adds a gait to the loaded gaits if it does not already exist.
+
+        The to be added gait should implement `GaitInterface`.
+        """
+        if gait.name in self._loaded_gaits:
+            rospy.logwarn('Gait `{gait}` already exists in gait selection'.format(gait=gait.name))
+        else:
+            self._loaded_gaits[gait.name] = gait
 
     def _load_gaits(self):
         """Loads the gaits in the specified gait directory.

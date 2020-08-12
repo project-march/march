@@ -3,6 +3,9 @@
 from copy import deepcopy
 import unittest
 
+import rospkg
+from urdf_parser_py import urdf
+
 from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
 from march_gait_selection.gait_selection import GaitSelection
 from march_shared_classes.exceptions.gait_exceptions import GaitError
@@ -16,7 +19,8 @@ class TestTransitionTrajectory(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY)
+        robot = urdf.Robot.from_xml_file(rospkg.RosPack().get_path('march_description') + '/urdf/march4.urdf')
+        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY, robot)
 
     def setUp(self):
         self.gait_selection = deepcopy(self._gait_selection)

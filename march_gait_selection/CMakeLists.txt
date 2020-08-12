@@ -22,8 +22,8 @@ install(DIRECTORY launch sounds
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
-if (CATKIN_ENABLE_TESTING)
+if(CATKIN_ENABLE_TESTING)
     find_package(rostest REQUIRED)
-    add_rostest(test/launch/testing_gait_selection.test)
     add_rostest(test/launch/testing_dynamic_gaits.test)
+    catkin_add_nosetests(test/nosetests/run_tests.py)
 endif()

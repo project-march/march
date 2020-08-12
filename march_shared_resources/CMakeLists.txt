@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.0.2)
 project(march_shared_resources)
 
 find_package(catkin REQUIRED COMPONENTS
-    actionlib_msgs
     control_msgs
     message_generation
     std_msgs
