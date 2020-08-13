@@ -11,6 +11,9 @@ class SubgaitGraphTest(unittest.TestCase):
     @parameterized.expand([
         ('minimal', {'start': {'to': '1'}, '1': {'to': 'end'}}),
         ('stoppable loop', {'start': {'to': '1'}, '1': {'to': '2'}, '2': {'to': '1', 'stop': 'end'}}),
+        ('increase decrease graph',
+         {'start': {'to': '1'}, '1': {'to': 'end', 'increase_size': '2', 'decrease_size': '3'}, '2': {'to': 'end'},
+          '3': {'to': 'end'}}),
     ])
     def test_valid_graph(self, name, graph):
         self.assertIsInstance(SubgaitGraph(graph), SubgaitGraph)

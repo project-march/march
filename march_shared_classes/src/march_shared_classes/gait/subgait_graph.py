@@ -8,7 +8,9 @@ class SubgaitGraph(object):
     END = 'end'
     TO = 'to'
     STOP = 'stop'
-    TRANSITIONS = [TO, STOP]
+    INCREASE_SIZE = 'increase_size'
+    DECREASE_SIZE = 'decrease_size'
+    TRANSITIONS = [TO, STOP, INCREASE_SIZE, DECREASE_SIZE]
 
     def __init__(self, graph):
         self._graph = graph
