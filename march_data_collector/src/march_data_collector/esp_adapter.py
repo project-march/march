@@ -95,7 +95,8 @@ class ESPAdapter:
 
         self.configure_source(['gait_analysis/source_ps'], '/march/pressure_soles', PressureSole,
                               self.pressure_sole_callback)
-        self.configure_source(['control_analysis/source_imc'], '/march/imc_states', ImcState, self.imc_state_callback)
+        self.configure_source(['control_analysis/source_imc'], '/march/motor_controller_states', ImcState,
+                              self.imc_state_callback)
         self.configure_source(['control_analysis/source_gait_control', 'gait_analysis/source_gait'],
                               '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
         self.configure_source(['control_analysis/source_gait_control', 'gait_analysis/source_gait'],
