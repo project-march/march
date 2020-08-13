@@ -22,6 +22,7 @@ class SubgaitGraphTest(unittest.TestCase):
         ('missing start', {'1': {'to': 'end'}}),
         ('nonexisting name', {'start': {'to': '2'}}),
         ('no transitions', {'start': {}}),
+        ('no to transition', {'start': {'to': '1'}, '1': {'stop': 'end'}}),
         ('no subgaits', {}),
         ('invalid transitions', {'start': {'to': '1'}, '1': {'to': 'end', 'from': 'start'}}),
         ('equal transitions', {'start': {'to': '1', 'stop': '1'}, '1': {'to': 'end'}}),

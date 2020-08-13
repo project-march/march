@@ -58,8 +58,8 @@ class SubgaitGraph(object):
         subgait = self._graph.get(name)
         if subgait is None:
             raise SubgaitGraphError('Subgait {n} is not a subgait in the graph'.format(n=name))
-        if not any([transition in subgait for transition in self.TRANSITIONS]):
-            raise SubgaitGraphError('Subgait {n} has no transitions'.format(n=name))
+        if self.TO not in subgait:
+            raise SubgaitGraphError('Subgait {n} has no `{t}` transition'.format(n=name, t=self.TO))
         if not all([transition in self.TRANSITIONS for transition in subgait]):
             raise SubgaitGraphError(
                 'Subgait {n} has unknown transitions. Available transitions {t}'.format(n=name, t=self.TRANSITIONS))
