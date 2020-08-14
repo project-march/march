@@ -13,8 +13,8 @@
         <joint name="right_hip_aa" />
         <joint name="right_hip_angle" />
         <joint name="right_hip_fe" />
-        <joint name="right_ankle" />
         <joint name="right_knee" />
+        <joint name="right_ankle" />
         <joint name="right_foot_angle" />
         <chain base_link="hip_base" tip_link="foot_right" />
     </group>

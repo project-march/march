@@ -51,6 +51,9 @@ class BalanceGait(object):
             move_groups = {'all_legs': moveit_commander.MoveGroupCommander('all_legs'),
                            'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
                            'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+
+            for move_group in move_groups:
+                move_groups[move_group].set_pose_reference_frame('world')
         except RuntimeError:
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return cls()
