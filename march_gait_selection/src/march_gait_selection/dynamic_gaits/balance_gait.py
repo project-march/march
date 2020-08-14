@@ -2,7 +2,7 @@ from copy import deepcopy
 import os
 import sys
 
-from geometry_msgs.msg import Pose
+from geometry_msgs.msg import Pose, PoseStamped
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
@@ -187,8 +187,13 @@ class BalanceGait(object):
             self.move_group['right_leg'].get_joint_value_target()
 
         rospy.logwarn(targets)
+        joint_state = JointState()
+        joint_state.header = Header()
+        joint_state.header.stamp = rospy.Time.now()
+        joint_state.name = ['left_ankle', 'left_hip_aa', 'left_hip_fe', 'left_knee', 'right_ankle', 'right_hip_aa', 'right_hip_fe', 'right_knee']
+        joint_state.position = targets
 
-        balance_subgait = self.move_group['all_legs'].plan(targets)
+        balance_subgait = self.move_group['all_legs'].plan(joint_state)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
