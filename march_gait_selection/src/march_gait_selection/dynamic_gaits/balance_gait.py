@@ -96,8 +96,14 @@ class BalanceGait(object):
             rospy.logwarn('No messages received from the capture point service of {lg}'.format(lg=leg_name))
             return None
 
-        self.move_group[leg_name].set_position_target([capture_point_pose.x, capture_point_pose.y,
-                                                       capture_point_pose.z])
+        # self.move_group[leg_name].set_posit_target([capture_point_pose.x, capture_point_pose.y,
+        #                                                capture_point_pose.z])
+        pose = Pose()
+        pose.position.x = capture_point_pose.x
+        pose.position.y = capture_point_pose.y
+        pose.position.z = capture_point_pose.z
+        pose.orientation.w = 1.0
+        self.move_group[leg_name].set_joint_value_target(pose, self._end_effectors[leg_name], True)
 
         return float(capture_point_pose.duration)
 
@@ -179,6 +185,8 @@ class BalanceGait(object):
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
+
+        rospy.logwarn(targets)
 
         balance_subgait = self.move_group['all_legs'].plan(targets)
         balance_trajectory = balance_subgait.joint_trajectory
