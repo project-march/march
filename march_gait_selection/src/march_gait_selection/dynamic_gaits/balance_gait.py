@@ -128,8 +128,10 @@ class BalanceGait(object):
         joint_state.name = [joint.name for joint in non_capture_point_joints]
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
+        print(joint_state)
 
         self.move_group[leg_name].set_joint_value_target(joint_state)
+        print(self.move_group[leg_name].get_joint_value_target())
 
         return default_subgait.duration
 
@@ -165,7 +167,6 @@ class BalanceGait(object):
             balance_joints.append(JointTrajectory(joint_name, normal_joint.limits, setpoints, balance_duration))
 
         balance_subgait = BalanceGait.to_subgait(balance_joints, balance_duration, subgait_name=subgait_name)
-        self.export_to_file(balance_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_subgait
 
@@ -186,14 +187,15 @@ class BalanceGait(object):
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
 
-        rospy.logwarn(targets)
+        rospy.logwarn([target * 180 / 3.14159 for target in targets])
         joint_state = JointState()
         joint_state.header = Header()
         joint_state.header.stamp = rospy.Time.now()
-        joint_state.name = ['left_ankle', 'left_hip_aa', 'left_hip_fe', 'left_knee', 'right_ankle', 'right_hip_aa', 'right_hip_fe', 'right_knee']
+        joint_state.name = ['left_hip_aa', 'left_hip_fe', 'left_knee', 'left_ankle', 'right_hip_aa', 'right_hip_fe', 'right_knee', 'right_ankle']
         joint_state.position = targets
 
         balance_subgait = self.move_group['all_legs'].plan(joint_state)
+        print(balance_subgait)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
@@ -211,6 +213,7 @@ class BalanceGait(object):
 
         rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_max_joint_duration)))
         balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
+        self.export_to_file(balance_trajectory_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_trajectory_subgait
 
