@@ -94,6 +94,12 @@ class SubgaitGraphTest(unittest.TestCase):
         graph = SubgaitGraph({'start': {'to': 'end'}})
         self.assertListEqual(list(iter(graph)), [])
 
+    def test_iter_transitions_with_increase_decrease(self):
+        graph = SubgaitGraph(
+            {'start': {'to': '1'}, '1': {'to': 'end', 'increase_size': '2', 'decrease_size': '3'}, '2': {'to': 'end'},
+             '3': {'to': 'end'}})
+        self.assertListEqual(list(iter(graph)), [])
+
     def test_equal_graphs(self):
         graph1 = SubgaitGraph({'start': {'to': 'end'}})
         graph2 = SubgaitGraph({'start': {'to': 'end'}})
