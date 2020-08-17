@@ -2,6 +2,7 @@ import copy
 from math import sqrt
 
 from march_data_collector.inverted_pendulum import InvertedPendulum
+from geometry_msgs.msg import Point
 import rospy
 import tf2_ros
 from visualization_msgs.msg import Marker
@@ -32,7 +33,7 @@ class CPCalculator(object):
         self.vx = 0
         self.vy = 0
 
-        self._center_of_mass_marker = Marker()
+        self._center_of_mass = Point()
         self._capture_point_marker = Marker()
 
         self._capture_point_duration = None
@@ -48,12 +49,12 @@ class CPCalculator(object):
         self._capture_point_marker.scale.z = 0.03
 
     @property
-    def center_of_mass_marker(self):
+    def center_of_mass(self):
         """Center of mass property getter."""
-        return self._center_of_mass_marker
+        return self._center_of_mass
 
-    @center_of_mass_marker.setter
-    def center_of_mass_marker(self, updated_center_of_mass):
+    @center_of_mass.setter
+    def center_of_mass(self, updated_center_of_mass):
         """Center of mass property setter."""
         if not isinstance(updated_center_of_mass, Marker):
             raise TypeError('Given center of mass is not of type; Marker')
@@ -64,15 +65,11 @@ class CPCalculator(object):
         if self._delta_t == 0:
             return
 
-        self.vx = (updated_center_of_mass.pose.position.x - self._center_of_mass_marker.pose.position.x) / self._delta_t
-        self.vy = (updated_center_of_mass.pose.position.y - self._center_of_mass_marker.pose.position.y) / self._delta_t
+        self.vx = (updated_center_of_mass.pose.position.x - self._center_of_mass.x) / self._delta_t
+        self.vy = (updated_center_of_mass.pose.position.y - self._center_of_mass.y) / self._delta_t
 
-        self.x = self._center_of_mass_marker.pose.position.x
-        self.y = self._center_of_mass_marker.pose.position.y
-        self.z = self._center_of_mass_marker.pose.position.z
-
-        self._center_of_mass_marker = copy.deepcopy(updated_center_of_mass)
-        self._prev_t = updated_center_of_mass.header.stamp
+        self._center_of_mass = updated_center_of_mass.pose.position
+        self._prev_t = current_time
 
     def _calculate_capture_point(self, duration):
         """Calculate a future capture point pose using the inverted pendulum and center of mass.
@@ -84,46 +81,45 @@ class CPCalculator(object):
             world_transform = self._tf_buffer.lookup_transform('world', self._static_foot_link, rospy.Time())
             wt_translation = world_transform.transform.translation
 
-            if self._delta_t != 0:
-                falling_time = InvertedPendulum.calculate_falling_time(
-                    self.x - wt_translation.x,
-                    self.y - wt_translation.y,
-                    self.z - wt_translation.z,
-                    self.vx, self.vy)
+            falling_time = InvertedPendulum.calculate_falling_time(
+                self._center_of_mass.x - wt_translation.x,
+                self._center_of_mass.y - wt_translation.y,
+                self._center_of_mass.z - wt_translation.z,
+                self.vx, self.vy)
 
-                self._capture_point_duration = min(duration, 0.5 * falling_time)
+            capture_point_duration = min(duration, 0.5 * falling_time)
 
-                new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
-                    self.x - wt_translation.x,
-                    self.y - wt_translation.y,
-                    self.z - wt_translation.z,
-                    self.vx, self.vy, self._capture_point_duration)
+            new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
+                self._center_of_mass.x - wt_translation.x,
+                self._center_of_mass.y - wt_translation.y,
+                self._center_of_mass.z - wt_translation.z,
+                self.vx, self.vy, capture_point_duration)
 
-                if new_center_of_mass['z'] <= 0:
-                    rospy.logdebug_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
+            if new_center_of_mass['z'] <= 0:
+                rospy.logdebug_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
 
-                capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
+            capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
 
-                x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
-                y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
+            x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
+            y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
 
-                self._capture_point_marker.header.stamp = rospy.get_rostime()
-                self._capture_point_marker.pose.position.x = x_cp + world_transform.transform.translation.x
-                self._capture_point_marker.pose.position.y = y_cp + world_transform.transform.translation.y
-                self._capture_point_marker.pose.position.z = 0
+            self._capture_point_marker.header.stamp = rospy.get_rostime()
+            self._capture_point_marker.pose.position.x = x_cp + world_transform.transform.translation.x
+            self._capture_point_marker.pose.position.y = y_cp + world_transform.transform.translation.y
+            self._capture_point_marker.pose.position.z = 0
 
-                self.cp_publisher.publish(self._capture_point_marker)
+            self.cp_publisher.publish(self._capture_point_marker)
 
         except tf2_ros.TransformException as e:
             rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
 
-        return {'time': self._center_of_mass_marker.header.stamp, 'x': self.x, 'y': self.y, 'z': self.z}
+        return capture_point_duration
 
     def get_capture_point(self, capture_point_request_msg):
         """Service call function to return the capture point pose positions."""
         rospy.logdebug('Request capture point in {duration}'.format(duration=capture_point_request_msg.duration))
 
         duration = capture_point_request_msg.duration
-        self._calculate_capture_point(duration)
+        capture_point_duration = self._calculate_capture_point(duration)
 
-        return [True, self._capture_point_duration, self._capture_point_marker.pose]
+        return [True, capture_point_duration, self._capture_point_marker.pose]
