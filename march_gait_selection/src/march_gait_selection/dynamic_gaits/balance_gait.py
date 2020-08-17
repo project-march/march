@@ -2,7 +2,7 @@ from copy import deepcopy
 import os
 import sys
 
-from geometry_msgs.msg import Pose, PoseStamped
+from geometry_msgs.msg import Pose
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
@@ -33,6 +33,11 @@ class BalanceGait(object):
 
         self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/cp_marker_foot_left', CapturePointPose),
                                        'right_leg': rospy.ServiceProxy('/march/cp_marker_foot_right', CapturePointPose)}
+
+        self._joint_state_target = JointState()
+        self._joint_state_target.header = Header()
+        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() +\
+                           self.move_group['right_leg'].get_active_joints()
 
     @classmethod
     def create_balance_subgait(cls):
@@ -74,14 +79,14 @@ class BalanceGait(object):
         """
         self._default_walk = new_default_walk
 
-    def capture_point_cb(self, msg, leg_name):
-        """Set latest message to variable.
-
-        :param msg: The message from the capture point topic
-        :param leg_name: The name of corresponding move group
-        """
-        self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
-        self._capture_point_pose[leg_name] = msg.pose
+    # def capture_point_cb(self, msg, leg_name):
+    #     """Set latest message to variable.
+    #
+    #     :param msg: The message from the capture point topic
+    #     :param leg_name: The name of corresponding move group
+    #     """
+    #     self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
+    #     self._capture_point_pose[leg_name] = msg.pose
 
     def calculate_capture_point_trajectory(self, leg_name, subgait_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
@@ -90,22 +95,15 @@ class BalanceGait(object):
         :param subgait_name: the normal subgait name
         """
         subgait_duration = self.default_walk[subgait_name].duration
-        capture_point_pose = self._capture_point_service[leg_name](duration=subgait_duration)
+        return_msg = self._capture_point_service[leg_name](duration=subgait_duration)
 
-        if not capture_point_pose.success:
+        if not return_msg.success:
             rospy.logwarn('No messages received from the capture point service of {lg}'.format(lg=leg_name))
             return None
 
-        # self.move_group[leg_name].set_posit_target([capture_point_pose.x, capture_point_pose.y,
-        #                                                capture_point_pose.z])
-        pose = Pose()
-        pose.position.x = capture_point_pose.x
-        pose.position.y = capture_point_pose.y
-        pose.position.z = capture_point_pose.z
-        pose.orientation.w = 1.0
-        self.move_group[leg_name].set_joint_value_target(pose, self._end_effectors[leg_name], True)
+        self.move_group[leg_name].set_joint_value_target(return_msg.capture_point, self._end_effectors[leg_name], True)
 
-        return float(capture_point_pose.duration)
+        return float(return_msg.duration)
 
     def calculate_normal_trajectory(self, leg_name, subgait_name):
         """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
@@ -128,10 +126,8 @@ class BalanceGait(object):
         joint_state.name = [joint.name for joint in non_capture_point_joints]
         joint_state.position = [joint.setpoints[-1].position for joint in non_capture_point_joints]
         joint_state.velocity = [joint.setpoints[-1].velocity for joint in non_capture_point_joints]
-        print(joint_state)
 
         self.move_group[leg_name].set_joint_value_target(joint_state)
-        print(self.move_group[leg_name].get_joint_value_target())
 
         return default_subgait.duration
 
@@ -187,15 +183,10 @@ class BalanceGait(object):
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
 
-        rospy.logwarn([target * 180 / 3.14159 for target in targets])
-        joint_state = JointState()
-        joint_state.header = Header()
-        joint_state.header.stamp = rospy.Time.now()
-        joint_state.name = ['left_hip_aa', 'left_hip_fe', 'left_knee', 'left_ankle', 'right_hip_aa', 'right_hip_fe', 'right_knee', 'right_ankle']
-        joint_state.position = targets
+        self._joint_state_target.header.stamp = rospy.Time.now()
+        self._joint_state_target.position = targets
 
-        balance_subgait = self.move_group['all_legs'].plan(joint_state)
-        print(balance_subgait)
+        balance_subgait = self.move_group['all_legs'].plan(self._joint_state_target)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
@@ -212,7 +203,7 @@ class BalanceGait(object):
         balance_trajectory_max_joint_duration = min(sg_duration, cp_duration)
 
         rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_max_joint_duration)))
-        balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
+        # balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
         self.export_to_file(balance_trajectory_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_trajectory_subgait

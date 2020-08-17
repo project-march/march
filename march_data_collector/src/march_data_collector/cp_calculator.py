@@ -1,5 +1,5 @@
-from math import sqrt
 import copy
+from math import sqrt
 
 from march_data_collector.inverted_pendulum import InvertedPendulum
 import rospy
@@ -32,7 +32,7 @@ class CPCalculator(object):
         self.vx = 0
         self.vy = 0
 
-        self._center_of_mass = Marker()
+        self._center_of_mass_marker = Marker()
         self._capture_point_marker = Marker()
 
         self._capture_point_duration = None
@@ -99,12 +99,6 @@ class CPCalculator(object):
                     self.z - wt_translation.z,
                     self.vx, self.vy, self._capture_point_duration)
 
-                old_center_of_mass = {
-                    'x': self.x - wt_translation.x,
-                    'y': self.y - wt_translation.y,
-                    'z': self.z - wt_translation.z,
-                    'vx': self.vx, 'vy': self.vy}
-
                 if new_center_of_mass['z'] <= 0:
                     rospy.logdebug_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
 
@@ -132,8 +126,4 @@ class CPCalculator(object):
         duration = capture_point_request_msg.duration
         self._calculate_capture_point(duration)
 
-        return [True, 'Pose response from the capture point calculation.',
-                self._capture_point_duration,
-                self._capture_point_marker.pose.position.x,
-                self._capture_point_marker.pose.position.y,
-                self._capture_point_marker.pose.position.z]
+        return [True, self._capture_point_duration, self._capture_point_marker.pose]

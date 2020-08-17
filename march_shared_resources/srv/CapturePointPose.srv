@@ -3,8 +3,5 @@
 float64 duration
 ---
 bool success
-string message
 float64 duration
-float64 x
-float64 y
-float64 z
+geometry_msgs/Pose capture_point
