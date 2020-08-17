@@ -11,15 +11,15 @@ from march_shared_resources.srv import CapturePointPose
 
 class CPCalculator(object):
 
-    def __init__(self, tf_buffer, swing_foot_link, static_foot_link):
+    def __init__(self, tf_buffer, static_foot_link, swing_foot_link):
         """Base class to calculate capture point for the exoskeleton."""
         self._tf_buffer = tf_buffer
-        self._swing_foot_link = swing_foot_link
+        self._static_foot_link = static_foot_link
 
-        self.cp_service = rospy.Service('/march/cp_marker_{fl}'.format(fl=static_foot_link),
+        self.cp_service = rospy.Service('/march/cp_marker_{fl}'.format(fl=swing_foot_link),
                                         CapturePointPose, self.get_capture_point)
 
-        self.cp_publisher = rospy.Publisher('/march/pb_cp_marker_' + static_foot_link,
+        self.cp_publisher = rospy.Publisher('/march/pb_cp_marker_' + swing_foot_link,
                                             Marker, queue_size=1)
 
         self._gravity_constant = 9.81
@@ -83,7 +83,7 @@ class CPCalculator(object):
             the amount of seconds away from the current time the capture point should be calculated
         """
         try:
-            world_transform = self._tf_buffer.lookup_transform('world', self._swing_foot_link, rospy.Time())
+            world_transform = self._tf_buffer.lookup_transform('world', self._static_foot_link, rospy.Time())
 
             if self._delta_t != 0:
                 falling_time = InvertedPendulum.calculate_falling_time(
