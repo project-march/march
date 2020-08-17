@@ -18,8 +18,8 @@ add_message_files(
     GaitInstructionResponse.msg
     HighVoltageNet.msg
     ImcState.msg
-    JointValues.msg
     JointInertia.msg
+    JointValues.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
     PressureSole.msg
