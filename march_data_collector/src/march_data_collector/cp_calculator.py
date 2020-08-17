@@ -32,7 +32,7 @@ class CPCalculator(object):
         self.vx = 0
         self.vy = 0
 
-        self._center_of_mass_marker = Marker()
+        self._center_of_mass = Marker()
         self._capture_point_marker = Marker()
 
         self._capture_point_duration = None
@@ -41,10 +41,8 @@ class CPCalculator(object):
         self._capture_point_marker.type = self._capture_point_marker.SPHERE
         self._capture_point_marker.action = self._capture_point_marker.ADD
         self._capture_point_marker.pose.orientation.w = 1.0
-
         self._capture_point_marker.color.a = 1.0
         self._capture_point_marker.color.g = 1.0
-
         self._capture_point_marker.scale.x = 0.03
         self._capture_point_marker.scale.y = 0.03
         self._capture_point_marker.scale.z = 0.03
@@ -84,27 +82,27 @@ class CPCalculator(object):
         """
         try:
             world_transform = self._tf_buffer.lookup_transform('world', self._static_foot_link, rospy.Time())
+            wt_translation = world_transform.transform.translation
 
             if self._delta_t != 0:
                 falling_time = InvertedPendulum.calculate_falling_time(
-                    self.x - world_transform.transform.translation.x,
-                    self.y - world_transform.transform.translation.y,
-                    self.z - world_transform.transform.translation.z,
+                    self.x - wt_translation.x,
+                    self.y - wt_translation.y,
+                    self.z - wt_translation.z,
                     self.vx, self.vy)
 
-                print("\nFalling time = " + str(falling_time))
                 self._capture_point_duration = min(duration, 0.5 * falling_time)
 
                 new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
-                    self.x - world_transform.transform.translation.x,
-                    self.y - world_transform.transform.translation.y,
-                    self.z - world_transform.transform.translation.z,
+                    self.x - wt_translation.x,
+                    self.y - wt_translation.y,
+                    self.z - wt_translation.z,
                     self.vx, self.vy, self._capture_point_duration)
 
                 old_center_of_mass = {
-                    'x': self.x - world_transform.transform.translation.x,
-                    'y': self.y - world_transform.transform.translation.y,
-                    'z': self.z - world_transform.transform.translation.z,
+                    'x': self.x - wt_translation.x,
+                    'y': self.y - wt_translation.y,
+                    'z': self.z - wt_translation.z,
                     'vx': self.vx, 'vy': self.vy}
 
                 if new_center_of_mass['z'] <= 0:
@@ -112,15 +110,8 @@ class CPCalculator(object):
 
                 capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
 
-                print("old com = " + str(old_center_of_mass))
-                print("new com = " + str(new_center_of_mass))
-                print("cp multiplier = " + str(capture_point_multiplier))
-
                 x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
                 y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
-
-                print("Capturepoint x = " + str(x_cp))
-                print("Capturepoint y = " + str(y_cp) + '\n')
 
                 self._capture_point_marker.header.stamp = rospy.get_rostime()
                 self._capture_point_marker.pose.position.x = x_cp + world_transform.transform.translation.x
@@ -138,7 +129,7 @@ class CPCalculator(object):
         """Service call function to return the capture point pose positions."""
         rospy.logdebug('Request capture point in {duration}'.format(duration=capture_point_request_msg.duration))
 
-        duration = float(capture_point_request_msg.duration)
+        duration = capture_point_request_msg.duration
         self._calculate_capture_point(duration)
 
         return [True, 'Pose response from the capture point calculation.',
