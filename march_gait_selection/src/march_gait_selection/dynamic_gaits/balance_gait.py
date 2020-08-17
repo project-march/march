@@ -79,15 +79,6 @@ class BalanceGait(object):
         """
         self._default_walk = new_default_walk
 
-    # def capture_point_cb(self, msg, leg_name):
-    #     """Set latest message to variable.
-    #
-    #     :param msg: The message from the capture point topic
-    #     :param leg_name: The name of corresponding move group
-    #     """
-    #     self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
-    #     self._capture_point_pose[leg_name] = msg.pose
-
     def calculate_capture_point_trajectory(self, leg_name, subgait_name):
         """Calculate the trajectory using moveit and return as a subgait msg format.
 
