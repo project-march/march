@@ -21,16 +21,16 @@
 
     <!-- The max effort of the rotary joints is lower then the value corresponding to 25A, because short-circuit errors
     have occured while applying the theoretical max effort for a long time. -->
-    <xacro:arg name="max_effort_rotary" default="18000.0" />
-    <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
+    <xacro:arg name="max_effort_rotary" default="22.0" />
+    <xacro:arg name="max_effort_linear" default="28.0" />
     <xacro:property name="max_effort_rotary" value="$(arg max_effort_rotary)" />
     <xacro:property name="max_effort_linear" value="$(arg max_effort_linear)" />
 
     <!-- Values for the safety limits, see https://wiki.ros.org/pr2_controller_manager/safety_limits -->
-    <xacro:arg name="k_velocity_value_hfe" default="20000.0" />
-    <xacro:arg name="k_velocity_value_kfe" default="20000.0" />
-    <xacro:arg name="k_velocity_value_haa" default="20000.0" />
-    <xacro:arg name="k_velocity_value_adpf" default="20000.0" />
+    <xacro:arg name="k_velocity_value_hfe" default="24.4" />
+    <xacro:arg name="k_velocity_value_kfe" default="24.4" />
+    <xacro:arg name="k_velocity_value_haa" default="24.4" />
+    <xacro:arg name="k_velocity_value_adpf" default="24.4" />
     <xacro:property name="k_velocity_value_hfe" value="$(arg k_velocity_value_hfe)" />
     <xacro:property name="k_velocity_value_kfe" value="$(arg k_velocity_value_kfe)" />
     <xacro:property name="k_velocity_value_haa" value="$(arg k_velocity_value_haa)" />
