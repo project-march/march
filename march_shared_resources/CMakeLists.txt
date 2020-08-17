@@ -19,6 +19,7 @@ add_message_files(
     HighVoltageNet.msg
     ImcState.msg
     JointValues.msg
+    JointInertia.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
     PressureSole.msg
