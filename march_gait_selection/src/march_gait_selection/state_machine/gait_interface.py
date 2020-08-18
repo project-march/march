@@ -48,6 +48,14 @@ class GaitInterface(object):
         """
         return None, True
 
+    def transition(self, transition_request):
+        """Requests a special transition.
+
+        :param TransitionRequest transition_request: request on what special transition to perform
+        :returns True when the request has been accepted, False otherwise.
+        """
+        return False
+
     def stop(self):
         """Called when the gait has been instructed to stop.
 

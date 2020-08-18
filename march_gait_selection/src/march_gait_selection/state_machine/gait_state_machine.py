@@ -145,15 +145,7 @@ class GaitStateMachine(object):
             self._input.gait_finished()
             return
 
-        if self._input.stop_requested() or self._should_stop:
-            self._should_stop = False
-            if self._current_gait.stop():
-                rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name))
-                self._input.stop_accepted()
-                self._call_callbacks(self._stop_accepted_callbacks)
-            else:
-                rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name))
-                self._input.stop_rejected()
+        self._handle_input()
 
         trajectory, should_stop = self._current_gait.update(elapsed_time)
         # schedule trajectory if any
@@ -170,6 +162,27 @@ class GaitStateMachine(object):
             self._call_transition_callbacks()
             rospy.loginfo('Finished gait `{0}`'.format(self._current_gait.name))
             self._current_gait = None
+
+    def _handle_input(self):
+        if self._input.stop_requested() or self._should_stop:
+            self._should_stop = False
+            if self._current_gait.stop():
+                rospy.loginfo('Gait `{0}` responded to stop'.format(self._current_gait.name))
+                self._input.stop_accepted()
+                self._call_callbacks(self._stop_accepted_callbacks)
+            else:
+                rospy.loginfo('Gait `{0}` does not respond to stop'.format(self._current_gait.name))
+                self._input.stop_rejected()
+
+        if self._input.transition_requested():
+            request = self._input.get_transition_request()
+            self._input.reset()
+            if self._current_gait.transition(request):
+                rospy.loginfo('Gait `{0}` responded to transition request `{1}`'.format(self._current_gait.name,
+                                                                                        request.name))
+            else:
+                rospy.loginfo('Gait `{0}` does not respond to transition request `{1}`'.format(self._current_gait.name,
+                                                                                               request.name))
 
     def _call_transition_callbacks(self):
         self._call_callbacks(self._transition_callbacks, self._current_state, self._is_idle)
