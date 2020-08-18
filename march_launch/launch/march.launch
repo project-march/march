@@ -31,6 +31,8 @@
 
     <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
 
+    <arg name="controller" default="effort_control" doc="Changes the controller used by simulation."/>
+
     <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
 
     <node
@@ -83,6 +85,7 @@
             <arg name="fixed" value="$(arg fixed)"/>
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
+            <arg name="controller" value="$(arg controller)"/>
         </include>
     </group>
 
