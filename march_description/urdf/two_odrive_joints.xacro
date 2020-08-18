@@ -721,55 +721,6 @@
 
 
     <!-- ROS Control plugin for Gazebo -->
-    <transmission name="left_hip_aa">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_hip_aa">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_hip_aa_motor">
-            <mechanicalReduction>200</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="left_hip_fe">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_hip_fe">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_hip_fe_motor">
-            <mechanicalReduction>101</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="left_knee">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_knee">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_knee_motor">
-            <mechanicalReduction>101</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="left_ankle">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="left_ankle">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="left_ankle_motor">
-            <mechanicalReduction>200</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="right_hip_aa">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_hip_aa">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="right_hip_aa_motor">
-            <mechanicalReduction>200</mechanicalReduction>
-        </actuator>
-    </transmission>
 
     <transmission name="right_hip_fe">
         <type>transmission_interface/SimpleTransmission</type>
@@ -788,16 +739,6 @@
         </joint>
         <actuator name="right_knee_motor">
             <mechanicalReduction>101</mechanicalReduction>
-        </actuator>
-    </transmission>
-
-    <transmission name="right_ankle">
-        <type>transmission_interface/SimpleTransmission</type>
-        <joint name="right_ankle">
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-        </joint>
-        <actuator name="right_ankle_motor">
-            <mechanicalReduction>200</mechanicalReduction>
         </actuator>
     </transmission>
 </robot>
