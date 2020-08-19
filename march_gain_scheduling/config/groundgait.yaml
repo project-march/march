@@ -6,8 +6,8 @@ gait_types:
 #    left_knee: {p: 60, i: 0, d: 12}
 #    right_ankle: {p: 160, i: 0, d: 6}
 #    right_hip_aa: {p: 270, i: 0, d: 12}
-#    right_hip_fe: {p: 100, i: 0, d: 12}
-    right_knee: {p: 15, i: 0, d: 1}
+    right_hip_fe: {p: 40, i: 0, d: 1}
+    right_knee: {p: 40, i: 0, d: 1}
   walk_like:
 #    left_ankle: {p: 730, i: 0, d: 24}
 #    left_hip_aa: {p: 400, i: 0, d: 12}
@@ -15,8 +15,8 @@ gait_types:
 #    left_knee: {p: 730, i: 0, d: 36}
 #    right_ankle: {p: 730, i: 0, d: 24}
 #    right_hip_aa: {p: 400, i: 0, d: 12}
-#    right_hip_fe: {p: 245, i: 0, d: 18}
-    right_knee: {p: 15, i: 0, d: 1}
+    right_hip_fe: {p: 40, i: 0, d: 1}
+    right_knee: {p: 40, i: 0, d: 1}
   stairs_like:
 #    left_ankle: {p: 730, i: 0, d: 24}
 #    left_hip_aa: {p: 400, i: 0, d: 6}
@@ -24,5 +24,5 @@ gait_types:
 #    left_knee: {p: 730, i: 0, d: 36}
 #    right_ankle: {p: 730, i: 0, d: 24}
 #    right_hip_aa: {p: 400, i: 0, d: 6}
-#    right_hip_fe: {p: 245, i: 0, d: 18}
-    right_knee: {p: 15, i: 0, d: 1}
+    right_hip_fe: {p: 40, i: 0, d: 1}
+    right_knee: {p: 40, i: 0, d: 1}

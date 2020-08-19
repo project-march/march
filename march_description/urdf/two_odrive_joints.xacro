@@ -663,7 +663,7 @@
         <origin xyz="0 ${hip_aa_frame_height} 0" rpy="0 0 0"/>
     </joint>
 
-    <joint name="right_hip_fe" type="fixed">
+    <joint name="right_hip_fe" type="revolute">
         <parent link="hip_aa_frame_right_front"/>
         <child link="upper_leg_right"/>
         <origin xyz="${-hip_aa_frame_width} ${-upper_leg_offset} 0" rpy="0 0 0"/>
