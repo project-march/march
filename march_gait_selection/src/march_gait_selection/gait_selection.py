@@ -24,10 +24,15 @@ class GaitSelection(object):
             raise FileNotFoundError(file_path=self._default_yaml)
 
         self._robot = urdf.Robot.from_parameter_server('/robot_description')
-        self._balance_gait = BalanceGait.create_balance_subgait()
+        # self._balance_gait = BalanceGait.create_balance_subgait()
 
         self._gait_version_map = self._load_version_map()
         self._loaded_gaits = self._load_gaits()
+
+        is_balance_used = rospy.get_param('/balance', False)
+
+        if is_balance_used:
+            self._load_balance_gait()
 
     @staticmethod
     def get_ros_package_path(package):
@@ -103,16 +108,19 @@ class GaitSelection(object):
         """Loads the gaits in the specified gait directory.
 
         :returns dict: A dictionary mapping gait name to gait instance
-        """
-        gaits = {self._balance_gait.gait_name: self._balance_gait}
-
+        # """
+        gaits = {}
         for gait in self._gait_version_map:
             gaits[gait] = Gait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
 
-        if self._balance_gait.move_group:
-            self._balance_gait.default_walk = gaits['balance_walk']
-
         return gaits
+
+    def _load_balance_gait(self):
+        self._balance_gait = BalanceGait.create_balance_subgait()
+        self._loaded_gaits[self._balance_gait.gait_name] = self._balance_gait
+
+        if self._balance_gait.move_group:
+            self._balance_gait.default_walk = self._loaded_gaits['balance_walk']
 
     def _load_version_map(self):
         """Loads and verifies the version map from the default version map."""

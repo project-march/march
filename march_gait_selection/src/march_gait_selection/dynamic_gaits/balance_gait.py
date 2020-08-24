@@ -34,18 +34,9 @@ class BalanceGait(object):
         self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/cp_marker_foot_left', CapturePointPose),
                                        'right_leg': rospy.ServiceProxy('/march/cp_marker_foot_right', CapturePointPose)}
 
-        self._joint_state_target = JointState()
-        self._joint_state_target.header = Header()
-        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() +\
-                           self.move_group['right_leg'].get_active_joints()
-
     @classmethod
     def create_balance_subgait(cls):
         """This class method should check if the balance variable is set and if so configure the motion planner."""
-        is_balance_used = rospy.get_param('/balance', False)
-
-        if not is_balance_used:
-            return cls()
 
         moveit_commander.roscpp_initialize(sys.argv)
         moveit_commander.RobotCommander()
@@ -173,6 +164,11 @@ class BalanceGait(object):
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
+
+        self._joint_state_target = JointState()
+        self._joint_state_target.header = Header()
+        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() + \
+                                    self.move_group['right_leg'].get_active_joints()
 
         self._joint_state_target.header.stamp = rospy.Time.now()
         self._joint_state_target.position = targets
