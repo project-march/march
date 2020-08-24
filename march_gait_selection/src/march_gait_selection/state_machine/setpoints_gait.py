@@ -99,6 +99,9 @@ class SetpointsGait(GaitInterface, Gait):
             return trajectory, False
 
     def transition(self, transition_request):
+        if self._is_transitioning:
+            return False
+
         if transition_request == TransitionRequest.DECREASE_SIZE:
             name = self.graph[(self._current_subgait.subgait_name, self.graph.DECREASE_SIZE)]
         elif transition_request == TransitionRequest.INCREASE_SIZE:
