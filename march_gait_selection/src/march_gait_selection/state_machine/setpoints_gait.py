@@ -68,35 +68,35 @@ class SetpointsGait(GaitInterface, Gait):
         self._time_since_start += elapsed_time
         if self._time_since_start < self._current_subgait.duration:
             return None, False
-        else:
-            if self._transition_to_subgait is not None and not self._is_transitioning:
-                old_subgait = self.subgaits[self.graph[(self._current_subgait.subgait_name, self.graph.TO)]]
-                new_subgait = self.subgaits[self.graph[(self._transition_to_subgait.subgait_name, self.graph.TO)]]
-                transition_subgait = TransitionSubgait.from_subgaits(old_subgait, new_subgait, '{s}_transition'.format(
-                    s=self._transition_to_subgait.subgait_name))
-                self._current_subgait = transition_subgait
-                self._time_since_start = 0.0
-                self._is_transitioning = True
-                return transition_subgait.to_joint_trajectory_msg(), False
-            elif self._transition_to_subgait is not None and self._is_transitioning:
-                next_subgait = self._transition_to_subgait.subgait_name
-                self._transition_to_subgait = None
-                self._is_transitioning = False
-            elif self._should_stop:
-                next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.STOP)]
-                if next_subgait is None:
-                    next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.TO)]
-                else:
-                    self._should_stop = False
-            else:
-                next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.TO)]
 
-            if next_subgait == self.graph.END:
-                return None, True
-            self._current_subgait = self.subgaits[next_subgait]
-            trajectory = self._current_subgait.to_joint_trajectory_msg()
+        if self._transition_to_subgait is not None and not self._is_transitioning:
+            old_subgait = self.subgaits[self.graph[(self._current_subgait.subgait_name, self.graph.TO)]]
+            new_subgait = self.subgaits[self.graph[(self._transition_to_subgait.subgait_name, self.graph.TO)]]
+            transition_subgait = TransitionSubgait.from_subgaits(old_subgait, new_subgait, '{s}_transition'.format(
+                s=self._transition_to_subgait.subgait_name))
+            self._current_subgait = transition_subgait
             self._time_since_start = 0.0
-            return trajectory, False
+            self._is_transitioning = True
+            return transition_subgait.to_joint_trajectory_msg(), False
+        elif self._transition_to_subgait is not None and self._is_transitioning:
+            next_subgait = self._transition_to_subgait.subgait_name
+            self._transition_to_subgait = None
+            self._is_transitioning = False
+        elif self._should_stop:
+            next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.STOP)]
+            if next_subgait is None:
+                next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.TO)]
+            else:
+                self._should_stop = False
+        else:
+            next_subgait = self.graph[(self._current_subgait.subgait_name, self.graph.TO)]
+
+        if next_subgait == self.graph.END:
+            return None, True
+        self._current_subgait = self.subgaits[next_subgait]
+        trajectory = self._current_subgait.to_joint_trajectory_msg()
+        self._time_since_start = 0.0
+        return trajectory, False
 
     def transition(self, transition_request):
         if self._is_transitioning:
