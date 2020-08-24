@@ -2,7 +2,6 @@ from copy import deepcopy
 import os
 import sys
 
-from geometry_msgs.msg import Pose
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
@@ -26,18 +25,21 @@ class BalanceGait(object):
         self._default_walk = None
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
-        self._capture_point_pose = {'left_leg': None, 'right_leg': None}
+        # self._capture_point_pose = {'left_leg': None, 'right_leg': None}
 
-        self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
-        self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
+        # self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
+        # self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
 
-        self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/cp_marker_foot_left', CapturePointPose),
-                                       'right_leg': rospy.ServiceProxy('/march/cp_marker_foot_right', CapturePointPose)}
+        self._capture_point_service = rospy.ServiceProxy('/march/capture_point', CapturePointPose)
+
+        self._joint_state_target = JointState()
+        self._joint_state_target.header = Header()
+        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() + self.move_group['right_leg'].\
+            get_active_joints()
 
     @classmethod
     def create_balance_subgait(cls):
-        """This class method should check if the balance variable is set and if so configure the motion planner."""
-
+        """This class method initializes moveIt and a BalanceGait object."""
         moveit_commander.roscpp_initialize(sys.argv)
         moveit_commander.RobotCommander()
 
@@ -48,8 +50,8 @@ class BalanceGait(object):
                            'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
                            'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
 
-            for move_group in move_groups:
-                move_groups[move_group].set_pose_reference_frame('world')
+            for move_group in move_groups.values():
+                move_group.set_pose_reference_frame('world')
         except RuntimeError:
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return cls()
@@ -70,25 +72,25 @@ class BalanceGait(object):
         """
         self._default_walk = new_default_walk
 
-    def calculate_capture_point_trajectory(self, leg_name, subgait_name):
-        """Calculate the trajectory using moveit and return as a subgait msg format.
+    def set_swing_leg_target(self, leg_name, subgait_name):
+        """Set the swing leg target to capture point.
 
         :param leg_name: The name of the used move group
         :param subgait_name: the normal subgait name
         """
         subgait_duration = self.default_walk[subgait_name].duration
-        return_msg = self._capture_point_service[leg_name](duration=subgait_duration)
+        return_msg = self._capture_point_service(duration=subgait_duration)
 
         if not return_msg.success:
-            rospy.logwarn('No messages received from the capture point service of {lg}'.format(lg=leg_name))
+            rospy.logwarn('No messages received from the capture point service.')
             return None
 
         self.move_group[leg_name].set_joint_value_target(return_msg.capture_point, self._end_effectors[leg_name], True)
 
         return float(return_msg.duration)
 
-    def calculate_normal_trajectory(self, leg_name, subgait_name):
-        """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
+    def set_stance_leg_target(self, leg_name, subgait_name):
+        """Set the target of the stance leg to the end of the gait file.
 
         :param leg_name: The name of the move group which does not use capture point
         :param subgait_name: the normal subgait name
@@ -158,17 +160,12 @@ class BalanceGait(object):
         """
         non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
 
-        cp_duration = self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
-        sg_duration = self.calculate_capture_point_trajectory(capture_point_leg_name, subgait_name)
+        cp_duration = self.set_swing_leg_target(non_capture_point_move_group, subgait_name)
+        sg_duration = self.set_stance_leg_target(capture_point_leg_name, subgait_name)
 
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
-
-        self._joint_state_target = JointState()
-        self._joint_state_target.header = Header()
-        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() + \
-                                    self.move_group['right_leg'].get_active_joints()
 
         self._joint_state_target.header.stamp = rospy.Time.now()
         self._joint_state_target.position = targets
@@ -190,7 +187,6 @@ class BalanceGait(object):
         balance_trajectory_max_joint_duration = min(sg_duration, cp_duration)
 
         rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_max_joint_duration)))
-        # balance_trajectory_subgait.scale_timestamps_subgait(balance_trajectory_max_joint_duration)
         self.export_to_file(balance_trajectory_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_trajectory_subgait

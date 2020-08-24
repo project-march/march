@@ -108,7 +108,7 @@ class GaitSelection(object):
         """Loads the gaits in the specified gait directory.
 
         :returns dict: A dictionary mapping gait name to gait instance
-        # """
+        """
         gaits = {}
         for gait in self._gait_version_map:
             gaits[gait] = Gait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)

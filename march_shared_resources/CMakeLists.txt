@@ -4,6 +4,7 @@ project(march_shared_resources)
 find_package(catkin REQUIRED COMPONENTS
     actionlib_msgs
     control_msgs
+    geometry_msgs
     message_generation
     std_msgs
     trajectory_msgs

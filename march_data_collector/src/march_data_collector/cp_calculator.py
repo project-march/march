@@ -1,10 +1,8 @@
-import copy
 from math import sqrt
 
-from march_data_collector.inverted_pendulum import InvertedPendulum
 from geometry_msgs.msg import Point
+from march_data_collector.inverted_pendulum import InvertedPendulum
 import rospy
-import tf2_ros
 from visualization_msgs.msg import Marker
 
 from march_shared_resources.srv import CapturePointPose
@@ -12,16 +10,11 @@ from march_shared_resources.srv import CapturePointPose
 
 class CPCalculator(object):
 
-    def __init__(self, tf_buffer, static_foot_link, swing_foot_link):
+    def __init__(self):
         """Base class to calculate capture point for the exoskeleton."""
-        self._tf_buffer = tf_buffer
-        self._static_foot_link = static_foot_link
+        self.cp_service = rospy.Service('/march/capture_point', CapturePointPose, self.get_capture_point)
 
-        self.cp_service = rospy.Service('/march/cp_marker_{fl}'.format(fl=swing_foot_link),
-                                        CapturePointPose, self.get_capture_point)
-
-        self.cp_publisher = rospy.Publisher('/march/pb_cp_marker_' + swing_foot_link,
-                                            Marker, queue_size=1)
+        self.cp_publisher = rospy.Publisher('/march/cp_marker', Marker, queue_size=1)
 
         self._gravity_constant = 9.81
         self._prev_t = rospy.Time.now()
