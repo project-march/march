@@ -53,6 +53,7 @@ catkin_package(
     CATKIN_DEPENDS
     actionlib_msgs
     control_msgs
+    geometry_msgs
     message_runtime
     std_msgs
     trajectory_msgs
