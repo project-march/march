@@ -99,7 +99,7 @@ class SetpointsGait(GaitInterface, Gait):
         return trajectory, False
 
     def transition(self, transition_request):
-        if self._is_transitioning:
+        if self._is_transitioning or self._should_stop:
             return False
 
         if transition_request == TransitionRequest.DECREASE_SIZE:
@@ -115,7 +115,7 @@ class SetpointsGait(GaitInterface, Gait):
         return False
 
     def stop(self):
-        if self.graph.is_stoppable():
+        if self.graph.is_stoppable() and not self._is_transitioning and self._transition_to_subgait is None:
             self._should_stop = True
             return True
         else:
