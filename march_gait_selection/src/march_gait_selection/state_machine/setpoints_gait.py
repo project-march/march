@@ -70,10 +70,10 @@ class SetpointsGait(GaitInterface, Gait):
             return None, False
         else:
             if self._transition_to_subgait is not None and not self._is_transitioning:
-                transition_subgait = TransitionSubgait.from_subgaits(self._current_subgait,
-                                                                     self._transition_to_subgait,
-                                                                     '{s}_transition'.format(
-                                                                         s=self._transition_to_subgait.subgait_name))
+                old_subgait = self.subgaits[self.graph[(self._current_subgait.subgait_name, self.graph.TO)]]
+                new_subgait = self.subgaits[self.graph[(self._transition_to_subgait.subgait_name, self.graph.TO)]]
+                transition_subgait = TransitionSubgait.from_subgaits(old_subgait, new_subgait, '{s}_transition'.format(
+                    s=self._transition_to_subgait.subgait_name))
                 self._current_subgait = transition_subgait
                 self._time_since_start = 0.0
                 self._is_transitioning = True
