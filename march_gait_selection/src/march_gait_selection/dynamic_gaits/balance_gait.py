@@ -78,7 +78,7 @@ class BalanceGait(object):
 
         if not return_msg.success:
             rospy.logwarn('No messages received from the capture point service.')
-            return None
+            return -1
 
         self.move_group[leg_name].set_joint_value_target(return_msg.capture_point, self._end_effectors[leg_name], True)
 
