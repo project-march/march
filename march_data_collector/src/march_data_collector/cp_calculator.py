@@ -50,7 +50,7 @@ class CPCalculator(object):
     def center_of_mass(self, updated_center_of_mass):
         """Center of mass property setter."""
         if not isinstance(updated_center_of_mass, Marker):
-            raise TypeError('Given center of mass is not of type; Marker')
+            raise TypeError('Given center of mass is not of type: Marker')
 
         current_time = updated_center_of_mass.header.stamp
         self._delta_t = (current_time - self._prev_t).to_sec()

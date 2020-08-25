@@ -25,11 +25,6 @@ class BalanceGait(object):
         self._default_walk = None
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
-        # self._capture_point_pose = {'left_leg': None, 'right_leg': None}
-
-        # self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
-        # self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
-
         self._capture_point_service = rospy.ServiceProxy('/march/capture_point', CapturePointPose)
 
         self._joint_state_target = JointState()
@@ -87,7 +82,7 @@ class BalanceGait(object):
 
         self.move_group[leg_name].set_joint_value_target(return_msg.capture_point, self._end_effectors[leg_name], True)
 
-        return float(return_msg.duration)
+        return return_msg.duration
 
     def set_stance_leg_target(self, leg_name, subgait_name):
         """Set the target of the stance leg to the end of the gait file.
@@ -184,9 +179,9 @@ class BalanceGait(object):
             return self.default_walk[subgait_name]
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(balance_trajectory, subgait_name)
-        balance_trajectory_max_joint_duration = min(sg_duration, cp_duration)
+        balance_trajectory_duration = min(sg_duration, cp_duration)
 
-        rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_max_joint_duration)))
+        rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_duration)))
         self.export_to_file(balance_trajectory_subgait, os.path.dirname(os.path.realpath(__file__)))
 
         return balance_trajectory_subgait

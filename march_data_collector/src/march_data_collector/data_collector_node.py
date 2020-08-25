@@ -173,9 +173,7 @@ def main():
     tf_buffer = tf2_ros.Buffer()
     tf2_ros.TransformListener(tf_buffer)
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
-
     feet = ['foot_left', 'foot_right']
     cp_calculator = CPCalculator()
-
     data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculator, tf_buffer, feet)
     data_collector_node.run()
