@@ -11,6 +11,9 @@ class SubgaitGraphTest(unittest.TestCase):
     @parameterized.expand([
         ('minimal', {'start': {'to': '1'}, '1': {'to': 'end'}}),
         ('stoppable loop', {'start': {'to': '1'}, '1': {'to': '2'}, '2': {'to': '1', 'stop': 'end'}}),
+        ('increase decrease graph',
+         {'start': {'to': '1'}, '1': {'to': 'end', 'increase_size': '2', 'decrease_size': '3'}, '2': {'to': 'end'},
+          '3': {'to': 'end'}}),
     ])
     def test_valid_graph(self, name, graph):
         self.assertIsInstance(SubgaitGraph(graph), SubgaitGraph)
@@ -19,6 +22,7 @@ class SubgaitGraphTest(unittest.TestCase):
         ('missing start', {'1': {'to': 'end'}}),
         ('nonexisting name', {'start': {'to': '2'}}),
         ('no transitions', {'start': {}}),
+        ('no to transition', {'start': {'to': '1'}, '1': {'stop': 'end'}}),
         ('no subgaits', {}),
         ('invalid transitions', {'start': {'to': '1'}, '1': {'to': 'end', 'from': 'start'}}),
         ('equal transitions', {'start': {'to': '1', 'stop': '1'}, '1': {'to': 'end'}}),
@@ -88,6 +92,12 @@ class SubgaitGraphTest(unittest.TestCase):
 
     def test_iter_transitions_without_subgaits(self):
         graph = SubgaitGraph({'start': {'to': 'end'}})
+        self.assertListEqual(list(iter(graph)), [])
+
+    def test_iter_transitions_with_increase_decrease(self):
+        graph = SubgaitGraph(
+            {'start': {'to': '1'}, '1': {'to': 'end', 'increase_size': '2', 'decrease_size': '3'}, '2': {'to': 'end'},
+             '3': {'to': 'end'}})
         self.assertListEqual(list(iter(graph)), [])
 
     def test_equal_graphs(self):

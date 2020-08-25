@@ -1,15 +1,12 @@
 #!/usr/bin/env python
-
-from copy import deepcopy
+import os
 import unittest
 
 import rospkg
 from urdf_parser_py import urdf
 
 from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
-from march_gait_selection.gait_selection import GaitSelection
-from march_shared_classes.exceptions.gait_exceptions import GaitError
-
+from march_shared_classes.gait.subgait import Subgait
 
 VALID_PACKAGE = 'march_gait_selection'
 VALID_DIRECTORY = 'test/testing_gait_files'
@@ -17,54 +14,42 @@ VALID_DIRECTORY = 'test/testing_gait_files'
 
 class TestTransitionTrajectory(unittest.TestCase):
 
-    @classmethod
-    def setUpClass(cls):
-        robot = urdf.Robot.from_xml_file(rospkg.RosPack().get_path('march_description') + '/urdf/march4.urdf')
-        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY, robot)
-
     def setUp(self):
-        self.gait_selection = deepcopy(self._gait_selection)
-
-    def test_invalid_old_gait_name(self):
-        # check if wrong gait name causes right error
-        with self.assertRaises(GaitError):
-            TransitionSubgait.from_subgait_names(self.gait_selection, 'wrong', 'walk_medium', 'right_swing')
-
-    def test_invalid_new_gait_name(self):
-        # check if wrong gait name causes right error
-        with self.assertRaises(GaitError):
-            TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small', 'wrong', 'right_swing')
-
-    def test_invalid_subgait_name(self):
-        # check if wrong subgait name causes right error
-        with self.assertRaises(GaitError):
-            TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small', 'walk_medium', 'wrong')
-
-    def test_invalid_gait_selection(self):
-        # check if wrong gait selection module
-        with self.assertRaises(GaitError):
-            TransitionSubgait.from_subgait_names('wrong', 'walk_small', 'walk_medium', 'right_swing')
+        self.robot = urdf.Robot.from_xml_file(rospkg.RosPack().get_path('march_description') + '/urdf/march4.urdf')
+        self.resources = os.path.join(rospkg.RosPack().get_path(VALID_PACKAGE), VALID_DIRECTORY)
 
     def test_walk_transition_small_to_medium_right_swing(self):
         #  Test if the TransitionSubgait is created without an error
-        TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small', 'walk_medium', 'right_swing')
+        walk_small = Subgait.from_name_and_version(self.robot, self.resources, 'walk_small', 'right_swing', 'MIV_final')
+        walk_medium = Subgait.from_name_and_version(self.robot, self.resources, 'walk_medium', 'right_swing',
+                                                    'MV_walk_rightswing_v1')
+        TransitionSubgait.from_subgaits(walk_small, walk_medium, 'test')
 
     def test_walk_transition_medium_to_small_right_swing(self):
         #  Test if the TransitionSubgait is created without an error
-        TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_medium', 'walk_small', 'right_swing')
+        walk_small = Subgait.from_name_and_version(self.robot, self.resources, 'walk_small', 'right_swing', 'MIV_final')
+        walk_medium = Subgait.from_name_and_version(self.robot, self.resources, 'walk_medium', 'right_swing',
+                                                    'MV_walk_rightswing_v1')
+        TransitionSubgait.from_subgaits(walk_medium, walk_small, 'test')
 
     def test_transition_walk_small_stairs_up_right_swing(self):
         #  Test if the TransitionSubgait is created without an error
-        TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small', 'stairs_up', 'right_swing')
+        walk_small = Subgait.from_name_and_version(self.robot, self.resources, 'walk_small', 'right_swing', 'MIV_final')
+        stairs_up = Subgait.from_name_and_version(self.robot, self.resources, 'stairs_up', 'right_swing', 'MIV_final')
+        TransitionSubgait.from_subgaits(walk_small, stairs_up, 'test')
 
     def test_transition_stairs_up_walk_small_right_swing(self):
         #  Test if the TransitionSubgait is created without an error
-        TransitionSubgait.from_subgait_names(self.gait_selection, 'stairs_up', 'walk_small', 'right_swing')
+        walk_small = Subgait.from_name_and_version(self.robot, self.resources, 'walk_small', 'right_swing', 'MIV_final')
+        stairs_up = Subgait.from_name_and_version(self.robot, self.resources, 'stairs_up', 'right_swing', 'MIV_final')
+        TransitionSubgait.from_subgaits(stairs_up, walk_small, 'test')
 
     def test_no_duplicate_duration_in_transition_subgait(self):
         #  Test if the TransitionSubgait is created without an error
-        transition_subgait = TransitionSubgait.from_subgait_names(self.gait_selection, 'walk_small',
-                                                                  'walk_medium', 'right_swing')
+        walk_small = Subgait.from_name_and_version(self.robot, self.resources, 'walk_small', 'right_swing', 'MIV_final')
+        walk_medium = Subgait.from_name_and_version(self.robot, self.resources, 'walk_medium', 'right_swing',
+                                                    'MV_walk_rightswing_v1')
+        transition_subgait = TransitionSubgait.from_subgaits(walk_small, walk_medium, 'test')
 
         for joint in transition_subgait.joints:
             durations = [setpoint.time for setpoint in joint.setpoints]

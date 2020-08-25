@@ -1,6 +1,14 @@
+from enum import Enum
+
 import rospy
 
 from march_shared_resources.msg import GaitInstruction, GaitInstructionResponse
+
+
+class TransitionRequest(Enum):
+    NONE = 0
+    DECREASE_SIZE = -1
+    INCREASE_SIZE = 1
 
 
 class StateMachineInput(object):
@@ -19,15 +27,18 @@ class StateMachineInput(object):
                                                                GaitInstructionResponse,
                                                                queue_size=20)
 
-    def get_transition_integer(self):
-        """Used to return the transition in the integer-format."""
+    def get_transition_request(self):
+        """Used to return the transition request as an enum.
+
+        :returns TransitionRequest
+        """
         if self._transition_index == GaitInstruction.INCREMENT_STEP_SIZE:
-            return 1
+            return TransitionRequest.INCREASE_SIZE
 
         if self._transition_index == GaitInstruction.DECREMENT_STEP_SIZE:
-            return -1
+            return TransitionRequest.DECREASE_SIZE
 
-        return 0
+        return TransitionRequest.NONE
 
     def stop_requested(self):
         """Returns True when the current gait should stop, otherwise False."""

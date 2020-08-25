@@ -8,7 +8,9 @@ class SubgaitGraph(object):
     END = 'end'
     TO = 'to'
     STOP = 'stop'
-    TRANSITIONS = [TO, STOP]
+    INCREASE_SIZE = 'increase_size'
+    DECREASE_SIZE = 'decrease_size'
+    TRANSITIONS = [TO, STOP, INCREASE_SIZE, DECREASE_SIZE]
 
     def __init__(self, graph):
         self._graph = graph
@@ -56,8 +58,8 @@ class SubgaitGraph(object):
         subgait = self._graph.get(name)
         if subgait is None:
             raise SubgaitGraphError('Subgait {n} is not a subgait in the graph'.format(n=name))
-        if not any([transition in subgait for transition in self.TRANSITIONS]):
-            raise SubgaitGraphError('Subgait {n} has no transitions'.format(n=name))
+        if self.TO not in subgait:
+            raise SubgaitGraphError('Subgait {n} has no `{t}` transition'.format(n=name, t=self.TO))
         if not all([transition in self.TRANSITIONS for transition in subgait]):
             raise SubgaitGraphError(
                 'Subgait {n} has unknown transitions. Available transitions {t}'.format(n=name, t=self.TRANSITIONS))
@@ -106,12 +108,13 @@ class SubgaitGraph(object):
     def __iter__(self):
         """Returns an iterator over all possible transitions in arbitrary order.
 
-        Excludes 'start' and 'end'.
+        Excludes 'start' and 'end' and size transitions.
         """
         return iter([(from_subgait, to_subgait)
                      for from_subgait, transitions in self._graph.items()
-                     for to_subgait in transitions.values()
-                     if len({from_subgait, to_subgait} & {self.START, self.END}) == 0])
+                     for transition, to_subgait in transitions.items()
+                     if len({from_subgait, to_subgait} & {self.START, self.END}) == 0
+                     and transition not in {self.INCREASE_SIZE, self.DECREASE_SIZE}])
 
     def __eq__(self, other):
         return isinstance(other, SubgaitGraph) and self._graph == other._graph

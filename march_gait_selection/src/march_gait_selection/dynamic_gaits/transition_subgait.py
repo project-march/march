@@ -1,7 +1,6 @@
 from copy import deepcopy
 
-from march_gait_selection.gait_selection import GaitSelection
-from march_shared_classes.exceptions.gait_exceptions import GaitError, SubgaitNameNotFound, TransitionError
+from march_shared_classes.exceptions.gait_exceptions import TransitionError
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
 from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
@@ -17,72 +16,30 @@ class TransitionSubgait(Subgait):
                                                 subgait_name, version, description)
 
     @classmethod
-    def from_subgait_names(cls, gait_selection, old_gait_name, new_gait_name, new_subgait_name, old_subgait_name=None):
+    def from_subgaits(cls, old_subgait, new_subgait, new_subgait_name):
         """Create a new transition subgait object between two given subgaits.
 
-        :param gait_selection:
-            The gait selection object which holds all the information about the gaits and subgaits
-        :param old_gait_name:
-            The name of the old (or current) gait
-        :param new_gait_name:
-            The name of the new gait which must be executed after the old gait
-        :param new_subgait_name:
-            Name of the subgait in which the transition will occur
-        :param old_subgait_name:
-            Possible to give an custom old subgait name, if not the same gait name will be used as new_subgait_name
+        :param old_subgait: The old subgait to transition from
+        :param new_subgait: The new gait which must be executed after the old gait
+        :param new_subgait_name: Name of the subgait in which the transition will occur
 
         :return:
             A populated TransitionSubgait object which holds the data to transition between given gaits
         """
-        old_subgait, new_subgait = cls._get_copy_of_subgaits(gait_selection, old_gait_name, new_gait_name,
-                                                             new_subgait_name, old_subgait_name)
+        old_subgait_copy = deepcopy(old_subgait)
+        new_subgait_copy = deepcopy(new_subgait)
+        transition_joints = cls._transition_joints(old_subgait_copy, new_subgait_copy)
+        transition_duration = new_subgait_copy.duration
 
-        transition_joints = cls._transition_joints(gait_selection.robot, old_subgait, new_subgait)
-        transition_duration = new_subgait.duration
+        transition_subgait = cls(transition_joints, transition_duration, subgait_name=new_subgait_name)
 
-        transition_subgait = cls(transition_joints, transition_duration)
-
-        cls._validate_transition_gait(old_subgait, transition_subgait, new_subgait)
-        cls._validate_transition_trajectory(old_subgait, transition_subgait, new_subgait)
+        cls._validate_transition_gait(old_subgait_copy, transition_subgait, new_subgait_copy)
+        cls._validate_transition_trajectory(old_subgait_copy, transition_subgait, new_subgait_copy)
 
         return transition_subgait
 
     @staticmethod
-    def _get_copy_of_subgaits(gait_selection, old_gait_name, new_gait_name, new_subgait_name, old_subgait_name):
-        """Use the subgait names and the parsed subgaits in the gait selection object to get the subgait objects."""
-        if not isinstance(gait_selection, GaitSelection):
-            raise GaitError(msg='No valid gait selection module was parsed to the create the transition subgait')
-
-        old_gait = gait_selection[old_gait_name]
-        new_gait = gait_selection[new_gait_name]
-
-        if old_gait is None:
-            raise GaitError(msg='{gn} not found in parsed gait names from gait selection'
-                            .format(gn=old_gait_name))
-
-        if new_gait is None:
-            raise GaitError(msg='{gn} not found in parsed gait names from gait selection'
-                            .format(gn=new_gait_name))
-
-        if old_gait.graph != new_gait.graph:
-            raise GaitError(msg='Subgait graphs do not match between gait: {cg} and gait: {ng}'
-                            .format(cg=old_gait_name, ng=new_gait_name))
-
-        old_subgait_name = new_subgait_name if old_subgait_name is None else old_subgait_name
-
-        old_subgait = deepcopy(old_gait[old_subgait_name])
-        new_subgait = deepcopy(new_gait[new_subgait_name])
-
-        if old_subgait is None:
-            raise SubgaitNameNotFound(old_subgait_name, 'transition_gait')
-
-        if new_subgait is None:
-            raise SubgaitNameNotFound(new_subgait_name, 'transition_gait')
-
-        return old_subgait, new_subgait
-
-    @staticmethod
-    def _transition_joints(robot, old_subgait, new_subgait):
+    def _transition_joints(old_subgait, new_subgait):
         """Calculate a transition trajectory which starts at the old gait and ends with the endpoints of the new gait.
 
         :returns:

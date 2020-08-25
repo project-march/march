@@ -1,4 +1,5 @@
 import rospy
+from std_msgs.msg import Header
 from std_srvs.srv import Trigger
 from urdf_parser_py import urdf
 
@@ -16,7 +17,7 @@ from .state_machine.trajectory_scheduler import TrajectoryScheduler
 NODE_NAME = 'gait_selection'
 DEFAULT_GAIT_FILES_PACKAGE = 'march_gait_files'
 DEFAULT_GAIT_DIRECTORY = 'minimal'
-DEFAULT_UPDATE_RATE = 30.0
+DEFAULT_UPDATE_RATE = 120.0
 
 
 def set_gait_versions(msg, gait_selection):
@@ -94,11 +95,12 @@ def create_publishers(gait_state_machine):
     current_gait_pub = rospy.Publisher('/march/gait_selection/current_gait', CurrentGait, queue_size=10)
 
     def current_state_cb(state, next_is_idle):
-        current_state_pub.publish(state=state, state_type=CurrentState.IDLE if next_is_idle else CurrentState.GAIT)
+        current_state_pub.publish(header=Header(stamp=rospy.Time.now()), state=state,
+                                  state_type=CurrentState.IDLE if next_is_idle else CurrentState.GAIT)
 
     def current_gait_cb(gait_name, subgait_name, version, duration, gait_type):
-        current_gait_pub.publish(gait=gait_name, subgait=subgait_name, version=version,
-                                 duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
+        current_gait_pub.publish(header=Header(stamp=rospy.Time.now()), gait=gait_name, subgait=subgait_name,
+                                 version=version, duration=rospy.Duration.from_sec(duration), gait_type=gait_type)
 
     gait_state_machine.add_transition_callback(current_state_cb)
     gait_state_machine.add_gait_callback(current_gait_cb)
