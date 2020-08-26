@@ -16,6 +16,7 @@ class TrajectoryScheduler(object):
         self._failed = False
         goal = FollowJointTrajectoryGoal()
         goal.trajectory = trajectory
+        goal.trajectory.header.stamp = rospy.Time.now()
         self._trajectory_client.send_goal(goal, done_cb=self._done_cb)
 
     def failed(self):
