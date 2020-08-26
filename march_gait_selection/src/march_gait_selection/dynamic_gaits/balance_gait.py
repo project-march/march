@@ -25,15 +25,15 @@ class BalanceGait(object):
         self._default_walk = None
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
-        self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/capture_point/foot_left',
-                                                                      CapturePointPose),
-                                       'right_leg':rospy.ServiceProxy('/march/capture_point/foot_right',
-                                                                      CapturePointPose)}
+        self._capture_point_service = {'left_leg':
+                                       rospy.ServiceProxy('/march/capture_point/foot_left', CapturePointPose),
+                                       'right_leg':
+                                       rospy.ServiceProxy('/march/capture_point/foot_right', CapturePointPose)}
 
         self._joint_state_target = JointState()
         self._joint_state_target.header = Header()
-        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() + self.move_group['right_leg'].\
-            get_active_joints()
+        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() +\
+            self.move_group['right_leg'].get_active_joints()
 
     @classmethod
     def create_balance_subgait(cls):
@@ -92,6 +92,8 @@ class BalanceGait(object):
 
         :param leg_name: The name of the move group which does not use capture point
         :param subgait_name: the normal subgait name
+
+        :return the duration of the default subgait
         """
         side_prefix = 'right' if 'right' in leg_name else 'left'
 
@@ -158,8 +160,8 @@ class BalanceGait(object):
         """
         non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
 
-        cp_duration = self.set_swing_leg_target(non_capture_point_move_group, subgait_name)
-        sg_duration = self.set_stance_leg_target(capture_point_leg_name, subgait_name)
+        capture_point_duration = self.set_swing_leg_target(non_capture_point_move_group, subgait_name)
+        stance_gait_duration = self.set_stance_leg_target(capture_point_leg_name, subgait_name)
 
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
@@ -182,7 +184,7 @@ class BalanceGait(object):
             return self.default_walk[subgait_name]
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(balance_trajectory, subgait_name)
-        balance_trajectory_duration = min(sg_duration, cp_duration)
+        balance_trajectory_duration = min(stance_gait_duration, capture_point_duration)
 
         rospy.loginfo('Balance subgait with duration {dr}'.format(dr=str(balance_trajectory_duration)))
         self.export_to_file(balance_trajectory_subgait, os.path.dirname(os.path.realpath(__file__)))
@@ -205,6 +207,7 @@ class BalanceGait(object):
 
     @staticmethod
     def export_to_file(subgait, gait_directory):
+        """Write a subgait to a file for opening in the gait generator."""
         if gait_directory is None or gait_directory == '':
             return
 

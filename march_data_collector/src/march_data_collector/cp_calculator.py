@@ -17,7 +17,8 @@ class CPCalculator(object):
         """Base class to calculate capture point for the exoskeleton."""
         self._tf_buffer = tf_buffer
         self._static_foot_link = static_foot_link
-        self.cp_service = rospy.Service('/march/capture_point/' + swing_foot_link, CapturePointPose, self.get_capture_point)
+        self.cp_service = rospy.Service('/march/capture_point/' + swing_foot_link, CapturePointPose,
+                                        self.get_capture_point)
 
         self.cp_publisher = rospy.Publisher('/march/cp_marker/' + swing_foot_link, Marker, queue_size=1)
 
@@ -109,16 +110,17 @@ class CPCalculator(object):
             self.cp_publisher.publish(self._capture_point_marker)
         except tf2_ros.TransformException as e:
             rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
+            capture_point_duration = -1
 
-        return capture_point_duration
+        return (capture_point_duration, self._capture_point_marker.pose)
 
     def get_capture_point(self, capture_point_request_msg):
         """Service call function to return the capture point pose positions."""
         rospy.logdebug('Request capture point in {duration}'.format(duration=capture_point_request_msg.duration))
 
         duration = capture_point_request_msg.duration
-        capture_point_duration = self._calculate_capture_point(duration)
+        capture_point_duration, capture_point = self._calculate_capture_point(duration)
         if capture_point_duration < 0:
-            return [False, 0.0, self._capture_point_marker.pose]
+            return [False, 0.0, capture_point]
 
-        return [True, capture_point_duration, self._capture_point_marker.pose]
+        return [True, capture_point_duration, capture_point]
