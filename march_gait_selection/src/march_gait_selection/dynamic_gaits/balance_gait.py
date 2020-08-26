@@ -203,7 +203,9 @@ class BalanceGait(GaitInterface):
     def start(self):
         self._current_subgait = self._default_walk.graph.start_subgaits()[0]
         self._time_since_start = 0.0
-        return self.get_joint_trajectory_msg(self._current_subgait)
+        trajectory = self.get_joint_trajectory_msg(self._current_subgait)
+        self._current_subgait_duration = trajectory.points[-1].time_from_start.to_sec()
+        return trajectory
 
     def update(self, elapsed_time):
         self._time_since_start += elapsed_time
