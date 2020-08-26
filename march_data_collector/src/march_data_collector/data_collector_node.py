@@ -21,10 +21,10 @@ from .cp_calculator import CPCalculator
 
 
 class DataCollectorNode(object):
-    def __init__(self, com_calculator, cp_calculator, tf_buffer, feet):
+    def __init__(self, com_calculator, cp_calculators, tf_buffer, feet):
         self.differentiation_order = 2
         self._com_calculator = com_calculator
-        self._cp_calculator = cp_calculator
+        self._cp_calculators = cp_calculators
         self.tf_buffer = tf_buffer
         self.feet = feet
 
@@ -76,8 +76,9 @@ class DataCollectorNode(object):
 
     def trajectory_state_callback(self, data):
         com = self._com_calculator.calculate_com()
+        for cp_calculator in self._cp_calculators:
+            cp_calculator.center_of_mass = com
         self._com_marker_publisher.publish(com)
-        self._cp_calculator.center_of_mass = com
         if self.pressure_soles_on:
             self.send_udp(data.actual.positions)
 
@@ -173,7 +174,9 @@ def main():
     tf_buffer = tf2_ros.Buffer()
     tf2_ros.TransformListener(tf_buffer)
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
-    feet = ['foot_left', 'foot_right']
-    cp_calculator = CPCalculator()
-    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculator, tf_buffer, feet)
+    # key is the swing foot and item is the static foot
+    feet = {'foot_left': 'foot_right', 'foot_right': 'foot_left'}
+    cp_calculators = [CPCalculator(tf_buffer, swing_foot, static_foot) for swing_foot, static_foot in feet.items()]
+
+    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculators, tf_buffer, feet.keys())
     data_collector_node.run()

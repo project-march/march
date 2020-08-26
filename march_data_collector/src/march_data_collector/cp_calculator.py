@@ -3,6 +3,7 @@ from math import sqrt
 from geometry_msgs.msg import Point
 from march_data_collector.inverted_pendulum import InvertedPendulum
 import rospy
+import tf2_ros
 from visualization_msgs.msg import Marker
 
 from march_shared_resources.srv import CapturePointPose
@@ -12,11 +13,13 @@ FRACTION_FALLING_TIME = 0.5
 
 class CPCalculator(object):
 
-    def __init__(self):
+    def __init__(self, tf_buffer, static_foot_link, swing_foot_link):
         """Base class to calculate capture point for the exoskeleton."""
-        self.cp_service = rospy.Service('/march/capture_point', CapturePointPose, self.get_capture_point)
+        self._tf_buffer = tf_buffer
+        self._static_foot_link = static_foot_link
+        self.cp_service = rospy.Service('/march/capture_point/' + swing_foot_link, CapturePointPose, self.get_capture_point)
 
-        self.cp_publisher = rospy.Publisher('/march/cp_marker', Marker, queue_size=1)
+        self.cp_publisher = rospy.Publisher('/march/cp_marker/' + swing_foot_link, Marker, queue_size=1)
 
         self._gravity_constant = 9.81
         self._prev_t = rospy.Time.now()
@@ -72,35 +75,41 @@ class CPCalculator(object):
         :param duration:
             the amount of seconds away from the current time the capture point should be calculated
         """
-        falling_time = InvertedPendulum.calculate_falling_time(
-            self._center_of_mass.x,
-            self._center_of_mass.y,
-            self._center_of_mass.z,
-            self.vx, self.vy)
+        try:
+            world_transform = self._tf_buffer.lookup_transform('world', self._static_foot_link, rospy.Time())
+            wt_translation = world_transform.transform.translation
+            falling_time = InvertedPendulum.calculate_falling_time(
+                self._center_of_mass.x - wt_translation.x,
+                self._center_of_mass.y - wt_translation.y,
+                self._center_of_mass.z - wt_translation.z,
+                self.vx, self.vy)
 
-        capture_point_duration = min(duration, FRACTION_FALLING_TIME * falling_time)
+            capture_point_duration = min(duration, FRACTION_FALLING_TIME * falling_time)
 
-        new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
-            self._center_of_mass.x,
-            self._center_of_mass.y,
-            self._center_of_mass.z,
-            self.vx, self.vy, capture_point_duration)
+            new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
+                self._center_of_mass.x - wt_translation.x,
+                self._center_of_mass.y - wt_translation.y,
+                self._center_of_mass.z - wt_translation.z,
+                self.vx, self.vy, capture_point_duration)
 
-        if new_center_of_mass['z'] <= 0:
-            rospy.loginfo_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
-            return -1
+            if new_center_of_mass['z'] <= 0:
+                rospy.loginfo_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
+                return -1
 
-        capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
+            capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
 
-        x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
-        y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
+            x_cp = new_center_of_mass['x'] + new_center_of_mass['vx'] * capture_point_multiplier
+            y_cp = new_center_of_mass['y'] + new_center_of_mass['vy'] * capture_point_multiplier
 
-        self._capture_point_marker.header.stamp = rospy.get_rostime()
-        self._capture_point_marker.pose.position.x = x_cp
-        self._capture_point_marker.pose.position.y = y_cp
-        self._capture_point_marker.pose.position.z = 0
+            self._capture_point_marker.header.stamp = rospy.get_rostime()
+            self._capture_point_marker.pose.position.x = x_cp + wt_translation.x
+            self._capture_point_marker.pose.position.y = y_cp + wt_translation.y
+            self._capture_point_marker.pose.position.z = 0
 
-        self.cp_publisher.publish(self._capture_point_marker)
+            self.cp_publisher.publish(self._capture_point_marker)
+        except tf2_ros.TransformException as e:
+            rospy.logdebug('Error in trying to lookup transform for capture point: {error}'.format(error=e))
+
         return capture_point_duration
 
     def get_capture_point(self, capture_point_request_msg):

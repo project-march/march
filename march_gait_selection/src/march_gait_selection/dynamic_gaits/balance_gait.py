@@ -25,7 +25,10 @@ class BalanceGait(object):
         self._default_walk = None
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
-        self._capture_point_service = rospy.ServiceProxy('/march/capture_point', CapturePointPose)
+        self._capture_point_service = {'left_leg': rospy.ServiceProxy('/march/capture_point/foot_left',
+                                                                      CapturePointPose),
+                                       'right_leg':rospy.ServiceProxy('/march/capture_point/foot_right',
+                                                                      CapturePointPose)}
 
         self._joint_state_target = JointState()
         self._joint_state_target.header = Header()
@@ -74,7 +77,7 @@ class BalanceGait(object):
         :param subgait_name: the normal subgait name
         """
         subgait_duration = self.default_walk[subgait_name].duration
-        return_msg = self._capture_point_service(duration=subgait_duration)
+        return_msg = self._capture_point_service[leg_name](duration=subgait_duration)
 
         if not return_msg.success:
             rospy.logwarn('No messages received from the capture point service.')
