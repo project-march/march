@@ -29,7 +29,6 @@ class GaitSelection(object):
         self._loaded_gaits = self._load_gaits()
 
         is_balance_used = rospy.get_param('/balance', False)
-
         if is_balance_used:
             self._load_balance_gait()
 
