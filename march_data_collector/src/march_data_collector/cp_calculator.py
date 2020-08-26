@@ -7,6 +7,8 @@ from visualization_msgs.msg import Marker
 
 from march_shared_resources.srv import CapturePointPose
 
+FRACTION_FALLING_TIME = 0.5
+
 
 class CPCalculator(object):
 
@@ -76,7 +78,7 @@ class CPCalculator(object):
             self._center_of_mass.z,
             self.vx, self.vy)
 
-        capture_point_duration = min(duration, 0.5 * falling_time)
+        capture_point_duration = min(duration, FRACTION_FALLING_TIME * falling_time)
 
         new_center_of_mass = InvertedPendulum.numeric_solve_to_t(
             self._center_of_mass.x,
