@@ -1,0 +1,8 @@
+Invoking command in '/home/katja/march_ws/src/march/build/march_description': /usr/bin/cmake /home/katja/march_ws/src/march/march_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_description
+Invoked command in '/home/katja/march_ws/src/march/build/march_description' returned '0': /usr/bin/cmake /home/katja/march_ws/src/march/march_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_description
+Invoking command in '/home/katja/march_ws/src/march/build/march_description': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description -- -j8 -l8
+Invoked command in '/home/katja/march_ws/src/march/build/march_description' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description -- -j8 -l8
+Invoking command in '/home/katja/march_ws/src/march/build/march_description': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description --target tests -- -j8 -l8
+Invoked command in '/home/katja/march_ws/src/march/build/march_description' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description --target tests -- -j8 -l8
+Invoking command in '/home/katja/march_ws/src/march/build/march_description': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description --target install -- -j8 -l8
+Invoked command in '/home/katja/march_ws/src/march/build/march_description' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_description --target install -- -j8 -l8

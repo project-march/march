@@ -1,0 +1,82 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using CATKIN_DEVEL_PREFIX: /home/katja/march_ws/src/march/build/march_moveit/devel
+-- Using CMAKE_PREFIX_PATH: /home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+-- This workspace overlays: /home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python2
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/katja/march_ws/src/march/build/march_moveit/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.28
+-- BUILD_SHARED_LIBS is on
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/katja/march_ws/src/march/build/march_moveit
+[35m[1mScanning dependencies of target tests[0m
+Built target tests
+[36mInstall the project...[0m
+-- Install configuration: ""
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig/march_moveit.pc
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/cmake/march_moveitConfig.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/cmake/march_moveitConfig-version.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/package.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/planning_pipeline.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/move_group.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/ros_controllers.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/sensor_manager.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/planning_context.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/trajectory_execution.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/default_warehouse_db.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/ompl_planning_pipeline.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit_controller_manager.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/demo_gazebo.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/gazebo.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/fake_moveit_controller_manager.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/chomp_planning_pipeline.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/moveit_rviz.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/demo.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/run_benchmark_ompl.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit_sensor_manager.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/moveit.rviz
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/warehouse_settings.launch.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/joystick_control.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/warehouse.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/chomp_planning.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/kinematics.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/ros_controllers.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/fake_controllers.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/ompl_planning.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/march.srdf
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/sensors_3d.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/joint_limits.yaml

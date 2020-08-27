@@ -1,0 +1,200 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using CATKIN_DEVEL_PREFIX: /home/katja/march_ws/src/march/build/march_state_machine/devel
+-- Using CMAKE_PREFIX_PATH: /home/katja/march_ws/src/march/install/march_shared_resources;/opt/ros/melodic
+-- This workspace overlays: /home/katja/march_ws/src/march/install/march_shared_resources;/opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python2
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/katja/march_ws/src/march/build/march_state_machine/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.28
+-- BUILD_SHARED_LIBS is on
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/katja/march_ws/src/march/build/march_state_machine
+[35m[1mScanning dependencies of target tests[0m
+Built target tests
+[36mInstall the project...[0m
+-- Install configuration: ""
++ cd /home/katja/march_ws/src/march/march_state_machine
++ mkdir -p /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages
++ /usr/bin/env PYTHONPATH=/home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/build/march_state_machine/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages CATKIN_BINARY_DIR=/home/katja/march_ws/src/march/build/march_state_machine /usr/bin/python2 /home/katja/march_ws/src/march/march_state_machine/setup.py egg_info --egg-base /home/katja/march_ws/src/march/build/march_state_machine build --build-base /home/katja/march_ws/src/march/build/march_state_machine install --root=/ --install-layout=deb --prefix=/home/katja/march_ws/src/march/install/march_state_machine --install-scripts=/home/katja/march_ws/src/march/install/march_state_machine/bin
+running egg_info
+creating /home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info
+writing /home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/PKG-INFO
+writing top-level names to /home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/top_level.txt
+writing dependency_links to /home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/dependency_links.txt
+writing manifest file '/home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/SOURCES.txt'
+reading manifest file '/home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/SOURCES.txt'
+writing manifest file '/home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7
+creating /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/healthy_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/control_flow.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/sounds.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/launch_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+copying src/march_state_machine/__init__.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine
+creating /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_right_straight_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/slope_down_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_right_flexed_knee_step_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_right_knee_bend_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_left_knee_bend_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_sideways_start_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_left_flexed_knee_step_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_left_straight_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/slope_down_fixed_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/__init__.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+copying src/march_state_machine/gaits/tilted_path_sideways_end_sm.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits
+creating /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/stoppable_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/wait_for_gait_server_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/shutdown_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/safety_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/idle_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/feedback_action_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/transition_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/gait_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/empty_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/error_state.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+copying src/march_state_machine/states/__init__.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states
+creating /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/balance_walk_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/gait_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/slope_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/transition_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/step_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/walk_state_machine.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+copying src/march_state_machine/state_machines/__init__.py -> /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines
+running build_scripts
+creating /home/katja/march_ws/src/march/build/march_state_machine/scripts-2.7
+copying and adjusting scripts/march_state_machine -> /home/katja/march_ws/src/march/build/march_state_machine/scripts-2.7
+changing mode of /home/katja/march_ws/src/march/build/march_state_machine/scripts-2.7/march_state_machine from 644 to 755
+running install
+running install_lib
+creating /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/healthy_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/control_flow.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/sounds.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+creating /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_right_straight_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/slope_down_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_right_flexed_knee_step_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_right_knee_bend_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_left_knee_bend_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_sideways_start_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_left_flexed_knee_step_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_left_straight_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/slope_down_fixed_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/__init__.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/gaits/tilted_path_sideways_end_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits
+creating /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/balance_walk_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/gait_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/slope_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/transition_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/step_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/walk_state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machines/__init__.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/launch_sm.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/state_machine.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/__init__.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine
+creating /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/stoppable_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/wait_for_gait_server_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/shutdown_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/safety_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/idle_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/feedback_action_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/transition_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/gait_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/empty_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/error_state.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+copying /home/katja/march_ws/src/march/build/march_state_machine/lib.linux-x86_64-2.7/march_state_machine/states/__init__.py -> /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/healthy_sm.py to healthy_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/control_flow.py to control_flow.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/sounds.py to sounds.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_right_straight_sm.py to tilted_path_right_straight_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/slope_down_sm.py to slope_down_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_right_flexed_knee_step_sm.py to tilted_path_right_flexed_knee_step_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_right_knee_bend_sm.py to tilted_path_right_knee_bend_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_left_knee_bend_sm.py to tilted_path_left_knee_bend_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_sideways_start_sm.py to tilted_path_sideways_start_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_left_flexed_knee_step_sm.py to tilted_path_left_flexed_knee_step_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_left_straight_sm.py to tilted_path_left_straight_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/slope_down_fixed_sm.py to slope_down_fixed_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/__init__.py to __init__.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/gaits/tilted_path_sideways_end_sm.py to tilted_path_sideways_end_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/balance_walk_state_machine.py to balance_walk_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/gait_state_machine.py to gait_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/slope_state_machine.py to slope_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/transition_state_machine.py to transition_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/step_state_machine.py to step_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/walk_state_machine.py to walk_state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machines/__init__.py to __init__.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/launch_sm.py to launch_sm.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/state_machine.py to state_machine.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/__init__.py to __init__.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/stoppable_state.py to stoppable_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/wait_for_gait_server_state.py to wait_for_gait_server_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/shutdown_state.py to shutdown_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/safety_state.py to safety_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/idle_state.py to idle_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/feedback_action_state.py to feedback_action_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/transition_state.py to transition_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/gait_state.py to gait_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/empty_state.py to empty_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/error_state.py to error_state.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine/states/__init__.py to __init__.pyc
+running install_egg_info
+Copying /home/katja/march_ws/src/march/build/march_state_machine/march_state_machine.egg-info to /home/katja/march_ws/src/march/install/march_state_machine/lib/python2.7/dist-packages/march_state_machine-0.0.0.egg-info
+Skipping SOURCES.txt
+running install_scripts
+creating /home/katja/march_ws/src/march/install/march_state_machine/bin
+copying /home/katja/march_ws/src/march/build/march_state_machine/scripts-2.7/march_state_machine -> /home/katja/march_ws/src/march/install/march_state_machine/bin
+changing mode of /home/katja/march_ws/src/march/install/march_state_machine/bin/march_state_machine to 755
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/lib/pkgconfig/march_state_machine.pc
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/cmake/march_state_machineConfig.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/cmake/march_state_machineConfig-version.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/package.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/lib/march_state_machine/march_state_machine
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/launch
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/launch/state_machine.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds/start.wav
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds/gait_start.wav
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds/error.wav
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds/gait_stop.wav
+-- Installing: /home/katja/march_ws/src/march/install/march_state_machine/share/march_state_machine/sounds/gait_end.wav

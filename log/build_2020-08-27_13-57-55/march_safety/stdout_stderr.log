@@ -1,0 +1,253 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using CATKIN_DEVEL_PREFIX: /home/katja/march_ws/src/march/build/march_safety/devel
+-- Using CMAKE_PREFIX_PATH: /home/katja/march_ws/src/march/install/march_shared_resources;/opt/ros/melodic
+-- This workspace overlays: /home/katja/march_ws/src/march/install/march_shared_resources;/opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python2
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/katja/march_ws/src/march/build/march_safety/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.28
+-- BUILD_SHARED_LIBS is on
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/katja/march_ws/src/march/build/march_safety
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_py[0m
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target march_shared_resources_generate_messages_nodejs[0m
+[  0%] Built target trajectory_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_eus[0m
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target march_shared_resources_generate_messages_nodejs
+[  0%] Built target roscpp_generate_messages_py
+[  0%] Built target trajectory_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target control_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target _catkin_empty_exported_target[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target control_msgs_generate_messages_cpp[0m
+[  0%] Built target _catkin_empty_exported_target
+[35m[1mScanning dependencies of target march_shared_resources_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_nodejs[0m
+[  0%] Built target control_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target std_msgs_generate_messages_cpp[0m
+[  0%] Built target control_msgs_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_py
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_nodejs[0m
+[  0%] Built target roscpp_generate_messages_nodejs
+[  0%] Built target march_shared_resources_generate_messages_cpp
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target sound_play_generate_messages_nodejs[0m
+[  0%] Built target actionlib_msgs_generate_messages_nodejs
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target march_shared_resources_generate_messages_eus[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target control_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_nodejs[0m
+[  0%] Built target sound_play_generate_messages_nodejs
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_lisp[0m
+[  0%] Built target trajectory_msgs_generate_messages_cpp
+[  0%] Built target actionlib_msgs_generate_messages_lisp
+[  0%] Built target march_shared_resources_generate_messages_eus
+[  0%] Built target trajectory_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_cpp[0m
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[  0%] Built target sensor_msgs_generate_messages_lisp
+[  0%] Built target control_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target roscpp_generate_messages_eus[0m
+[35m[1mScanning dependencies of target control_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target trajectory_msgs_generate_messages_py[0m
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target geometry_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_py[0m
+[35m[1mScanning dependencies of target actionlib_msgs_generate_messages_eus[0m
+[  0%] Built target control_msgs_generate_messages_py
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_py[0m
+[  0%] Built target trajectory_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target actionlib_msgs_generate_messages_py
+[  0%] Built target roscpp_generate_messages_eus
+[  0%] Built target actionlib_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target control_msgs_generate_messages_nodejs[0m
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_nodejs[0m
+[35m[1mScanning dependencies of target roscpp_generate_messages_cpp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target sound_play_generate_messages_lisp[0m
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_lisp[0m
+[  0%] Built target control_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target march_shared_resources_generate_messages_lisp[0m
+[  0%] Built target sensor_msgs_generate_messages_nodejs
+[35m[1mScanning dependencies of target rosgraph_msgs_generate_messages_cpp[0m
+[  0%] Built target sound_play_generate_messages_lisp
+[  0%] Built target roscpp_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_eus[0m
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_cpp[0m
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[  0%] Built target march_shared_resources_generate_messages_lisp
+[35m[1mScanning dependencies of target sensor_msgs_generate_messages_py[0m
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[35m[1mScanning dependencies of target sound_play_generate_messages_py[0m
+[35m[1mScanning dependencies of target sound_play_generate_messages_cpp[0m
+[  0%] Built target sensor_msgs_generate_messages_py
+[35m[1mScanning dependencies of target sound_play_generate_messages_eus[0m
+[  0%] Built target sensor_msgs_generate_messages_eus
+[  0%] Built target sensor_msgs_generate_messages_cpp
+[35m[1mScanning dependencies of target roscpp_generate_messages_lisp[0m
+[  0%] Built target sound_play_generate_messages_cpp
+[35m[1mScanning dependencies of target march_safety[0m
+[  0%] Built target sound_play_generate_messages_py
+[35m[1mScanning dependencies of target march_shared_resources_generate_messages_py[0m
+[35m[1mScanning dependencies of target std_msgs_generate_messages_nodejs[0m
+[  0%] Built target sound_play_generate_messages_eus
+[  0%] Built target roscpp_generate_messages_lisp
+[  0%] Built target march_shared_resources_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_nodejs
+[ 16%] [32mBuilding CXX object CMakeFiles/march_safety.dir/src/safety_handler.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/march_safety.dir/src/input_device_safety.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/march_safety.dir/src/temperature_safety.cpp.o[0m
+[ 66%] [32m[1mLinking CXX shared library devel/lib/libmarch_safety.so[0m
+[ 66%] Built target march_safety
+[35m[1mScanning dependencies of target march_safety_node[0m
+[ 83%] [32mBuilding CXX object CMakeFiles/march_safety_node.dir/src/safety_node.cpp.o[0m
+[100%] [32m[1mLinking CXX executable devel/lib/march_safety/march_safety_node[0m
+[100%] Built target march_safety_node
+[35m[1mScanning dependencies of target gtest[0m
+[  8%] [32mBuilding CXX object gtest/googlemock/gtest/CMakeFiles/gtest.dir/src/gtest-all.cc.o[0m
+[ 16%] [32m[1mLinking CXX shared library libgtest.so[0m
+[ 16%] Built target gtest
+[35m[1mScanning dependencies of target march_safety_connection_not_lost_test[0m
+[35m[1mScanning dependencies of target march_safety_connection_never_started_test[0m
+[35m[1mScanning dependencies of target march_safety_connection_lost_test[0m
+[35m[1mScanning dependencies of target march_safety_temperature_test[0m
+[ 25%] [32mBuilding CXX object CMakeFiles/march_safety_connection_not_lost_test.dir/test/rostest/connection_not_lost_test.cpp.o[0m
+[ 33%] [32mBuilding CXX object CMakeFiles/march_safety_connection_never_started_test.dir/test/rostest/connection_never_started_test.cpp.o[0m
+[ 41%] [32mBuilding CXX object CMakeFiles/march_safety_connection_lost_test.dir/test/rostest/connection_lost_test.cpp.o[0m
+[ 50%] [32mBuilding CXX object CMakeFiles/march_safety_temperature_test.dir/test/rostest/temperature_parameterized_test.cpp.o[0m
+[ 58%] [32mBuilding CXX object CMakeFiles/march_safety_temperature_test.dir/test/rostest/no_temperature_error_test.cpp.o[0m
+[ 66%] [32mBuilding CXX object CMakeFiles/march_safety_temperature_test.dir/test/rostest/temperature_error_test.cpp.o[0m
+[ 75%] [32m[1mLinking CXX executable devel/lib/march_safety/march_safety_temperature_test[0m
+[ 83%] [32m[1mLinking CXX executable devel/lib/march_safety/march_safety_connection_never_started_test[0m
+[ 83%] Built target march_safety_temperature_test
+[ 91%] [32m[1mLinking CXX executable devel/lib/march_safety/march_safety_connection_lost_test[0m
+[100%] [32m[1mLinking CXX executable devel/lib/march_safety/march_safety_connection_not_lost_test[0m
+[100%] Built target march_safety_connection_never_started_test
+[100%] Built target march_safety_connection_lost_test
+[100%] Built target march_safety_connection_not_lost_test
+[35m[1mScanning dependencies of target tests[0m
+[100%] Built target tests
+[  0%] Built target trajectory_msgs_generate_messages_eus
+[  0%] Built target std_msgs_generate_messages_eus
+[  0%] Built target geometry_msgs_generate_messages_lisp
+[  0%] Built target geometry_msgs_generate_messages_cpp
+[  0%] Built target geometry_msgs_generate_messages_py
+[  0%] Built target roscpp_generate_messages_py
+[  0%] Built target march_shared_resources_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_lisp
+[  0%] Built target control_msgs_generate_messages_lisp
+[  0%] Built target _catkin_empty_exported_target
+[  0%] Built target roscpp_generate_messages_nodejs
+[  0%] Built target geometry_msgs_generate_messages_nodejs
+[  0%] Built target march_shared_resources_generate_messages_cpp
+[  0%] Built target std_msgs_generate_messages_lisp
+[  0%] Built target std_msgs_generate_messages_py
+[  0%] Built target std_msgs_generate_messages_cpp
+[  0%] Built target control_msgs_generate_messages_cpp
+[  0%] Built target actionlib_msgs_generate_messages_nodejs
+[  0%] Built target trajectory_msgs_generate_messages_cpp
+[  0%] Built target sound_play_generate_messages_nodejs
+[  0%] Built target march_shared_resources_generate_messages_eus
+[  0%] Built target trajectory_msgs_generate_messages_nodejs
+[  0%] Built target actionlib_msgs_generate_messages_lisp
+[  0%] Built target rosgraph_msgs_generate_messages_nodejs
+[  0%] Built target control_msgs_generate_messages_eus
+[  0%] Built target sensor_msgs_generate_messages_lisp
+[  0%] Built target actionlib_msgs_generate_messages_cpp
+[  0%] Built target trajectory_msgs_generate_messages_py
+[  0%] Built target geometry_msgs_generate_messages_eus
+[  0%] Built target roscpp_generate_messages_eus
+[  0%] Built target control_msgs_generate_messages_py
+[  0%] Built target actionlib_msgs_generate_messages_eus
+[  0%] Built target rosgraph_msgs_generate_messages_py
+[  0%] Built target actionlib_msgs_generate_messages_py
+[  0%] Built target sensor_msgs_generate_messages_nodejs
+[  0%] Built target control_msgs_generate_messages_nodejs
+[  0%] Built target roscpp_generate_messages_cpp
+[  0%] Built target rosgraph_msgs_generate_messages_cpp
+[  0%] Built target march_shared_resources_generate_messages_lisp
+[  0%] Built target rosgraph_msgs_generate_messages_eus
+[  0%] Built target sound_play_generate_messages_lisp
+[  0%] Built target sensor_msgs_generate_messages_eus
+[  0%] Built target rosgraph_msgs_generate_messages_lisp
+[  0%] Built target sound_play_generate_messages_py
+[  0%] Built target sensor_msgs_generate_messages_py
+[ 66%] Built target march_safety
+[ 66%] Built target sensor_msgs_generate_messages_cpp
+[ 66%] Built target sound_play_generate_messages_eus
+[ 66%] Built target sound_play_generate_messages_cpp
+[ 66%] Built target march_shared_resources_generate_messages_py
+[ 66%] Built target roscpp_generate_messages_lisp
+[ 66%] Built target std_msgs_generate_messages_nodejs
+[100%] Built target march_safety_node
+[36mInstall the project...[0m
+-- Install configuration: ""
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/lib/pkgconfig/march_safety.pc
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/cmake/march_safetyConfig.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/cmake/march_safetyConfig-version.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/package.xml
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/include/march_safety/march_safety
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/include/march_safety/march_safety/input_device_safety.h
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/include/march_safety/march_safety/temperature_safety.h
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/include/march_safety/march_safety/safety_type.h
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/include/march_safety/march_safety/safety_handler.h
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/lib/libmarch_safety.so
+-- Set runtime path of "/home/katja/march_ws/src/march/install/march_safety/lib/libmarch_safety.so" to ""
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/lib/march_safety/march_safety_node
+-- Set runtime path of "/home/katja/march_ws/src/march/install/march_safety/lib/march_safety/march_safety_node" to ""
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/launch
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/launch/safety_settings.yaml
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/launch/march_safety.launch
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/sound
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/sound/non_fatal.wav
+-- Installing: /home/katja/march_ws/src/march/install/march_safety/share/march_safety/sound/fatal.wav

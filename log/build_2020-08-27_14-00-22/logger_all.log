@@ -1,0 +1,241 @@
+[0.206s] DEBUG:colcon:Command line arguments: ['/usr/bin/colcon', 'build', '--packages-select', 'march_gait_selection']
+[0.206s] DEBUG:colcon:Parsed command line arguments: Namespace(ament_cmake_args=None, base_paths=['.'], build_base='build', catkin_cmake_args=None, catkin_skip_building_tests=False, cmake_args=None, cmake_clean_cache=False, cmake_clean_first=False, cmake_force_configure=False, cmake_target=None, cmake_target_skip_unavailable=False, continue_on_error=False, event_handlers=None, executor='parallel', ignore_user_meta=False, install_base='install', log_base=None, log_level=None, main=<bound method BuildVerb.main of <colcon_core.verb.build.BuildVerb object at 0x7f166ce6f550>>, merge_install=False, metas=['./colcon.meta'], packages_above=None, packages_above_and_dependencies=None, packages_above_depth=None, packages_end=None, packages_ignore=None, packages_ignore_regex=None, packages_select=['march_gait_selection'], packages_select_build_failed=False, packages_select_by_dep=None, packages_select_regex=None, packages_select_test_failures=False, packages_skip=None, packages_skip_build_finished=False, packages_skip_by_dep=None, packages_skip_regex=None, packages_skip_test_passed=False, packages_skip_up_to=None, packages_start=None, packages_up_to=None, packages_up_to_regex=None, parallel_workers=8, paths=None, symlink_install=False, test_result_base=None, verb_extension=<colcon_core.verb.build.BuildVerb object at 0x7f166ce6f550>, verb_name='build', verb_parser=<colcon_defaults.argument_parser.defaults.DefaultArgumentsDecorator object at 0x7f166ce6f898>)
+[0.248s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) check parameters
+[0.248s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) check parameters
+[0.248s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) check parameters
+[0.248s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) check parameters
+[0.248s] Level 1:colcon.colcon_core.package_discovery:discover_packages(colcon_meta) discover
+[0.249s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) discover
+[0.249s] INFO:colcon.colcon_core.package_discovery:Crawling recursively for packages in '/home/katja/march_ws/src/march'
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ignore', 'ignore_ament_install']
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore'
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ignore_ament_install'
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_pkg']
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_pkg'
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['colcon_meta']
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'colcon_meta'
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['ros']
+[0.249s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'ros'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['cmake', 'python']
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'cmake'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extensions ['python_setup_py']
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(.) by extension 'python_setup_py'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extensions ['ignore', 'ignore_ament_install']
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(build) by extension 'ignore'
+[0.266s] Level 1:colcon.colcon_core.package_identification:_identify(build) ignored
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extensions ['ignore', 'ignore_ament_install']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(install) by extension 'ignore'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(install) ignored
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extensions ['ignore', 'ignore_ament_install']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(log) by extension 'ignore'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(log) ignored
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extensions ['ignore', 'ignore_ament_install']
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extension 'ignore'
+[0.267s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extension 'ignore_ament_install'
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extensions ['colcon_pkg']
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extension 'colcon_pkg'
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extensions ['colcon_meta']
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extension 'colcon_meta'
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extensions ['ros']
+[0.268s] Level 1:colcon.colcon_core.package_identification:_identify(march_data_collector) by extension 'ros'
+[0.272s] DEBUG:colcon.colcon_core.package_identification:Package 'march_data_collector' with type 'ros.catkin' and name 'march_data_collector'
+[0.272s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extensions ['ignore', 'ignore_ament_install']
+[0.272s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extension 'ignore'
+[0.272s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extension 'ignore_ament_install'
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extensions ['colcon_pkg']
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extension 'colcon_pkg'
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extensions ['colcon_meta']
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extension 'colcon_meta'
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extensions ['ros']
+[0.273s] Level 1:colcon.colcon_core.package_identification:_identify(march_description) by extension 'ros'
+[0.273s] DEBUG:colcon.colcon_core.package_identification:Package 'march_description' with type 'ros.catkin' and name 'march_description'
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extensions ['ignore', 'ignore_ament_install']
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extension 'ignore'
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extension 'ignore_ament_install'
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extensions ['colcon_pkg']
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extension 'colcon_pkg'
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extensions ['colcon_meta']
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extension 'colcon_meta'
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extensions ['ros']
+[0.274s] Level 1:colcon.colcon_core.package_identification:_identify(march_gain_scheduling) by extension 'ros'
+[0.275s] DEBUG:colcon.colcon_core.package_identification:Package 'march_gain_scheduling' with type 'ros.catkin' and name 'march_gain_scheduling'
+[0.275s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extensions ['ignore', 'ignore_ament_install']
+[0.275s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extension 'ignore'
+[0.275s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extension 'ignore_ament_install'
+[0.275s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extensions ['colcon_pkg']
+[0.275s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extension 'colcon_pkg'
+[0.276s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extensions ['colcon_meta']
+[0.276s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extension 'colcon_meta'
+[0.276s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extensions ['ros']
+[0.276s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_scheduler) by extension 'ros'
+[0.277s] DEBUG:colcon.colcon_core.package_identification:Package 'march_gait_scheduler' with type 'ros.catkin' and name 'march_gait_scheduler'
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extensions ['ignore', 'ignore_ament_install']
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extension 'ignore'
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extension 'ignore_ament_install'
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extensions ['colcon_pkg']
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extension 'colcon_pkg'
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extensions ['colcon_meta']
+[0.277s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extension 'colcon_meta'
+[0.278s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extensions ['ros']
+[0.278s] Level 1:colcon.colcon_core.package_identification:_identify(march_gait_selection) by extension 'ros'
+[0.279s] DEBUG:colcon.colcon_core.package_identification:Package 'march_gait_selection' with type 'ros.catkin' and name 'march_gait_selection'
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extensions ['ignore', 'ignore_ament_install']
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extension 'ignore'
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extension 'ignore_ament_install'
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extensions ['colcon_pkg']
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extension 'colcon_pkg'
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extensions ['colcon_meta']
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extension 'colcon_meta'
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extensions ['ros']
+[0.279s] Level 1:colcon.colcon_core.package_identification:_identify(march_launch) by extension 'ros'
+[0.280s] DEBUG:colcon.colcon_core.package_identification:Package 'march_launch' with type 'ros.catkin' and name 'march_launch'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extensions ['ignore', 'ignore_ament_install']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extension 'ignore'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extension 'ignore_ament_install'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extensions ['colcon_pkg']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extension 'colcon_pkg'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extensions ['colcon_meta']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extension 'colcon_meta'
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extensions ['ros']
+[0.280s] Level 1:colcon.colcon_core.package_identification:_identify(march_moveit) by extension 'ros'
+[0.281s] DEBUG:colcon.colcon_core.package_identification:Package 'march_moveit' with type 'ros.catkin' and name 'march_moveit'
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extensions ['ignore', 'ignore_ament_install']
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extension 'ignore'
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extension 'ignore_ament_install'
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extensions ['colcon_pkg']
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extension 'colcon_pkg'
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extensions ['colcon_meta']
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extension 'colcon_meta'
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extensions ['ros']
+[0.282s] Level 1:colcon.colcon_core.package_identification:_identify(march_safety) by extension 'ros'
+[0.283s] DEBUG:colcon.colcon_core.package_identification:Package 'march_safety' with type 'ros.catkin' and name 'march_safety'
+[0.283s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extensions ['ignore', 'ignore_ament_install']
+[0.283s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extension 'ignore'
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extension 'ignore_ament_install'
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extensions ['colcon_pkg']
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extension 'colcon_pkg'
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extensions ['colcon_meta']
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extension 'colcon_meta'
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extensions ['ros']
+[0.284s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_classes) by extension 'ros'
+[0.285s] DEBUG:colcon.colcon_core.package_identification:Package 'march_shared_classes' with type 'ros.catkin' and name 'march_shared_classes'
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extensions ['ignore', 'ignore_ament_install']
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extension 'ignore'
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extension 'ignore_ament_install'
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extensions ['colcon_pkg']
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extension 'colcon_pkg'
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extensions ['colcon_meta']
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extension 'colcon_meta'
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extensions ['ros']
+[0.285s] Level 1:colcon.colcon_core.package_identification:_identify(march_shared_resources) by extension 'ros'
+[0.286s] DEBUG:colcon.colcon_core.package_identification:Package 'march_shared_resources' with type 'ros.catkin' and name 'march_shared_resources'
+[0.286s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extensions ['ignore', 'ignore_ament_install']
+[0.286s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extension 'ignore'
+[0.286s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extension 'ignore_ament_install'
+[0.286s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extensions ['colcon_pkg']
+[0.286s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extension 'colcon_pkg'
+[0.287s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extensions ['colcon_meta']
+[0.287s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extension 'colcon_meta'
+[0.287s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extensions ['ros']
+[0.287s] Level 1:colcon.colcon_core.package_identification:_identify(march_state_machine) by extension 'ros'
+[0.288s] DEBUG:colcon.colcon_core.package_identification:Package 'march_state_machine' with type 'ros.catkin' and name 'march_state_machine'
+[0.288s] Level 1:colcon.colcon_core.package_discovery:discover_packages(recursive) using defaults
+[0.288s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) discover
+[0.288s] Level 1:colcon.colcon_core.package_discovery:discover_packages(ignore) using defaults
+[0.288s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) discover
+[0.288s] Level 1:colcon.colcon_core.package_discovery:discover_packages(path) using defaults
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_description' in 'march_description'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_shared_resources' in 'march_shared_resources'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_data_collector' in 'march_data_collector'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_gain_scheduling' in 'march_gain_scheduling'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_gait_scheduler' in 'march_gait_scheduler'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_moveit' in 'march_moveit'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_safety' in 'march_safety'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_shared_classes' in 'march_shared_classes'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_state_machine' in 'march_state_machine'
+[0.294s] INFO:colcon.colcon_core.package_selection:Skipping not selected package 'march_launch' in 'march_launch'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_args' from command line to 'None'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_target' from command line to 'None'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_target_skip_unavailable' from command line to 'False'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_clean_cache' from command line to 'False'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_clean_first' from command line to 'False'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'cmake_force_configure' from command line to 'False'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'ament_cmake_args' from command line to 'None'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'catkin_cmake_args' from command line to 'None'
+[0.298s] Level 5:colcon.colcon_core.verb:set package 'march_gait_selection' build argument 'catkin_skip_building_tests' from command line to 'False'
+[0.298s] DEBUG:colcon.colcon_core.verb:Building package 'march_gait_selection' with the following arguments: {'ament_cmake_args': None, 'build_base': '/home/katja/march_ws/src/march/build/march_gait_selection', 'catkin_cmake_args': None, 'catkin_skip_building_tests': False, 'cmake_args': None, 'cmake_clean_cache': False, 'cmake_clean_first': False, 'cmake_force_configure': False, 'cmake_target': None, 'cmake_target_skip_unavailable': False, 'install_base': '/home/katja/march_ws/src/march/install/march_gait_selection', 'merge_install': False, 'path': '/home/katja/march_ws/src/march/march_gait_selection', 'symlink_install': False, 'test_result_base': None}
+[0.298s] INFO:colcon.colcon_core.executor:Executing jobs using 'parallel' executor
+[0.301s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete
+[0.301s] INFO:colcon.colcon_ros.task.catkin.build:Building ROS package in '/home/katja/march_ws/src/march/march_gait_selection' with build type 'catkin'
+[0.301s] INFO:colcon.colcon_cmake.task.cmake.build:Building CMake package in '/home/katja/march_ws/src/march/march_gait_selection'
+[0.309s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_core.shell.bat': Not used on non-Windows systems
+[0.309s] INFO:colcon.colcon_core.shell:Skip shell extension 'powershell' for command environment: Not usable outside of PowerShell
+[0.309s] DEBUG:colcon.colcon_core.shell:Skip shell extension 'dsv' for command environment
+[0.314s] DEBUG:colcon.colcon_core.shell:Ignoring prefix path '/opt/ros/melodic'
+[0.343s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/katja/march_ws/src/march/build/march_gait_selection': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection -- -j8 -l8
+[0.424s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/katja/march_ws/src/march/build/march_gait_selection' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection -- -j8 -l8
+[0.487s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/katja/march_ws/src/march/build/march_gait_selection': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection --target tests -- -j8 -l8
+[0.623s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/katja/march_ws/src/march/build/march_gait_selection' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection --target tests -- -j8 -l8
+[0.716s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoking command in '/home/katja/march_ws/src/march/build/march_gait_selection': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection --target install -- -j8 -l8
+[1.186s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'ros_package_path')
+[1.188s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/ros_package_path.ps1'
+[1.190s] DEBUG:colcon.colcon_core.event_handler.log_command:Invoked command in '/home/katja/march_ws/src/march/build/march_gait_selection' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_shared_classes:/home/katja/march_ws/src/march/install/march_moveit:/home/katja/march_ws/src/march/install/march_shared_resources:/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_shared_resources/lib/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:${PYTHONPATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_shared_classes/share:/home/katja/march_ws/src/march/install/march_moveit/share:/home/katja/march_ws/src/march/install/march_shared_resources/share:/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_gait_selection --target install -- -j8 -l8
+[1.190s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/ros_package_path.dsv'
+[1.192s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/ros_package_path.sh'
+[1.194s] Level 1:colcon.colcon_ros.task.catkin:checking '/home/katja/march_ws/src/march/install/march_gait_selection/lib/python2.7/dist-packages'
+[1.194s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'catkin_pythonpath')
+[1.196s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/catkin_pythonpath.ps1'
+[1.197s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/catkin_pythonpath.dsv'
+[1.197s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/catkin_pythonpath.sh'
+[1.198s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'pkg_config_path')
+[1.199s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path.ps1'
+[1.199s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path.dsv'
+[1.200s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path.sh'
+[1.205s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'pkg_config_path_multiarch')
+[1.206s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path_multiarch.ps1'
+[1.207s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path_multiarch.dsv'
+[1.208s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config_path_multiarch.sh'
+[1.211s] Level 1:colcon.colcon_core.environment:create_environment_scripts_only(march_gait_selection)
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection' for CMake module files
+[1.220s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection' for CMake config files
+[1.221s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'cmake_prefix_path')
+[1.222s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/cmake_prefix_path.ps1'
+[1.222s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/cmake_prefix_path.dsv'
+[1.223s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/cmake_prefix_path.sh'
+[1.224s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection/lib'
+[1.224s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection/bin'
+[1.224s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'path')
+[1.225s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/path.ps1'
+[1.225s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/path.dsv'
+[1.226s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/path.sh'
+[1.226s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection/lib/pkgconfig/march_gait_selection.pc'
+[1.226s] Level 1:colcon.colcon_core.shell:create_environment_hook('march_gait_selection', 'pkg_config')
+[1.227s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config.ps1'
+[1.227s] INFO:colcon.colcon_core.shell:Creating environment descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config.dsv'
+[1.228s] INFO:colcon.colcon_core.shell:Creating environment hook '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/hook/pkg_config.sh'
+[1.228s] Level 1:colcon.colcon_core.environment:checking '/home/katja/march_ws/src/march/install/march_gait_selection/lib/python3.6/site-packages'
+[1.229s] INFO:colcon.colcon_core.shell:Creating package script '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/package.ps1'
+[1.231s] INFO:colcon.colcon_core.shell:Creating package descriptor '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/package.dsv'
+[1.232s] INFO:colcon.colcon_core.shell:Creating package script '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/package.sh'
+[1.233s] INFO:colcon.colcon_core.shell:Creating package script '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/package.bash'
+[1.234s] INFO:colcon.colcon_core.shell:Creating package script '/home/katja/march_ws/src/march/install/march_gait_selection/share/march_gait_selection/package.zsh'
+[1.235s] Level 1:colcon.colcon_core.environment:create_file_with_runtime_dependencies(/home/katja/march_ws/src/march/install/march_gait_selection/share/colcon-core/packages/march_gait_selection)
+[1.236s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:closing loop
+[1.237s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:loop closed
+[1.237s] DEBUG:colcon.colcon_parallel_executor.executor.parallel:run_until_complete finished with '0'
+[1.237s] DEBUG:colcon.colcon_core.event_reactor:joining thread
+[1.250s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.terminal_notifier': Not used on non-Darwin systems
+[1.250s] INFO:colcon.colcon_core.plugin_system:Skipping extension 'colcon_notification.desktop_notification.win32': Not used on non-Windows systems
+[1.250s] INFO:colcon.colcon_notification.desktop_notification:Sending desktop notification using 'notify2'
+[1.255s] DEBUG:colcon.colcon_core.event_reactor:joined thread
+[1.257s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/katja/march_ws/src/march/install/local_setup.ps1'
+[1.260s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/katja/march_ws/src/march/install/_local_setup_util_ps1.py'
+[1.264s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/katja/march_ws/src/march/install/setup.ps1'
+[1.269s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/katja/march_ws/src/march/install/local_setup.sh'
+[1.270s] INFO:colcon.colcon_core.shell:Creating prefix util module '/home/katja/march_ws/src/march/install/_local_setup_util_sh.py'
+[1.271s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/katja/march_ws/src/march/install/setup.sh'
+[1.276s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/katja/march_ws/src/march/install/local_setup.bash'
+[1.277s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/katja/march_ws/src/march/install/setup.bash'
+[1.282s] INFO:colcon.colcon_core.shell:Creating prefix script '/home/katja/march_ws/src/march/install/local_setup.zsh'
+[1.283s] INFO:colcon.colcon_core.shell:Creating prefix chain script '/home/katja/march_ws/src/march/install/setup.zsh'

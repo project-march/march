@@ -1,0 +1,90 @@
+[0.045s] Invoking command in '/home/katja/march_ws/src/march/build/march_moveit': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake /home/katja/march_ws/src/march/march_moveit -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_moveit
+[0.251s] -- The C compiler identification is GNU 7.5.0
+[0.435s] -- The CXX compiler identification is GNU 7.5.0
+[0.445s] -- Check for working C compiler: /usr/bin/cc
+[0.696s] -- Check for working C compiler: /usr/bin/cc -- works
+[0.698s] -- Detecting C compiler ABI info
+[0.990s] -- Detecting C compiler ABI info - done
+[1.014s] -- Detecting C compile features
+[1.670s] -- Detecting C compile features - done
+[1.676s] -- Check for working CXX compiler: /usr/bin/c++
+[1.829s] -- Check for working CXX compiler: /usr/bin/c++ -- works
+[1.831s] -- Detecting CXX compiler ABI info
+[1.963s] -- Detecting CXX compiler ABI info - done
+[1.977s] -- Detecting CXX compile features
+[2.615s] -- Detecting CXX compile features - done
+[2.619s] -- Using CATKIN_DEVEL_PREFIX: /home/katja/march_ws/src/march/build/march_moveit/devel
+[2.619s] -- Using CMAKE_PREFIX_PATH: /home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+[2.619s] -- This workspace overlays: /home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+[2.654s] -- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+[2.654s] -- Using PYTHON_EXECUTABLE: /usr/bin/python2
+[2.654s] -- Using Debian Python package layout
+[2.655s] -- Using empy: /usr/bin/empy
+[3.083s] -- Using CATKIN_ENABLE_TESTING: ON
+[3.083s] -- Call enable_testing()
+[3.085s] -- Using CATKIN_TEST_RESULTS_DIR: /home/katja/march_ws/src/march/build/march_moveit/test_results
+[3.126s] -- Found gtest sources under '/usr/src/googletest': gtests will be built
+[3.126s] -- Found gmock sources under '/usr/src/googletest': gmock will be built
+[3.152s] -- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+[3.155s] -- Looking for pthread.h
+[3.294s] -- Looking for pthread.h - found
+[3.295s] -- Looking for pthread_create
+[3.424s] -- Looking for pthread_create - not found
+[3.424s] -- Looking for pthread_create in pthreads
+[3.538s] -- Looking for pthread_create in pthreads - not found
+[3.539s] -- Looking for pthread_create in pthread
+[3.726s] -- Looking for pthread_create in pthread - found
+[3.731s] -- Found Threads: TRUE  
+[3.741s] -- Using Python nosetests: /usr/bin/nosetests-2.7
+[3.845s] -- catkin 0.7.28
+[3.845s] -- BUILD_SHARED_LIBS is on
+[4.367s] -- Configuring done
+[4.397s] -- Generating done
+[4.403s] -- Build files have been written to: /home/katja/march_ws/src/march/build/march_moveit
+[4.412s] Invoked command in '/home/katja/march_ws/src/march/build/march_moveit' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake /home/katja/march_ws/src/march/march_moveit -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_moveit
+[4.417s] Invoking command in '/home/katja/march_ws/src/march/build/march_moveit': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit -- -j8 -l8
+[4.513s] Invoked command in '/home/katja/march_ws/src/march/build/march_moveit' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit -- -j8 -l8
+[4.574s] Invoking command in '/home/katja/march_ws/src/march/build/march_moveit': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit --target tests -- -j8 -l8
+[4.697s] [35m[1mScanning dependencies of target tests[0m
+[4.721s] Built target tests
+[4.747s] Invoked command in '/home/katja/march_ws/src/march/build/march_moveit' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit --target tests -- -j8 -l8
+[4.816s] Invoking command in '/home/katja/march_ws/src/march/build/march_moveit': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit --target install -- -j8 -l8
+[4.931s] [36mInstall the project...[0m
+[4.952s] -- Install configuration: ""
+[4.952s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/lib/pkgconfig/march_moveit.pc
+[4.952s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/cmake/march_moveitConfig.cmake
+[4.953s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/cmake/march_moveitConfig-version.cmake
+[4.953s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/package.xml
+[4.953s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch
+[4.954s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/planning_pipeline.launch.xml
+[4.954s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/move_group.launch
+[4.954s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/ros_controllers.launch
+[4.955s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/sensor_manager.launch.xml
+[4.955s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/planning_context.launch
+[4.955s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/trajectory_execution.launch.xml
+[4.955s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/default_warehouse_db.launch
+[4.955s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/ompl_planning_pipeline.launch.xml
+[4.956s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit_controller_manager.launch.xml
+[4.956s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/demo_gazebo.launch
+[4.956s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/gazebo.launch
+[4.957s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit.launch
+[4.957s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/fake_moveit_controller_manager.launch.xml
+[4.957s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/chomp_planning_pipeline.launch.xml
+[4.957s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/moveit_rviz.launch
+[4.958s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/demo.launch
+[4.958s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/run_benchmark_ompl.launch
+[4.958s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/march_moveit_sensor_manager.launch.xml
+[4.959s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/moveit.rviz
+[4.959s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/warehouse_settings.launch.xml
+[4.959s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/joystick_control.launch
+[4.959s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/launch/warehouse.launch
+[4.960s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config
+[4.960s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/chomp_planning.yaml
+[4.960s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/kinematics.yaml
+[4.960s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/ros_controllers.yaml
+[4.960s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/fake_controllers.yaml
+[4.961s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/ompl_planning.yaml
+[4.961s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/march.srdf
+[4.961s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/sensors_3d.yaml
+[4.961s] -- Installing: /home/katja/march_ws/src/march/install/march_moveit/share/march_moveit/config/joint_limits.yaml
+[4.968s] Invoked command in '/home/katja/march_ws/src/march/build/march_moveit' returned '0': CMAKE_PREFIX_PATH=/home/katja/march_ws/src/march/install/march_description:${CMAKE_PREFIX_PATH} PKG_CONFIG_PATH=/home/katja/march_ws/src/march/install/march_description/lib/x86_64-linux-gnu/pkgconfig:/home/katja/march_ws/src/march/install/march_description/lib/pkgconfig:${PKG_CONFIG_PATH} ROS_PACKAGE_PATH=/home/katja/march_ws/src/march/install/march_description/share:${ROS_PACKAGE_PATH} /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_moveit --target install -- -j8 -l8

@@ -1,0 +1,110 @@
+-- The C compiler identification is GNU 7.5.0
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Using CATKIN_DEVEL_PREFIX: /home/katja/march_ws/src/march/build/march_shared_classes/devel
+-- Using CMAKE_PREFIX_PATH: /home/katja/march_ws/src/march/install/march_shared_resources;/home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+-- This workspace overlays: /home/katja/march_ws/src/march/install/march_shared_resources;/home/katja/march_ws/src/march/install/march_description;/opt/ros/melodic
+-- Found PythonInterp: /usr/bin/python2 (found suitable version "2.7.17", minimum required is "2") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python2
+-- Using Debian Python package layout
+-- Using empy: /usr/bin/empy
+-- Using CATKIN_ENABLE_TESTING: ON
+-- Call enable_testing()
+-- Using CATKIN_TEST_RESULTS_DIR: /home/katja/march_ws/src/march/build/march_shared_classes/test_results
+-- Found gtest sources under '/usr/src/googletest': gtests will be built
+-- Found gmock sources under '/usr/src/googletest': gmock will be built
+-- Found PythonInterp: /usr/bin/python2 (found version "2.7.17") 
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Looking for pthread_create
+-- Looking for pthread_create - not found
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Using Python nosetests: /usr/bin/nosetests-2.7
+-- catkin 0.7.28
+-- BUILD_SHARED_LIBS is on
+-- Using these message generators: gencpp;geneus;genlisp;gennodejs;genpy
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/katja/march_ws/src/march/build/march_shared_classes
+[35m[1mScanning dependencies of target tests[0m
+Built target tests
+[36mInstall the project...[0m
+-- Install configuration: ""
++ cd /home/katja/march_ws/src/march/march_shared_classes
++ mkdir -p /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages
++ /usr/bin/env PYTHONPATH=/home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/build/march_shared_classes/lib/python2.7/dist-packages:/home/katja/march_ws/src/march/install/march_shared_resources/lib/python2.7/dist-packages:/opt/ros/melodic/lib/python2.7/dist-packages CATKIN_BINARY_DIR=/home/katja/march_ws/src/march/build/march_shared_classes /usr/bin/python2 /home/katja/march_ws/src/march/march_shared_classes/setup.py egg_info --egg-base /home/katja/march_ws/src/march/build/march_shared_classes build --build-base /home/katja/march_ws/src/march/build/march_shared_classes install --root=/ --install-layout=deb --prefix=/home/katja/march_ws/src/march/install/march_shared_classes --install-scripts=/home/katja/march_ws/src/march/install/march_shared_classes/bin
+running egg_info
+creating /home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info
+writing /home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/PKG-INFO
+writing top-level names to /home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/top_level.txt
+writing dependency_links to /home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/dependency_links.txt
+writing manifest file '/home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/SOURCES.txt'
+reading manifest file '/home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/SOURCES.txt'
+writing manifest file '/home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7
+creating /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes
+copying src/march_shared_classes/__init__.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes
+creating /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/gait.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/limits.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/subgait_graph.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/subgait.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/setpoint.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/joint_trajectory.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+copying src/march_shared_classes/gait/__init__.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait
+creating /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions
+copying src/march_shared_classes/exceptions/gait_exceptions.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions
+copying src/march_shared_classes/exceptions/general_exceptions.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions
+copying src/march_shared_classes/exceptions/__init__.py -> /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions
+running install
+running install_lib
+creating /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes
+creating /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/gait.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/limits.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/subgait_graph.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/subgait.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/setpoint.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/joint_trajectory.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/gait/__init__.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait
+creating /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions/gait_exceptions.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions/general_exceptions.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/exceptions/__init__.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions
+copying /home/katja/march_ws/src/march/build/march_shared_classes/lib.linux-x86_64-2.7/march_shared_classes/__init__.py -> /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/gait.py to gait.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/limits.py to limits.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/subgait_graph.py to subgait_graph.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/subgait.py to subgait.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/setpoint.py to setpoint.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/joint_trajectory.py to joint_trajectory.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/gait/__init__.py to __init__.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions/gait_exceptions.py to gait_exceptions.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions/general_exceptions.py to general_exceptions.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/exceptions/__init__.py to __init__.pyc
+byte-compiling /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes/__init__.py to __init__.pyc
+running install_egg_info
+Copying /home/katja/march_ws/src/march/build/march_shared_classes/march_shared_classes.egg-info to /home/katja/march_ws/src/march/install/march_shared_classes/lib/python2.7/dist-packages/march_shared_classes-0.0.0.egg-info
+Skipping SOURCES.txt
+running install_scripts
+-- Installing: /home/katja/march_ws/src/march/install/march_shared_classes/lib/pkgconfig/march_shared_classes.pc
+-- Installing: /home/katja/march_ws/src/march/install/march_shared_classes/share/march_shared_classes/cmake/march_shared_classesConfig.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_shared_classes/share/march_shared_classes/cmake/march_shared_classesConfig-version.cmake
+-- Installing: /home/katja/march_ws/src/march/install/march_shared_classes/share/march_shared_classes/package.xml

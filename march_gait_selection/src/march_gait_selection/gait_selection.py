@@ -19,7 +19,7 @@ class GaitSelection(object):
         package_path = self.get_ros_package_path(package)
         self._gait_directory = os.path.join(package_path, directory)
         if not os.path.isdir(self._gait_directory):
-            rospy.logerr("Gait directory does not exist: {0}".format(self._gait_directory))
+            rospy.logerr('Gait directory does not exist: {0}'.format(directory))
             raise FileNotFoundError(file_path=self._gait_directory)
 
         self._default_yaml = os.path.join(self._gait_directory, 'default.yaml')
