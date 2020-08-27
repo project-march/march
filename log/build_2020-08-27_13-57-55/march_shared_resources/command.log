@@ -1,8 +1,0 @@
-Invoking command in '/home/katja/march_ws/src/march/build/march_shared_resources': /usr/bin/cmake /home/katja/march_ws/src/march/march_shared_resources -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_shared_resources
-Invoked command in '/home/katja/march_ws/src/march/build/march_shared_resources' returned '0': /usr/bin/cmake /home/katja/march_ws/src/march/march_shared_resources -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/katja/march_ws/src/march/install/march_shared_resources
-Invoking command in '/home/katja/march_ws/src/march/build/march_shared_resources': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources -- -j8 -l8
-Invoked command in '/home/katja/march_ws/src/march/build/march_shared_resources' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources -- -j8 -l8
-Invoking command in '/home/katja/march_ws/src/march/build/march_shared_resources': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources --target tests -- -j8 -l8
-Invoked command in '/home/katja/march_ws/src/march/build/march_shared_resources' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources --target tests -- -j8 -l8
-Invoking command in '/home/katja/march_ws/src/march/build/march_shared_resources': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources --target install -- -j8 -l8
-Invoked command in '/home/katja/march_ws/src/march/build/march_shared_resources' returned '0': /usr/bin/cmake --build /home/katja/march_ws/src/march/build/march_shared_resources --target install -- -j8 -l8
