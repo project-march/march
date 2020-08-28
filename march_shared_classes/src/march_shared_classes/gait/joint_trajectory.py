@@ -14,10 +14,11 @@ class JointTrajectory(object):
     def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
         self.limits = limits
+        self._setpoints = setpoints
+        self._duration = round(duration, self.setpoint_class.digits)
         self.interpolated_position = None
         self.interpolated_velocity = None
-        self.setpoints = setpoints
-        self._duration = round(duration, self.setpoint_class.digits)
+        self.interpolate_setpoints()
 
     @classmethod
     def from_setpoints(cls, name, limits, setpoints, duration, *args):
