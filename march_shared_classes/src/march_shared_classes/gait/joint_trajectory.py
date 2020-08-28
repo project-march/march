@@ -1,6 +1,7 @@
-import numpy as np
 import rospy
 from scipy.interpolate import BPoly
+
+from march_shared_classes.exceptions.gait_exceptions import SubgaitInterpolationError
 
 from .setpoint import Setpoint
 
@@ -13,32 +14,59 @@ class JointTrajectory(object):
     def __init__(self, name, limits, setpoints, duration, *args):
         self.name = name
         self.limits = limits
-        self.setpoints = setpoints
-        self.duration = duration
+        self._setpoints = setpoints
+        self._duration = round(duration, self.setpoint_class.digits)
+        self.interpolated_position = None
+        self.interpolated_velocity = None
+        self.interpolate_setpoints()
 
     @classmethod
-    def from_dict(cls, subgait_dict, joint_name, limits, duration, *args):
-        """Create class of JointTrajectory with filled attributes.
+    def from_setpoints(cls, name, limits, setpoints, duration, *args):
+        """Creates a list of joint trajectories.
 
-        :param subgait_dict:
-            The dictionary extracted from the yaml file
-        :param joint_name:
-            The name of the joint corresponding to this specific object
-        :param limits:
-            Defined soft limits of the urdf file
-        :param duration:
-            The timestamps of the subgait file
+        :param str name: Name of the joint
+        :param limits: Joint limits from the URDF
+        :param list(dict) setpoints: A list of setpoints from the subgait configuration
+        :param duration: The total duration of the trajectory
         """
-        joint_trajectory = subgait_dict['trajectory']
-        joint_index = joint_trajectory['joint_names'].index(joint_name)
+        setpoints = [
+            cls.setpoint_class(
+                rospy.Duration(setpoint['time_from_start']['secs'], setpoint['time_from_start']['nsecs']).to_sec(),
+                setpoint['position'], setpoint['velocity']) for setpoint in setpoints]
+        return cls(name, limits, setpoints, duration, *args)
 
-        setpoints = []
-        for point in joint_trajectory['points']:
-            time = rospy.Duration(point['time_from_start']['secs'], point['time_from_start']['nsecs']).to_sec()
-            setpoints.append(cls.setpoint_class(time, point['positions'][joint_index],
-                                                point['velocities'][joint_index]))
+    @staticmethod
+    def get_joint_from_urdf(robot, joint_name):
+        """Get the name of the robot joint corresponding with the joint in the subgait."""
+        for urdf_joint in robot.joints:
+            if urdf_joint.name == joint_name:
+                return urdf_joint
+        return None
 
-        return cls(joint_name, limits, setpoints, duration, *args)
+    @property
+    def duration(self):
+        return self._duration
+
+    def set_duration(self, new_duration, rescale=True):
+        for setpoint in reversed(self.setpoints):
+            if rescale:
+                setpoint.time = setpoint.time * new_duration / self.duration
+                setpoint.velocity = setpoint.velocity * self.duration / new_duration
+            else:
+                if setpoint.time > new_duration:
+                    self.setpoints.remove(setpoint)
+
+        self._duration = round(new_duration, self.setpoint_class.digits)
+        self.interpolate_setpoints()
+
+    @property
+    def setpoints(self):
+        return self._setpoints
+
+    @setpoints.setter
+    def setpoints(self, setpoints):
+        self._setpoints = setpoints
+        self.interpolate_setpoints()
 
     def get_setpoints_unzipped(self):
         """Get all the listed attributes of the setpoints."""
@@ -83,6 +111,11 @@ class JointTrajectory(object):
                (self.setpoints[-1].time == round(self.duration, Setpoint.digits) or self.setpoints[-1].velocity == 0)
 
     def interpolate_setpoints(self):
+        if len(self.setpoints) == 1:
+            self.interpolated_position = lambda time: self.setpoints[0].position
+            self.interpolated_velocity = lambda time: self.setpoints[0].velocity
+            return
+
         time, position, velocity = self.get_setpoints_unzipped()
         yi = []
         for i in range(0, len(time)):
@@ -90,28 +123,47 @@ class JointTrajectory(object):
 
         # We do a cubic spline here, just like the ros joint_trajectory_action_controller,
         # see https://wiki.ros.org/robot_mechanism_controllers/JointTrajectoryActionController
-        position = BPoly.from_derivatives(time, yi)
-        velocity = position.derivative()
-        indices = np.linspace(0, self.duration, self.duration * 100)
-        return [indices, position(indices), velocity(indices)]
+        self.interpolated_position = BPoly.from_derivatives(time, yi)
+        self.interpolated_velocity = self.interpolated_position.derivative()
 
     def get_interpolated_setpoint(self, time):
-        # If we have a setpoint this exact time there is no need to interpolate.
-        for setpoint in self.setpoints:
-            if setpoint.time == time:
-                return setpoint
+        if time < 0:
+            rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
+            return self.setpoint_class(time, self.setpoints[0].position, 0)
+        if time > self.duration:
+            rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
+            return self.setpoint_class(time, self.setpoints[-1].position, 0)
 
-        interpolated_setpoints = self.interpolate_setpoints()
-        for i in range(0, len(interpolated_setpoints[0])):
-            if interpolated_setpoints[0][i] > time:
-                position = interpolated_setpoints[1][i - 1]
-                velocity = interpolated_setpoints[2][i - 1]
-                return self.setpoint_class(time, position, velocity)
-        rospy.logerr('Could not interpolate setpoint at time {0}'.format(time))
-        return self.setpoint_class(0, 0, 0)
+        return self.setpoint_class(time, self.interpolated_position(time), self.interpolated_velocity(time))
 
     def __getitem__(self, index):
         return self.setpoints[index]
 
     def __len__(self):
         return len(self.setpoints)
+
+    @classmethod
+    def interpolate_joint_trajectories(cls, base_trajectory, other_trajectory, parameter):
+        """Linearly interpolate two joint trajectories with the parameter.
+
+        :param base_trajectory:
+            base trajectory, return value if parameter is equal to zero
+        :param other_trajectory:
+            other trajectory, return value if parameter is equal to one
+        :param parameter:
+            The parameter to use for interpolation. Should be 0 <= parameter <= 1
+
+        :return:
+            The interpolated trajectory
+        """
+        if base_trajectory.limits != other_trajectory.limits:
+            raise SubgaitInterpolationError('Not able to safely interpolate because limits are not equal for joint {0}'.
+                                            format(base_trajectory.name))
+        if len(base_trajectory.setpoints) != len(other_trajectory.setpoints):
+            raise SubgaitInterpolationError('The amount of setpoints do not match for joint {0}'.
+                                            format(base_trajectory.name))
+        setpoints = []
+        for base_setpoint, other_setpoint in zip(base_trajectory.setpoints, other_trajectory.setpoints):
+            setpoints.append(cls.setpoint_class.interpolate_setpoints(base_setpoint, other_setpoint, parameter))
+        duration = parameter * base_trajectory.duration + (1 - parameter) * other_trajectory.duration
+        return JointTrajectory(base_trajectory.name, base_trajectory.limits, setpoints, duration)

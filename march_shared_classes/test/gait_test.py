@@ -23,11 +23,6 @@ class GaitTest(unittest.TestCase):
 
         self.gait = Gait.from_file(self.gait_name, self.resources_folder, self.robot, self.gait_version_map)
 
-        self.from_subgait = ['start', 'right_open', 'left_swing', 'right_swing', 'left_close', 'start', 'right_open',
-                             'left_swing', 'right_close']
-        self.to_subgait = ['right_open', 'left_swing', 'right_swing', 'left_close', 'end', 'right_open', 'left_swing',
-                           'right_close', 'end']
-
     # Gait.from_file tests
     def test_from_file_valid_path(self):
         self.assertIsInstance(self.gait, Gait)
@@ -36,42 +31,11 @@ class GaitTest(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):
             Gait.from_file(self.gait_name, self.resources_folder + '/gaits', self.robot, self.gait_version_map)
 
-    # __init__ (_validate_gait_file) tests
-    def test_init_invalid_gait_file_unequal_length(self):
-        from_subgait = ['start', 'right_open', 'left_swing', 'right_swing', 'left_close', 'start', 'right_open',
-                        'left_swing', 'right_close', 'left_close']
-        with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, from_subgait, self.to_subgait)
-
-    def test_init_invalid_gait_file_no_start(self):
-        from_subgait = ['right_open', 'right_open', 'left_swing', 'right_swing', 'left_close', 'start', 'right_open',
-                        'left_swing', 'right_close']
-        with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, from_subgait, self.to_subgait)
-
-    def test_init_invalid_gait_file_start_in_to_subgait(self):
-        to_subgait = ['start', 'left_swing', 'right_swing', 'left_close', 'end', 'right_open', 'left_swing',
-                      'right_close', 'end']
-        with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, self.from_subgait, to_subgait)
-
-    def test_init_invalid_gait_file_no_end(self):
-        to_subgait = ['right_open', 'left_swing', 'right_swing', 'left_close', 'end', 'right_open', 'left_swing',
-                      'right_close', 'left_close']
-        with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, self.from_subgait, to_subgait)
-
-    def test_init_invalid_gait_file_end_in_from_subgait(self):
-        from_subgait = ['start', 'right_open', 'left_swing', 'right_swing', 'left_close', 'start', 'right_open',
-                        'left_swing', 'end']
-        with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, from_subgait, self.to_subgait)
-
     # __init__ (_validate_trajectory_transition) test
-    def test_init_invalid_joint_trjaectory_transition(self):
-        self.gait.subgaits[0].joints[0].setpoints[-1].position = 124
+    def test_init_invalid_joint_trajectory_transition(self):
+        self.gait.subgaits['left_swing'].joints[0].setpoints[-1].position = 124
         with self.assertRaises(NonValidGaitContent):
-            Gait(self.gait_name, self.gait.subgaits, self.from_subgait, self.to_subgait)
+            Gait(self.gait_name, self.gait.subgaits, self.gait.graph)
 
     # load_subgait tests
     def test_load_existing_subgait(self):
@@ -92,3 +56,36 @@ class GaitTest(unittest.TestCase):
 
         with self.assertRaises(FileNotFoundError):
             Gait.load_subgait(self.robot, self.resources_folder, self.gait_name, 'right_open', self.gait_version_map)
+
+    def test_set_no_subgait_versions(self):
+        self.gait.set_subgait_versions(self.robot, self.resources_folder, {})
+
+    def test_set_one_new_subgait_version(self):
+        subgait_name = 'left_close'
+        new_version = 'MIV_final'
+        self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name].version)
+
+    def test_set_multiple_subgait_versions(self):
+        subgait_name1 = 'left_close'
+        subgait_name2 = 'left_swing'
+        new_version = 'MIV_final'
+        self.gait.set_subgait_versions(self.robot, self.resources_folder,
+                                       {subgait_name1: new_version, subgait_name2: new_version})
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name1].version)
+        self.assertEqual(new_version, self.gait.subgaits[subgait_name2].version)
+
+    def test_set_version_non_existing_subgait(self):
+        with self.assertRaises(SubgaitNameNotFound):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {'this_subgait_does_not_exist': '1'})
+
+    def test_set_non_existing_version_subgait(self):
+        with self.assertRaises(FileNotFoundError):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {'left_swing': '1'})
+
+    def test_set_new_subgait_version_invalid_transition(self):
+        self.gait.subgaits['right_swing'].joints[0].setpoints[-1].position = 124
+        subgait_name = 'left_close'
+        new_version = 'MIV_final'
+        with self.assertRaises(NonValidGaitContent):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})

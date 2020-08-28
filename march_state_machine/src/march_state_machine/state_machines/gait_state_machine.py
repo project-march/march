@@ -14,13 +14,14 @@ class GaitStateMachine(smach.StateMachine):
     CURRENT_GAIT_PUB = rospy.Publisher('/march/gait/current', String, queue_size=10)
     CONTAINS_GAIT = rospy.ServiceProxy('/march/gait_selection/contains_gait', ContainsGait)
 
-    def __init__(self, gait_name):
+    def __init__(self, gait_name, check_gait_content=True):
         super(GaitStateMachine, self).__init__(outcomes=['succeeded', 'preempted', 'failed', 'rejected'],
                                                input_keys=['sounds'],
                                                output_keys=['sounds'])
         self._gait_name = gait_name
         self._gait_publisher = GaitStateMachine.CURRENT_GAIT_PUB
         self._contains_gait = GaitStateMachine.CONTAINS_GAIT
+        self._check_gait_content = check_gait_content
 
         self.register_start_cb(self._start_cb)
         self.register_termination_cb(self._termination_cb)
@@ -59,15 +60,18 @@ class GaitStateMachine(smach.StateMachine):
                                    transitions={'succeeded': succeeded, 'aborted': 'failed'})
 
     def execute(self, ud=smach.UserData()):
-        try:
-            subgaits = self.get_children().keys()
-            if not self._contains_gait(gait=self._gait_name, subgaits=subgaits).contains:
-                rospy.logwarn('Gait {0} is not currently loaded with subgaits {1}'.format(self._gait_name, subgaits))
-                return 'rejected'
-        except rospy.ServiceException:
-            rospy.logerr(
-                'Failed to contact {0}, is a gait_selection node running?'.format(self._contains_gait.resolved_name))
-            return 'failed'
+        if self._check_gait_content:
+            try:
+                subgaits = self.get_children().keys()
+                if not self._contains_gait(gait=self._gait_name, subgaits=subgaits).contains:
+                    rospy.logwarn(
+                        'Gait {0} is not currently loaded with subgaits {1}'.format(self._gait_name, subgaits))
+                    return 'rejected'
+            except rospy.ServiceException:
+                rospy.logerr(
+                    'Failed to contact {0}, is a gait_selection node running?'.format(
+                        self._contains_gait.resolved_name))
+                return 'failed'
 
         self._gait_publisher.publish(self._gait_name)
         return super(GaitStateMachine, self).execute(ud)

@@ -26,11 +26,14 @@
     <arg name="bag_prefix" default="log" doc="Prefix of the bag file. Only used if rosbag is true."/>
 
     <arg name="esp" default="false" doc="Whether a connection to an ESP server should be established."/>
+    <arg name="data_collector" default="false" doc="Launches the data collector when true."/>
     <arg name="pressure_soles" default="false" doc="Whether a connection with pressure_soles should be established." />
     <arg name="moticon_ip" default="192.168.8.105" doc="The ip-adress with Moticon software running on it, defaults to
             EMS switch laptop on standard router"/>
 
     <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
+
+    <arg name="controller" default="effort_control" doc="Changes the controller used by simulation."/>
 
     <param name="robot_description" textfile="$(find march_description)/urdf/march4.urdf"/>
 
@@ -70,13 +73,13 @@
             <arg name="ping_safety_node" value="true"/>
         </include>
 
-        <include file="$(find march_data_collector)/launch/march_data_collector.launch">
+        <include file="$(find march_data_collector)/launch/march_data_collector.launch" if="$(eval data_collector or esp or balance)">
             <arg name="esp" value="$(arg esp)"/>
             <arg name="pressure_soles" value="$(arg pressure_soles)"/>
             <arg name="moticon_ip" value="$(arg moticon_ip)"/>
         </include>
 
-    	<include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
+        <include if="$(arg balance)" file="$(find march_moveit)/launch/march_moveit.launch" />
     </group>
 
     <group if="$(eval configuration == 'exoskeleton')">
@@ -92,6 +95,7 @@
             <arg name="ground_gait" value="$(arg ground_gait)"/>
             <arg name="obstacle" value="$(arg obstacle)"/>
             <arg name="balance" value="$(arg balance)"/>
+            <arg name="controller" value="$(arg controller)"/>
         </include>
     </group>
 

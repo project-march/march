@@ -7,19 +7,23 @@
     <arg name="rqt_input" default="true" doc="Launches the rqt input device."/>
     <arg name="gazebo_ui" default="false" doc="Launches the Gazebo UI."/>
 
+    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
+    <arg name="data_collector" default="false" doc="Launches the data collector when true."/>
+
+    <arg name="ground_gait" default="$(arg balance)" doc="Exoskeleton will ground gait in gazebo_ui if true."/>
     <arg name="unpause" default="$(eval not gazebo_ui)" doc="Unpause simulation when controller starts."/>
-    <arg name="fixed" default="true" doc="Fixes the exoskeleton in the world"/>
-    <arg name="ground_gait" default="false" doc="Exoskeleton will ground gait in simulation if true."/>
+    <arg name="fixed" default="$(eval not ground_gait)" doc="Fixes the exoskeleton in the world in rviz"/>
     <arg name="obstacle" default="none" doc="Obstacle to load in the simulation."/>
 
-    <arg name="gait_directory" default="training-v" doc="Gait files directory to use"/>
+    <arg name="gait_directory" default="minimal" doc="Gait files directory to use"/>
 
     <arg name="input_device" default="false" doc="Launches ros serial node to connect with input device."/>
 
     <arg name="rosbag" default="false" doc="Enables rosbag record node."/>
 
-    <arg name="balance" default="false" doc="Uses the dynamic balance gaits instead of the predefined gaits."/>
-    <param name="balance" value="$(arg balance)" />
+    <arg name="controller" default="effort_control" doc="Changes the controller used by simulation."/>
+
+    <param name="balance" value="$(arg balance)"/>
 
     <include file="$(dirname)/march.launch" pass_all_args="true">
         <arg name="configuration" value="simulation"/>

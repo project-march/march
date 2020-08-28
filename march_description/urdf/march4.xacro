@@ -19,8 +19,9 @@
         </gazebo>
     </xacro:if>
 
-    <!-- Lowered based because of shortcircuit errors, theoretical max 20475 = 25 A -->
-    <xacro:arg name="max_effort_rotary" default="16000.0" />
+    <!-- The max effort of the rotary joints is lower then the value corresponding to 25A, because short-circuit errors
+    have occured while applying the theoretical max effort for a long time. -->
+    <xacro:arg name="max_effort_rotary" default="18000.0" />
     <xacro:arg name="max_effort_linear" default="22932.0" />  <!-- = 28 A -->
     <xacro:property name="max_effort_rotary" value="$(arg max_effort_rotary)" />
     <xacro:property name="max_effort_linear" value="$(arg max_effort_linear)" />
@@ -49,27 +50,29 @@
     <xacro:property name="width" value="0.05"/> <!-- Square dimensions (widthxwidth) of beams -->
 
     <xacro:property name="hip_base_height" value="0.160"/>
-    <xacro:property name="hip_base_mass" value="8.677"/>
+    <xacro:property name="hip_base_mass" value="8.686"/>
     <!-- mass = Hip base + HAA actuators -->
 
     <xacro:property name="hip_aa_frame_height" value="0.170"/>
     <xacro:property name="hip_aa_frame_width" value="0.1395"/>
-    <xacro:property name="hip_aa_mass" value="3.186"/>
+    <xacro:property name="hip_aa_mass" value="2.982"/>
     <!-- mass = Moving hip -->
 
     <xacro:property name="upper_leg_height" value="0.385"/>
+    <xacro:property name="upper_leg_offset" value="0.04"/>
     <xacro:property name="upper_leg_mass" value="4.995"/>
     <!-- mass = KFE joint + HFE joint + Upper leg -->
 
     <xacro:property name="lower_leg_height" value="0.385"/>
-    <xacro:property name="lower_leg_mass" value="4.455"/>
+    <xacro:property name="lower_leg_mass" value="4.458"/>
     <!-- mass = Ankle actuator + Lower leg -->
 
     <xacro:property name="ankle_plate_height" value="0.12"/>
+    <xacro:property name="ankle_plate_offset" value="0.07"/>
 
     <xacro:property name="foot_height_forward" value="${0.184}"/>
     <xacro:property name="foot_height_backward" value="${0.059}"/>
-    <xacro:property name="foot_mass" value="1.552"/>
+    <xacro:property name="foot_mass" value="1.821"/>
     <xacro:property name="foot_mu1" value="1"/>
     <xacro:property name="foot_mu2" value="1"/>
     <!-- Minimum allowable depth before contact correction impulse is applied. -->
@@ -83,25 +86,29 @@
          translations to transfer it to the reference frame of each of the parts. Note that in the Catia x axis is
          the URDF y axis and the Catia y axis is the negative URDF x axis. The given CoM are for the right leg,
          the y coordinate will be inverted for the left leg. -->
-    <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.147398}"/>
-    <xacro:property name="hip_base_com_y" value="0.0000096"/>
-    <xacro:property name="hip_base_com_z" value="0.162659"/>
+    <xacro:property name="hip_base_com_x" value="${-hip_aa_frame_width + 0.147989}"/>
+    <xacro:property name="hip_base_com_y" value="0.016341"/>
+    <xacro:property name="hip_base_com_z" value="0.147761"/>
 
-    <xacro:property name="hip_aa_com_x" value="${-hip_aa_frame_width + 0.108336}"/>
-    <xacro:property name="hip_aa_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.196537}"/>
-    <xacro:property name="hip_aa_com_z" value="0.02943"/>
+    <xacro:property name="hip_aa_com_x" value="${-hip_aa_frame_width + 0.108094}"/>
+    <xacro:property name="hip_aa_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.197758}"/>
+    <xacro:property name="hip_aa_com_z" value="0.029507"/>
 
-    <xacro:property name="upper_leg_com_x" value="0.000827"/>
-    <xacro:property name="upper_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.214247}"/>
-    <xacro:property name="upper_leg_com_z" value="-0.191575"/>
+    <xacro:property name="upper_leg_com_x" value="0.000709"/>
+    <xacro:property name="upper_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height +
+                                                    upper_leg_offset + 0.215254}"/>
+    <xacro:property name="upper_leg_com_z" value="-0.19205"/>
 
     <xacro:property name="lower_leg_com_x" value="-0.00321"/>
-    <xacro:property name="lower_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.184081}"/>
+    <xacro:property name="lower_leg_com_y" value="${-hip_base_height/2 - hip_aa_frame_height +
+                                                    upper_leg_offset + 0.184081}"/>
     <xacro:property name="lower_leg_com_z" value="${upper_leg_height - 0.527082}"/>
 
-    <xacro:property name="foot_com_x" value="-0.020736"/>
-    <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height + 0.169177}"/>
-    <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.648891}"/>
+    <xacro:property name="foot_com_x" value="-0.028926"/>
+    <xacro:property name="foot_com_y" value="${-hip_base_height/2 - hip_aa_frame_height +
+                                               upper_leg_offset + ankle_plate_offset + 0.155916}"/>
+    <xacro:property name="foot_com_z" value="${upper_leg_height + lower_leg_height + ankle_plate_height - 0.789788}"/>
+    <xacro:property name="foot_scale" value="1.35"/>
 
     <!-- Inertia of the parts -->
     <!-- Inertia's have been determined in Catia, see
@@ -110,18 +117,18 @@
          axis is the negative URDF x axis, see confluence for the impact. The given inertia's are for the right leg,
          Ixy and Iyz will be inverted for the left leg. -->
     <xacro:property name="hip_base_Ixx" value="0.141"/>
-    <xacro:property name="hip_base_Ixy" value="0.0000335"/>
+    <xacro:property name="hip_base_Ixy" value="0.0000336"/>
     <xacro:property name="hip_base_Ixz" value="-0.007"/>
     <xacro:property name="hip_base_Iyy" value="0.087"/>
     <xacro:property name="hip_base_Iyz" value="0.0005089"/>
-    <xacro:property name="hip_base_Izz" value="0.089"/>
+    <xacro:property name="hip_base_Izz" value="0.091"/>
 
-    <xacro:property name="hip_aa_Ixx" value="0.02"/>
-    <xacro:property name="hip_aa_Ixy" value="0.009"/>
+    <xacro:property name="hip_aa_Ixx" value="0.013"/>
+    <xacro:property name="hip_aa_Ixy" value="0.008"/>
     <xacro:property name="hip_aa_Ixz" value="0.005"/>
-    <xacro:property name="hip_aa_Iyy" value="0.031"/>
-    <xacro:property name="hip_aa_Iyz" value="-0.004"/>
-    <xacro:property name="hip_aa_Izz" value="0.03"/>
+    <xacro:property name="hip_aa_Iyy" value="0.023"/>
+    <xacro:property name="hip_aa_Iyz" value="-0.001"/>
+    <xacro:property name="hip_aa_Izz" value="0.028"/>
 
     <xacro:property name="upper_leg_Ixx" value="0.127"/>
     <xacro:property name="upper_leg_Ixy" value="0.0001291"/>
@@ -132,44 +139,61 @@
 
     <xacro:property name="lower_leg_Ixx" value="0.075"/>
     <xacro:property name="lower_leg_Ixy" value="-0.027"/>
-    <xacro:property name="lower_leg_Ixz" value="0.008"/>
+    <xacro:property name="lower_leg_Ixz" value="-0.008"/>
     <xacro:property name="lower_leg_Iyy" value="0.11"/>
     <xacro:property name="lower_leg_Iyz" value="-0.002"/>
     <xacro:property name="lower_leg_Izz" value="0.071" />
 
-    <xacro:property name="foot_Ixx" value="0.01"/>
+    <xacro:property name="foot_Ixx" value="0.021"/>
     <xacro:property name="foot_Ixy" value="-0.002"/>
-    <xacro:property name="foot_Ixz" value="0.005"/>
-    <xacro:property name="foot_Iyy" value="0.014"/>
-    <xacro:property name="foot_Iyz" value="0.002"/>
-    <xacro:property name="foot_Izz" value="0.007" />
+    <xacro:property name="foot_Ixz" value="0.02"/>
+    <xacro:property name="foot_Iyy" value="0.027"/>
+    <xacro:property name="foot_Iyz" value="0.004"/>
+    <xacro:property name="foot_Izz" value="0.01" />
 
 
     <!-- Joint properties -->
-    <xacro:property name="hip_fe_rotation_lower_limit" value="${-20*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_fe_rotation_upper_limit" value="${100*pi/180}"/> <!-- rad -->
+    <!-- For limit calculations, see https://confluence.projectmarch.nl:8443/pages/viewpage.action?pageId=268697604 -->
+    <xacro:property name="left_hip_fe_rotation_lower_limit" value="${-21.04431152*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_fe_rotation_upper_limit" value="${98.97033691*pi/180}"/> <!-- rad -->
+
+    <xacro:property name="right_hip_fe_rotation_lower_limit" value="${-20.23406982*pi/180}"/> <!-- rad -->
+    <xacro:property name="right_hip_fe_rotation_upper_limit" value="${99.48120117*pi/180}"/> <!-- rad -->
+
     <xacro:property name="hip_fe_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_fe_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
+    <xacro:property name="hip_fe_effort_limit" value="${max_effort_rotary}"/> <!-- IU -->
     <xacro:property name="hip_fe_velocity_limit" value="2.0"/> <!-- rad/s -->
 
-    <xacro:property name="hip_aa_rotation_lower_limit" value="${-18*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_aa_rotation_upper_limit" value="${17*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_aa_rotation_lower_limit" value="${-18.54492188*pi/180}"/> <!-- rad -->
+    <xacro:property name="left_hip_aa_rotation_upper_limit" value="${16.34765625*pi/180}"/> <!-- rad -->
+
+    <xacro:property name="right_hip_aa_rotation_lower_limit" value="${-18.10546875*pi/180}"/> <!-- rad -->
+    <xacro:property name="right_hip_aa_rotation_upper_limit" value="${15.99609375*pi/180}"/> <!-- rad -->
+
     <xacro:property name="hip_aa_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
-    <xacro:property name="hip_aa_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
+    <xacro:property name="hip_aa_effort_limit" value="${max_effort_linear}"/> <!-- IU -->
     <xacro:property name="hip_aa_velocity_limit" value="1.0"/> <!-- rad/s -->
 
-    <xacro:property name="knee_rotation_lower_limit" value="${-5*pi/180}"/>
-    <xacro:property name="knee_rotation_upper_limit" value="${115*pi/180}"/>
+    <xacro:property name="left_knee_rotation_lower_limit" value="${-5.012512207*pi/180}"/>
+    <xacro:property name="left_knee_rotation_upper_limit" value="${112.4230957*pi/180}"/>
+
+    <xacro:property name="right_knee_rotation_lower_limit" value="${-4.89440918*pi/180}"/>
+    <xacro:property name="right_knee_rotation_upper_limit" value="${115.3097534*pi/180}"/>
+
     <xacro:property name="knee_extension_soft_buffer" value="${3.5*pi/180}"/> <!-- rad -->
     <xacro:property name="knee_flexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="knee_effort_limit" value="${max_effort_rotary}"/> <!-- IU = 20 A -->
+    <xacro:property name="knee_effort_limit" value="${max_effort_rotary}"/> <!-- IU -->
     <xacro:property name="knee_velocity_limit" value="2.5"/>
 
-    <xacro:property name="ankle_rotation_lower_limit" value="${-25*pi/180}"/>
-    <xacro:property name="ankle_rotation_upper_limit" value="${15*pi/180}"/>
+    <xacro:property name="left_ankle_rotation_lower_limit" value="${-26.30401611*pi/180}"/>
+    <xacro:property name="left_ankle_rotation_upper_limit" value="${15.88348389*pi/180}"/>
+
+    <xacro:property name="right_ankle_rotation_lower_limit" value="${-23.203125*pi/180}"/>
+    <xacro:property name="right_ankle_rotation_upper_limit" value="${14.23828125*pi/180}"/>
+
     <xacro:property name="ankle_dorsalflexion_soft_buffer" value="${5*pi/180}"/> <!-- rad -->
     <xacro:property name="ankle_plantarflexion_soft_buffer" value="${3*pi/180}"/> <!-- rad -->
-    <xacro:property name="ankle_effort_limit" value="${max_effort_linear}"/> <!-- IU = 20 A -->
+    <xacro:property name="ankle_effort_limit" value="${max_effort_linear}"/> <!-- IU -->
     <xacro:property name="ankle_velocity_limit" value="1.0"/>
 
 
@@ -192,9 +216,9 @@
     <!-- Hip-->
     <link name="hip_base">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/HipBase.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -226,9 +250,9 @@
     <!-- Left Moving Hip-->
     <link name="hip_aa_frame_left_side">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} ${hip_base_height/2} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftHAA.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -265,9 +289,9 @@
     <!-- Upper Leg Left-->
     <link name="upper_leg_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${hip_base_height/2 + hip_aa_frame_height - upper_leg_offset} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperLegLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperLeftLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -295,9 +319,12 @@
     <!-- Lower Leg Left -->
     <link name="lower_leg_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0 ${hip_base_height/2 + hip_aa_frame_height - upper_leg_offset} ${upper_leg_height}"
+                rpy="0 0 ${pi}"
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerLegLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerLeftLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -325,9 +352,14 @@
     <!-- Ankle plate Left -->
     <link name="ankle_plate_left">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0
+                     ${hip_base_height/2 + hip_aa_frame_height - upper_leg_offset - ankle_plate_offset}
+                     ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/FootLeft.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LeftFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -370,9 +402,9 @@
     <!-- Right Moving Hip-->
     <link name="hip_aa_frame_right_side">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="${-hip_aa_frame_width} ${-hip_base_height/2} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/HipRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightHAA.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -409,9 +441,9 @@
     <!-- Upper Leg Right-->
     <link name="upper_leg_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin xyz="0 ${-hip_base_height/2 - hip_aa_frame_height + upper_leg_offset} 0" rpy="0 0 ${pi}"/>
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/UpperLegRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/UpperRightLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -440,9 +472,12 @@
     <!-- Lower Leg Right -->
     <link name="lower_leg_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0 ${-hip_base_height/2 - hip_aa_frame_height + upper_leg_offset} ${upper_leg_height}"
+                rpy="0 0 ${pi}"
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/LowerLegRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/LowerRightLeg.stl" scale="1 1 1"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -470,9 +505,14 @@
     <!-- Ankle Plate Right -->
     <link name="ankle_plate_right">
         <visual>
-            <origin xyz="0 0 0" rpy="0 0 ${-pi/2}"/>
+            <origin
+                xyz="0
+                    ${-hip_base_height/2 - hip_aa_frame_height+ upper_leg_offset + ankle_plate_offset}
+                    ${foot_scale * (upper_leg_height + lower_leg_height)}"
+                rpy="0 0 ${pi}"/>
+            />
             <geometry>
-                <mesh filename="package://march_description/urdf/stl-files/FootRight.stl" scale="1.15 1.15 1.15"/>
+                <mesh filename="package://march_description/urdf/stl-files/RightFoot.stl" scale="1 1 ${foot_scale}"/>
             </geometry>
             <material name="blue"/>
         </visual>
@@ -532,10 +572,10 @@
 
         <limit velocity="${hip_aa_velocity_limit}"
                effort="${hip_aa_effort_limit}"
-               lower="${hip_aa_rotation_lower_limit}"
-               upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
-                           soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
+               lower="${left_hip_aa_rotation_lower_limit}"
+               upper="${left_hip_aa_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
+                           soft_upper_limit="${left_hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
                            k_position="${k_position_value_haa}"
                            k_velocity="${k_velocity_value_haa}" />
     </joint>
@@ -549,15 +589,15 @@
     <joint name="left_hip_fe" type="revolute">
         <parent link="hip_aa_frame_left_front"/>
         <child link="upper_leg_left"/>
-        <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 0"/>
+        <origin xyz="${-hip_aa_frame_width} ${upper_leg_offset} 0" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
 
         <limit velocity="${hip_fe_velocity_limit}"
                effort="${hip_fe_effort_limit}"
-               lower="${hip_fe_rotation_lower_limit}"
-               upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
-                           soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
+               lower="${left_hip_fe_rotation_lower_limit}"
+               upper="${left_hip_fe_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
+                           soft_upper_limit="${left_hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
                            k_position="${k_position_value_hfe}"
                            k_velocity="${k_velocity_value_hfe}" />
     </joint>
@@ -570,10 +610,10 @@
 
         <limit velocity="${knee_velocity_limit}"
                effort="${knee_effort_limit}"
-               lower="${knee_rotation_lower_limit}"
-               upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_extension_soft_buffer}"
-                           soft_upper_limit="${knee_rotation_upper_limit - knee_flexion_soft_buffer}"
+               lower="${left_knee_rotation_lower_limit}"
+               upper="${left_knee_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_knee_rotation_lower_limit + knee_extension_soft_buffer}"
+                           soft_upper_limit="${left_knee_rotation_upper_limit - knee_flexion_soft_buffer}"
                            k_position="${k_position_value_kfe}"
                            k_velocity="${k_velocity_value_kfe}" />
     </joint>
@@ -581,15 +621,15 @@
     <joint name="left_ankle" type="revolute">
         <parent link="lower_leg_left"/>
         <child link="ankle_plate_left"/>
-        <origin xyz="0 0 ${-lower_leg_height}" rpy="0 0 0"/>
+        <origin xyz="0 ${ankle_plate_offset} ${-lower_leg_height}" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
 
         <limit velocity="${ankle_velocity_limit}"
                effort="${ankle_effort_limit}"
-               lower="${ankle_rotation_lower_limit}"
-               upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
-                           soft_upper_limit="${ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
+               lower="${left_ankle_rotation_lower_limit}"
+               upper="${left_ankle_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${left_ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
+                           soft_upper_limit="${left_ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
                            k_position="${k_position_value_adpf}"
                            k_velocity="${k_velocity_value_adpf}" />
     </joint>
@@ -608,10 +648,10 @@
 
         <limit velocity="${hip_aa_velocity_limit}"
                effort="${hip_aa_effort_limit}"
-               lower="${hip_aa_rotation_lower_limit}"
-               upper="${hip_aa_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
-                           soft_upper_limit="${hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
+               lower="${right_hip_aa_rotation_lower_limit}"
+               upper="${right_hip_aa_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_hip_aa_rotation_lower_limit + hip_aa_soft_buffer}"
+                           soft_upper_limit="${right_hip_aa_rotation_upper_limit - hip_aa_soft_buffer}"
                            k_position="${k_position_value_haa}"
                            k_velocity="${k_velocity_value_haa}" />
 
@@ -626,15 +666,15 @@
     <joint name="right_hip_fe" type="revolute">
         <parent link="hip_aa_frame_right_front"/>
         <child link="upper_leg_right"/>
-        <origin xyz="${-hip_aa_frame_width} 0 0" rpy="0 0 0"/>
+        <origin xyz="${-hip_aa_frame_width} ${-upper_leg_offset} 0" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
 
         <limit velocity="${hip_fe_velocity_limit}"
                effort="${hip_fe_effort_limit}"
-               lower="${hip_fe_rotation_lower_limit}"
-               upper="${hip_fe_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
-                           soft_upper_limit="${hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
+               lower="${right_hip_fe_rotation_lower_limit}"
+               upper="${right_hip_fe_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_hip_fe_rotation_lower_limit + hip_fe_soft_buffer}"
+                           soft_upper_limit="${right_hip_fe_rotation_upper_limit - hip_fe_soft_buffer}"
                            k_position="${k_position_value_hfe}"
                            k_velocity="${k_velocity_value_hfe}" />
 
@@ -648,10 +688,10 @@
 
         <limit velocity="${knee_velocity_limit}"
                effort="${knee_effort_limit}"
-               lower="${knee_rotation_lower_limit}"
-               upper="${knee_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${knee_rotation_lower_limit + knee_extension_soft_buffer}"
-                           soft_upper_limit="${knee_rotation_upper_limit - knee_flexion_soft_buffer}"
+               lower="${right_knee_rotation_lower_limit}"
+               upper="${right_knee_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_knee_rotation_lower_limit + knee_extension_soft_buffer}"
+                           soft_upper_limit="${right_knee_rotation_upper_limit - knee_flexion_soft_buffer}"
                            k_position="${k_position_value_kfe}"
                            k_velocity="${k_velocity_value_kfe}" />
     </joint>
@@ -659,15 +699,15 @@
     <joint name="right_ankle" type="revolute">
         <parent link="lower_leg_right"/>
         <child link="ankle_plate_right"/>
-        <origin xyz="0 0 ${-lower_leg_height}" rpy="0 0 0"/>
+        <origin xyz="0 ${-ankle_plate_offset} ${-lower_leg_height}" rpy="0 0 0"/>
         <axis xyz="0 1 0"/>
 
         <limit velocity="${ankle_velocity_limit}"
                effort="${ankle_effort_limit}"
-               lower="${ankle_rotation_lower_limit}"
-               upper="${ankle_rotation_upper_limit}"/>
-        <safety_controller soft_lower_limit="${ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
-                           soft_upper_limit="${ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
+               lower="${right_ankle_rotation_lower_limit}"
+               upper="${right_ankle_rotation_upper_limit}"/>
+        <safety_controller soft_lower_limit="${right_ankle_rotation_lower_limit + ankle_plantarflexion_soft_buffer}"
+                           soft_upper_limit="${right_ankle_rotation_upper_limit - ankle_dorsalflexion_soft_buffer}"
                            k_position="${k_position_value_adpf}"
                            k_velocity="${k_velocity_value_adpf}" />
     </joint>

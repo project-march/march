@@ -1,0 +1,90 @@
+description: A right_open gait for the balanced walk, in which the right leg is in
+  the air longer.
+duration: {nsecs: 399999999, secs: 1}
+gait_type: walk_like
+joints:
+  left_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  left_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 700000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  left_hip_fe:
+  - position: -0.0873
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: -0.1667
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  left_knee:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 952000000, secs: 0}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  right_ankle:
+  - position: 0.0436
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0436
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  right_hip_aa:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 524800000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 700000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+  right_hip_fe:
+  - position: -0.0873
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.6109
+    time_from_start: {nsecs: 840000000, secs: 0}
+    velocity: 0.1346
+  - position: 0.6109
+    time_from_start: {nsecs: 26799999, secs: 1}
+    velocity: 0.0
+  - position: 0.288
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: -0.3366
+  right_knee:
+  - position: 0.0
+    time_from_start: {nsecs: 0, secs: 0}
+    velocity: 0.0
+  - position: 0.8727
+    time_from_start: {nsecs: 588000000, secs: 0}
+    velocity: 0.0
+  - position: 0.8727
+    time_from_start: {nsecs: 757000000, secs: 0}
+    velocity: 0.0
+  - position: 0.0969
+    time_from_start: {nsecs: 260000000, secs: 1}
+    velocity: 0.0
+  - position: 0.1396
+    time_from_start: {nsecs: 399999999, secs: 1}
+    velocity: 0.0
+name: right_open
+version: MV_balancewalk_rightopen_v1

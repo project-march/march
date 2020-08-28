@@ -29,9 +29,11 @@ env:
     - CCACHE_DIR=$HOME/.ccache # enables C/C++ caching in industrial_ci
     - BUILDER=colcon
     - CATKIN_LINT=pedantic
+    - CATKIN_LINT_ARGS='--ignore launch_depend'
     # DEBIAN_FRONTEND disables interactive frontends when installing packages. This is necessary for tzdata.
     - DOCKER_RUN_OPTS='-e DEBIAN_FRONTEND=noninteractive'
     - DOWNSTREAM_WORKSPACE=.rosinstall
+    - NOT_TEST_DOWNSTREAM=true
     - AFTER_INSTALL_TARGET_DEPENDENCIES='pip install numpy_ringbuffer'
 
 jobs:

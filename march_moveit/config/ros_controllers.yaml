@@ -1,8 +1,8 @@
-# MoveIt-specific simulation settings
+# Simulation settings for using moveit_sim_controllers
 moveit_sim_hw_interface:
-  joint_model_group: controllers_initial_group_
-  joint_model_group_pose: controllers_initial_pose_
-# Settings for ros_control control loop
+  joint_model_group: todo_group_name
+  joint_model_group_pose: todo_state_name
+# Settings for ros_control_boilerplate control loop
 generic_hw_control_loop:
   loop_hz: 300
   cycle_time_error_threshold: 0.01
@@ -29,10 +29,6 @@ controller_list:
     default: True
     type: FollowJointTrajectory
     joints:
-      - left_hip_aa
-      - left_hip_fe
-      - left_knee
-      - left_ankle
       - right_hip_aa
       - right_hip_fe
       - right_knee
@@ -46,7 +42,3 @@ controller_list:
       - left_hip_fe
       - left_knee
       - left_ankle
-      - right_hip_aa
-      - right_hip_fe
-      - right_knee
-      - right_ankle

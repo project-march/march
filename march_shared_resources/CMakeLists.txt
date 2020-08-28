@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 2.8.3)
+cmake_minimum_required(VERSION 3.0.2)
 project(march_shared_resources)
 
 find_package(catkin REQUIRED COMPONENTS
     actionlib_msgs
     control_msgs
     message_generation
-    message_runtime
     std_msgs
     trajectory_msgs
 )
@@ -17,15 +16,12 @@ add_message_files(
     Error.msg
     GaitInstruction.msg
     GaitInstructionResponse.msg
-    Graph.msg
     HighVoltageNet.msg
     ImcState.msg
     JointValues.msg
     LowVoltageNet.msg
     PowerDistributionBoardState.msg
     PressureSole.msg
-    Setpoint.msg
-    Subgait.msg
 )
 
 add_service_files(
@@ -33,8 +29,7 @@ add_service_files(
     ContainsGait.srv
     CurrentState.srv
     PossibleGaits.srv
-    StringTrigger.srv
-    Trigger.srv
+    SetGaitVersion.srv
 )
 
 add_action_files(
@@ -56,9 +51,7 @@ catkin_package(
     CATKIN_DEPENDS
     actionlib_msgs
     control_msgs
-    message_generation
     message_runtime
     std_msgs
     trajectory_msgs
 )
-
