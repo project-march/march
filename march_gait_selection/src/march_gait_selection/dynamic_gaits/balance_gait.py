@@ -150,7 +150,7 @@ class BalanceGait(object):
 
         return balance_subgait
 
-    def construct_subgait(self, capture_point_leg_name, subgait_name):
+    def construct_subgait(self, swing_leg, subgait_name):
         """Construct a balance subgait.
 
         :param capture_point_leg_name: The name of the move group that should be used to create the balance subgait
@@ -158,10 +158,10 @@ class BalanceGait(object):
 
         :return: the balance subgait as a subgait object
         """
-        non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
+        stance_leg = 'right_leg' if swing_leg == 'left_leg' else 'left_leg'
 
-        capture_point_duration = self.set_swing_leg_target(non_capture_point_move_group, subgait_name)
-        stance_gait_duration = self.set_stance_leg_target(capture_point_leg_name, subgait_name)
+        capture_point_duration = self.set_swing_leg_target(swing_leg, subgait_name)
+        stance_gait_duration = self.set_stance_leg_target(stance_leg, subgait_name)
 
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \

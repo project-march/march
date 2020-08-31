@@ -99,7 +99,7 @@ class CPCalculator(object):
 
             if new_center_of_mass['z'] <= 0:
                 rospy.loginfo_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
-                return -1
+                return -1, self._capture_point_marker.pose
 
             capture_point_multiplier = sqrt(new_center_of_mass['z'] / self._gravity_constant)
 
@@ -114,7 +114,7 @@ class CPCalculator(object):
             self.cp_publisher.publish(self._capture_point_marker)
         except tf2_ros.TransformException as e:
             rospy.loginfo('Error in trying to lookup transform for capture point: {error}'.format(error=e))
-            capture_point_duration = (-1, self._capture_point_marker.pose)
+            capture_point_duration = -1
 
         return (capture_point_duration, self._capture_point_marker.pose)
 
