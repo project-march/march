@@ -175,12 +175,12 @@ class BalanceGait(object):
 
         if not balance_trajectory:
             rospy.logwarn('No valid balance trajectory for {ln} received from capture point leg, '
-                          'returning default subgait'.format(ln=capture_point_leg_name))
+                          'returning default subgait'.format(ln=swing_leg))
             return self.default_walk[subgait_name]
 
         if not balance_trajectory.points:
             rospy.logwarn('Empty trajectory in {ln} received from capture point topic, '
-                          'returning default subgait'.format(ln=capture_point_leg_name))
+                          'returning default subgait'.format(ln=swing_leg))
             return self.default_walk[subgait_name]
 
         balance_trajectory_subgait = self.create_subgait_of_trajectory(balance_trajectory, subgait_name)
