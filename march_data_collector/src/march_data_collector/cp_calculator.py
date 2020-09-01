@@ -1,3 +1,4 @@
+from copy import deepcopy
 from math import sqrt
 
 from geometry_msgs.msg import Point
@@ -71,7 +72,7 @@ class CPCalculator(object):
         self.vx = (updated_center_of_mass.pose.position.x - self._center_of_mass.x) / self._delta_t
         self.vy = (updated_center_of_mass.pose.position.y - self._center_of_mass.y) / self._delta_t
 
-        self._center_of_mass = updated_center_of_mass.pose.position
+        self._center_of_mass = deepcopy(updated_center_of_mass.pose.position)
         self._prev_t = current_time
 
     def _calculate_capture_point(self, duration):
