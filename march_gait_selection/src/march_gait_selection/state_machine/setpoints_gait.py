@@ -1,4 +1,5 @@
 from march_gait_selection.dynamic_gaits.transition_subgait import TransitionSubgait
+from march_shared_classes.exceptions.gait_exceptions import GaitError
 from march_shared_classes.gait.gait import Gait
 
 from .gait_interface import GaitInterface
@@ -123,3 +124,9 @@ class SetpointsGait(GaitInterface, Gait):
 
     def end(self):
         self._current_subgait = None
+
+    def set_subgait_versions(self, robot, gait_directory, version_map):
+        if self._current_subgait is None:
+            super(SetpointsGait, self).set_subgait_versions(robot, gait_directory, version_map)
+        else:
+            raise GaitError('Cannot change subgait version while gait is being executed')
