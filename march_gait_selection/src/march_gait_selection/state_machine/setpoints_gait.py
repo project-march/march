@@ -49,13 +49,11 @@ class SetpointsGait(GaitInterface, Gait):
 
     @property
     def starting_position(self):
-        subgait = self.subgaits[self.graph.start_subgaits()[0]]
-        return dict([(joint.name, joint.setpoints[0].position) for joint in subgait.joints])
+        return self.subgaits[self.graph.start_subgaits()[0]].starting_position
 
     @property
     def final_position(self):
-        subgait = self.subgaits[self.graph.end_subgaits()[0]]
-        return dict([(joint.name, joint.setpoints[-1].position) for joint in subgait.joints])
+        return self.subgaits[self.graph.end_subgaits()[0]].final_position
 
     def start(self):
         self._current_subgait = self.subgaits[self.graph.start_subgaits()[0]]
