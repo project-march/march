@@ -5,9 +5,9 @@ class Setpoint(object):
     digits = 4
 
     def __init__(self, time, position, velocity):
-        self.time = time
-        self.position = position
-        self.velocity = velocity
+        self._time = round(time, self.digits)
+        self._position = round(position, self.digits)
+        self._velocity = round(velocity, self.digits)
 
     @property
     def time(self):
