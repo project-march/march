@@ -31,11 +31,8 @@ class CPCalculator(object):
         self._prev_t = rospy.Time.now()
         self._delta_t = 0
 
-        self.x = 0
-        self.y = 0
-        self.z = 0
-        self.vx = 0
-        self.vy = 0
+        self.com_vx = 0
+        self.com_vy = 0
 
         self._center_of_mass = Point()
         self._capture_point_marker = Marker()
@@ -69,8 +66,8 @@ class CPCalculator(object):
         if self._delta_t == 0:
             return
 
-        self.vx = (updated_center_of_mass.pose.position.x - self._center_of_mass.x) / self._delta_t
-        self.vy = (updated_center_of_mass.pose.position.y - self._center_of_mass.y) / self._delta_t
+        self.com_vx = (updated_center_of_mass.pose.position.x - self._center_of_mass.x) / self._delta_t
+        self.com_vy = (updated_center_of_mass.pose.position.y - self._center_of_mass.y) / self._delta_t
 
         self._center_of_mass = deepcopy(updated_center_of_mass.pose.position)
         self._prev_t = current_time
@@ -88,7 +85,7 @@ class CPCalculator(object):
                 self._center_of_mass.x - static_foot_position.x,
                 self._center_of_mass.y - static_foot_position.y,
                 self._center_of_mass.z - static_foot_position.z,
-                self.vx, self.vy)
+                self.com_vx, self.com_vy)
 
             capture_point_duration = min(duration, FRACTION_FALLING_TIME * falling_time)
 
@@ -96,7 +93,7 @@ class CPCalculator(object):
                 self._center_of_mass.x - static_foot_position.x,
                 self._center_of_mass.y - static_foot_position.y,
                 self._center_of_mass.z - static_foot_position.z,
-                self.vx, self.vy, capture_point_duration)
+                self.com_vx, self.com_vy, capture_point_duration)
 
             if new_center_of_mass['z'] <= 0:
                 rospy.loginfo_throttle(1, 'Cannot calculate capture point; z of new center of mass <= 0')
@@ -117,7 +114,7 @@ class CPCalculator(object):
             rospy.loginfo('Error in trying to lookup transform for capture point: {error}'.format(error=e))
             capture_point_duration = -1
 
-        return (capture_point_duration, self._capture_point_marker.pose)
+        return capture_point_duration, self._capture_point_marker.pose
 
     def get_capture_point(self, capture_point_request_msg):
         """Service call function to return the capture point pose positions."""
