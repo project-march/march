@@ -89,3 +89,17 @@ class GaitTest(unittest.TestCase):
         new_version = 'MIV_final'
         with self.assertRaises(NonValidGaitContent):
             self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})
+
+    def test_set_new_subgait_version_invalid_start(self):
+        self.gait.subgaits['right_open'].joints[0].setpoints[0].position = 124
+        subgait_name = 'right_open'
+        new_version = 'MIV_final'
+        with self.assertRaises(NonValidGaitContent):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})
+
+    def test_set_new_subgait_version_invalid_final(self):
+        self.gait.subgaits['left_close'].joints[0].setpoints[-1].position = 124
+        subgait_name = 'left_close'
+        new_version = 'MIV_final'
+        with self.assertRaises(NonValidGaitContent):
+            self.gait.set_subgait_versions(self.robot, self.resources_folder, {subgait_name: new_version})

@@ -108,13 +108,12 @@ class SubgaitGraph(object):
     def __iter__(self):
         """Returns an iterator over all possible transitions in arbitrary order.
 
-        Excludes 'start' and 'end' and size transitions.
+        Excludes size transitions.
         """
         return iter([(from_subgait, to_subgait)
                      for from_subgait, transitions in self._graph.items()
                      for transition, to_subgait in transitions.items()
-                     if len({from_subgait, to_subgait} & {self.START, self.END}) == 0
-                     and transition not in {self.INCREASE_SIZE, self.DECREASE_SIZE}])
+                     if transition not in {self.INCREASE_SIZE, self.DECREASE_SIZE}])
 
     def __eq__(self, other):
         return isinstance(other, SubgaitGraph) and self._graph == other._graph
