@@ -301,12 +301,12 @@ class Subgait(object):
     @property
     def starting_position(self):
         """Returns a dictionary of joint positions at the start of this subgait."""
-        return dict([(joint.name, joint.setpoints[0].position) for joint in self.joints])
+        return {joint.name: joint.setpoints[0].position for joint in self.joints}
 
     @property
     def final_position(self):
         """Returns a dictionary of joint positions at the end of this subgait."""
-        return dict([(joint.name, joint.setpoints[-1].position) for joint in self.joints])
+        return {joint.name: joint.setpoints[-1].position for joint in self.joints}
 
     # endregion
 

@@ -125,7 +125,7 @@ class Gait(object):
 
                     if old_subgait.starting_position != new_subgait.starting_position:
                         raise NonValidGaitContent(
-                            'The starting position of new version {gait} {subgait} does not match'.format(
+                            msg='The starting position of new version {gait} {subgait} does not match'.format(
                                 gait=self.gait_name, subgait=to_subgait_name))
                 elif to_subgait_name == self.graph.END:
                     old_subgait = self.subgaits[from_subgait_name]
@@ -133,7 +133,7 @@ class Gait(object):
 
                     if old_subgait.final_position != new_subgait.final_position:
                         raise NonValidGaitContent(
-                            'The final position of new version {gait} {subgait} does not match'.format(
+                            msg='The final position of new version {gait} {subgait} does not match'.format(
                                 gait=self.gait_name, subgait=from_subgait_name))
                 else:
                     from_subgait = new_subgaits.get(from_subgait_name, self.subgaits[from_subgait_name])
