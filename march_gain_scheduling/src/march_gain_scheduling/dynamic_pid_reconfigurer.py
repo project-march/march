@@ -10,7 +10,7 @@ class DynamicPIDReconfigurer:
     def __init__(self, joint_list):
         self._gait_type = None
         self._joint_list = joint_list
-        self.interpolation_done = True
+        # self.interpolation_done = True
         self._last_update_times = []
         self._clients = [Client('/march/controller/trajectory/gains/' + joint, timeout=90) for joint in
                          self._joint_list]
@@ -30,19 +30,17 @@ class DynamicPIDReconfigurer:
         self._gait_type = new_gait_type
         self.load_current_gains()
         needed_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
-        rospy.logwarn(needed_gains)
-        self.done_interpolation_test(needed_gains)
+        interpolation_done = self.done_interpolation_test(needed_gains)
 
-        if not self.interpolation_done:
-            self.load_current_gains()
+        if not interpolation_done:
             rate = rospy.Rate(10)
 
             rospy.loginfo('Beginning PID interpolation for gait type: {0}'.format(self._gait_type))
             begin_time = rospy.get_time()
             self._last_update_times = len(self._joint_list) * [begin_time]
-            while not self.interpolation_done:
+            while not interpolation_done:
                 self.client_update(needed_gains)
-                self.done_interpolation_test(needed_gains)
+                interpolation_done = self.done_interpolation_test(needed_gains)
                 rate.sleep()
             rospy.loginfo('PID interpolation finished in {0}s'.format(rospy.get_time() - begin_time))
 
@@ -80,4 +78,4 @@ class DynamicPIDReconfigurer:
         for i in range(len(self._joint_list)):
             if self.current_gains[i] != needed_gains[i]:
                 done = False
-        self.interpolation_done = done
+        return done
