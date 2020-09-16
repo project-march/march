@@ -15,3 +15,15 @@ gaits:
                  right_swing_2: MV_balancewalk_rightswing2_v2,
                  right_close: MV_walk_rightclose_v2,
                  left_close: MV_walk_leftclose_v2}
+positions:
+  stand:
+    gait_type: walk_like
+    joints:
+      left_ankle: 0.0436
+      left_hip_aa: 0.0
+      left_hip_fe: -0.0873
+      left_knee: 0.0
+      right_ankle: 0.0436
+      right_hip_aa: 0.0
+      right_hip_fe: -0.0873
+      right_knee: 0.0

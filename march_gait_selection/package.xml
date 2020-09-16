@@ -11,14 +11,18 @@
   <buildtool_depend>catkin</buildtool_depend>
   <buildtool_depend>python3-setuptools</buildtool_depend>
 
+  <depend>control_msgs</depend>
   <depend>march_shared_resources</depend>
   <depend>std_msgs</depend>
 
+  <exec_depend>actionlib</exec_depend>
   <exec_depend>march_description</exec_depend>
   <exec_depend>march_moveit</exec_depend>
   <exec_depend>march_shared_classes</exec_depend>
   <exec_depend>moveit_commander</exec_depend>
+  <exec_depend>roslib</exec_depend>
   <exec_depend>rospy</exec_depend>
+  <exec_depend>sound_play</exec_depend>
   <exec_depend>urdfdom_py</exec_depend>
 
   <test_depend>rostest</test_depend>

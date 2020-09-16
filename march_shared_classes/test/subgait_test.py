@@ -6,6 +6,8 @@ from urdf_parser_py import urdf
 from march_shared_classes.exceptions.gait_exceptions import NonValidGaitContent, SubgaitInterpolationError
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError
 from march_shared_classes.gait.joint_trajectory import JointTrajectory
+from march_shared_classes.gait.limits import Limits
+from march_shared_classes.gait.setpoint import Setpoint
 from march_shared_classes.gait.subgait import Subgait
 
 
@@ -86,12 +88,30 @@ class SubgaitTest(unittest.TestCase):
     def test_get_unique_timestamps(self):
         self.assertEqual(len(self.subgait.get_unique_timestamps()), 9)
 
-    def get_joint_test(self):
+    def test_get_joint(self):
         self.assertIsInstance(self.subgait.get_joint('left_knee'), JointTrajectory)
 
-    def get_joint_names_test(self):
+    def test_get_joint_names(self):
         self.assertIsInstance(self.subgait.get_joint_names()[0], str)
         self.assertEqual(len(self.subgait.get_joint_names()), 8)
+
+    def test_starting_position(self):
+        position = 0.0
+        subgait = Subgait([
+            JointTrajectory('test', Limits(0.0, 0.0, 0.0), [
+                Setpoint(0.0, position, 0.0),
+                Setpoint(0.5, 1.0, 0.0),
+            ], 1.0)], 1.0)
+        self.assertDictEqual(subgait.starting_position, {'test': position})
+
+    def test_final_position(self):
+        position = 1.0
+        subgait = Subgait([
+            JointTrajectory('test', Limits(0.0, 0.0, 0.0), [
+                Setpoint(0.0, 0.0, 0.0),
+                Setpoint(0.5, position, 0.0),
+            ], 1.0)], 1.0)
+        self.assertDictEqual(subgait.final_position, {'test': position})
 
     def test_set_duration_with_scaling_smaller_duration(self):
         self.subgait.scale_timestamps_subgait(0.8)

@@ -1,7 +1,7 @@
 from dynamic_reconfigure.client import Client
 import rospy
 
-from march_shared_resources.msg import GaitActionGoal
+from march_shared_resources.msg import CurrentGait
 
 from .one_step_linear_interpolation import interpolate
 
@@ -15,12 +15,12 @@ class DynamicPIDReconfigurer:
         self._clients = [Client('/march/controller/trajectory/gains/' + joint, timeout=90) for joint in
                          self._joint_list]
         self.current_gains = []
-        rospy.Subscriber('/march/gait/schedule/goal', GaitActionGoal, callback=self.gait_selection_callback)
+        rospy.Subscriber('/march/gait_selection/current_gait', CurrentGait, callback=self.gait_selection_callback)
         self._linearize = rospy.get_param('~linearize_gain_scheduling')
         self._gradient = rospy.get_param('~linear_slope')
 
-    def gait_selection_callback(self, data):
-        new_gait_type = data.goal.gait_type
+    def gait_selection_callback(self, msg):
+        new_gait_type = msg.gait_type
         if new_gait_type is None or new_gait_type == '' \
                 or not rospy.has_param('~gait_types/{gait_type}'.format(gait_type=new_gait_type)):
             rospy.logwarn('The gait has unknown gait type of `{gait_type}`, default is set to walk_like'.format(
