@@ -8,10 +8,13 @@ class SubgaitGraph(object):
     END = 'end'
     TO = 'to'
     STOP = 'stop'
-    TRANSITIONS = [TO, STOP]
+    INCREASE_SIZE = 'increase_size'
+    DECREASE_SIZE = 'decrease_size'
+    TRANSITIONS = [TO, STOP, INCREASE_SIZE, DECREASE_SIZE]
 
     def __init__(self, graph):
         self._graph = graph
+        self._stoppable = False
         self.validate()
 
     def validate(self):
@@ -46,6 +49,8 @@ class SubgaitGraph(object):
                     from_subgaits = from_subgaits.copy()
                     from_subgaits.add(name)
                     queue.append((subgait[transition], from_subgaits))
+                    if transition == self.STOP:
+                        self._stoppable = True
 
         self._validate_visited(visited)
 
@@ -53,8 +58,8 @@ class SubgaitGraph(object):
         subgait = self._graph.get(name)
         if subgait is None:
             raise SubgaitGraphError('Subgait {n} is not a subgait in the graph'.format(n=name))
-        if not any([transition in subgait for transition in self.TRANSITIONS]):
-            raise SubgaitGraphError('Subgait {n} has no transitions'.format(n=name))
+        if self.TO not in subgait:
+            raise SubgaitGraphError('Subgait {n} has no `{t}` transition'.format(n=name, t=self.TO))
         if not all([transition in self.TRANSITIONS for transition in subgait]):
             raise SubgaitGraphError(
                 'Subgait {n} has unknown transitions. Available transitions {t}'.format(n=name, t=self.TRANSITIONS))
@@ -69,6 +74,20 @@ class SubgaitGraph(object):
         if len(visited[self.END]) != len(self._graph):
             not_covered = set(self._graph).difference(visited[self.END])
             raise SubgaitGraphError('`{e}` is not reachable from {s}'.format(e=self.END, s=not_covered))
+
+    def is_stoppable(self):
+        """Returns True when the graph contains a stop transition, False otherwise."""
+        return self._stoppable
+
+    def start_subgaits(self):
+        """Returns a list of subgait names that transition from the `start` state."""
+        return self._graph[self.START].values()
+
+    def end_subgaits(self):
+        """Returns a list of subgait names that transition to the `end` state."""
+        return [from_subgait
+                for from_subgait, transitions in self._graph.items()
+                if self.END in transitions.values()]
 
     def __contains__(self, subgait_name):
         """Checks if the given subgait name is contained in the graph."""
@@ -89,12 +108,12 @@ class SubgaitGraph(object):
     def __iter__(self):
         """Returns an iterator over all possible transitions in arbitrary order.
 
-        Excludes 'start' and 'end'.
+        Excludes size transitions.
         """
         return iter([(from_subgait, to_subgait)
                      for from_subgait, transitions in self._graph.items()
-                     for to_subgait in transitions.values()
-                     if len({from_subgait, to_subgait} & {self.START, self.END}) == 0])
+                     for transition, to_subgait in transitions.items()
+                     if transition not in {self.INCREASE_SIZE, self.DECREASE_SIZE}])
 
     def __eq__(self, other):
         return isinstance(other, SubgaitGraph) and self._graph == other._graph

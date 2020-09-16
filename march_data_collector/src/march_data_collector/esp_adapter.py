@@ -15,9 +15,8 @@ from sensor_msgs.msg import Imu, Temperature
 from tf.transformations import euler_from_quaternion
 from visualization_msgs.msg import Marker
 
-from march_shared_resources.msg import AfterLimitJointCommand, GaitActionGoal, GaitActionResult, ImcState,\
-    JointValues, PressureSole
-from march_shared_resources.srv import CurrentState
+from march_shared_resources.msg import (AfterLimitJointCommand, CurrentGait, CurrentState, ImcState, JointValues,
+                                        PressureSole)
 
 try:
     sys.path.append(os.environ['DFESP_HOME'] + '/lib')
@@ -73,14 +72,6 @@ class ESPAdapter:
                     rospy.loginfo('Possible continious queries are:\n' + str(convert_stringv(queries_ptr, True)))
             sys.exit()
 
-        try:
-            rospy.wait_for_service('march/state_machine/current_states', timeout=5.0)
-            self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
-        except rospy.exceptions.ROSException:
-            rospy.loginfo('Service get current state not available using mock instead.')
-
-            self.get_gait = mock_get_gait
-
         self.source_windows_esp = set(convert_stringv(stringv, True))
 
         for joint in joint_names:
@@ -97,19 +88,15 @@ class ESPAdapter:
                               self.pressure_sole_callback)
         self.configure_source(['control_analysis/source_imc'], '/march/imc_states', ImcState, self.imc_state_callback)
         self.configure_source(['control_analysis/source_gait_control', 'gait_analysis/source_gait'],
-                              '/march/gait/schedule/goal', GaitActionGoal, self.gait_callback)
+                              '/march/gait_selection/current_gait', CurrentGait, self.gait_callback)
         self.configure_source(['control_analysis/source_gait_control', 'gait_analysis/source_gait'],
-                              'march/gait/perform/result', GaitActionResult, self.gait_finished_callback)
+                              '/march/gait_selection/current_state', CurrentState, self.gait_finished_callback)
         self.configure_source(['gait_analysis/source_com'], '/march/com_marker', Marker, self.com_callback)
         self.configure_source(['gait_analysis/source_joint'], '/march/joint_values', JointValues,
                               self.joint_values_callback)
         self.configure_source(['control_analysis/source_effort_command'],
                               '/march/controller/after_limit_joint_command', AfterLimitJointCommand,
                               self.joint_command_callback)
-
-        msg = GaitActionResult()
-        msg.header.stamp = rospy.Time.now()
-        self.gait_finished_callback(msg, ['control_analysis/source_gait_control', 'gait_analysis/source_gait'])
 
     def configure_source(self, sources, topic, msg_type, callback):
         """Configures a connection between a ROS topic and a source window in an event stream processing engine.
@@ -191,23 +178,8 @@ class ESPAdapter:
         :param data: ROS message
         :param sources: list of source windows in the ESP engine
         """
-        rospy.sleep(0.03)
-        try:
-            state = self.get_gait()
-        except (rospy.ServiceException, rospy.exceptions.TransportTerminated) as e:
-            rospy.loginfo(e)
-            # probably the state-machine restarted, therefore try to reconnect the service, else use mock
-            try:
-                self.get_gait = rospy.ServiceProxy('march/state_machine/current_states', CurrentState, persistent=True)
-                state = self.get_gait()
-            except rospy.exceptions.ROSException:
-                rospy.loginfo('Service get current state not available using mock instead.')
-
-                self.get_gait = mock_get_gait
-                state = self.get_gait()
-
-        if 'idle' in state.state_type:
-            csv = ','.join([get_time_str(data.header.stamp), 'idle', state.current_state.lower(), ' ', ' '])
+        if data.state_type == CurrentState.IDLE:
+            csv = ','.join([get_time_str(data.header.stamp), 'idle', data.state.lower(), ' ', ' '])
             self.send_to_esp('1, 1, {0}'.format(csv), sources)
 
     def joint_command_callback(self, data, sources):
@@ -250,8 +222,8 @@ class ESPAdapter:
         time_str = get_time_str(data.controller_output.header.stamp)
 
         csv = list_to_str([data.controller_output.header.seq, '1', time_str, actual_positions_str, actual_velocity_str,
-                          actual_acceleration_str, actual_jerk_str, desired_positions_str, desired_velocity_str,
-                          position_error_str])
+                           actual_acceleration_str, actual_jerk_str, desired_positions_str, desired_velocity_str,
+                           position_error_str])
         self.send_to_esp(csv, sources)
 
     def imu_callback(self, data, sources):
@@ -285,7 +257,7 @@ class ESPAdapter:
         self.previous_join_key[sources[0]] = join_time_str
 
         csv = list_to_str([data.p_error, data.i_error, data.d_error, data.p_term, data.i_term,
-                          data.d_term, data.output])
+                           data.d_term, data.output])
         self.send_to_esp('{0}, {1}, {2}, 1'.format(time_str, join_time_str, csv), sources)
 
     def imc_state_callback(self, data, sources):
@@ -315,11 +287,11 @@ class ESPAdapter:
     def gait_callback(self, data, sources):
         """Callback for gait data. Converts ROS message to csv string to send to the source window.
 
-        :param data: ROS march_shared_resoruces.GaitActionGoal message
+        :param data: ROS message
         :param sources: list of source windows in the ESP engine
         """
-        csv = list_to_str(['1, 1', get_time_str(data.header.stamp), data.goal.gait_name, data.goal.subgait_name,
-                          data.goal.version, data.goal.gait_type])
+        csv = list_to_str(['1, 1', get_time_str(data.header.stamp), data.gait, data.subgait,
+                           data.version, data.gait_type])
         self.send_to_esp(csv, sources)
 
     def com_callback(self, data, sources):

@@ -6,14 +6,11 @@ exclude = .git
 application-package-names =
     march_description,
     march_gain_scheduling,
-    march_gait_scheduler,
     march_gait_selection,
     march_launch,
     march_safety,
     march_shared_classes,
     march_shared_resources,
-    march_sound_scheduler,
-    march_state_machine
 import-order-style = appnexus
 ignore =
     # D100: Missing docstring in public module
