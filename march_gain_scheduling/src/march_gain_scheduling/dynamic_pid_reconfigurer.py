@@ -29,9 +29,8 @@ class DynamicPIDReconfigurer:
         self._gait_type = new_gait_type
         self.load_current_gains()
         needed_gains = [self.look_up_table(i) for i in range(len(self._joint_list))]
-        interpolation_done = self.done_interpolation_test(needed_gains)
 
-        if not interpolation_done:
+        if not self.done_interpolation_test(needed_gains):
             rate = rospy.Rate(10)
 
             rospy.loginfo('Beginning PID interpolation for gait type: {0}'.format(self._gait_type))
