@@ -15,7 +15,7 @@ from .state_machine.setpoints_gait import SetpointsGait
 class GaitSelection(object):
     """Base class for the gait selection module."""
 
-    def __init__(self, package, directory, robot):
+    def __init__(self, package, directory, robot, balance_used=False):
         package_path = self.get_ros_package_path(package)
         self._gait_directory = os.path.join(package_path, directory)
         if not os.path.isdir(self._gait_directory):
@@ -31,8 +31,7 @@ class GaitSelection(object):
         self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()
 
-        is_balance_used = rospy.get_param('/balance', False)
-        if is_balance_used:
+        if balance_used:
             self._load_balance_gait()
 
     @staticmethod
