@@ -3,6 +3,7 @@ project(march_shared_resources)
 
 find_package(catkin REQUIRED COMPONENTS
     control_msgs
+    geometry_msgs
     message_generation
     std_msgs
     trajectory_msgs
@@ -27,6 +28,7 @@ add_message_files(
 
 add_service_files(
     FILES
+    CapturePointPose.srv
     ContainsGait.srv
     PossibleGaits.srv
     SetGaitVersion.srv
@@ -42,6 +44,7 @@ generate_messages(
 catkin_package(
     CATKIN_DEPENDS
     control_msgs
+    geometry_msgs
     message_runtime
     std_msgs
     trajectory_msgs

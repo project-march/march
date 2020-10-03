@@ -1,17 +1,20 @@
 from copy import deepcopy
+import os
 import sys
 
 import moveit_commander
 import rospy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Header
-from visualization_msgs.msg import Marker
 
 from march_gait_selection.state_machine.gait_interface import GaitInterface
+from march_shared_resources.srv import CapturePointPose
 
 
 class BalanceGait(GaitInterface):
     """Base class to create a gait using the moveit motion planning."""
+
+    CAPTURE_POINT_SERVICE_TIMEOUT = 1
 
     def __init__(self, gait_name='balanced_walk', move_groups=None, default_walk=None):
         self.gait_name = gait_name
@@ -20,19 +23,19 @@ class BalanceGait(GaitInterface):
         self._default_walk = default_walk
 
         self._end_effectors = {'left_leg': 'foot_left', 'right_leg': 'foot_right'}
-        self._capture_point_pose = {'left_leg': None, 'right_leg': None}
+        self._capture_point_service = {'left_leg':
+                                       rospy.ServiceProxy('/march/capture_point/foot_left', CapturePointPose),
+                                       'right_leg':
+                                       rospy.ServiceProxy('/march/capture_point/foot_right', CapturePointPose)}
 
-        self._latest_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
-        self._old_capture_point_msg_time = {'left_leg': None, 'right_leg': None}
+        self._joint_state_target = JointState()
+        self._joint_state_target.header = Header()
+        self._joint_state_target.name = self.move_group['left_leg'].get_active_joints() +\
+            self.move_group['right_leg'].get_active_joints()
 
         self._current_subgait = None
         self._current_subgait_duration = 0.0
         self._time_since_start = 0.0
-
-        rospy.Subscriber('/march/cp_marker_foot_left', Marker, queue_size=1, callback=self.capture_point_cb,
-                         callback_args='left_leg')
-        rospy.Subscriber('/march/cp_marker_foot_right', Marker, queue_size=1, callback=self.capture_point_cb,
-                         callback_args='right_leg')
 
     @classmethod
     def create_balance_subgait(cls, default_walk):
@@ -40,9 +43,6 @@ class BalanceGait(GaitInterface):
 
         :param default_walk: gait object to base the balance gait on.
         """
-        if not rospy.get_param('/balance', False):
-            return None
-
         moveit_commander.roscpp_initialize(sys.argv)
         moveit_commander.RobotCommander()
 
@@ -52,6 +52,9 @@ class BalanceGait(GaitInterface):
             move_groups = {'all_legs': moveit_commander.MoveGroupCommander('all_legs'),
                            'left_leg': moveit_commander.MoveGroupCommander('left_leg'),
                            'right_leg': moveit_commander.MoveGroupCommander('right_leg')}
+
+            for move_group in move_groups.values():
+                move_group.set_pose_reference_frame('world')
         except RuntimeError:
             rospy.logerr('Could not connect to move groups, aborting initialisation of the moveit subgait class')
             return None
@@ -72,44 +75,30 @@ class BalanceGait(GaitInterface):
         """
         self._default_walk = new_default_walk
 
-    def capture_point_cb(self, msg, leg_name):
-        """Set latest message to variable.
-
-        :param msg: The message from the capture point topic
-        :param leg_name: The name of corresponding move group
-        """
-        self._latest_capture_point_msg_time[leg_name] = msg.header.stamp
-        self._capture_point_pose[leg_name] = msg.pose
-
-    def calculate_capture_point_trajectory(self, leg_name):
-        """Calculate the trajectory using moveit and return as a subgait msg format.
+    def set_swing_leg_target(self, leg_name, subgait_name):
+        """Set the swing leg target to capture point.
 
         :param leg_name: The name of the used move group
-
-        :return:
-            A joint trajectory which can be used in a subgait or subgait msg
+        :param subgait_name: the normal subgait name
         """
-        if self._capture_point_pose[leg_name] is None:
-            rospy.logwarn('No messages received from the capture point topic of {lg}'.format(lg=leg_name))
-            return None
+        subgait_duration = self.default_walk[subgait_name].duration
+        return_msg = self._capture_point_service[leg_name](duration=subgait_duration)
 
-        if self._old_capture_point_msg_time[leg_name]:
-            if self._old_capture_point_msg_time[leg_name] == self._latest_capture_point_msg_time[leg_name]:
-                rospy.logwarn('No new capture point messages received from cp topic of {lg}'.format(lg=leg_name))
-                return None
+        if not return_msg.success:
+            rospy.logwarn('No messages received from the capture point service.')
+            return -1
 
-        self._old_capture_point_msg_time[leg_name] = self._latest_capture_point_msg_time[leg_name]
+        self.move_group[leg_name].set_joint_value_target(return_msg.capture_point, self._end_effectors[leg_name], True)
 
-        pose = self._capture_point_pose[leg_name]
-        end_effector = self._end_effectors[leg_name]
+        return return_msg.duration
 
-        self.move_group[leg_name].set_joint_value_target(pose, end_effector, True)
-
-    def calculate_normal_trajectory(self, leg_name, subgait_name):
-        """Calculate the pose of the non-capture-point leg and set this as the pose for this leg.
+    def set_stance_leg_target(self, leg_name, subgait_name):
+        """Set the target of the stance leg to the end of the gait file.
 
         :param leg_name: The name of the move group which does not use capture point
         :param subgait_name: the normal subgait name
+
+        :return the duration of the default subgait
         """
         side_prefix = 'right' if 'right' in leg_name else 'left'
 
@@ -129,7 +118,7 @@ class BalanceGait(GaitInterface):
 
         self.move_group[leg_name].set_joint_value_target(joint_state)
 
-    def construct_trajectory(self, capture_point_leg_name, subgait_name):
+    def construct_trajectory(self, swing_leg, subgait_name):
         """Constructs a balance trajectory for all joints.
 
         :param capture_point_leg_name: The name of the move group that should be used to create the balance subgait
@@ -137,26 +126,29 @@ class BalanceGait(GaitInterface):
 
         :return: the balance trajectory
         """
-        non_capture_point_move_group = 'right_leg' if capture_point_leg_name == 'left_leg' else 'left_leg'
+        stance_leg = 'right_leg' if swing_leg == 'left_leg' else 'left_leg'
 
-        self.calculate_capture_point_trajectory(capture_point_leg_name)
-        self.calculate_normal_trajectory(non_capture_point_move_group, subgait_name)
+        self.set_swing_leg_target(swing_leg, subgait_name)
+        self.set_stance_leg_target(stance_leg, subgait_name)
 
         targets = \
             self.move_group['left_leg'].get_joint_value_target() + \
             self.move_group['right_leg'].get_joint_value_target()
 
-        balance_subgait = self.move_group['all_legs'].plan(targets)
+        self._joint_state_target.header.stamp = rospy.Time.now()
+        self._joint_state_target.position = targets
+
+        balance_subgait = self.move_group['all_legs'].plan(self._joint_state_target)
         balance_trajectory = balance_subgait.joint_trajectory
 
         if not balance_trajectory:
             rospy.logwarn('No valid balance trajectory for {ln} received from capture point leg, '
-                          'returning default subgait'.format(ln=capture_point_leg_name))
+                          'returning default subgait'.format(ln=swing_leg))
             return self.default_walk[subgait_name]
 
         if not balance_trajectory.points:
             rospy.logwarn('Empty trajectory in {ln} received from capture point topic, '
-                          'returning default subgait'.format(ln=capture_point_leg_name))
+                          'returning default subgait'.format(ln=swing_leg))
             return self.default_walk[subgait_name]
 
         return balance_trajectory
@@ -226,3 +218,23 @@ class BalanceGait(GaitInterface):
     def end(self):
         self._current_subgait = None
         self._current_subgait_duration = 0.0
+
+    @staticmethod
+    def export_to_file(subgait, gait_directory):
+        """Write a subgait to a file for opening in the gait generator."""
+        if gait_directory is None or gait_directory == '':
+            return
+
+        output_file_directory = os.path.join(gait_directory,
+                                             subgait.gait_name.replace(' ', '_'),
+                                             subgait.subgait_name.replace(' ', '_'))
+        output_file_path = os.path.join(output_file_directory,
+                                        subgait.version.replace(' ', '_') + '.subgait')
+
+        rospy.loginfo('Writing gait to ' + output_file_path)
+
+        if not os.path.isdir(output_file_directory):
+            os.makedirs(output_file_directory)
+
+        with open(output_file_path, 'w') as output_file:
+            output_file.write(subgait.to_yaml())

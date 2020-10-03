@@ -45,12 +45,12 @@ class DataCollectorNode(object):
 
         self.pressure_soles_on = rospy.get_param('~pressure_soles')
 
-        self.transfrom_imu = TransformStamped()
+        self.transform_imu = TransformStamped()
 
-        self.transfrom_imu.header.frame_id = 'world'
-        self.transfrom_imu.child_frame_id = 'imu_link'
-        self.transfrom_imu.transform.translation.x = 0.0
-        self.transfrom_imu.transform.translation.y = 0.0
+        self.transform_imu.header.frame_id = 'world'
+        self.transform_imu.child_frame_id = 'imu_link'
+        self.transform_imu.transform.translation.x = 0.0
+        self.transform_imu.transform.translation.y = 0.0
 
         if self.pressure_soles_on:
             rospy.logdebug('will run with pressure soles')
@@ -76,9 +76,9 @@ class DataCollectorNode(object):
 
     def trajectory_state_callback(self, data):
         com = self._com_calculator.calculate_com()
-        self._com_marker_publisher.publish(com)
         for cp_calculator in self._cp_calculators:
-            cp_calculator.calculate_cp(com)
+            cp_calculator.center_of_mass = com
+        self._com_marker_publisher.publish(com)
         if self.pressure_soles_on:
             self.send_udp(data.actual.positions)
 
@@ -110,17 +110,17 @@ class DataCollectorNode(object):
                     trans = self.tf_buffer.lookup_transform('world', foot, rospy.Time())
                     z_diff = max(z_diff, old_z - trans.transform.translation.z)
 
-                self.transfrom_imu.header.stamp = rospy.Time.now()
-                self.transfrom_imu.transform.translation.z = z_diff
+                self.transform_imu.header.stamp = rospy.Time.now()
+                self.transform_imu.transform.translation.z = z_diff
 
                 imu_rotation = quaternion_multiply([-data.orientation.x, -data.orientation.y, data.orientation.z,
                                                     data.orientation.w], quaternion_from_euler(0, -0.5 * pi, 0))
-                self.transfrom_imu.transform.rotation.x = imu_rotation[0]
-                self.transfrom_imu.transform.rotation.y = imu_rotation[1]
-                self.transfrom_imu.transform.rotation.z = imu_rotation[2]
-                self.transfrom_imu.transform.rotation.w = imu_rotation[3]
+                self.transform_imu.transform.rotation.x = imu_rotation[0]
+                self.transform_imu.transform.rotation.y = imu_rotation[1]
+                self.transform_imu.transform.rotation.z = imu_rotation[2]
+                self.transform_imu.transform.rotation.w = imu_rotation[3]
 
-                self._imu_broadcaster.sendTransform(self.transfrom_imu)
+                self._imu_broadcaster.sendTransform(self.transform_imu)
             except tf2_ros.TransformException as e:
                 rospy.logdebug('Cannot calculate imu transform, because tf frames are not available, {0}'.format(e))
 
@@ -174,7 +174,9 @@ def main():
     tf_buffer = tf2_ros.Buffer()
     tf2_ros.TransformListener(tf_buffer)
     center_of_mass_calculator = CoMCalculator(robot, tf_buffer)
-    feet = ['foot_left', 'foot_right']
-    cp_calculators = [CPCalculator(tf_buffer, foot) for foot in feet]
-    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculators, tf_buffer, feet)
+    # key is the swing foot and item is the static foot
+    feet = {'foot_left': 'foot_right', 'foot_right': 'foot_left'}
+    cp_calculators = [CPCalculator(tf_buffer, swing_foot, static_foot) for swing_foot, static_foot in feet.items()]
+
+    data_collector_node = DataCollectorNode(center_of_mass_calculator, cp_calculators, tf_buffer, feet.keys())
     data_collector_node.run()

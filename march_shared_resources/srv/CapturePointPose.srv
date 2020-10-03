@@ -1,0 +1,7 @@
+# Service for getting the position of the capture point, after letting the center of mass falling for time duration (this time can be used to make a step)
+
+float64 duration
+---
+bool success
+float64 duration
+geometry_msgs/Pose capture_point

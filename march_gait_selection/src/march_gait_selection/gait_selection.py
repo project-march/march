@@ -4,6 +4,7 @@ import rospkg
 import rospy
 import yaml
 
+from march_gait_selection.dynamic_gaits.balance_gait import BalanceGait
 from march_shared_classes.exceptions.gait_exceptions import GaitError, GaitNameNotFound
 from march_shared_classes.exceptions.general_exceptions import FileNotFoundError, PackageNotFoundError
 from march_shared_classes.gait.subgait import Subgait
@@ -14,7 +15,7 @@ from .state_machine.setpoints_gait import SetpointsGait
 class GaitSelection(object):
     """Base class for the gait selection module."""
 
-    def __init__(self, package, directory, robot):
+    def __init__(self, package, directory, robot, balance_used=False):
         package_path = self.get_ros_package_path(package)
         self._gait_directory = os.path.join(package_path, directory)
         if not os.path.isdir(self._gait_directory):
@@ -29,6 +30,9 @@ class GaitSelection(object):
 
         self._gait_version_map, self._positions = self._load_configuration()
         self._loaded_gaits = self._load_gaits()
+
+        if balance_used:
+            self._load_balance_gait()
 
     @staticmethod
     def get_ros_package_path(package):
@@ -124,8 +128,11 @@ class GaitSelection(object):
 
         for gait in self._gait_version_map:
             gaits[gait] = SetpointsGait.from_file(gait, self._gait_directory, self._robot, self._gait_version_map)
-
         return gaits
+
+    def _load_balance_gait(self):
+        self._balance_gait = BalanceGait.create_balance_subgait(self._loaded_gaits['balance_walk'])
+        self._loaded_gaits[self._balance_gait.gait_name] = self._balance_gait
 
     def _load_configuration(self):
         """Loads and verifies the gaits configuration."""

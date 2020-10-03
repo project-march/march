@@ -2,10 +2,10 @@ moveit_setup_assistant_config:
   URDF:
     package: march_description
     relative_path: urdf/march4.xacro
-    xacro_args: ""
+    xacro_args: ground_gait:=true
   SRDF:
     relative_path: config/march.srdf
   CONFIG:
     author_name: Project MARCH
     author_email: software@projectmarch.nl
-    generated_timestamp: 1591971130
+    generated_timestamp: 1597398648
