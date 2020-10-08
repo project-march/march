@@ -19,7 +19,7 @@ class TestGaitSelection(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         robot = urdf.Robot.from_xml_file(rospkg.RosPack().get_path('march_description') + '/urdf/march4.urdf')
-        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY, robot, balance_used=False)
+        cls._gait_selection = GaitSelection(VALID_PACKAGE, VALID_DIRECTORY, robot)
 
     def setUp(self):
         self.gait_selection = deepcopy(self._gait_selection)
