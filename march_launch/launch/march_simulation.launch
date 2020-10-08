@@ -11,7 +11,6 @@
     <arg name="data_collector" default="false" doc="Launches the data collector when true."/>
 
     <arg name="ground_gait" default="$(arg balance)" doc="Exoskeleton will ground gait in gazebo_ui if true."/>
-    <arg name="unpause" default="$(eval not gazebo_ui)" doc="Unpause simulation when controller starts."/>
     <arg name="fixed" default="$(eval not ground_gait)" doc="Fixes the exoskeleton in the world in rviz"/>
     <arg name="obstacle" default="none" doc="Obstacle to load in the simulation."/>
 
