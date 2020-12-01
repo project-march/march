@@ -1,3 +1,5 @@
+This repository has been archived. A recent version can be found on https://gitlab.com/project-march.
+
 # March
 The main repository of the MARCH exoskeleton.
 
